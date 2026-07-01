@@ -29,6 +29,7 @@ async function main() {
 
   const AIPOU = await ethers.getContractFactory("AIPOU");
   const token = await AIPOU.deploy(owner, initialRecipient, initialSupply, cap, emissionController);
+  const deploymentTransaction = token.deploymentTransaction();
   await token.waitForDeployment();
   const tokenAddress = await token.getAddress();
   const chainId = Number(network.chainId);
@@ -49,19 +50,16 @@ async function main() {
       name: networkName,
       explorer
     },
-    owner,
-    initialRecipient,
-    emissionController,
-    deployer: deployer.address,
     deployedAt: new Date().toISOString()
   };
-  const deploymentDir = path.resolve("deployments");
+  const deploymentDir = path.resolve("..", "deployments");
   const deploymentFile = path.join(deploymentDir, chainId === 8453 ? "base.json" : `${network.name}-${chainId}.json`);
 
   await mkdir(deploymentDir, { recursive: true });
   await writeFile(deploymentFile, `${JSON.stringify(deployment, null, 2)}\n`);
 
   console.log("AIPOU deployed to:", tokenAddress);
+  console.log("transactionHash:", deploymentTransaction?.hash || "unavailable");
   console.log("network:", `${networkName} (${chainId})`);
   console.log("deployer:", deployer.address);
   console.log("owner:", owner);

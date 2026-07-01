@@ -1,0 +1,13 @@
+{
+  "chainId": 8453,
+  "dex": "Aerodrome",
+  "token": "0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB",
+  "pairToken": "0x4200000000000000000000000000000000000006",
+  "pool": "0x3bEA7b68Af54Da779454f82148Ef848c76F78D02",
+  "stable": false,
+  "liquidity": {
+    "aipou": "100000000.0",
+    "eth": "0.000632035343416403"
+  },
+  "createdAt": "2026-07-01T02:39:10.836Z"
+}

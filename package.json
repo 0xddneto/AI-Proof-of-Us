@@ -13,6 +13,7 @@
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "deploy:base": "npm run deploy:base -w contracts",
-    "deploy:base-sepolia": "npm run deploy:base-sepolia -w contracts"
+    "deploy:base-sepolia": "npm run deploy:base-sepolia -w contracts",
+    "pool:base": "npm run pool:base -w contracts"
   }
 }

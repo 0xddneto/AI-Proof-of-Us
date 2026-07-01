@@ -27,6 +27,9 @@ const config: HardhatUserConfig = {
       chainId: 84532,
       accounts
     }
+  },
+  sourcify: {
+    enabled: true
   }
 };
 

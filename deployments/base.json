@@ -1,0 +1,16 @@
+{
+  "token": {
+    "name": "AI Proof of Use",
+    "symbol": "AIPOU",
+    "address": "0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB",
+    "decimals": 18,
+    "cap": "1000000000000000000000000000",
+    "initialSupply": "100000000000000000000000000"
+  },
+  "chain": {
+    "id": 8453,
+    "name": "Base Mainnet",
+    "explorer": "https://basescan.org"
+  },
+  "deployedAt": "2026-07-01T02:26:07.605Z"
+}

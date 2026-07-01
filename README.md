@@ -17,6 +17,32 @@ Use AI -> generate a signed receipt -> validate useful activity -> earn AIPOU
 
 This is not meant to reward raw prompt spam. The protocol should reward useful, rate-limited, signed AI work across tools like Codex, Claude, Cursor, local models, OpenRouter, Ollama, and future MCP-compatible clients.
 
+## Base mainnet deployment
+
+```txt
+Contract: 0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB
+Chain:    Base Mainnet (8453)
+Token:    AI Proof of Use (AIPOU)
+Supply:   100,000,000 AIPOU
+Cap:      1,000,000,000 AIPOU
+```
+
+- Contract: https://basescan.org/token/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB
+- Verified source: https://repo.sourcify.dev/contracts/full_match/8453/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB/
+
+## Aerodrome liquidity pool
+
+```txt
+Pool:       0x3bEA7b68Af54Da779454f82148Ef848c76F78D02
+Pair:       AIPOU/WETH
+Type:       Volatile
+Initial LP: 100,000,000 AIPOU + 0.000632035343416403 ETH
+```
+
+- Pool: https://basescan.org/address/0x3bEA7b68Af54Da779454f82148Ef848c76F78D02
+
+This pool was initialized with intentionally minimal ETH liquidity. Its price is highly volatile and easy to move; it should not be treated as a reliable market price until deeper liquidity is added.
+
 ## Repository layout
 
 ```txt
