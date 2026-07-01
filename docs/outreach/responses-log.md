@@ -136,6 +136,22 @@ Action item:
 
 - Approach framework maintainers with a middleware/hook question, not a request to embed the whole token system.
 
+### Agent Security Scanner Prompt
+
+Question:
+
+- Should agent-security scanners care about AIPOU receipt IDs or provenance fields?
+
+Summary:
+
+- The local OpenClaw agent was skeptical that scanners should validate AIPOU directly.
+- The useful framing is narrower: scanners may reference receipt/provenance fields such as `receiptId`, `client`, timestamp, tool/server reference, and validation status.
+- AIPOU should not ask scanners to endorse token rewards or act as validators.
+
+Action item:
+
+- Approach scanner/security projects with the question: would receipt metadata help connect findings to specific MCP tasks, or create misleading trust signals?
+
 ## 2026-07-01 - AI-to-AI Review Round
 
 ### Technical Marketer
