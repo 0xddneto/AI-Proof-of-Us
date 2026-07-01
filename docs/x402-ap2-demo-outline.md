@@ -47,6 +47,35 @@ The payment system does not validate AIPOU rewards. It only stores a reference t
 8. Payment rail settles however it normally settles.
 9. AIPOU claims remain optional and separate.
 
+## Illustrative x402 Binding
+
+This is an application-level example, not a proposed or accepted x402 extension:
+
+```json
+{
+  "bindingVersion": "aipou-x402-draft-1",
+  "paymentProtocol": "x402",
+  "paymentHash": "0x...",
+  "actionRef": "sha256:...",
+  "workEvidence": {
+    "type": "aipou.receipt",
+    "receiptId": "0x...",
+    "taskHash": "0x...",
+    "outputHash": "0x..."
+  }
+}
+```
+
+The binding should be canonicalized and hashed by the integrating application. It links identifiers; it does not make an AIPOU receipt proof that an x402 payment settled, and it does not make an x402 payment proof that the AI task was valuable or correct. Payment verification stays with x402. Receipt validation stays with AIPOU.
+
+Before proposing a protocol extension, the demo must show:
+
+- the same `paymentHash` and `actionRef` on both sides
+- a mismatch failure case
+- receipt nonce and replay rejection
+- payment verification performed independently from receipt validation
+- no raw prompt, raw output, wallet secret, or provider key in the binding
+
 ## What This Demonstrates
 
 - AIPOU can prove receipt integrity and replay checks for AI work.
@@ -61,6 +90,8 @@ The payment system does not validate AIPOU rewards. It only stores a reference t
 - stable token price
 - guaranteed payment acceptance
 - objective proof of task quality
+- proof of payment merely because `paymentHash` is present
+- an accepted x402 or AP2 extension schema
 
 ## First Demo Message
 

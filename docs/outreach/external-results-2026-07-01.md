@@ -123,6 +123,19 @@ Standing rules:
   - Fit: MCP tooling, workflow run history, authorization, and observability traces make it relevant to receipt interoperability.
   - Decision: wait for a concrete mapping example between Mastra run IDs and AIPOU `receiptId` before outreach.
 
+### Discovery Pass - 17:50 UTC
+
+- Coinbase AgentKit: https://github.com/coinbase/agentkit
+  - Fit: agent wallets, Base support, MCP integration, and framework adapters make it a natural consumer of optional receipt references.
+  - Decision: do not pitch AIPOU as another wallet or payment rail. A useful future question is whether a wallet action result should carry an external `receiptId` or only an application-level binding.
+- x402 Foundation: https://github.com/x402-foundation/x402
+  - Fit: the project is actively discussing independently verifiable payment receipts and extension mechanisms, including issue https://github.com/x402-foundation/x402/issues/2357.
+  - Decision: no comment yet. AIPOU must first provide a runnable binding example with `paymentHash`, `actionRef`, `receiptId`, mismatch rejection, and independent payment/receipt validation.
+- ElizaOS: https://github.com/elizaOS/eliza
+  - Fit: autonomous agents, wallet actions, and x402-adjacent projects are relevant.
+  - Decision: defer outreach until there is an Eliza-specific receipt plugin or callback example; generic token promotion would be inappropriate.
+- Documentation improvement: expanded `docs/x402-ap2-demo-outline.md` with an explicitly non-standard illustrative binding and failure requirements. The document now states that payment verification remains with x402 and receipt validation remains with AIPOU.
+
 ### Local AI / Ollama Communities
 
 The local AI message was kept as a repo demo instead of being posted externally in this pass.
