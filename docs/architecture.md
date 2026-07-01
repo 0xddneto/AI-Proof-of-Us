@@ -25,6 +25,8 @@ provider_signed: client_signed plus a valid signature from a configured provider
 
 Closed providers that do not issue cryptographic usage signatures remain `client_signed`. A response ID or the agent's own statement is not treated as a provider signature.
 
+See [Evidence Boundaries](evidence-boundaries.md) for what these signatures prove and do not prove. See [Claim Validation Policy](claim-validation-policy.md) for the settlement policy.
+
 The state store rejects:
 
 - reuse of a completed nonce

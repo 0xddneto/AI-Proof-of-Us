@@ -19,6 +19,7 @@
     <nav aria-label="Primary navigation">
       <a href="#idea">Idea</a>
       <a href="#flow">Flow</a>
+      <a href="#boundaries">Limits</a>
       <a href="#demo">Demo</a>
       <a href="#truth">Truth</a>
     </nav>
@@ -89,6 +90,31 @@
         <li><span>04</span><h3>Validator checks</h3><p>Nonces, signatures, duplicated evidence, and trust tier are checked before batching.</p></li>
         <li><span>05</span><h3>Merkle claim</h3><p>Approved receipts enter a Merkle root. `AIPOUClaims` verifies the proof and mints rewards.</p></li>
       </ol>
+    </section>
+
+    <section id="boundaries" class="section">
+      <div class="section-head">
+        <p class="eyebrow">EVIDENCE BOUNDARIES</p>
+        <h2>Clear proof beats vague trust.</h2>
+        <p>AIPOU is useful because it says what the receipt proves and what it does not prove.</p>
+      </div>
+      <div class="boundary-grid">
+        <article>
+          <span>PROVES</span>
+          <h3>Authorized receipt integrity</h3>
+          <p>A wallet authorized a unique task nonce, a local collector signed the receipt, replay checks passed, and an approved Merkle proof can mint the claim.</p>
+        </article>
+        <article>
+          <span>DOES NOT PROVE</span>
+          <h3>Hidden use or objective value</h3>
+          <p>AIPOU does not detect AI work that never used the MCP, prove task quality, imply provider endorsement, or replace scanners and policy gates.</p>
+        </article>
+        <article>
+          <span>VALIDATOR</span>
+          <h3>Trust tier is derived</h3>
+          <p>Users cannot self-report `provider_signed`. The validator recomputes the tier from wallet, collector, and configured provider signatures.</p>
+        </article>
+      </div>
     </section>
 
     <section id="demo" class="section demo">
@@ -162,6 +188,10 @@ Claim my AIPOU.
       <a href="https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/farming-and-claims.md" target="_blank" rel="noreferrer">
         <span>Understand farming</span>
         <strong>Read the claim flow</strong>
+      </a>
+      <a href="https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md" target="_blank" rel="noreferrer">
+        <span>Review limits</span>
+        <strong>Read evidence boundaries</strong>
       </a>
       <a href="https://github.com/0xddneto/AI-Proof-of-Us/tree/main/skills/aipou-farming" target="_blank" rel="noreferrer">
         <span>Agent install</span>

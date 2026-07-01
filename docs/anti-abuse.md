@@ -18,7 +18,11 @@ Implemented protections:
 
 These controls prove authorization, integrity, and uniqueness. They do not prove that arbitrary token counts are truthful when a provider does not sign them.
 
+They also do not detect hidden AI use outside the MCP, prove objective task value, replace scanners or policy gates, or prove provider endorsement.
+
 Without daily limits, staking, identity cost, or reputation, an attacker can create many wallets and many distinct low-value tasks. This is not replay, but it is still Sybil farming. Provider-signed receipts and task-quality verification should receive stronger economics than client-signed usage.
+
+The validator derives trust tier from configured signatures. Users cannot self-report a higher tier, and invalid provider evidence should cause settlement failure.
 
 ## Private data
 

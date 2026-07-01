@@ -28,6 +28,7 @@ Start here if you are building or testing an agent integration:
 - [llms.txt](llms.txt), a compact machine-readable project map
 
 Read [From AI Work to Onchain Rewards](docs/farming-and-claims.md) for the complete journey, global farming workflow, reward calculation, and one-command claim experience.
+Read [Evidence Boundaries](docs/evidence-boundaries.md) and [Claim Validation Policy](docs/claim-validation-policy.md) before proposing integrations with receipt, provenance, security, or payment projects.
 
 Public explainer: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
 
@@ -88,6 +89,8 @@ Cap:    1,000,000,000 AIPOU
 ```
 
 The token emission controller is `AIPOUClaims`. It mints only receipts included in a validator-published Merkle root and rejects a `receiptId` after its first claim.
+
+AIPOU claims are optional settlement for approved receipts. They do not prove hidden AI use, objective task value, provider endorsement, or security-policy compliance.
 
 ## MCP server
 
@@ -160,6 +163,8 @@ npm run dev -w mcp-server
 
 An explicit request such as `claim my AIPOU` authorizes the agent to complete both settlement transactions without another confirmation prompt.
 
+The trust tier is derived by the MCP and recomputed by the validator. Users cannot self-report `provider_signed`; a provider tier requires a valid provider signature from a configured public key.
+
 See [docs/base-launch.md](docs/base-launch.md) for the deployment checklist.
 
 ## Public launch
@@ -179,3 +184,10 @@ AI usage is easy to fake if the protocol only counts tokens or session time. AIP
 - human or community validation for high-value claims
 
 The token can launch early, but emissions should start conservative.
+
+Clear limits:
+
+- AIPOU is not an AI-use detector.
+- AIPOU is not a scanner or policy gate.
+- AIPOU does not replace SLSA-style provenance, agent-security scanners, or observability traces.
+- `client_signed` receipts currently rely on validator policy and trusted collector fingerprints.

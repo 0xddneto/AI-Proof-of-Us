@@ -29,6 +29,7 @@ The AIPOU token is attached to approved receipts after validation. The token is 
 - Why it is built for MCP clients and agent developers.
 - How the proof flow works.
 - How agents farm receipts through MCP.
+- What AIPOU proves and what it explicitly does not prove.
 - What is already live on Base.
 - What is still experimental and risky.
 
@@ -39,3 +40,5 @@ The AIPOU token is attached to approved receipts after validation. The token is 
 - Claims contract: https://basescan.org/address/0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058
 
 AIPOU is experimental, unaudited, and not an investment product.
+
+It also does not detect hidden AI use, prove objective task value, replace scanners or policy gates, or imply provider endorsement. Trust tier is derived by the validator from configured signatures; users do not self-report it.

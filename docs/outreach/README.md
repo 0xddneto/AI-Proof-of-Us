@@ -14,6 +14,7 @@ The goal is to spread AIPOU through useful conversations with agent builders, MC
 - [responses-log.md](responses-log.md) records AI and community feedback.
 - [sprint-2026-07-01.md](sprint-2026-07-01.md) records the long outreach sprint, target queue, and prepared messages.
 - [action-plan-2026-07-01.md](action-plan-2026-07-01.md) turns the sprint into a destination-specific outreach queue.
+- [agent-roadshow-2026-07-01.md](agent-roadshow-2026-07-01.md) records the ongoing local-agent roadshow.
 - [pr-drafts/](pr-drafts/) contains ready-to-adapt PR and discussion drafts for MCP lists, security lists, OpenClaw review, and LLMOps trace questions.
 
 ## Core Message
@@ -66,5 +67,6 @@ The strongest public framing is **MCP receipts for AI agents**, not "AI usage mi
 The first AI-to-AI review round produced three durable lessons:
 
 - AIPOU currently proves authorization, receipt integrity, replay resistance, and claim inclusion. It does not yet prove objective value creation.
+- AIPOU does not detect hidden AI use, replace scanners or policy gates, or imply provider endorsement.
 - Public integrations should be a thin MCP lifecycle adapter, not a deep framework rewrite.
 - Serious adoption needs trust packaging: dedicated wallet setup, explicit onchain warnings, provider-signed evidence, validator/multisig policy, emission controls, and clear anti-abuse rules.

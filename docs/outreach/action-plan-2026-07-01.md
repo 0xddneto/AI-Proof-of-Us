@@ -248,7 +248,7 @@ Submission fit:
 Draft list entry:
 
 ```markdown
-- [AI Proof of Us](https://github.com/0xddneto/AI-Proof-of-Us) - MCP-first receipt protocol for AI agents. Creates signed task receipts with EIP-712 wallet authorization, local Ed25519 collector signatures, replay checks, and optional Base claims.
+- [AI Proof of Us](https://github.com/0xddneto/AI-Proof-of-Us) - MCP receipt/provenance server for AI-agent tasks; not an assistant. Records signed task receipts with wallet authorization, local collector signatures, replay checks, explicit evidence boundaries, and optional Base claims.
 ```
 
 Success signal:
@@ -274,6 +274,7 @@ Local-agent sanity check:
 - safest first target: lifecycle hooks / metadata discussion
 - phrase to keep: ask maintainers where `receiptId` should be exposed
 - phrase to avoid: implying receipt IDs belong in every log entry
+- receipt ecosystem rule: disclose that AIPOU does not detect hidden AI use, prove objective task value, replace scanners/policy gates, or imply provider endorsement
 
 ## Stop Conditions
 

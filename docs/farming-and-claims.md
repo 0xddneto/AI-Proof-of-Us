@@ -4,6 +4,8 @@ AI Proof of Us (AIPOU) began with a simple question: if people use many AI agent
 
 The answer is a global MCP-based farming system. A user keeps one dedicated farming wallet and one local collector identity. Every supported AI conversation can produce signed usage receipts, regardless of which project directory the user is working in. Valid receipts are later grouped into a Merkle batch and settled on Base, where the AIPOU token is minted to the farming wallet.
 
+Claims are optional settlement for validated receipts. They are not proof that the task was objectively valuable, provider-endorsed, or detected independently of the MCP. See [Evidence Boundaries](evidence-boundaries.md) and [Claim Validation Policy](claim-validation-policy.md).
+
 ## The Journey
 
 The protocol was built in layers:
@@ -87,6 +89,8 @@ A `provider_signed` task can receive up to the protocol maximum of 50 AIPOU. Dur
 
 There is currently no daily farming limit. Exact replay is blocked, but Sybil farming through many wallets or many distinct low-value tasks remains an economic risk that future governance and task-quality verification should address.
 
+The user cannot choose `client_signed` or `provider_signed`. The MCP derives the tier during completion, and the protocol validator recomputes it during settlement. A provider tier requires a valid provider signature from a configured public key; an API response ID or agent statement is not enough.
+
 ## Claiming Rewards
 
 Receipts remain local and pending until settlement. The user only needs to say:
@@ -134,6 +138,14 @@ The current proof establishes that:
 - the receipt ID can be claimed only once onchain
 
 For providers that do not issue cryptographically signed usage evidence, the receipt remains `client_signed`. The protocol does not pretend that an API response ID or an agent statement is a provider signature.
+
+The current proof does not establish that:
+
+- hidden AI use happened outside the MCP
+- the task was useful, correct, or economically valuable
+- a model provider endorsed the receipt
+- scanners or policy gates approved the workflow
+- Sybil farming is impossible
 
 ## User Experience
 

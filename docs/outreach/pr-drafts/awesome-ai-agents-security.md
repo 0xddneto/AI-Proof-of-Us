@@ -29,7 +29,7 @@ Add AI Proof of Us for signed agent task receipts
 Suggested entry:
 
 ```markdown
-- **[AI Proof of Us](https://github.com/0xddneto/AI-Proof-of-Us)** - MCP-first receipt and provenance server for AI-agent tasks, with wallet authorization, local collector signatures, nonce replay protection, and optional claim verification.
+- **[AI Proof of Us](https://github.com/0xddneto/AI-Proof-of-Us)** - MCP receipt/provenance server for AI-agent tasks, with wallet authorization, local collector signatures, nonce replay protection, explicit evidence boundaries, and optional claim verification.
 ```
 
 Suggested PR body:
@@ -46,6 +46,7 @@ The project records signed receipts for AI-agent task lifecycle events:
 - validation status
 
 The security relevance is provenance and duplicate-receipt prevention for autonomous-agent work. It is not a scanner and does not replace sandboxing, policy enforcement, or runtime protection.
+It also does not claim to detect hidden AI use, prove objective task value, or imply provider endorsement.
 ```
 
 Risk:

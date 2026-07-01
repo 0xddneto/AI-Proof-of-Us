@@ -29,7 +29,7 @@ Add AI Proof of Us MCP receipt server
 Suggested entry:
 
 ```markdown
-- [AI Proof of Us](https://github.com/0xddneto/AI-Proof-of-Us) - MCP-first receipt protocol for AI agents. Creates signed task receipts with EIP-712 wallet authorization, local Ed25519 collector signatures, replay checks, and optional Base claims.
+- [AI Proof of Us](https://github.com/0xddneto/AI-Proof-of-Us) - MCP receipt/provenance server for AI-agent tasks; not an assistant. Records signed task receipts with wallet authorization, local collector signatures, replay checks, explicit evidence boundaries, and optional Base claims.
 ```
 
 Suggested PR body:
@@ -46,6 +46,7 @@ AIPOU records task lifecycle receipts with:
 - optional on-chain claims
 
 It is framed here as MCP provenance/audit infrastructure, not as an investment or token promotion.
+It does not claim to detect hidden AI use, prove task value, replace scanners, or validate provider endorsement.
 ```
 
 Risk:
