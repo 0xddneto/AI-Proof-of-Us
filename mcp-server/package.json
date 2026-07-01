@@ -27,7 +27,8 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "server.json"
   ],
   "bin": {
     "aipou-mcp": "dist/index.js"

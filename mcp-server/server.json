@@ -1,10 +1,13 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.0xddneto/ai-proof-of-us",
+  "title": "AI Proof of Us",
   "description": "Private signed AI task receipts with replay checks and optional validated AIPOU claims.",
+  "websiteUrl": "https://github.com/0xddneto/AI-Proof-of-Us",
   "repository": {
     "url": "https://github.com/0xddneto/AI-Proof-of-Us",
-    "source": "github"
+    "source": "github",
+    "subfolder": "mcp-server"
   },
   "version": "0.2.0",
   "packages": [
