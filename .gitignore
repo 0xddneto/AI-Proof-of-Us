@@ -1,0 +1,12 @@
+node_modules/
+dist/
+coverage/
+artifacts/
+cache/
+typechain-types/
+.env
+.env.*
+!.env.example
+.aipou/
+*.log
+

@@ -1,0 +1,17 @@
+{
+  "name": "ai-proof-of-us",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Proof-of-AI-usage protocol and AIPOU token for Base.",
+  "license": "MIT",
+  "workspaces": [
+    "contracts",
+    "mcp-server"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present"
+  }
+}
+
