@@ -13,6 +13,8 @@ The goal is to spread AIPOU through useful conversations with agent builders, MC
 - [roadshow-next-steps.md](roadshow-next-steps.md) turns feedback into product and outreach priorities.
 - [responses-log.md](responses-log.md) records AI and community feedback.
 - [sprint-2026-07-01.md](sprint-2026-07-01.md) records the long outreach sprint, target queue, and prepared messages.
+- [action-plan-2026-07-01.md](action-plan-2026-07-01.md) turns the sprint into a destination-specific outreach queue.
+- [pr-drafts/](pr-drafts/) contains ready-to-adapt PR and discussion drafts for MCP lists, security lists, OpenClaw review, and LLMOps trace questions.
 
 ## Core Message
 

@@ -152,6 +152,22 @@ Action item:
 
 - Approach scanner/security projects with the question: would receipt metadata help connect findings to specific MCP tasks, or create misleading trust signals?
 
+### Maintainer Fatigue Prompt
+
+Question:
+
+- Which outreach language is safest for a tired open-source maintainer?
+
+Summary:
+
+- Keep the focus on MCP receipts and where `receiptId` belongs in lifecycle metadata.
+- Avoid implying every log entry needs a receipt.
+- Avoid any token-promotion framing.
+
+Action item:
+
+- First public outreach should ask a lifecycle/metadata design question, not request adoption.
+
 ## 2026-07-01 - AI-to-AI Review Round
 
 ### Technical Marketer
