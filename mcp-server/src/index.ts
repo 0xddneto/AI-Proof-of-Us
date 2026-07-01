@@ -17,7 +17,15 @@ const usageCounts = {
   durationSeconds: z.number().int().min(0).max(86_400)
 };
 
-const server = new McpServer({ name: "aipou-mcp", version: "0.2.0" });
+const server = new McpServer(
+  { name: "aipou-mcp", version: "0.2.0" },
+  {
+    instructions:
+      "For meaningful AI tasks, call begin_ai_task before work and complete_ai_task after work using hashes, never raw prompts or outputs. " +
+      "Use the dedicated farming identity only. Never reveal private keys or local collector state. " +
+      "Call settle_ai_rewards only after the user explicitly authorizes an on-chain settlement."
+  }
+);
 
 server.tool(
   "get_aipou_contract",
