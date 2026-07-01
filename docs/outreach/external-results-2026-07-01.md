@@ -232,3 +232,43 @@ Relevant artifact:
   - local checkout usage for the current repository state
   - `npx -y aipou-mcp-server` only after npm publication
 - Current blocker remains unchanged: the repository owner must authenticate with npm and run the first public publish before MCP Registry submission.
+
+### Two-Hour Outreach Loop - 19:30 UTC
+
+- Automation: the existing `aipou-agent-outreach-loop` was updated to run every 10 minutes for 12 rounds.
+- Guardrails: no spam, no duplicate comments, no price/yield/liquidity promises, and no posting into unrelated issues.
+- Local AI conversation:
+  - Tool: OpenClaw local agent
+  - Model: `ollama/qwen2.5:3b`
+  - Result: reinforced that AIPOU should be pitched as complementary MCP receipt/provenance infrastructure, not as a replacement for SLSA, protect-mcp, Agent Receipts, x402, or scanners.
+- GitHub search findings:
+  - Existing AIPOU outreach already appears in relevant MCP receipt searches:
+    - https://github.com/openclaw/clawhub/issues/2946
+    - https://github.com/punkpeye/awesome-mcp-servers/issues/9036
+  - New candidate: https://github.com/agentcommercekit/ack/issues/111
+    - Fit: ACK-Pay is discussing payment schemes for sessions, batches, subscriptions, streaming, and refunds.
+    - AIPOU angle: ask whether an optional external work-evidence reference belongs in payment context, not whether ACK should adopt AIPOU or AIPOU token claims.
+  - New candidate: https://github.com/markusvankempen/code-engine-mcp-server/issues/1
+    - Fit: BoundaryAttest is discussing MCP provenance add-ons.
+    - AIPOU angle: compare minimal `receiptId` / validation-status metadata with provenance add-on boundaries.
+- Decision: prepare drafts first. Public posting should be targeted and non-duplicative because GitHub recently refused some new-discussion actions on the account.
+
+#### ACK-Pay Draft
+
+> I am working on AI Proof of Us as an MCP-first work-receipt layer, not as a payment rail replacement. ACK-Pay would keep handling payment authorization, session/batch semantics, refunds, and settlement.
+>
+> One integration question: should a payment/session scheme have an optional external work-evidence reference, for example a `receiptId` or hash produced by an MCP task lifecycle? In AIPOU that receipt is local-first, signed by a collector, replay-checked by nonce/task/output hashes, and only optionally used for validated human reward claims later.
+>
+> I am not asking ACK to validate AIPOU claims or accept a token. I am trying to understand whether work evidence belongs in payment context, response metadata, or a separate audit record.
+>
+> Evidence boundaries: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md
+> x402/AP2-style binding sketch: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/x402-ap2-demo-outline.md
+
+#### BoundaryAttest Draft
+
+> I am exploring AIPOU as a separate MCP receipt protocol and noticed BoundaryAttest is working close to the provenance boundary. AIPOU does not try to detect hidden AI use or replace SLSA-style provenance; it records an authorized task lifecycle with nonce, wallet authorization, hashes, local Ed25519 collector signature, validator replay checks, and optional claims.
+>
+> Would a provenance add-on benefit from a minimal external `receiptId` / validation-status reference, or would that create a misleading trust signal? My instinct is that provenance tools should not validate token rewards, but could reference receipt metadata if the user opts in.
+>
+> Evidence boundaries: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md
+> Local Receipt Mode: https://github.com/0xddneto/AI-Proof-of-Us/tree/main/examples/local-receipt-mode

@@ -230,6 +230,35 @@ Action items:
 - Add emission limits for `client_signed` receipts.
 - Prioritize real provider-signed or trusted-client-signed evidence.
 
+## 2026-07-01 - Two-Hour Outreach Loop Kickoff
+
+### Receipt / Provenance Maintainer Simulation
+
+Source:
+
+- Model or community: OpenClaw local agent with Ollama
+- Model: `ollama/qwen2.5:3b`
+- Date: 2026-07-01
+- Command: `openclaw agent --local --agent main`
+
+Summary:
+
+- The local agent identified AI developers, privacy advocates, and security researchers as the best audiences.
+- It framed AIPOU as a complementary MCP receipt layer for transparency and security.
+- It recommended talking to receipt/provenance/payment projects in interoperability language, not adoption language.
+
+Useful criticism:
+
+- Do not make price or yield claims.
+- Do not claim hidden AI-use detection.
+- Do not imply AIPOU replaces SLSA, protect-mcp, Agent Receipts, x402, or existing provenance tools.
+
+Action items:
+
+- Ask where `receiptId` should attach in adjacent systems.
+- Keep token claims secondary to local receipts and optional validated settlement.
+- Record drafts when a channel requires login, rate-limited actions, or would be a duplicate.
+
 ## Response Template
 
 ### Source
