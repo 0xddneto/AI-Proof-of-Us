@@ -1,3 +1,4 @@
+import "dotenv/config";
 import "@nomicfoundation/hardhat-toolbox";
 import type { HardhatUserConfig } from "hardhat/config";
 
@@ -30,4 +31,3 @@ const config: HardhatUserConfig = {
 };
 
 export default config;
-

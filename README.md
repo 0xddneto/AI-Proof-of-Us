@@ -40,11 +40,14 @@ The token contract has an `emissionController` address that can mint rewards. In
 
 The MCP server exposes tools for creating usage receipts:
 
+- `get_aipou_contract`
 - `record_ai_usage`
 - `estimate_ai_reward`
 - `export_ai_receipts`
 
 Receipts store hashes and metadata, not raw prompts or model outputs.
+
+`get_aipou_contract` returns the AIPOU contract address on Base once `AIPOU_CONTRACT_ADDRESS` or `deployments/base.json` is configured.
 
 ## Quick start
 
@@ -111,4 +114,3 @@ AI usage is easy to fake if the protocol only counts tokens or session time. AIP
 - human or community validation for high-value claims
 
 The token can launch early, but emissions should start conservative.
-

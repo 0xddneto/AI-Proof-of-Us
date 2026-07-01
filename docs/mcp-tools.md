@@ -1,5 +1,17 @@
 # MCP Tools
 
+## `get_aipou_contract`
+
+Returns the configured AIPOU token contract address, Base network details, explorer URL, and minimal ABI.
+
+The MCP server reads the contract from:
+
+1. `AIPOU_CONTRACT_ADDRESS`
+2. `AIPOU_DEPLOYMENT_FILE`
+3. `deployments/base.json`
+
+Until the Base deployment exists, this tool returns `address: null`.
+
 ## `estimate_ai_reward`
 
 Estimates a reward before recording a receipt.
@@ -41,4 +53,3 @@ Input:
 Exports locally stored receipts for a wallet or all wallets.
 
 The exported data can feed a future claim batch on Base.
-

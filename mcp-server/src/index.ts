@@ -2,6 +2,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import { aipouTokenAbi, getTokenContractConfig } from "./contract.js";
 import { exportReceipts, recordReceipt } from "./receipts.js";
 import { estimateReward } from "./rewards.js";
 
@@ -24,6 +25,24 @@ const server = new McpServer({
   name: "aipou-mcp",
   version: "0.1.0"
 });
+
+server.tool(
+  "get_aipou_contract",
+  "Return the configured AIPOU token contract address, Base network details, explorer URL, and minimal ABI.",
+  {},
+  async () => {
+    const contract = await getTokenContractConfig();
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({ ...contract, abi: aipouTokenAbi }, null, 2)
+        }
+      ]
+    };
+  }
+);
 
 server.tool(
   "estimate_ai_reward",
@@ -88,4 +107,3 @@ server.tool(
 
 const transport = new StdioServerTransport();
 await server.connect(transport);
-
