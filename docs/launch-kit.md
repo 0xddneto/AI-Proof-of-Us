@@ -11,6 +11,7 @@ Hugging Face: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
 
 - Hugging Face Space: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
 - Reddit announcement: https://www.reddit.com/user/Any_Praline805/comments/1uklabn/i_built_an_open_mcp_protocol_that_rewards/
+- Outreach kit: docs/outreach/README.md
 
 ## Reddit post
 

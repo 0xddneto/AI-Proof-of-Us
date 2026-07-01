@@ -156,6 +156,7 @@ See [docs/base-launch.md](docs/base-launch.md) for the deployment checklist.
 
 - Hugging Face Space: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
 - Reddit announcement: https://www.reddit.com/user/Any_Praline805/comments/1uklabn/i_built_an_open_mcp_protocol_that_rewards/
+- Outreach kit: [docs/outreach](docs/outreach/README.md)
 
 ## Security and abuse warning
 
