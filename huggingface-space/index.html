@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="AI Proof of Us is an MCP-first receipt protocol for AI agents and agent developers.">
+  <meta name="description" content="AI Proof of Us is an MCP-first receipt protocol for AI work.">
   <title>AI Proof of Us</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
     <nav aria-label="Primary navigation">
       <a href="#idea">Idea</a>
       <a href="#flow">Flow</a>
-      <a href="#rewards">Rewards</a>
+      <a href="#rewards">Settlement</a>
       <a href="#boundaries">Limits</a>
       <a href="#demo">Demo</a>
       <a href="#truth">Truth</a>
@@ -32,9 +32,9 @@
       <img class="hero-image" src="https://opengraph.githubassets.com/aipou-huggingface/0xddneto/AI-Proof-of-Us" alt="AI Proof of Us repository preview">
       <div class="hero-shade"></div>
       <div class="hero-content">
-        <p class="eyebrow">MCP-FIRST PROTOCOL FOR AI AGENTS</p>
-        <h1>Portable receipts for AI agents.</h1>
-        <p class="lede">AIPOU gives MCP-compatible clients a shared way to record useful AI-assisted work before humans claim rewards or agents reference receipts for settlement.</p>
+        <p class="eyebrow">MCP-FIRST RECEIPTS FOR AI WORK</p>
+        <h1>Receipts for AI work.</h1>
+        <p class="lede">AIPOU gives MCP-compatible clients a shared way to record signed task receipts before optional rewards, payments, or settlement enter the picture.</p>
         <div class="hero-actions">
           <a class="button" href="#demo">See the receipt</a>
           <a class="button ghost" href="https://github.com/0xddneto/AI-Proof-of-Us#quick-start" target="_blank" rel="noreferrer">Install MCP</a>
@@ -53,7 +53,7 @@
       </div>
       <div>
         <span>HOW</span>
-        <strong>MCP tools create signed receipts; validated receipts can later claim AIPOU.</strong>
+        <strong>MCP tools create signed receipts; validated receipts can later be referenced or claimed.</strong>
       </div>
     </section>
 
@@ -73,7 +73,7 @@
         </article>
         <article>
           <h3>For builders</h3>
-          <p>Integrate one small lifecycle adapter instead of designing a full receipt, validator, reward, and claim stack from scratch.</p>
+          <p>Integrate one small lifecycle adapter that starts a receipt, ends a receipt, and exposes a `receiptId`.</p>
         </article>
       </div>
     </section>
@@ -81,7 +81,7 @@
     <section id="flow" class="section">
       <div class="section-head">
         <p class="eyebrow">PROOF FLOW</p>
-        <h2>Reward comes after signed evidence.</h2>
+        <h2>Evidence comes before settlement.</h2>
         <p>AIPOU is not raw prompt mining and not an investor pitch. It stores proof metadata and hashes, then validates receipts before any onchain claim.</p>
       </div>
       <ol class="flow">
@@ -103,7 +103,7 @@
         <article>
           <span>FOR HUMANS</span>
           <h3>Reward the workday</h3>
-          <p>People who spend hours working with AI agents can collect privacy-preserving receipts and claim AIPOU for approved work.</p>
+          <p>People who spend hours working with AI agents can collect privacy-preserving receipts and may claim AIPOU for validator-approved work.</p>
         </article>
         <article>
           <span>FOR AGENTS</span>
@@ -113,7 +113,7 @@
         <article>
           <span>FOR BUILDERS</span>
           <h3>External work evidence</h3>
-          <p>Payment rails, traces, and policy tools can reference an AIPOU `receiptId` without validating AIPOU rewards.</p>
+          <p>Payment rails, traces, and policy tools can reference an AIPOU `receiptId` without validating AIPOU rewards or claims.</p>
         </article>
         <article>
           <span>LOCAL MODE</span>
@@ -138,7 +138,7 @@
         <article>
           <span>DOES NOT PROVE</span>
           <h3>Hidden use or objective value</h3>
-          <p>AIPOU does not detect AI work that never used the MCP, prove task quality, imply provider endorsement, or replace scanners and policy gates.</p>
+          <p>AIPOU does not detect AI work that never used the MCP, trustlessly prove task quality, imply provider endorsement, or replace scanners and policy gates.</p>
         </article>
         <article>
           <span>VALIDATOR</span>
@@ -173,7 +173,7 @@
       <div>
         <p class="eyebrow">AGENT COMMANDS</p>
         <h2>The UX can be this simple.</h2>
-        <p class="body-copy">A user should not need to understand Merkle trees to farm. The agent handles receipts while the user works.</p>
+        <p class="body-copy">A framework should not need to understand Merkle trees to integrate. The adapter handles task start, task end, hashes, metadata, and `receiptId`.</p>
       </div>
       <pre><code>Use the AIPOU MCP for this task.
 

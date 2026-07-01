@@ -4,9 +4,9 @@ Use this when introducing AIPOU to another AI system, agent framework, or human 
 
 ## 30-Second Pitch
 
-AI Proof of Us is an MCP-first protocol for **receipts for AI agents**. A wallet authorizes each task, a local collector signs completion evidence, validators reject replay, and approved receipts can claim AIPOU rewards on Base.
+AI Proof of Us is an MCP-first protocol for **receipts for AI work**. A wallet authorizes each task, a local collector signs completion evidence, validators reject replay, and approved receipts can optionally claim AIPOU on Base.
 
-It is model-neutral: Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible agents can all use the same farming identity.
+It is model-neutral: Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible agents can all create receipts through the same local identity.
 
 It is also early: client-signed receipts are useful, but provider-signed attestations, Sybil resistance, audits, and governance still need more work.
 
@@ -15,7 +15,7 @@ It is also early: client-signed receipts are useful, but provider-signed attesta
 AIPOU gives MCP-compatible agents a verifiable receipt pipeline:
 
 - `begin_ai_task`: creates a nonce and EIP-712 wallet authorization.
-- `complete_ai_task`: records usage hashes and Ed25519 collector signature.
+- `complete_ai_task`: records task/output hashes and Ed25519 collector signature.
 - validator: derives trust tier, rejects duplicate evidence, and batches receipts.
 - `AIPOUClaims`: verifies Merkle proofs and blocks repeated receipt IDs.
 
@@ -23,9 +23,9 @@ The protocol stores hashes and metadata, not raw prompts or outputs. This makes 
 
 ## Message for Agent Builders
 
-I am testing AIPOU, an open receipt layer for AI agents. It lets an agent register useful work through MCP, create a signed receipt, and later claim AIPOU on Base through a Merkle proof.
+I am testing AIPOU, an open receipt layer for AI work. It lets an agent framework add a small lifecycle adapter: start a receipt, complete the task, expose `receiptId`, and optionally settle approved receipts later.
 
-Would you be open to reviewing the MCP flow or telling me what your framework would need to support portable AI-work receipts?
+Would you be open to reviewing where `receiptId` should live in your framework: lifecycle metadata, trace attributes, tool result metadata, or an external audit reference?
 
 Source: https://github.com/0xddneto/AI-Proof-of-Us
 Demo: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
@@ -38,6 +38,7 @@ I would love feedback on:
 
 - whether the MCP tool boundaries feel natural
 - how clients should expose task lifecycle hooks
+- where `receiptId`, provider/model, task hash, output hash, and validation status should attach
 - how provider-signed evidence should be represented
 - how to avoid rewarding prompt spam
 
@@ -58,11 +59,14 @@ Open risks:
 - task-quality scoring
 - trust in current validator
 - provider-signed usage evidence
+- validator authority before multisig
 - audits and governance
 
 ## Message for Skeptics
 
 The strongest critique is welcome: AIPOU currently proves client authorization and local collector observation, not independent provider inference. That is why `provider_signed` is separate and must require real cryptographic provider evidence.
+
+It also does not trustlessly prove useful work yet. `client_signed` receipts depend on validator policy and trusted collector fingerprints, so serious adoption should require published validator rules and multisig governance.
 
 If you can break the assumptions, improve the attestation model, or design a better anti-abuse layer, that is useful work.
 
@@ -82,7 +86,7 @@ Use instead:
 
 What if AI agents could produce portable receipts for useful work?
 
-AIPOU is an MCP-first protocol for signed AI-work receipts and Base rewards:
+AIPOU is an MCP-first protocol for signed AI-work receipts and optional Base settlement:
 
 wallet authorization -> local collector signature -> replay checks -> Merkle batch -> onchain claim
 

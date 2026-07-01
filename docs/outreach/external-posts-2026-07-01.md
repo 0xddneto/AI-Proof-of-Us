@@ -29,7 +29,7 @@ Category fit for an MCP receipt/provenance server?
 Body:
 
 ~~~markdown
-Hi, I maintain [AI Proof of Us](https://github.com/0xddneto/AI-Proof-of-Us), an MCP receipt/provenance server for AI-agent tasks.
+Hi, I maintain [AI Proof of Us](https://github.com/0xddneto/AI-Proof-of-Us), an MCP receipt server for AI work.
 
 It is not an assistant. It records signed task receipts with:
 
@@ -39,14 +39,14 @@ It is not an assistant. It records signed task receipts with:
 - explicit evidence boundaries
 - optional Base claims for approved receipts
 
-The project is framed as MCP infrastructure: receipts, provenance, audit metadata, and optional reward settlement. It does not claim to detect hidden AI use, prove objective task value, replace scanners, or replace payment rails.
+The project is framed as MCP infrastructure: receipts, provenance, audit metadata, and optional reward settlement. It does not claim to detect hidden AI use, trustlessly prove objective task value, replace scanners, or replace payment rails.
 
 Would this belong in this list? If yes, is there an existing category that fits, or would a small "Provenance / Audit" category be appropriate?
 
 Suggested entry:
 
 ```md
-- [AI Proof of Us](https://github.com/0xddneto/AI-Proof-of-Us) - MCP receipt/provenance server for AI-agent tasks; records signed task receipts with wallet authorization, local collector signatures, replay checks, explicit evidence boundaries, and optional Base claims.
+- [AI Proof of Us](https://github.com/0xddneto/AI-Proof-of-Us) - MCP receipt server for AI work; records signed task receipts with wallet authorization, local collector signatures, replay checks, explicit evidence boundaries, and optional Base claims.
 ```
 ~~~
 
@@ -70,7 +70,7 @@ Where should external task receipt IDs live in MCP client workflows?
 Body:
 
 ~~~markdown
-I am working on [AI Proof of Us](https://github.com/0xddneto/AI-Proof-of-Us), an MCP-first receipt/provenance server for AI-agent tasks.
+I am working on [AI Proof of Us](https://github.com/0xddneto/AI-Proof-of-Us), an MCP-first receipt protocol for AI work.
 
 The project records wallet-authorized task receipts with local collector signatures, replay checks, and explicit evidence boundaries. Raw prompts and outputs stay local by default. The receipt can later be referenced as external work evidence or optionally claimed through a separate settlement flow.
 
@@ -84,11 +84,12 @@ For a portable external `receiptId`, which surface is most appropriate?
 - trace/span attribute
 - something else
 
-The goal is to let MCP clients and related tools reference a receipt without making every server responsible for validating rewards or payment claims.
+The goal is to let MCP clients and related tools reference a receipt without making every server responsible for validating rewards or payment claims. A thin framework integration should only need task start, task end, provider/model metadata, hashes, and a `receiptId`.
 
 Relevant docs:
 
 - Evidence boundaries: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md
+- Framework lifecycle adapter: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/framework-lifecycle-adapter.md
 - receiptId interoperability: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/receiptid-interoperability.md
 ~~~
 
@@ -206,7 +207,7 @@ AIPOU creates signed MCP work receipts:
 payment request -> AI task -> AIPOU receiptId -> payment record external evidence
 ```
 
-Humans can claim AIPOU for approved AI-assisted work receipts, and agents/marketplaces can voluntarily accept AIPOU as settlement. But AIPOU does not replace x402, AP2, stablecoins, or wallet automation.
+Humans may claim AIPOU for validator-approved AI-assisted work receipts, and agents/marketplaces can voluntarily accept AIPOU as settlement. But AIPOU does not replace x402, AP2, stablecoins, or wallet automation.
 
 The payment rail can simply reference:
 
@@ -263,7 +264,7 @@ Local Receipt Mode:
 - no primary wallet
 - receipts can be inspected or exported later
 
-Claims and payments are optional. Local users can ignore them until they want rewards.
+Claims and payments are optional. Local users can ignore them and use AIPOU only as a private receipt trail.
 
 Demo:
 

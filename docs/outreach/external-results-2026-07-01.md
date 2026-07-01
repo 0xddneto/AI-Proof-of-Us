@@ -337,3 +337,19 @@ Relevant artifact:
 > Would an `evidenceRef` type for external MCP work receipts be appropriate here, or should AIPOU stay fully outside the AAR envelope?
 >
 > Evidence boundaries: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md
+
+### Positioning Improvements Applied - 20:00 UTC
+
+Feedback applied from the AI-to-AI review round:
+
+- Technical marketer: use "receipts for AI work", not "AI usage mining".
+- Framework integrator: present AIPOU as a small MCP lifecycle adapter, not a deep framework rewrite.
+- Protocol skeptic: state clearly that AIPOU does not trustlessly prove useful work today, `client_signed` depends on validator policy, and serious adoption should require multisig and public validator rules.
+- OpenClaw local agent: talk to AI developers, privacy advocates, security reviewers, receipt/provenance builders, and payment projects in interoperability language, not token-adoption language.
+
+Repository changes:
+
+- Added `docs/framework-lifecycle-adapter.md`.
+- Updated README, `llms.txt`, Hugging Face Space copy, launch kit, agent guide, evidence boundaries, and outreach drafts.
+- Replaced "usage receipts" language in core docs with "task receipts" or "receipts for AI work".
+- Updated MCP tool description for `export_ai_receipts` to say "AI task receipts".

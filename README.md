@@ -1,18 +1,18 @@
 # AI Proof of Us
 
-AI Proof of Us is an **MCP-first protocol for AI agents and agent developers**.
+AI Proof of Us is an **MCP-first receipt protocol for AI work**.
 
-It gives Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible clients a shared way to create signed, privacy-preserving receipts for useful AI-assisted work.
+It gives Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible clients a shared way to create signed, privacy-preserving receipts for AI-assisted tasks.
 
-The AIPOU token is attached to approved receipts after validation. The token is secondary; the core product is the receipt protocol and MCP integration surface.
+The core product is the receipt protocol and MCP integration surface. The AIPOU token is secondary: optional validated receipts can later be settled on Base, but the first thing AIPOU offers is portable evidence for billing, audit, provenance, routing, reputation, and agent marketplaces.
 
-The human promise is direct: people who spend their day working with AI can keep private receipts for approved AI-assisted work and claim AIPOU from those receipts. Agents, marketplaces, and services can also accept AIPOU as a receipt-backed payment or settlement token when both sides agree to use it.
+The human promise is direct but bounded: people who spend their day working with AI can keep private receipts for approved AI-assisted work and may claim AIPOU from receipts accepted by the validator. Agents, marketplaces, and services can also reference AIPOU receipts or voluntarily accept AIPOU as settlement when both sides agree to use it.
 
 The first version ships as:
 
-- an MCP server that records privacy-preserving AI usage receipts
+- an MCP server that records privacy-preserving AI task receipts
 - an installable OpenClaw skill for agent workflows
-- docs for MCP clients, agent builders, anti-abuse, and future attestation design
+- docs for MCP clients, agent builders, lifecycle adapters, anti-abuse, and future attestation design
 - a reward model that converts valid receipts into claimable emissions
 - an ERC-20 reward token on Base: `AI Proof of Use` (`AIPOU`)
 
@@ -25,6 +25,7 @@ agent starts task -> MCP creates nonce -> AI work happens -> signed receipt -> v
 Start here if you are building or testing an agent integration:
 
 - [AIPOU for AI Agents](docs/for-agents.md)
+- [Framework lifecycle adapter](docs/framework-lifecycle-adapter.md)
 - [MCP tools](docs/mcp-tools.md)
 - [OpenClaw skill](skills/aipou-farming/SKILL.md)
 - [Local Receipt Mode demo](examples/local-receipt-mode/README.md)
@@ -37,7 +38,7 @@ Read [Evidence Boundaries](docs/evidence-boundaries.md) and [Claim Validation Po
 
 Public explainer: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
 
-This is not meant to reward raw prompt spam or attract passive token speculation. AIPOU is for developers who want to test whether AI work can produce portable receipts across agent clients.
+This is not "AI usage mining" and it is not meant to reward raw prompt spam or attract passive token speculation. AIPOU is for developers who want to test whether AI work can produce portable receipts across agent clients.
 
 In plain language:
 
@@ -86,7 +87,7 @@ The initial experimental pool buy was later returned through Aerodrome so the la
 
 ```txt
 contracts/     ERC-20 token, deploy scripts, Hardhat tests
-mcp-server/    MCP server that records AI usage receipts
+mcp-server/    MCP server that records AI task receipts
 docs/          architecture, anti-abuse model, Base launch notes
 skills/        installable agent skills, including OpenClaw
 huggingface-space/  static public protocol explainer
@@ -103,11 +104,11 @@ Cap:    1,000,000,000 AIPOU
 
 The token emission controller is `AIPOUClaims`. It mints only receipts included in a validator-published Merkle root and rejects a `receiptId` after its first claim.
 
-AIPOU claims are optional settlement for approved receipts. They do not prove hidden AI use, objective task value, provider endorsement, or security-policy compliance.
+AIPOU claims are optional settlement for approved receipts. They do not prove hidden AI use, objective task value, provider endorsement, provider inference without cryptographic provider evidence, or security-policy compliance.
 
 ## MCP server
 
-The MCP server exposes tools for creating usage receipts:
+The MCP server exposes tools for creating task receipts:
 
 - `get_aipou_contract`
 - `get_aipou_identity`
@@ -120,6 +121,8 @@ The MCP server exposes tools for creating usage receipts:
 Receipts store hashes and metadata, not raw prompts or model outputs.
 
 The dedicated farming key signs EIP-712 authorizations locally. Never paste it into a chat or use a primary wallet. The collector has a separate Ed25519 key that cannot move funds.
+
+Frameworks do not need to understand Merkle trees, Base, or token claims to integrate the receipt layer. The minimal adapter watches task start and task end, records provider/model metadata and hashes, and exposes a `receiptId` for traces, logs, UI, or later optional settlement.
 
 ## Quick start
 
@@ -188,9 +191,9 @@ See [docs/base-launch.md](docs/base-launch.md) for the deployment checklist.
 
 ## Security and abuse warning
 
-AI usage is easy to fake if the protocol only counts tokens or session time. AIPOU should evolve toward stronger signals:
+AI work is easy to fake if the protocol only counts tokens or session time. AIPOU should evolve toward stronger signals:
 
-- provider-signed usage receipts
+- provider-signed usage assertions
 - MCP client signatures
 - task hashes linked to real work
 - staking or slashing for reward operators
@@ -202,7 +205,10 @@ Clear limits:
 
 - AIPOU is not an AI-use detector.
 - AIPOU is not a scanner or policy gate.
+- AIPOU does not trustlessly prove "useful work" today.
+- The current validator is a protocol authority for `client_signed` receipts.
 - AIPOU does not replace SLSA-style provenance, agent-security scanners, or observability traces.
 - AIPOU does not replace x402, AP2, stablecoins, or wallet automation.
 - AIPOU can be used as payment only where participants voluntarily accept it.
 - `client_signed` receipts currently rely on validator policy and trusted collector fingerprints.
+- Serious adoption should move owner and validator authority to multisig and publish explicit validator rules.

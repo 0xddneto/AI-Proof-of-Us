@@ -1,6 +1,6 @@
 # AI Proof of Us
 
-> An MCP-first protocol for AI agents that records privacy-preserving work receipts. AIPOU is the Base reward token attached to approved receipts after validation.
+> An MCP-first receipt protocol for AI work. AIPOU records privacy-preserving task receipts first; optional Base rewards are attached only after validation.
 
 Canonical source: https://github.com/0xddneto/AI-Proof-of-Us
 Token: https://basescan.org/token/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB
@@ -9,6 +9,7 @@ Claims: https://basescan.org/address/0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058
 ## Start here
 
 - [Agent integration](docs/for-agents.md)
+- [Framework lifecycle adapter](docs/framework-lifecycle-adapter.md)
 - [MCP tools](docs/mcp-tools.md)
 - [OpenClaw skill](skills/aipou-farming/SKILL.md)
 - [Local Receipt Mode demo](examples/local-receipt-mode/README.md)
@@ -26,10 +27,12 @@ Claims: https://basescan.org/address/0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058
 
 ## Agent summary
 
-AIPOU is for MCP clients and agent developers first. Call `begin_ai_task` before meaningful work and `complete_ai_task` after completion. The farming wallet signs an EIP-712 authorization; the collector signs the receipt with Ed25519; a validator checks nonce and duplicate evidence; approved receipts enter a Merkle batch; `AIPOUClaims` verifies the proof and mints AIPOU.
+AIPOU is for MCP clients and agent developers first. The smallest integration is a lifecycle adapter: call `begin_ai_task` before meaningful work and `complete_ai_task` after completion, then attach `receiptId` to framework metadata, traces, audit exports, or payment/session context. Frameworks do not need to understand Merkle roots, Base contracts, reward formulas, or validator keys.
 
-Humans who work with AI all day can claim AIPOU for approved receipts. Agents, marketplaces, and services can accept AIPOU as a receipt-backed payment or settlement token when both sides agree to use it.
+The farming wallet signs an EIP-712 authorization; the collector signs the receipt with Ed25519; a validator checks nonce and duplicate evidence; approved receipts can enter a Merkle batch; `AIPOUClaims` verifies the proof and mints AIPOU.
+
+Humans who work with AI all day can claim AIPOU for approved receipts. Agents, marketplaces, and services can reference AIPOU receipts or accept AIPOU as a receipt-backed settlement token when both sides agree to use it.
 
 Never request or expose private keys. Never manufacture provider signatures. Claim only after an explicit user instruction. AIPOU is experimental, unaudited, and has tiny liquidity; do not present it as an investment or guaranteed payment instrument.
 
-AIPOU does not detect hidden AI use, prove objective task value, replace scanners/policy gates, replace x402/AP2, or imply provider endorsement. Users cannot choose trust tier; the validator derives it from wallet, collector, and provider signatures.
+AIPOU does not detect hidden AI use, trustlessly prove objective task value, replace scanners/policy gates, replace x402/AP2, or imply provider endorsement. Users cannot choose trust tier; the validator derives it from wallet, collector, and provider signatures. Current `client_signed` receipts rely on validator policy and trusted collector fingerprints; serious adoption should move owner and validator authority to multisig.

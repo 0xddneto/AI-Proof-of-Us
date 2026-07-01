@@ -110,7 +110,7 @@ server.tool(
 
 server.tool(
   "export_ai_receipts",
-  "Export stored signed AI usage receipts, optionally filtered by wallet.",
+  "Export stored signed AI task receipts, optionally filtered by wallet.",
   { wallet: z.string().regex(/^0x[a-fA-F0-9]{40}$/).optional() },
   async ({ wallet }) => {
     const receipts = await exportReceipts(wallet);

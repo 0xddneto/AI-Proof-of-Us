@@ -2,7 +2,7 @@
 
 AI Proof of Us (AIPOU) began with a simple question: if people use many AI agents across many conversations and projects, how can useful AI-assisted work become a portable, verifiable reward?
 
-The answer is a global MCP-based farming system. A user keeps one dedicated farming wallet and one local collector identity. Every supported AI conversation can produce signed usage receipts, regardless of which project directory the user is working in. Valid receipts are later grouped into a Merkle batch and settled on Base, where the AIPOU token is minted to the farming wallet.
+The answer is a global MCP-based receipt and claim system. A user keeps one dedicated farming wallet and one local collector identity. Every supported AI conversation can produce signed task receipts, regardless of which project directory the user is working in. Valid receipts are later grouped into a Merkle batch and settled on Base, where the AIPOU token is minted to the farming wallet.
 
 Claims are optional settlement for validated receipts. They are not proof that the task was objectively valuable, provider-endorsed, or detected independently of the MCP. See [Evidence Boundaries](evidence-boundaries.md) and [Claim Validation Policy](claim-validation-policy.md).
 
@@ -13,7 +13,7 @@ The protocol was built in layers:
 1. **AIPOU token on Base** - a capped ERC-20 with controlled reward emissions.
 2. **Global MCP collector** - a local server that can be used by Codex and other MCP-compatible AI clients.
 3. **Task authorization** - every new task starts with a unique nonce signed by the farming wallet using EIP-712.
-4. **Signed usage receipts** - completed tasks produce privacy-preserving receipts signed by the collector with Ed25519.
+4. **Signed task receipts** - completed tasks produce privacy-preserving receipts signed by the collector with Ed25519.
 5. **Replay protection** - completed nonces, duplicate task/output evidence, and claimed receipt IDs cannot be reused.
 6. **Merkle settlement** - approved receipts are grouped into an onchain-verifiable batch.
 7. **Autonomous claims** - one explicit user command authorizes the agent to publish the batch and mint the rewards.
@@ -120,7 +120,7 @@ The system deliberately separates responsibilities:
 | Identity | Purpose |
 | --- | --- |
 | Farming wallet | Authorizes tasks and receives AIPOU |
-| Collector Ed25519 key | Signs usage receipts but cannot move funds |
+| Collector Ed25519 key | Signs task receipts but cannot move funds |
 | Protocol validator wallet | Publishes Merkle roots, submits claim batches, and pays gas |
 | Claims contract | Verifies proofs, blocks repeated receipt IDs, and controls token emissions |
 

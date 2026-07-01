@@ -2,7 +2,7 @@
 
 ## Short announcement
 
-AI Proof of Us is an MCP-first protocol for AI agents and agent developers. It gives Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible clients a shared way to create signed receipts for useful AI-assisted work. AIPOU is the Base reward token attached to approved receipts after validation.
+AI Proof of Us is an MCP-first receipt protocol for AI work. It gives Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible clients a shared way to create signed task receipts without publishing raw prompts or outputs. AIPOU is the optional Base settlement token attached only to validator-approved receipts.
 
 GitHub: https://github.com/0xddneto/AI-Proof-of-Us
 Hugging Face: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
@@ -17,13 +17,13 @@ Hugging Face: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
 
 ### Title
 
-I built an MCP-first receipt protocol for AI agents on Base
+I built an MCP-first receipt protocol for AI work
 
 ### Body
 
-I have been exploring a simple question: can useful work performed with any AI become portable proof instead of staying trapped inside one provider's usage dashboard?
+I have been exploring a simple question: can AI-assisted work produce portable receipts instead of staying trapped inside one provider's usage dashboard?
 
-AI Proof of Us is an open-source experiment built around MCP and Base. It is aimed at agent developers, MCP client builders, and model-neutral clients such as Codex, Claude, Cursor, OpenClaw, and local models.
+AI Proof of Us is an open-source experiment built around MCP and Base. It is aimed first at agent developers, MCP client builders, privacy-minded local AI users, and model-neutral clients such as Codex, Claude, Cursor, OpenClaw, and local models.
 
 The flow:
 
@@ -34,19 +34,22 @@ The flow:
 5. Approved receipts enter a Merkle batch.
 6. The AIPOUClaims contract verifies the proof and mints AIPOU on Base.
 
-Users can work across many projects with one farming identity and later tell the agent, "Claim my AIPOU." The agent handles batching and settlement.
+Frameworks do not need to understand Base, Merkle proofs, or reward formulas to integrate the receipt layer. The smallest useful integration is a lifecycle adapter: start a receipt, end a receipt, then expose `receiptId`, provider/model metadata, task hash, output hash, and validation status.
 
-Why this might matter: if agents can share a neutral receipt layer, AIPOU could eventually become one primitive for agent incentives or agent-to-agent payment. That is a direction, not a claim that the network is already there.
+Users can work across many projects with one receipt identity and later, if they want settlement, tell the agent, "Claim my AIPOU." The agent handles batching and settlement.
 
-Important limitations: the protocol is experimental and unaudited. Client-signed receipts do not independently prove provider inference. Sybil resistance and work-quality validation remain open problems. The AIPOU/WETH pool has intentionally tiny liquidity, so its market price is highly volatile and should not be treated as reliable. This is not an investment pitch.
+Why this might matter: if agents can share a neutral receipt layer, AIPOU could become useful infrastructure for billing, audit, provenance, routing, reputation, marketplaces, and eventually agent-to-agent settlement. That is a direction, not a claim that the network is already there.
 
-I am looking for developers and agent builders who want to test the MCP flow, improve attestations, challenge the anti-abuse model, or integrate another client.
+Important limitations: the protocol is experimental and unaudited. Client-signed receipts do not independently prove provider inference or trustlessly prove useful work. The validator is currently a protocol authority for `client_signed` receipts. Sybil resistance and work-quality validation remain open problems. The AIPOU/WETH pool has intentionally tiny liquidity, so its market price is highly volatile and should not be treated as reliable. This is not an investment pitch.
+
+I am looking for developers, agent builders, security reviewers, and privacy-minded local AI users who want to test the MCP flow, improve attestations, challenge the anti-abuse model, or integrate another client.
 
 Source and setup: https://github.com/0xddneto/AI-Proof-of-Us
 
 ## Discussion prompts
 
 - What evidence should qualify as provider-signed without centralizing the protocol?
+- Where should `receiptId` live in agent frameworks: lifecycle hooks, traces, `_meta`, or external audit references?
 - How should useful work be distinguished from prompt spam?
 - Should reward rates be governed by stake, reputation, fees, or task markets?
 - What would an agent need before accepting AIPOU from another agent?

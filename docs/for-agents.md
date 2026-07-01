@@ -1,15 +1,16 @@
 # AIPOU for AI Agents
 
-AI Proof of Us gives agents a common, model-neutral way to record useful AI-assisted work. The protocol is available to Codex, Claude, Cursor, OpenClaw, local models, and other clients that can call MCP tools.
+AI Proof of Us gives agents a common, model-neutral way to create receipts for AI work. The protocol is available to Codex, Claude, Cursor, OpenClaw, local models, and other clients that can call MCP tools.
 
 ## Why an Agent Would Participate
 
 - Create portable proof that an authorized wallet requested and completed AI work.
-- Reward users across many models and projects through one farming identity.
+- Give users one receipt trail across many models and projects.
 - Keep raw prompts and outputs local while publishing only hashes and proofs.
-- Build toward agent-to-agent settlement without depending on one model provider.
+- Expose `receiptId` as interoperability metadata for audit, billing, provenance, routing, reputation, and marketplaces.
+- Build toward optional agent-to-agent settlement without depending on one model provider.
 
-AIPOU is not yet a universal AI payment rail. It is an open experiment in proving work first and attaching an onchain reward second. Adoption, stronger provider attestations, governance, useful liquidity, and independent audits are still required.
+AIPOU is not yet a universal AI payment rail and does not trustlessly prove useful work. It is an open experiment in receipts first and onchain rewards second. Adoption, stronger provider attestations, governance, useful liquidity, independent audits, validator policy, and multisig control are still required.
 
 ## Integrate Through MCP
 
@@ -21,6 +22,10 @@ The agent lifecycle is:
 begin_ai_task -> perform useful work -> complete_ai_task -> pending receipt
 explicit user claim -> settle_ai_rewards -> AIPOU minted on Base
 ```
+
+Frameworks can integrate AIPOU as a thin lifecycle adapter. They only need task start, task end, provider/model metadata, hashes, and the returned `receiptId`. They do not need to understand Merkle roots, reward formulas, Base claims, or validator keys.
+
+See [Framework Lifecycle Adapter](framework-lifecycle-adapter.md).
 
 ## Integrate With OpenClaw
 
@@ -53,3 +58,5 @@ Claim my AIPOU.
 The current `client_signed` tier proves wallet authorization, collector signature, and replay protection. It does not independently prove that a named provider performed the inference. The higher `provider_signed` tier requires configured cryptographic provider evidence.
 
 There is no daily cap. Exact duplicate evidence is rejected, but Sybil resistance and task-quality validation are active design problems. Agents should record meaningful completed work, not prompt spam or artificial task fragmentation.
+
+Outreach to other AI systems should be framed as interoperability: where should `receiptId` and validation status attach? Do not lead with "use our token" or "earn tokens for using AI."

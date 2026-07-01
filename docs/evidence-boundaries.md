@@ -29,6 +29,7 @@ AIPOU does not prove:
 
 - hidden AI use in work that never called the MCP
 - that a task was objectively useful or economically valuable
+- that "useful work" has been proven without validator policy or later review
 - that a provider endorsed AIPOU
 - that an API response ID is a provider signature
 - that token counts are truthful when the provider does not sign them
@@ -52,6 +53,18 @@ Do not use this:
 AIPOU detects all AI work, proves real value, prevents all abuse, or replaces scanners and policy gates.
 ```
 
+Also avoid:
+
+```text
+AIPOU mining rewards people for using AI.
+```
+
+Prefer:
+
+```text
+AIPOU creates receipts for AI work. Optional rewards are attached only after validation.
+```
+
 ## Relationship to Other Provenance Tools
 
 AIPOU should be presented as complementary to:
@@ -70,3 +83,5 @@ Those systems can decide whether an AIPOU `receiptId` is useful as external evid
 The first public version relies on protocol validator policy for `client_signed` receipts. Reviewers should treat this as an explicit trust assumption, not as a solved decentralization claim.
 
 Before broader public farming, the project should move owner and validator authority to multisig, publish validator rules, and document how trusted collector fingerprints are admitted or removed.
+
+This means AIPOU should be presented as an experimental receipt layer today, not as a trustless oracle for task value. Stronger versions should add provider-signed evidence, public validator policy, auditable collector admission, and multisig governance.

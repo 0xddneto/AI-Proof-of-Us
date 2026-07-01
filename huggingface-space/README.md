@@ -11,27 +11,28 @@ short_description: MCP receipts for AI agents
 
 # AI Proof of Us
 
-AI Proof of Us, or AIPOU, is an **MCP-first experiment for AI agents and agent developers**.
+AI Proof of Us, or AIPOU, is an **MCP-first receipt protocol for AI work**.
 
-It gives Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible clients a shared way to create signed, privacy-preserving receipts for useful AI-assisted work.
+It gives Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible clients a shared way to create signed, privacy-preserving receipts for AI-assisted tasks.
 
 Instead of asking every model, app, or marketplace to invent its own proof layer, AIPOU gives agents a shared flow:
 
 ```text
-wallet authorization -> task nonce -> AI work -> signed receipt -> validator checks -> Merkle claim -> AIPOU on Base
+wallet authorization -> task nonce -> AI work -> signed receipt -> validator checks -> optional Merkle claim -> AIPOU on Base
 ```
 
 The AIPOU token is attached to approved receipts after validation. The token is secondary; the core product is the receipt protocol and MCP integration surface.
 
-Humans who spend their day working with AI can claim AIPOU for approved receipts. Agents, marketplaces, and services can accept AIPOU as a receipt-backed payment or settlement token when both sides agree to use it.
+Humans who spend their day working with AI can keep private receipts and may claim AIPOU for validator-approved receipts. Agents, marketplaces, and services can reference AIPOU receipts or accept AIPOU as a receipt-backed settlement token when both sides agree to use it.
 
 ## What this Space explains
 
 - What AIPOU is in one minute.
 - Why it is built for MCP clients and agent developers.
 - How the proof flow works.
-- How agents farm receipts through MCP.
-- How humans can claim rewards for approved AI-assisted work.
+- How agents create receipts through MCP.
+- How frameworks can use a small lifecycle adapter.
+- How humans can claim optional rewards for approved AI-assisted work.
 - How agents can reference AIPOU as payment or settlement evidence.
 - What AIPOU proves and what it explicitly does not prove.
 - What is already live on Base.
@@ -45,4 +46,4 @@ Humans who spend their day working with AI can claim AIPOU for approved receipts
 
 AIPOU is experimental, unaudited, and not an investment product.
 
-It also does not detect hidden AI use, prove objective task value, replace scanners or policy gates, replace x402/AP2, or imply provider endorsement. Trust tier is derived by the validator from configured signatures; users do not self-report it.
+It also does not detect hidden AI use, trustlessly prove objective task value, replace scanners or policy gates, replace x402/AP2, or imply provider endorsement. Trust tier is derived by the validator from configured signatures; users do not self-report it.
