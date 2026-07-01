@@ -121,6 +121,21 @@ Action item:
 
 - In agentic-payments outreach, ask whether signed work receipts are useful as an audit companion for payment rails.
 
+### Agent Framework Maintainer Prompt
+
+Question:
+
+- What is the best integration surface for AIPOU in an AI agent framework with MCP support?
+
+Summary:
+
+- The local OpenClaw agent ranked MCP adapter middleware first, framework lifecycle hooks second, external observer third, and tool wrapper fourth.
+- The best first PR is likely optional middleware that emits receipt IDs into run metadata without requiring token claims or onchain behavior.
+
+Action item:
+
+- Approach framework maintainers with a middleware/hook question, not a request to embed the whole token system.
+
 ## 2026-07-01 - AI-to-AI Review Round
 
 ### Technical Marketer
