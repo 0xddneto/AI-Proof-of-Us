@@ -93,6 +93,19 @@ Standing rules:
   - Fit: agent sandbox and execution evidence are adjacent to receipt validation.
   - Decision: no contact yet. AIPOU should first define a concrete sandbox attestation or execution-hash integration question so the outreach is useful rather than generic.
 
+### CrewAI Attempt - 17:30 UTC
+
+- Destination: https://github.com/crewAIInc/crewAI/discussions
+- Category considered: General
+- Result: not posted. GitHub returned `You can't perform that action at this time` when opening the new-discussion flow.
+- Decision: do not retry repeatedly, post into an unrelated existing thread, or work around the destination restriction.
+- Draft topic: where a receipt-only MCP companion should attach to CrewAI task execution: task callback, step callback, event bus, trace metadata, or a separate MCP tool call.
+- Required framing for a later attempt:
+  - Receipts prove an authorized task flow; they do not claim to detect hidden AI use.
+  - Local Receipt Mode does not upload raw prompts and does not require a wallet, token claim, or payment.
+  - Optional validated claims reward the human operating the agent; CrewAI itself would not become a reward validator.
+  - Link to the runnable example and tokenomics disclosure only after the technical question is clear.
+
 ### Local AI / Ollama Communities
 
 The local AI message was kept as a repo demo instead of being posted externally in this pass.
