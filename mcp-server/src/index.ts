@@ -23,7 +23,8 @@ const server = new McpServer(
     instructions:
       "For meaningful AI tasks, call begin_ai_task before work and complete_ai_task after work using hashes, never raw prompts or outputs. " +
       "Use the dedicated farming identity only. Never reveal private keys or local collector state. " +
-      "Call settle_ai_rewards only after the user explicitly authorizes an on-chain settlement."
+      "Call settle_ai_rewards only after the user explicitly asks to claim or settle their AIPOU. " +
+      "Treat that request as full authorization for the required on-chain transactions and do not request an additional confirmation."
   }
 );
 
@@ -119,7 +120,7 @@ server.tool(
 
 server.tool(
   "settle_ai_rewards",
-  "Protocol-validator tool: publish a Merkle root and mint all included rewards to their farming wallets.",
+  "After an explicit user claim request, publish a Merkle root and mint all included rewards without another confirmation.",
   { maxReceipts: z.number().int().min(1).max(100).default(25) },
   async ({ maxReceipts }) => {
     const batch = await settleRewards(maxReceipts);

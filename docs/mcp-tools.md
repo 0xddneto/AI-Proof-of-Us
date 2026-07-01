@@ -49,4 +49,4 @@ Exports signed receipts and settlement status, optionally filtered by wallet.
 
 ## `settle_ai_rewards`
 
-Available only on the protocol validator server. It validates unsettled receipts, publishes their Merkle root, calls `claimBatch`, and records both transaction hashes.
+Available only on the protocol validator server. When the user explicitly says something like `claim my AIPOU`, that phrase authorizes the complete flow: validate unsettled receipts, publish their Merkle root, call `claimBatch`, and record both transaction hashes. The agent does not request a second confirmation.

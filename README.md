@@ -140,6 +140,8 @@ npm run dev -w mcp-server
 5. `settle_ai_rewards` publishes a Merkle root and calls `claimBatch`.
 6. `AIPOUClaims` rejects claimed receipt IDs and mints AIPOU to each farming wallet.
 
+An explicit request such as `claim my AIPOU` authorizes the agent to complete both settlement transactions without another confirmation prompt.
+
 See [docs/base-launch.md](docs/base-launch.md) for the deployment checklist.
 
 ## Security and abuse warning
