@@ -176,6 +176,17 @@ Body:
 - Docker MCP Registry: https://github.com/docker/mcp-registry
   - Decision: defer until the npm/official MCP Registry path is working. Maintaining two catalog submissions before the package is installable would create avoidable review noise.
 
+### Distribution Pass - 18:20 UTC
+
+- npm authentication check: this machine is not logged in; `npm whoami` returned `ENEEDAUTH`.
+- MCPB alternative: https://github.com/modelcontextprotocol/mcpb
+  - Finding: MCPB can distribute a one-click local bundle without npm, but it requires bundling runtime dependencies and maintaining a separate signed release artifact.
+  - Decision: keep npm as the primary path because the prepared package is small, its production dependency audit is clean, and npm is the documented TypeScript quickstart for the official MCP Registry.
+- OCI alternative:
+  - Finding: the official registry supports OCI packages, but that would require a container build, registry publication, and additional runtime maintenance.
+  - Decision: do not add a container solely to bypass npm authentication.
+- Blocker: the owner must authorize `npm adduser` before the first `npm publish --access public`. Registry authentication can then use the existing GitHub namespace.
+
 ### Local AI / Ollama Communities
 
 The local AI message was kept as a repo demo instead of being posted externally in this pass.
