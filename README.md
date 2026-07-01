@@ -6,6 +6,8 @@ It gives Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible
 
 The AIPOU token is attached to approved receipts after validation. The token is secondary; the core product is the receipt protocol and MCP integration surface.
 
+The human promise is direct: people who spend their day working with AI can keep private receipts for approved AI-assisted work and claim AIPOU from those receipts. Agents, marketplaces, and services can also accept AIPOU as a receipt-backed payment or settlement token when both sides agree to use it.
+
 The first version ships as:
 
 - an MCP server that records privacy-preserving AI usage receipts
@@ -28,11 +30,18 @@ Start here if you are building or testing an agent integration:
 - [llms.txt](llms.txt), a compact machine-readable project map
 
 Read [From AI Work to Onchain Rewards](docs/farming-and-claims.md) for the complete journey, global farming workflow, reward calculation, and one-command claim experience.
+Read [Human Rewards and Agent Payments](docs/human-rewards-and-agent-payments.md) for the human reward loop and experimental agent-payment framing.
 Read [Evidence Boundaries](docs/evidence-boundaries.md) and [Claim Validation Policy](docs/claim-validation-policy.md) before proposing integrations with receipt, provenance, security, or payment projects.
 
 Public explainer: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
 
 This is not meant to reward raw prompt spam or attract passive token speculation. AIPOU is for developers who want to test whether AI work can produce portable receipts across agent clients.
+
+In plain language:
+
+```txt
+Humans work with AI -> agents create receipts -> approved receipts claim AIPOU -> agents and marketplaces may accept AIPOU as settlement.
+```
 
 ## Base mainnet deployment
 
@@ -190,4 +199,6 @@ Clear limits:
 - AIPOU is not an AI-use detector.
 - AIPOU is not a scanner or policy gate.
 - AIPOU does not replace SLSA-style provenance, agent-security scanners, or observability traces.
+- AIPOU does not replace x402, AP2, stablecoins, or wallet automation.
+- AIPOU can be used as payment only where participants voluntarily accept it.
 - `client_signed` receipts currently rely on validator policy and trusted collector fingerprints.

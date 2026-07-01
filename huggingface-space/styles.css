@@ -197,6 +197,7 @@ h2 {
 }
 
 .intro-grid,
+.reward-grid,
 .boundary-grid,
 .truth-grid {
   display: grid;
@@ -206,6 +207,7 @@ h2 {
   padding: 1px;
 }
 .intro-grid article,
+.reward-grid article,
 .boundary-grid article,
 .truth-grid article {
   min-height: 220px;
@@ -217,6 +219,7 @@ h3 {
   font-size: 21px;
 }
 .intro-grid p,
+.reward-grid p,
 .boundary-grid p,
 .truth-grid p,
 .flow p {
@@ -305,6 +308,17 @@ pre {
   font: 14px/1.8 "IBM Plex Mono", monospace;
 }
 
+.reward-grid article:first-child { border-top: 3px solid var(--green); }
+.reward-grid article:nth-child(2) { border-top: 3px solid var(--blue); }
+.reward-grid article:nth-child(3) { border-top: 3px solid var(--amber); }
+.reward-grid article:last-child { border-top: 3px solid var(--muted); }
+.reward-grid span {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--muted);
+  font: 600 11px "IBM Plex Mono", monospace;
+}
+
 .boundary-grid article:first-child { border-top: 3px solid var(--green); }
 .boundary-grid article:nth-child(2) { border-top: 3px solid var(--red); }
 .boundary-grid article:last-child { border-top: 3px solid var(--blue); }
@@ -366,6 +380,7 @@ footer span {
   .hero { min-height: 650px; }
   .answer-strip,
   .intro-grid,
+  .reward-grid,
   .boundary-grid,
   .truth-grid,
   .flow,
@@ -392,6 +407,7 @@ footer span {
   .lede { font-size: 18px; }
   .section { padding: 70px 5vw; }
   .intro-grid article,
+  .reward-grid article,
   .boundary-grid article,
   .truth-grid article,
   .flow li,

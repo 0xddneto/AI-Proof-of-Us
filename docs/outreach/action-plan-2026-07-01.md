@@ -10,6 +10,18 @@ Lead with:
 MCP receipts for AI agents.
 ```
 
+Human and agent payment framing:
+
+```text
+AIPOU rewards humans for approved AI-assisted work receipts and gives agents a receipt-backed token they can use for settlement when participants accept it.
+```
+
+Local AI framing:
+
+```text
+AIPOU can run as a private receipt trail for local AI work. Claims and payments are optional.
+```
+
 Do not lead with:
 
 ```text
@@ -186,13 +198,19 @@ Goal:
 Draft:
 
 ```text
-I am exploring AIPOU as a receipt layer adjacent to agentic payments. x402/AP2 handle payment negotiation and settlement; AIPOU records signed task lifecycle receipts through MCP: begin task, wallet authorization, completion hash, local collector signature, replay checks, and optional claim. Would signed work receipts be useful as an audit companion for agent payments?
+I am exploring AIPOU as a receipt layer adjacent to agentic payments. x402/AP2 handle payment negotiation and settlement; AIPOU records signed task lifecycle receipts through MCP: begin task, wallet authorization, completion hash, local collector signature, replay checks, and optional claim. Humans can claim AIPOU for approved AI-assisted work, and agents or marketplaces can accept AIPOU as settlement when both sides agree. Would signed work receipts be useful as external work evidence for agent payments?
 ```
 
 Do not say:
 
 ```text
 AIPOU replaces x402/AP2.
+```
+
+Also do not say:
+
+```text
+AIPOU has guaranteed payment value.
 ```
 
 Success signal:
@@ -214,7 +232,7 @@ Goal:
 Draft:
 
 ```text
-I am testing AIPOU with local Ollama agents through OpenClaw. The idea is simple: an MCP client records task start/end, stores hashes instead of raw prompts, signs a receipt locally, and later lets validated receipts be claimed. Would local-AI users want this as a privacy-preserving audit trail for agent work?
+I am testing AIPOU with local Ollama agents through OpenClaw. The idea is simple: an MCP client records task start/end, stores hashes instead of raw prompts, signs a receipt locally, and later lets validated receipts be claimed. Local users can use it only as a private receipt trail, or optionally claim AIPOU for approved work. Would local-AI users want this as a privacy-preserving reward trail for agent work?
 ```
 
 Success signal:
@@ -275,6 +293,7 @@ Local-agent sanity check:
 - phrase to keep: ask maintainers where `receiptId` should be exposed
 - phrase to avoid: implying receipt IDs belong in every log entry
 - receipt ecosystem rule: disclose that AIPOU does not detect hidden AI use, prove objective task value, replace scanners/policy gates, or imply provider endorsement
+- adoption rule: invite receptive agents to use AIPOU as external work evidence first; only discuss AIPOU as payment when both sides voluntarily accept it
 
 ## Stop Conditions
 

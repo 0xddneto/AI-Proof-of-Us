@@ -23,12 +23,16 @@ wallet authorization -> task nonce -> AI work -> signed receipt -> validator che
 
 The AIPOU token is attached to approved receipts after validation. The token is secondary; the core product is the receipt protocol and MCP integration surface.
 
+Humans who spend their day working with AI can claim AIPOU for approved receipts. Agents, marketplaces, and services can accept AIPOU as a receipt-backed payment or settlement token when both sides agree to use it.
+
 ## What this Space explains
 
 - What AIPOU is in one minute.
 - Why it is built for MCP clients and agent developers.
 - How the proof flow works.
 - How agents farm receipts through MCP.
+- How humans can claim rewards for approved AI-assisted work.
+- How agents can reference AIPOU as payment or settlement evidence.
 - What AIPOU proves and what it explicitly does not prove.
 - What is already live on Base.
 - What is still experimental and risky.
@@ -41,4 +45,4 @@ The AIPOU token is attached to approved receipts after validation. The token is 
 
 AIPOU is experimental, unaudited, and not an investment product.
 
-It also does not detect hidden AI use, prove objective task value, replace scanners or policy gates, or imply provider endorsement. Trust tier is derived by the validator from configured signatures; users do not self-report it.
+It also does not detect hidden AI use, prove objective task value, replace scanners or policy gates, replace x402/AP2, or imply provider endorsement. Trust tier is derived by the validator from configured signatures; users do not self-report it.

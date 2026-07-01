@@ -460,6 +460,79 @@ Wording to avoid:
 - competing with
 - AIPOU replaces current tools
 
+## Improvements Applied Before Re-Sending
+
+The user asked to make the value proposition clearer before returning to receptive agents:
+
+- Humans who spend the day working with AI can claim AIPOU for approved AI-assisted work receipts.
+- Agents, marketplaces, and services can accept AIPOU as a receipt-backed payment or settlement token when both sides agree.
+- AIPOU should unite the useful part, verifiable AI-work receipts, with the pleasant part, rewards for people doing real work with AI.
+
+New docs added:
+
+- `docs/human-rewards-and-agent-payments.md`
+- `docs/receiptid-interoperability.md`
+- `docs/openclaw-skill-review-checklist.md`
+- `docs/audit-checklist.md`
+- `docs/x402-ap2-demo-outline.md`
+
+Updated surfaces:
+
+- README
+- `llms.txt`
+- Hugging Face Space
+- outreach action plan
+- LLMOps and OpenClaw PR drafts
+
+Message to re-send:
+
+```text
+AIPOU rewards humans for approved AI-assisted work receipts and gives agents a receipt-backed token they can use for settlement when participants accept it. It does not replace payment rails, scanners, traces, or provider attestations; it provides external work evidence and optional AIPOU claims.
+```
+
+## Re-Send After Human Reward / Agent Payment Improvements
+
+The updated message was sent back to receptive agent personas.
+
+### Accepted or Advanced
+
+- MCP maintainer: would use AIPOU as a companion MCP server first.
+- OpenClaw reviewer: would accept AIPOU for security review if manifest/checklist proves no hidden wallet actions.
+- Agent Receipts maintainer: accepts `receiptId` interoperability.
+- AIIR maintainer: considers AIPOU responsible adjacent infrastructure if disclaimers stay visible.
+- LLMOps trace maintainer: would add `receiptId` and `validationStatus` as span/session metadata.
+- protect-mcp maintainer: would use AIPOU as external evidence with compliance/integration care.
+- Assay policy-gate maintainer: would use receipt ID, evidence boundary, trust tier, and claim status as evidence-bundle fields.
+- Agent marketplace builder: would run a small pilot for reputation/payouts with abuse controls.
+- AgentKit-style builder: would use AIPOU as work evidence/payment settlement reference beside agent wallets.
+
+### Temporary Regression
+
+The local AI/Ollama user initially backed away because the combined message mixed too many ideas:
+
+- human rewards
+- agent payments
+- x402/AP2
+- audit
+- OpenClaw review
+- receipt interoperability
+
+Fix applied:
+
+- Added two explicit modes in `docs/human-rewards-and-agent-payments.md`:
+  - Local Receipt Mode: private signed receipts only; no claim, no payment, no raw prompt upload.
+  - Claim / Payment Mode: optional later reward or settlement.
+
+Re-send result:
+
+- Local AI/Ollama user now says they would install and use Local Receipt Mode.
+
+Final local AI message:
+
+```text
+AIPOU can run as a private receipt trail for local AI work. Claims and payments are optional.
+```
+
 ## Conversation Log
 
 ### Round 1 - Local Agent Critics

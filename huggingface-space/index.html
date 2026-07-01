@@ -19,6 +19,7 @@
     <nav aria-label="Primary navigation">
       <a href="#idea">Idea</a>
       <a href="#flow">Flow</a>
+      <a href="#rewards">Rewards</a>
       <a href="#boundaries">Limits</a>
       <a href="#demo">Demo</a>
       <a href="#truth">Truth</a>
@@ -33,7 +34,7 @@
       <div class="hero-content">
         <p class="eyebrow">MCP-FIRST PROTOCOL FOR AI AGENTS</p>
         <h1>Portable receipts for AI agents.</h1>
-        <p class="lede">AIPOU gives MCP-compatible clients a shared way to record useful AI-assisted work before any reward is claimed.</p>
+        <p class="lede">AIPOU gives MCP-compatible clients a shared way to record useful AI-assisted work before humans claim rewards or agents reference receipts for settlement.</p>
         <div class="hero-actions">
           <a class="button" href="#demo">See the receipt</a>
           <a class="button ghost" href="https://github.com/0xddneto/AI-Proof-of-Us#quick-start" target="_blank" rel="noreferrer">Install MCP</a>
@@ -90,6 +91,36 @@
         <li><span>04</span><h3>Validator checks</h3><p>Nonces, signatures, duplicated evidence, and trust tier are checked before batching.</p></li>
         <li><span>05</span><h3>Merkle claim</h3><p>Approved receipts enter a Merkle root. `AIPOUClaims` verifies the proof and mints rewards.</p></li>
       </ol>
+    </section>
+
+    <section id="rewards" class="section">
+      <div class="section-head">
+        <p class="eyebrow">HUMAN REWARDS / AGENT PAYMENTS</p>
+        <h2>Work with AI all day. Keep receipts. Claim approved rewards.</h2>
+        <p>AIPOU connects the human work loop and the agent settlement loop without pretending to replace payment rails.</p>
+      </div>
+      <div class="reward-grid">
+        <article>
+          <span>FOR HUMANS</span>
+          <h3>Reward the workday</h3>
+          <p>People who spend hours working with AI agents can collect privacy-preserving receipts and claim AIPOU for approved work.</p>
+        </article>
+        <article>
+          <span>FOR AGENTS</span>
+          <h3>Receipt-backed settlement</h3>
+          <p>Agents, marketplaces, and services can accept AIPOU as payment or settlement when both sides agree to use it.</p>
+        </article>
+        <article>
+          <span>FOR BUILDERS</span>
+          <h3>External work evidence</h3>
+          <p>Payment rails, traces, and policy tools can reference an AIPOU `receiptId` without validating AIPOU rewards.</p>
+        </article>
+        <article>
+          <span>LOCAL MODE</span>
+          <h3>Claims are optional</h3>
+          <p>Local AI users can keep private receipts without claiming rewards or using AIPOU as payment.</p>
+        </article>
+      </div>
     </section>
 
     <section id="boundaries" class="section">
@@ -188,6 +219,10 @@ Claim my AIPOU.
       <a href="https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/farming-and-claims.md" target="_blank" rel="noreferrer">
         <span>Understand farming</span>
         <strong>Read the claim flow</strong>
+      </a>
+      <a href="https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/human-rewards-and-agent-payments.md" target="_blank" rel="noreferrer">
+        <span>Human rewards</span>
+        <strong>Read agent payments</strong>
       </a>
       <a href="https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md" target="_blank" rel="noreferrer">
         <span>Review limits</span>

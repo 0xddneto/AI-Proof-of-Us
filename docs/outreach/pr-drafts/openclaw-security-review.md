@@ -21,6 +21,8 @@ I am testing AIPOU as an MCP-first receipt protocol for OpenClaw agents.
 
 It creates signed task receipts using hashes and local signatures, then validates nonce/replay before any optional claim. Raw prompts and outputs stay local.
 
+The user-facing reason is human: people who spend all day working with AI agents can keep private receipts and claim AIPOU for approved work. Agents or marketplaces can also accept AIPOU as settlement when both sides agree, but the skill must never hide wallet actions.
+
 Given current concerns around agent skill security, I would like feedback before promoting it widely:
 
 - what permissions should be declared explicitly?

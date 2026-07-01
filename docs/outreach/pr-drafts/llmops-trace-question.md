@@ -23,6 +23,8 @@ I am exploring AIPOU, an MCP-first receipt protocol for AI agents.
 
 It does not replace traces. It creates signed task lifecycle receipts that can reference hashes, model/client metadata, duration, nonce/replay validation, and claim status without storing raw prompts or outputs.
 
+Humans can claim AIPOU for approved AI-assisted work, and agents or marketplaces can optionally accept AIPOU as settlement. Trace systems do not need to validate those rewards; they can simply reference the `receiptId` as external work evidence.
+
 For LLMOps tooling, would a signed `receiptId` be better represented as:
 
 - a span attribute
