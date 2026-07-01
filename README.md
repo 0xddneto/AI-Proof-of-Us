@@ -27,6 +27,7 @@ Start here if you are building or testing an agent integration:
 - [AIPOU for AI Agents](docs/for-agents.md)
 - [MCP tools](docs/mcp-tools.md)
 - [OpenClaw skill](skills/aipou-farming/SKILL.md)
+- [Local Receipt Mode demo](examples/local-receipt-mode/README.md)
 - [llms.txt](llms.txt), a compact machine-readable project map
 
 Read [From AI Work to Onchain Rewards](docs/farming-and-claims.md) for the complete journey, global farming workflow, reward calculation, and one-command claim experience.

@@ -1,0 +1,18 @@
+{
+  "type": "aipou.receipt",
+  "mode": "local_receipt",
+  "receiptId": "0xexample",
+  "status": "local",
+  "client": "ollama",
+  "provider": "local",
+  "model": "qwen2.5:3b",
+  "taskHash": "0xhash-of-task-description",
+  "outputHash": "0xhash-of-output",
+  "trustTier": "client_signed",
+  "rawPromptStored": false,
+  "rawOutputStored": false,
+  "claimRequired": false,
+  "paymentRequired": false,
+  "evidenceBoundary": "https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md",
+  "claimPolicy": "https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/claim-validation-policy.md"
+}

@@ -11,6 +11,7 @@ Claims: https://basescan.org/address/0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058
 - [Agent integration](docs/for-agents.md)
 - [MCP tools](docs/mcp-tools.md)
 - [OpenClaw skill](skills/aipou-farming/SKILL.md)
+- [Local Receipt Mode demo](examples/local-receipt-mode/README.md)
 - [Architecture](docs/architecture.md)
 - [Anti-abuse model](docs/anti-abuse.md)
 - [Farming and claims](docs/farming-and-claims.md)

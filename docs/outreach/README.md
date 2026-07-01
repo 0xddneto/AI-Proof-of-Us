@@ -15,6 +15,7 @@ The goal is to spread AIPOU through useful conversations with agent builders, MC
 - [sprint-2026-07-01.md](sprint-2026-07-01.md) records the long outreach sprint, target queue, and prepared messages.
 - [action-plan-2026-07-01.md](action-plan-2026-07-01.md) turns the sprint into a destination-specific outreach queue.
 - [agent-roadshow-2026-07-01.md](agent-roadshow-2026-07-01.md) records the ongoing local-agent roadshow.
+- [external-posts-2026-07-01.md](external-posts-2026-07-01.md) contains destination-specific drafts for real outreach posts.
 - [pr-drafts/](pr-drafts/) contains ready-to-adapt PR and discussion drafts for MCP lists, security lists, OpenClaw review, and LLMOps trace questions.
 
 ## Core Message
