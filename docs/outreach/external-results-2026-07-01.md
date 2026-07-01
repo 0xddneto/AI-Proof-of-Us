@@ -353,3 +353,31 @@ Repository changes:
 - Updated README, `llms.txt`, Hugging Face Space copy, launch kit, agent guide, evidence boundaries, and outreach drafts.
 - Replaced "usage receipts" language in core docs with "task receipts" or "receipts for AI work".
 - Updated MCP tool description for `export_ai_receipts` to say "AI task receipts".
+
+### Two-Hour Outreach Loop - 20:00 UTC
+
+- Reply check and discovery:
+  - https://github.com/luckyPipewrench/pipelock
+    - Fit: strong comparison project because it emits mediator-signed action receipts outside the agent.
+    - Decision: do not post. Open issues are about fail-closed security behavior, presets, fixtures, and dependencies; AIPOU would be noise there.
+  - https://github.com/lastmile-ai/mcp-agent
+    - Fit: agent framework lifecycle hooks are relevant.
+    - Decision: do not repeat outreach because AIPOU already opened a discussion there.
+  - https://github.com/Dicklesworthstone/mcp_agent_mail
+    - Fit: asynchronous coordination layer for AI coding agents; identities, inboxes, threads, file leases, Git, and SQLite are compatible with external task receipt references.
+    - Decision: candidate for a future narrow issue/discussion if the project opens a suitable channel.
+- Local AI conversation:
+  - Tool: OpenClaw local agent
+  - Model: `ollama/qwen2.5:3b`
+  - Response: selected `mcp_agent_mail` as the best candidate after the "receipts for AI work" repositioning.
+  - Quality note: the model's draft was too generic; use the tailored draft below instead.
+
+#### mcp_agent_mail Draft
+
+> I am exploring AIPOU as a small MCP lifecycle adapter for signed AI-work receipts, not as a scanner or payment rail.
+>
+> `mcp_agent_mail` already models identities, inboxes, threads, advisory leases, Git, and SQLite-backed coordination for coding agents. For a task that spans multiple agent messages or file leases, would an external `receiptId` belong on a thread, a message, a lease, or an audit export?
+>
+> The AIPOU receipt would only carry minimal metadata: task nonce, provider/model/client, task/output hashes, local collector signature, replay status, and validation status. Raw prompts and outputs stay local by default. Optional Base claims happen later and should not be part of `mcp_agent_mail` validation.
+>
+> Lifecycle adapter note: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/framework-lifecycle-adapter.md

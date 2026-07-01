@@ -309,6 +309,29 @@ Action item:
 
 - If posting to AgentPay MCP, use a corrected comment that says AIPOU emits MCP task receipts with wallet authorization, hashes, collector signature, and replay checks. Do not describe AIPOU as an MCP/A2A/WebSocket security mediator.
 
+### Updated Positioning Candidate Check
+
+Source:
+
+- Model or community: OpenClaw local agent with Ollama
+- Model: `ollama/qwen2.5:3b`
+- Date: 2026-07-01
+- Command: `openclaw agent --local --agent main`
+
+Summary:
+
+- After the repositioning to "receipts for AI work", the local agent selected `mcp_agent_mail` as the best new candidate because it coordinates asynchronous AI coding agents.
+- It recommended pitching AIPOU as a small MCP lifecycle adapter rather than a scanner, payment rail, or trustless useful-work oracle.
+
+Useful criticism:
+
+- The generated draft was too generic and should not be posted as-is.
+- A useful message to `mcp_agent_mail` should ask where an external `receiptId` belongs in agent coordination threads, inbox messages, leases, or audit exports.
+
+Action item:
+
+- Prepare a targeted draft for `mcp_agent_mail` only if a suitable discussion or issue channel exists.
+
 ## Response Template
 
 ### Source
