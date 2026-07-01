@@ -17,6 +17,8 @@ Use AI -> generate a signed receipt -> validate useful activity -> earn AIPOU
 
 Read [From AI Work to Onchain Rewards](docs/farming-and-claims.md) for the complete journey, global farming workflow, reward calculation, and one-command claim experience.
 
+Agent builders can start with [AIPOU for AI Agents](docs/for-agents.md), install the included [OpenClaw skill](skills/aipou-farming/SKILL.md), or use [llms.txt](llms.txt) as a compact machine-readable project map.
+
 This is not meant to reward raw prompt spam. The protocol rewards signed AI work across tools like Codex, Claude, Cursor, local models, OpenRouter, Ollama, and future MCP-compatible clients.
 
 ## Base mainnet deployment
@@ -60,6 +62,8 @@ This pool was initialized with intentionally minimal ETH liquidity. Its price is
 contracts/     ERC-20 token, deploy scripts, Hardhat tests
 mcp-server/    MCP server that records AI usage receipts
 docs/          architecture, anti-abuse model, Base launch notes
+skills/        installable agent skills, including OpenClaw
+huggingface-space/  static public protocol explainer
 ```
 
 ## Token

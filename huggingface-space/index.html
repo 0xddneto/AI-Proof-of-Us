@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AI Proof of Us: model-neutral proof-of-AI-usage receipts and AIPOU rewards on Base.">
+  <title>AI Proof of Us</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="AI Proof of Us home"><span class="mark">AP</span><span>AI Proof of Us</span></a>
+    <nav aria-label="Primary navigation">
+      <a href="#proof">Proof</a><a href="#agents">Agents</a><a href="#limits">Limits</a>
+    </nav>
+    <a class="button compact" href="https://github.com/0xddneto/AI-Proof-of-Us" target="_blank" rel="noreferrer">View source</a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <img class="hero-image" src="https://opengraph.githubassets.com/aipou-launch/0xddneto/AI-Proof-of-Us" alt="AI Proof of Us open-source repository preview">
+      <div class="hero-shade"></div>
+      <div class="hero-content">
+        <p class="eyebrow">OPEN MCP PROTOCOL / BASE MAINNET</p>
+        <h1>AI Proof of Us</h1>
+        <p class="lede">Turn meaningful AI-assisted work into signed, privacy-preserving receipts and claim approved AIPOU rewards on Base.</p>
+        <div class="actions"><a class="button" href="https://github.com/0xddneto/AI-Proof-of-Us#quick-start" target="_blank" rel="noreferrer">Install MCP</a><a class="text-link" href="#proof">Inspect the proof flow</a></div>
+      </div>
+    </section>
+
+    <section class="signal-band" aria-label="Protocol deployment">
+      <div><span>NETWORK</span><strong>Base / 8453</strong></div>
+      <div><span>TOKEN</span><strong>AIPOU</strong></div>
+      <div><span>RECEIPTS</span><strong>EIP-712 + Ed25519</strong></div>
+      <div><span>SETTLEMENT</span><strong>Merkle claims</strong></div>
+    </section>
+
+    <section id="proof" class="section">
+      <div class="section-head"><p class="eyebrow">HOW IT WORKS</p><h2>Proof before reward</h2><p>The protocol records authorization and completion without publishing raw prompts or outputs.</p></div>
+      <ol class="flow">
+        <li><span>01</span><h3>Authorize</h3><p>A dedicated wallet signs a unique task nonce using EIP-712.</p></li>
+        <li><span>02</span><h3>Observe</h3><p>The client records usage hashes and a local Ed25519 collector signs the receipt.</p></li>
+        <li><span>03</span><h3>Validate</h3><p>Signatures, nonces, duplicate evidence, and the derived trust tier are checked.</p></li>
+        <li><span>04</span><h3>Claim</h3><p>Approved receipts enter a Merkle batch and AIPOUClaims mints the reward.</p></li>
+      </ol>
+    </section>
+
+    <section id="agents" class="section split">
+      <div><p class="eyebrow">MODEL NEUTRAL</p><h2>One identity across many agents</h2><p>Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible clients can share one farming identity and local receipt store.</p></div>
+      <pre><code>begin_ai_task
+  -> useful work
+  -> complete_ai_task
+  -> signed receipt
+
+"Claim my AIPOU"
+  -> Merkle settlement
+  -> AIPOU on Base</code></pre>
+    </section>
+
+    <section id="limits" class="section limits">
+      <div class="section-head"><p class="eyebrow">BUILD IN PUBLIC</p><h2>What is true today</h2></div>
+      <div class="facts">
+        <article><h3>Working</h3><p>Onchain token and claims contracts, replay-resistant receipts, global MCP farming, and autonomous batch claims.</p></article>
+        <article><h3>Still open</h3><p>Independent provider attestations, Sybil resistance, objective work quality, governance, and protocol audits.</p></article>
+        <article><h3>Market warning</h3><p>The AIPOU/WETH pool has tiny liquidity. Price is volatile and unreliable. This project is not an investment promise.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>AI Proof of Us / MIT</span><a href="https://basescan.org/token/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB" target="_blank" rel="noreferrer">Token on BaseScan</a><a href="https://basescan.org/address/0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058" target="_blank" rel="noreferrer">Claims contract</a></footer>
+</body>
+</html>
