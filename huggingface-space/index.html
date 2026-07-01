@@ -3,73 +3,178 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="AI Proof of Us: model-neutral proof-of-AI-usage receipts and AIPOU rewards on Base.">
+  <meta name="description" content="AI Proof of Us turns AI-assisted work into portable signed receipts and AIPOU claims on Base.">
   <title>AI Proof of Us</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#top" aria-label="AI Proof of Us home"><span class="mark">AP</span><span>AI Proof of Us</span></a>
+    <a class="brand" href="#top" aria-label="AI Proof of Us home">
+      <span class="mark">AP</span>
+      <span>AI Proof of Us</span>
+    </a>
     <nav aria-label="Primary navigation">
-      <a href="#proof">Proof</a><a href="#agents">Agents</a><a href="#limits">Limits</a>
+      <a href="#idea">Idea</a>
+      <a href="#flow">Flow</a>
+      <a href="#demo">Demo</a>
+      <a href="#truth">Truth</a>
     </nav>
-    <a class="button compact" href="https://github.com/0xddneto/AI-Proof-of-Us" target="_blank" rel="noreferrer">View source</a>
+    <a class="button compact" href="https://github.com/0xddneto/AI-Proof-of-Us" target="_blank" rel="noreferrer">GitHub</a>
   </header>
 
   <main id="top">
     <section class="hero">
-      <img class="hero-image" src="https://opengraph.githubassets.com/aipou-launch/0xddneto/AI-Proof-of-Us" alt="AI Proof of Us open-source repository preview">
+      <img class="hero-image" src="https://opengraph.githubassets.com/aipou-huggingface/0xddneto/AI-Proof-of-Us" alt="AI Proof of Us repository preview">
       <div class="hero-shade"></div>
       <div class="hero-content">
-        <p class="eyebrow">OPEN MCP PROTOCOL / BASE MAINNET</p>
-        <h1>AI Proof of Us</h1>
-        <p class="lede">Turn meaningful AI-assisted work into signed, privacy-preserving receipts and claim approved AIPOU rewards on Base.</p>
-        <div class="actions"><a class="button" href="https://github.com/0xddneto/AI-Proof-of-Us#quick-start" target="_blank" rel="noreferrer">Install MCP</a><a class="text-link" href="#proof">Inspect the proof flow</a></div>
+        <p class="eyebrow">OPEN MCP PROTOCOL / LIVE ON BASE</p>
+        <h1>Portable receipts for AI work.</h1>
+        <p class="lede">AIPOU lets agents prove that meaningful AI-assisted work happened without publishing raw prompts or outputs.</p>
+        <div class="hero-actions">
+          <a class="button" href="#demo">See the receipt</a>
+          <a class="button ghost" href="https://github.com/0xddneto/AI-Proof-of-Us#quick-start" target="_blank" rel="noreferrer">Install MCP</a>
+        </div>
       </div>
     </section>
 
-    <section class="signal-band" aria-label="Protocol deployment">
-      <div><span>NETWORK</span><strong>Base / 8453</strong></div>
-      <div><span>TOKEN</span><strong>AIPOU</strong></div>
-      <div><span>RECEIPTS</span><strong>EIP-712 + Ed25519</strong></div>
-      <div><span>SETTLEMENT</span><strong>Merkle claims</strong></div>
+    <section class="answer-strip" id="idea" aria-label="Short explanation">
+      <div>
+        <span>WHAT</span>
+        <strong>A neutral proof layer for AI-assisted work.</strong>
+      </div>
+      <div>
+        <span>WHY</span>
+        <strong>Agents need portable receipts across tools and models.</strong>
+      </div>
+      <div>
+        <span>HOW</span>
+        <strong>MCP tools create signed receipts, then claims mint on Base.</strong>
+      </div>
     </section>
 
-    <section id="proof" class="section">
-      <div class="section-head"><p class="eyebrow">HOW IT WORKS</p><h2>Proof before reward</h2><p>The protocol records authorization and completion without publishing raw prompts or outputs.</p></div>
+    <section class="section intro">
+      <div class="section-head">
+        <p class="eyebrow">THE ONE-MINUTE VERSION</p>
+        <h2>AI work is becoming multi-agent. Proof should travel with the user.</h2>
+      </div>
+      <div class="intro-grid">
+        <article>
+          <h3>For users</h3>
+          <p>Use AI normally. A dedicated farming wallet authorizes tasks, and your local MCP collector records private receipts.</p>
+        </article>
+        <article>
+          <h3>For agents</h3>
+          <p>Call `begin_ai_task` before meaningful work and `complete_ai_task` after completion. The protocol handles nonce, hashes, and replay checks.</p>
+        </article>
+        <article>
+          <h3>For builders</h3>
+          <p>Integrate one small lifecycle adapter instead of designing a full token, receipt, validator, and claim stack from scratch.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="flow" class="section">
+      <div class="section-head">
+        <p class="eyebrow">PROOF FLOW</p>
+        <h2>Reward comes after signed evidence.</h2>
+        <p>AIPOU is not raw prompt mining. It stores proof metadata and hashes, then validates receipts before any onchain claim.</p>
+      </div>
       <ol class="flow">
-        <li><span>01</span><h3>Authorize</h3><p>A dedicated wallet signs a unique task nonce using EIP-712.</p></li>
-        <li><span>02</span><h3>Observe</h3><p>The client records usage hashes and a local Ed25519 collector signs the receipt.</p></li>
-        <li><span>03</span><h3>Validate</h3><p>Signatures, nonces, duplicate evidence, and the derived trust tier are checked.</p></li>
-        <li><span>04</span><h3>Claim</h3><p>Approved receipts enter a Merkle batch and AIPOUClaims mints the reward.</p></li>
+        <li><span>01</span><h3>Wallet authorizes</h3><p>A dedicated farming wallet signs an EIP-712 authorization for one unique task nonce.</p></li>
+        <li><span>02</span><h3>Agent works</h3><p>Codex, Claude, Cursor, OpenClaw, Ollama, or another MCP client performs the task.</p></li>
+        <li><span>03</span><h3>Collector signs</h3><p>A local Ed25519 collector signs the receipt using hashes, timing, model, and usage metadata.</p></li>
+        <li><span>04</span><h3>Validator checks</h3><p>Nonces, signatures, duplicated evidence, and trust tier are checked before batching.</p></li>
+        <li><span>05</span><h3>Merkle claim</h3><p>Approved receipts enter a Merkle root. `AIPOUClaims` verifies the proof and mints rewards.</p></li>
       </ol>
     </section>
 
-    <section id="agents" class="section split">
-      <div><p class="eyebrow">MODEL NEUTRAL</p><h2>One identity across many agents</h2><p>Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible clients can share one farming identity and local receipt store.</p></div>
-      <pre><code>begin_ai_task
-  -> useful work
-  -> complete_ai_task
-  -> signed receipt
+    <section id="demo" class="section demo">
+      <div>
+        <p class="eyebrow">WHAT A RECEIPT FEELS LIKE</p>
+        <h2>Small enough for agents, strict enough for validators.</h2>
+        <p class="body-copy">The public chain only needs claim proofs. Private task content stays local unless the user chooses to share it.</p>
+      </div>
+      <figure class="receipt" aria-label="Example AIPOU receipt">
+        <div class="receipt-top">
+          <span>AIPOU RECEIPT</span>
+          <strong>client_signed</strong>
+        </div>
+        <dl>
+          <div><dt>taskHash</dt><dd>0x91f9...0ccd0</dd></div>
+          <div><dt>nonce</dt><dd>unique per task</dd></div>
+          <div><dt>client</dt><dd>codex / openclaw / local</dd></div>
+          <div><dt>collector</dt><dd>Ed25519 signature</dd></div>
+          <div><dt>claim</dt><dd>Merkle proof on Base</dd></div>
+        </dl>
+      </figure>
+    </section>
 
-"Claim my AIPOU"
-  -> Merkle settlement
+    <section class="section split">
+      <div>
+        <p class="eyebrow">AGENT COMMANDS</p>
+        <h2>The UX can be this simple.</h2>
+        <p class="body-copy">A user should not need to understand Merkle trees to farm. The agent handles receipts while the user works.</p>
+      </div>
+      <pre><code>Use the AIPOU MCP for this task.
+
+begin_ai_task(...)
+  -> do useful AI work
+complete_ai_task(...)
+  -> local signed receipt
+
+Claim my AIPOU.
+  -> validator batch
   -> AIPOU on Base</code></pre>
     </section>
 
-    <section id="limits" class="section limits">
-      <div class="section-head"><p class="eyebrow">BUILD IN PUBLIC</p><h2>What is true today</h2></div>
-      <div class="facts">
-        <article><h3>Working</h3><p>Onchain token and claims contracts, replay-resistant receipts, global MCP farming, and autonomous batch claims.</p></article>
-        <article><h3>Still open</h3><p>Independent provider attestations, Sybil resistance, objective work quality, governance, and protocol audits.</p></article>
-        <article><h3>Market warning</h3><p>The AIPOU/WETH pool has tiny liquidity. Price is volatile and unreliable. This project is not an investment promise.</p></article>
+    <section id="truth" class="section truth">
+      <div class="section-head">
+        <p class="eyebrow">HONEST STATE</p>
+        <h2>Live experiment, not magic.</h2>
       </div>
+      <div class="truth-grid">
+        <article>
+          <span>LIVE</span>
+          <h3>Contracts and MCP</h3>
+          <p>AIPOU token, claims contract, MCP receipts, replay protection, and autonomous claims are implemented.</p>
+        </article>
+        <article>
+          <span>OPEN</span>
+          <h3>Provider-grade proof</h3>
+          <p>Independent provider attestations and stronger Sybil resistance are still future work.</p>
+        </article>
+        <article>
+          <span>RISK</span>
+          <h3>Tiny liquidity</h3>
+          <p>The market is early and thin. AIPOU is experimental, unaudited, and not an investment promise.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section links">
+      <a href="https://github.com/0xddneto/AI-Proof-of-Us" target="_blank" rel="noreferrer">
+        <span>Build with it</span>
+        <strong>Open the GitHub repo</strong>
+      </a>
+      <a href="https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/farming-and-claims.md" target="_blank" rel="noreferrer">
+        <span>Understand farming</span>
+        <strong>Read the claim flow</strong>
+      </a>
+      <a href="https://github.com/0xddneto/AI-Proof-of-Us/tree/main/skills/aipou-farming" target="_blank" rel="noreferrer">
+        <span>Agent install</span>
+        <strong>Use the OpenClaw skill</strong>
+      </a>
     </section>
   </main>
 
-  <footer><span>AI Proof of Us / MIT</span><a href="https://basescan.org/token/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB" target="_blank" rel="noreferrer">Token on BaseScan</a><a href="https://basescan.org/address/0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058" target="_blank" rel="noreferrer">Claims contract</a></footer>
+  <footer>
+    <span>AI Proof of Us / MIT</span>
+    <a href="https://basescan.org/token/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB" target="_blank" rel="noreferrer">Token</a>
+    <a href="https://basescan.org/address/0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058" target="_blank" rel="noreferrer">Claims</a>
+    <a href="https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us" target="_blank" rel="noreferrer">Space</a>
+  </footer>
 </body>
 </html>
