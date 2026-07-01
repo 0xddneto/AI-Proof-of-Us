@@ -1,0 +1,10 @@
+{
+  "contract": "AIPOUClaims",
+  "address": "0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058",
+  "token": "0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB",
+  "chain": {
+    "id": 8453,
+    "name": "base"
+  },
+  "deployedAt": "2026-07-01T02:58:56.446Z"
+}

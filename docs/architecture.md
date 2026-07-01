@@ -1,57 +1,56 @@
 # Architecture
 
-AI Proof of Us has three layers.
+AI Proof of Us has four layers.
 
-## 1. Usage capture
+## 1. Agent identity
 
-The MCP server sits beside the user's AI workflow and records receipts for completed sessions or tasks.
+Each user creates a dedicated farming wallet. Its private key is supplied only to the local MCP process through `AIPOU_AGENT_PRIVATE_KEY`; it must never be pasted into a chat or reused as a primary wallet.
 
-Each receipt contains:
+`begin_ai_task` creates a random 32-byte nonce. The MCP signs an EIP-712 `TaskAuthorization` containing the wallet, nonce, task hash, provider, model, and timestamp.
 
-- wallet address
-- provider and model family
-- token counts or local inference units
-- session duration
-- task hash
-- output hash
-- client identifier
-- timestamp
-- reward estimate
-- collector signature
+## 2. Usage receipt
 
-Raw prompts and raw outputs should not be stored.
+After the task, the client sends usage counts and an output hash to `complete_ai_task`. Raw prompts, outputs, files, and API keys are not stored.
 
-## 2. Validation
+The collector signs the receipt with Ed25519. Its public key lets validators verify the receipt without receiving a secret capable of creating new signatures. The protocol validator accepts only collector fingerprints listed in `AIPOU_TRUSTED_COLLECTORS_FILE`.
 
-The first MVP uses local signed receipts. This is useful for testing, but it is not enough for public farming.
+## 3. Validation
 
-The production path should introduce trust tiers:
+The user cannot select a trust tier.
 
 ```txt
-Tier 0: self-reported local usage
-Tier 1: MCP client signature
-Tier 2: provider/API signed receipt
-Tier 3: task-linked proof with repository, artifact, or benchmark evidence
-Tier 4: community/governed validation for high-value claims
+client_signed: valid wallet EIP-712 authorization and valid collector signature
+provider_signed: client_signed plus a valid signature from a configured provider public key
 ```
 
-Rewards should depend on the trust tier, not only on usage volume.
+Closed providers that do not issue cryptographic usage signatures remain `client_signed`. A response ID or the agent's own statement is not treated as a provider signature.
 
-## 3. Emissions
+The state store rejects:
 
-The ERC-20 token lives on Base. The token contract exposes a controlled mint function for reward emissions.
+- reuse of a completed nonce
+- reuse of the same task hash and output hash
+- duplicate receipt IDs
+- invalid wallet, collector, or provider signatures
+- collectors not registered by the protocol validator
 
-The first `emissionController` can be a deployer-controlled address for testing. Mainnet should move emissions to a contract that verifies Merkle roots, attestations, or EAS records before minting.
+There is no daily reward limit. This leaves Sybil farming as an open economic risk even though exact receipt replay is blocked.
 
-## Receipt flow
+## 4. Merkle settlement
+
+The protocol validator builds leaves as:
 
 ```txt
-AI client / local tool
-  -> MCP server
-  -> signed AI usage receipt
-  -> validator / reward policy
-  -> claim batch
-  -> Base emission controller
-  -> AIPOU reward
+keccak256(keccak256(abi.encode(wallet, amount, receiptId)))
 ```
 
+It publishes the Merkle root to `AIPOUClaims`, then calls `claimBatch`. The contract verifies each proof, marks each `receiptId` as claimed, and calls `AIPOU.mintUsageReward` for the farming wallet.
+
+```txt
+AI client
+  -> begin_ai_task / EIP-712 nonce
+  -> complete_ai_task / Ed25519 receipt
+  -> validator / signature and duplicate checks
+  -> Merkle root on Base
+  -> AIPOUClaims.claimBatch
+  -> AIPOU minted to farming wallet
+```

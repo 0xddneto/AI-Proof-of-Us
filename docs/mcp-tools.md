@@ -2,54 +2,51 @@
 
 ## `get_aipou_contract`
 
-Returns the configured AIPOU token contract address, Base network details, explorer URL, and minimal ABI.
+Returns the AIPOU and AIPOUClaims addresses, Base network details, explorer URLs, and minimal ABIs.
 
-The MCP server reads the contract from:
+## `get_aipou_identity`
 
-1. `AIPOU_CONTRACT_ADDRESS`
-2. `AIPOU_DEPLOYMENT_FILE`
-3. `deployments/base.json`
-
-Until the Base deployment exists, this tool returns `address: null`.
+Returns the dedicated farming wallet address, collector public Ed25519 key, and collector fingerprint. It never returns private keys. The protocol must register the fingerprint before settling that collector's receipts.
 
 ## `estimate_ai_reward`
 
-Estimates a reward before recording a receipt.
+Estimates a `client_signed` reward from token counts and task duration. The final tier is derived during completion.
+
+## `begin_ai_task`
 
 Input:
 
 ```json
 {
-  "inputTokens": 2000,
-  "outputTokens": 800,
-  "durationSeconds": 480,
-  "trustTier": "self_reported"
-}
-```
-
-## `record_ai_usage`
-
-Records a signed usage receipt.
-
-Input:
-
-```json
-{
-  "wallet": "0x0000000000000000000000000000000000000000",
   "provider": "openai",
   "model": "gpt-5-codex",
+  "taskHash": "0x...32-bytes...",
+  "client": "codex"
+}
+```
+
+Returns a unique nonce and an EIP-712 authorization signed by the farming wallet.
+
+## `complete_ai_task`
+
+Input:
+
+```json
+{
+  "nonce": "0x...32-bytes...",
   "inputTokens": 2000,
   "outputTokens": 800,
   "durationSeconds": 480,
-  "taskHash": "0x...",
-  "outputHash": "0x...",
-  "client": "codex",
-  "trustTier": "self_reported"
+  "outputHash": "0x...32-bytes..."
 }
 ```
+
+An optional `providerEvidence` contains a trusted provider key ID and Ed25519 signature. Invalid evidence is rejected; missing evidence becomes `client_signed`.
 
 ## `export_ai_receipts`
 
-Exports locally stored receipts for a wallet or all wallets.
+Exports signed receipts and settlement status, optionally filtered by wallet.
 
-The exported data can feed a future claim batch on Base.
+## `settle_ai_rewards`
+
+Available only on the protocol validator server. It validates unsettled receipts, publishes their Merkle root, calls `claimBatch`, and records both transaction hashes.

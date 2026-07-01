@@ -15,7 +15,7 @@ The core idea is simple:
 Use AI -> generate a signed receipt -> validate useful activity -> earn AIPOU
 ```
 
-This is not meant to reward raw prompt spam. The protocol should reward useful, rate-limited, signed AI work across tools like Codex, Claude, Cursor, local models, OpenRouter, Ollama, and future MCP-compatible clients.
+This is not meant to reward raw prompt spam. The protocol rewards signed AI work across tools like Codex, Claude, Cursor, local models, OpenRouter, Ollama, and future MCP-compatible clients.
 
 ## Base mainnet deployment
 
@@ -29,6 +29,15 @@ Cap:      1,000,000,000 AIPOU
 
 - Contract: https://basescan.org/token/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB
 - Verified source: https://repo.sourcify.dev/contracts/full_match/8453/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB/
+
+```txt
+Claims:   0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058
+Proof:    EIP-712 + Ed25519 + Merkle
+Replay:   blocked by nonce and receiptId
+```
+
+- Claims contract: https://basescan.org/address/0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058
+- Verified claims source: https://repo.sourcify.dev/contracts/full_match/8453/0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058/
 
 ## Aerodrome liquidity pool
 
@@ -60,20 +69,23 @@ Chain:  Base
 Cap:    1,000,000,000 AIPOU
 ```
 
-The token contract has an `emissionController` address that can mint rewards. In production this should become a governed emissions contract, not a private wallet.
+The token emission controller is `AIPOUClaims`. It mints only receipts included in a validator-published Merkle root and rejects a `receiptId` after its first claim.
 
 ## MCP server
 
 The MCP server exposes tools for creating usage receipts:
 
 - `get_aipou_contract`
-- `record_ai_usage`
+- `get_aipou_identity`
 - `estimate_ai_reward`
+- `begin_ai_task`
+- `complete_ai_task`
 - `export_ai_receipts`
+- `settle_ai_rewards` (protocol validator only)
 
 Receipts store hashes and metadata, not raw prompts or model outputs.
 
-`get_aipou_contract` returns the AIPOU contract address on Base once `AIPOU_CONTRACT_ADDRESS` or `deployments/base.json` is configured.
+The dedicated farming key signs EIP-712 authorizations locally. Never paste it into a chat or use a primary wallet. The collector has a separate Ed25519 key that cannot move funds.
 
 ## Quick start
 
@@ -110,7 +122,8 @@ npm run dev -w mcp-server
       "command": "node",
       "args": ["./mcp-server/dist/index.js"],
       "env": {
-        "AIPOU_RECEIPT_SECRET": "replace-this",
+        "AIPOU_AGENT_PRIVATE_KEY": "dedicated-farming-wallet-private-key",
+        "AIPOU_CLAIMS_ADDRESS": "0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058",
         "AIPOU_DATA_DIR": ".aipou"
       }
     }
@@ -118,13 +131,14 @@ npm run dev -w mcp-server
 }
 ```
 
-## Launch path
+## Reward flow
 
-1. Deploy `AIPOU` to Base Sepolia.
-2. Run the MCP collector with a test reward policy.
-3. Publish receipt format and anti-abuse rules.
-4. Launch Base mainnet token with capped emissions.
-5. Replace the first emission controller with a transparent claim contract.
+1. The agent calls `begin_ai_task` and signs a unique nonce with its farming wallet.
+2. The client collects usage and calls `complete_ai_task` with the output hash.
+3. The MCP derives the trust tier and signs the receipt with Ed25519.
+4. The validator rejects repeated nonces and repeated task/output evidence.
+5. `settle_ai_rewards` publishes a Merkle root and calls `claimBatch`.
+6. `AIPOUClaims` rejects claimed receipt IDs and mints AIPOU to each farming wallet.
 
 See [docs/base-launch.md](docs/base-launch.md) for the deployment checklist.
 
@@ -135,7 +149,6 @@ AI usage is easy to fake if the protocol only counts tokens or session time. AIP
 - provider-signed usage receipts
 - MCP client signatures
 - task hashes linked to real work
-- rate limits and wallet reputation
 - staking or slashing for reward operators
 - human or community validation for high-value claims
 

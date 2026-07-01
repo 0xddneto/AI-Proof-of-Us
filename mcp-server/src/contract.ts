@@ -11,6 +11,8 @@ export interface TokenContractConfig {
   rpcUrl: string;
   blockExplorer: string;
   explorerUrl: string | null;
+  claimsAddress?: string | null;
+  claimsExplorerUrl?: string | null;
   source: "env" | "deployment_file" | "unconfigured";
 }
 
@@ -37,6 +39,25 @@ export const aipouTokenAbi = [
   "function emissionController() view returns (address)",
   "function mintUsageReward(address to, uint256 amount)"
 ];
+
+export const aipouClaimsAbi = [
+  "function validator() view returns (address)",
+  "function approvedRoots(bytes32 root) view returns (bool)",
+  "function claimedReceipts(bytes32 receiptId) view returns (bool)",
+  "function claim(bytes32 root, address account, uint256 amount, bytes32 receiptId, bytes32[] proof)"
+];
+
+async function configuredClaimsAddress(): Promise<string | null> {
+  if (process.env.AIPOU_CLAIMS_ADDRESS) return process.env.AIPOU_CLAIMS_ADDRESS;
+  const claimsPath = path.resolve(process.env.AIPOU_CLAIMS_DEPLOYMENT_FILE || "deployments/base-claims.json");
+  try {
+    const deployment = JSON.parse(await readFile(claimsPath, "utf8")) as { address?: string };
+    return deployment.address || null;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return null;
+    throw error;
+  }
+}
 
 function envConfig(): TokenContractConfig | null {
   const address = process.env.AIPOU_CONTRACT_ADDRESS;
@@ -96,27 +117,30 @@ async function deploymentFileConfig(): Promise<TokenContractConfig | null> {
 }
 
 export async function getTokenContractConfig(): Promise<TokenContractConfig> {
+  let config: TokenContractConfig;
   const fromEnv = envConfig();
   if (fromEnv) {
-    return fromEnv;
+    config = fromEnv;
+  } else {
+    const fromFile = await deploymentFileConfig();
+    config = fromFile || {
+      name: "AI Proof of Use",
+      symbol: "AIPOU",
+      address: null,
+      decimals: 18,
+      chainId: 8453,
+      chainName: "Base Mainnet",
+      rpcUrl: "https://mainnet.base.org",
+      blockExplorer: "https://basescan.org",
+      explorerUrl: null,
+      source: "unconfigured"
+    };
   }
 
-  const fromFile = await deploymentFileConfig();
-  if (fromFile) {
-    return fromFile;
-  }
-
+  const claimsAddress = await configuredClaimsAddress();
   return {
-    name: "AI Proof of Use",
-    symbol: "AIPOU",
-    address: null,
-    decimals: 18,
-    chainId: 8453,
-    chainName: "Base Mainnet",
-    rpcUrl: "https://mainnet.base.org",
-    blockExplorer: "https://basescan.org",
-    explorerUrl: null,
-    source: "unconfigured"
+    ...config,
+    claimsAddress,
+    claimsExplorerUrl: claimsAddress ? `${config.blockExplorer}/address/${claimsAddress}` : null
   };
 }
-

@@ -1,47 +1,25 @@
 # Anti-Abuse Model
 
-The biggest risk is fake usage farming.
+The protocol blocks exact replay without imposing a daily reward limit.
 
-Bad reward rules:
+Implemented protections:
 
-- pay only for token count
-- pay only for time open
-- pay every local receipt equally
-- allow unlimited anonymous wallets
-- reward repeated identical tasks
+- cryptographically random one-use task nonce
+- EIP-712 authorization from a dedicated farming wallet
+- Ed25519 collector signature with public verification
+- protocol allowlist of trusted collector fingerprints
+- provider tier derived from configured provider keys
+- duplicate task/output evidence rejection
+- duplicate receipt ID rejection in the MCP store
+- duplicate receipt ID rejection in `AIPOUClaims`
+- Merkle proof binding wallet, reward amount, and receipt ID
 
-Better reward rules:
+## Remaining risks
 
-- daily caps per wallet and device key
-- lower rewards for self-reported local usage
-- higher rewards for signed provider receipts
-- duplicate detection through task and output hashes
-- reward completed tasks more than raw usage
-- require wallet age, staking, or reputation for higher tiers
-- delay claims so suspicious patterns can be challenged
+These controls prove authorization, integrity, and uniqueness. They do not prove that arbitrary token counts are truthful when a provider does not sign them.
 
-## Suggested MVP reward policy
+Without daily limits, staking, identity cost, or reputation, an attacker can create many wallets and many distinct low-value tasks. This is not replay, but it is still Sybil farming. Provider-signed receipts and task-quality verification should receive stronger economics than client-signed usage.
 
-```txt
-self-reported local receipt: low reward, strict daily cap
-MCP client signed receipt: medium reward, normal daily cap
-provider signed receipt: high reward, higher daily cap
-task-linked public artifact: bonus reward
-```
+## Private data
 
-## What not to store
-
-Do not store:
-
-- raw prompts
-- raw outputs
-- private files
-- API keys
-- model provider tokens
-
-Store hashes and metadata only.
-
-## Mainnet posture
-
-Launch the token on Base, but keep emissions conservative until the validator is stronger. The token can exist early; public farming should be gated by anti-abuse controls.
-
+Never store raw prompts, raw outputs, private files, API tokens, or wallet private keys in receipts. Private keys belong only in ignored local environment files or a secret manager.

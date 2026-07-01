@@ -1,6 +1,36 @@
-export type TrustTier = "self_reported" | "client_signed" | "provider_signed" | "task_verified";
+export type TrustTier = "client_signed" | "provider_signed";
 
-export interface UsageInput {
+export interface TaskSession {
+  nonce: string;
+  wallet: string;
+  provider: string;
+  model: string;
+  taskHash: string;
+  client: string;
+  issuedAt: number;
+  chainId: number;
+  verifyingContract: string;
+  walletAuthorization: string;
+  completedAt?: string;
+}
+
+export interface ProviderEvidence {
+  keyId: string;
+  signature: string;
+}
+
+export interface CompleteTaskInput {
+  nonce: string;
+  inputTokens: number;
+  outputTokens: number;
+  durationSeconds: number;
+  outputHash: string;
+  providerEvidence?: ProviderEvidence;
+}
+
+export interface UsageReceipt {
+  receiptId: string;
+  nonce: string;
   wallet: string;
   provider: string;
   model: string;
@@ -11,12 +41,30 @@ export interface UsageInput {
   outputHash: string;
   client: string;
   trustTier: TrustTier;
-}
-
-export interface UsageReceipt extends UsageInput {
-  receiptId: string;
+  walletAuthorization: string;
+  authorizationIssuedAt: number;
+  authorizationChainId: number;
+  authorizationContract: string;
+  providerEvidence?: ProviderEvidence;
+  collectorPublicKey: string;
+  collectorSignature: string;
   recordedAt: string;
   estimatedReward: string;
-  signature: string;
+  batchRoot?: string;
+  claimTransaction?: string;
 }
 
+export interface ClaimBatch {
+  root: string;
+  receiptIds: string[];
+  publishTransaction: string;
+  claimTransaction: string;
+  settledAt: string;
+}
+
+export interface ProtocolState {
+  sessions: Record<string, TaskSession>;
+  receipts: UsageReceipt[];
+  completedEvidence: Record<string, string>;
+  batches: ClaimBatch[];
+}
