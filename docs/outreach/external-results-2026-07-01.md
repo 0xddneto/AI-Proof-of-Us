@@ -136,6 +136,35 @@ Standing rules:
   - Decision: defer outreach until there is an Eliza-specific receipt plugin or callback example; generic token promotion would be inappropriate.
 - Documentation improvement: expanded `docs/x402-ap2-demo-outline.md` with an explicitly non-standard illustrative binding and failure requirements. The document now states that payment verification remains with x402 and receipt validation remains with AIPOU.
 
+### Discovery Pass - 18:00 UTC
+
+- Open WebUI: https://github.com/open-webui/open-webui/discussions
+  - Fit: active MCP discussions include per-user authentication, privacy boundaries, tool execution, and missing per-user audit trails.
+  - Decision: do not insert AIPOU into the existing OAuth discussion. That thread is solving identity isolation and token forwarding; a receipt protocol does not solve those requirements.
+- Jan: https://github.com/menloresearch/jan
+  - Fit: offline-first local AI is compatible with Local Receipt Mode.
+  - Decision: no outreach until a Jan-specific MCP installation and private receipt example exists.
+- AnythingLLM: https://github.com/Mintplex-Labs/anything-llm
+  - Fit: local agents and MCP tools are relevant.
+  - Decision: do not post into unrelated MCP bug and feature issues. Prepare a reproducible integration example first.
+- ClawRouter: https://github.com/BlockRunAI/ClawRouter/discussions
+  - Fit: OpenClaw integration, locally generated agent wallets, and x402 USDC payments make it a strong target for an optional external work-receipt reference.
+  - Decision: draft prepared, but not posted while GitHub is refusing new-discussion actions on the account.
+
+#### ClawRouter Draft
+
+Title: `Where should an external work receipt ID attach to a paid ClawRouter model call?`
+
+Body:
+
+> I am testing AI Proof of Us beside OpenClaw and x402, not as a router or payment replacement. ClawRouter would continue to handle model routing, wallet authentication, and USDC settlement. AIPOU would only create a local signed task receipt, with no raw prompt upload and optional human reward claims after validation.
+>
+> For a portable `receiptId`, which ClawRouter surface would be least intrusive: response metadata, the local stats record, an x402 payment-context reference, or an OpenClaw lifecycle hook? Payment verification would remain with x402; receipt validation would remain with AIPOU.
+>
+> Local Receipt Mode: https://github.com/0xddneto/AI-Proof-of-Us/tree/main/examples/local-receipt-mode
+>
+> Illustrative x402 binding and failure boundaries: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/x402-ap2-demo-outline.md
+
 ### Local AI / Ollama Communities
 
 The local AI message was kept as a repo demo instead of being posted externally in this pass.
