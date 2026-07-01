@@ -32,6 +32,7 @@ Start here if you are building or testing an agent integration:
 
 Read [From AI Work to Onchain Rewards](docs/farming-and-claims.md) for the complete journey, global farming workflow, reward calculation, and one-command claim experience.
 Read [Human Rewards and Agent Payments](docs/human-rewards-and-agent-payments.md) for the human reward loop and experimental agent-payment framing.
+Read [AIPOU Tokenomics and Launch Transparency](docs/tokenomics.md) for supply, pool, reward, and experimental launch details.
 Read [Evidence Boundaries](docs/evidence-boundaries.md) and [Claim Validation Policy](docs/claim-validation-policy.md) before proposing integrations with receipt, provenance, security, or payment projects.
 
 Public explainer: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
@@ -78,6 +79,8 @@ Initial LP: 100,000,000 AIPOU + 0.000632035343416403 ETH
 - Pool: https://basescan.org/address/0x3bEA7b68Af54Da779454f82148Ef848c76F78D02
 
 This pool was initialized with intentionally minimal ETH liquidity. Its price is highly volatile and easy to move; it should not be treated as a reliable market price until deeper liquidity is added.
+
+The initial experimental pool buy was later returned through Aerodrome so the large early purchase would not remain as a misleading concentrated holder balance. See [AIPOU Tokenomics and Launch Transparency](docs/tokenomics.md).
 
 ## Repository layout
 

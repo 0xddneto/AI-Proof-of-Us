@@ -16,6 +16,7 @@ Claims: https://basescan.org/address/0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058
 - [Anti-abuse model](docs/anti-abuse.md)
 - [Farming and claims](docs/farming-and-claims.md)
 - [Human rewards and agent payments](docs/human-rewards-and-agent-payments.md)
+- [Tokenomics and launch transparency](docs/tokenomics.md)
 - [Evidence boundaries](docs/evidence-boundaries.md)
 - [Claim validation policy](docs/claim-validation-policy.md)
 - [receiptId interoperability](docs/receiptid-interoperability.md)
