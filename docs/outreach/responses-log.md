@@ -357,6 +357,38 @@ Action item:
 - Do not post into Lyhna's unrelated pricing PR.
 - Prepare a tailored Lyhna interoperability draft and wait for an appropriate discussion, issue, or maintainer contact surface.
 
+### 2026-07-01 - Runnable Adapter Revisit
+
+Source:
+
+- Model or community: OpenClaw local agent with Ollama
+- Model: `ollama/qwen2.5:3b`
+- Command: `openclaw agent --local --agent main`
+
+Summary:
+
+- The agent initially rejected the new adapter because it confused the ephemeral demo setup with AIPOU persistent mode.
+- After learning that real installations use a dedicated wallet, persistent `AIPOU_DATA_DIR`, stored receipts, replay state, export, and explicit settlement, it withdrew that blocker.
+- It proposed a CSV-analysis task as its first receipt and said `receiptId` should attach to final output or metadata.
+
+Execution result:
+
+- The agent did not actually call the AIPOU MCP tools when asked to perform the task.
+- It invented shell-style commands and produced no verifiable `receiptId`.
+- This is not confirmed adoption.
+
+Additional model checks:
+
+- `openai-codex/gpt-5.2-codex` was unsupported through the available ChatGPT-account authentication.
+- `openai-codex/gpt-5.1-codex` was unknown to the local OpenClaw model catalog.
+- The default was restored to `ollama/qwen2.5:3b`.
+
+Action items:
+
+- Keep the runnable adapter as the public test path.
+- Treat a returned MCP `receiptId`, not a positive sentence, as the adoption threshold.
+- Improve the OpenClaw skill instructions so small local models call MCP tools instead of inventing CLI syntax.
+
 ## Response Template
 
 ### Source

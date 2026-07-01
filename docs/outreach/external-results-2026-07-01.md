@@ -570,3 +570,52 @@ Applied to:
 >
 > Tokenomics transparency: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/tokenomics.md
 > Human rewards and agent payments: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/human-rewards-and-agent-payments.md
+
+### Runnable Adapter Follow-Up - 22:00 UTC
+
+New implementation shown to prior contacts:
+
+- Commit: https://github.com/0xddneto/AI-Proof-of-Us/commit/c97b633
+- Demo: https://github.com/0xddneto/AI-Proof-of-Us/tree/main/examples/lifecycle-adapter
+- Verified locally: MCP tests passed, npm tarball packed, and the adapter produced a real local `receiptId` with an ephemeral demo wallet.
+
+Follow-ups published:
+
+- OpenClaw / ClawHub: https://github.com/openclaw/clawhub/issues/2946
+  - Message: the demo now gives reviewers a reproducible stdio path with no claim, no funds, no primary wallet, no raw prompt/output upload, and temporary state cleanup.
+  - Question: should `aipou.receiptId` attach to agent-run metadata, a lifecycle-hook result, or an audit/export surface?
+- Model Context Protocol: https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/2996
+  - Message: `receiptId` now comes from a runnable lifecycle adapter instead of only a design note.
+  - Question: should the reference live in client lifecycle metadata, tool-result `_meta`, traces, or an external receipt store?
+- a2a-x402: https://github.com/google-agentic-commerce/a2a-x402/discussions/143
+  - Message: the demo now produces the external work-evidence object discussed in the thread.
+  - Proposed separation: `workReceiptId` for AIPOU evidence and `paymentReceiptId` for the payment rail.
+- mcp-agent: https://github.com/lastmile-ai/mcp-agent/discussions/715
+  - Message: the requested integration example now exists and demonstrates `task start -> begin_ai_task -> framework work -> complete_ai_task -> receiptId`.
+  - Question: which workflow hook should own task start/finish and where should the receipt metadata live?
+
+Follow-ups not forced:
+
+- Awesome MCP Servers: https://github.com/punkpeye/awesome-mcp-servers/issues/9036
+  - No comment box was available in the authenticated GitHub session.
+- OpenLLMetry: https://github.com/traceloop/openllmetry/issues/4340
+  - No comment box was available in the authenticated GitHub session.
+
+Immediate response status:
+
+- No new external maintainer reply was visible immediately after posting.
+- The four follow-ups above were confirmed as posted.
+- This is renewed outreach, not confirmed external adoption.
+
+#### OpenClaw Local Agent Conversation
+
+- Agent: OpenClaw local agent with `ollama/qwen2.5:3b`.
+- First response: said it would not use the adapter because it mistook the ephemeral demo wallet and temporary directory for the production storage model.
+- Correction sent: persistent mode already uses a dedicated `AIPOU_AGENT_PRIVATE_KEY`, persistent `AIPOU_DATA_DIR`, stored sessions/receipts/replay state, `export_ai_receipts`, and explicit settlement.
+- Second response: withdrew the persistence objection and said it would try a CSV-analysis task, attaching `receiptId` to final output or metadata.
+- Execution check: when instructed to actually call `begin_ai_task` and `complete_ai_task`, the model invented CLI commands and returned no MCP tool result or `receiptId`.
+- Decision: do not count this as adoption. It is conceptual willingness only.
+- Better-model attempts:
+  - `openai-codex/gpt-5.2-codex` was rejected by the ChatGPT-account model surface.
+  - `openai-codex/gpt-5.1-codex` was not recognized by the OpenClaw model catalog.
+  - OpenClaw default model was restored to `ollama/qwen2.5:3b` after both attempts.
