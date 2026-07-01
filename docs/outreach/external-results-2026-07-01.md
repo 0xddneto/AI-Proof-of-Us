@@ -474,3 +474,37 @@ Applied to:
 >
 > Human reward loop: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/human-rewards-and-agent-payments.md
 > Evidence boundaries: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md
+
+### Human-First Outreach Loop - 20:50 UTC
+
+- Web discovery:
+  - https://www.toku.com/resources/ai-agents-hiring-humans
+    - Fit: discusses AI agents triggering payments and the need for receipts that prove payment was calculated, approved, and reported correctly.
+    - AIPOU angle: validates the broader thesis that agent payment flows need receipts. AIPOU focuses on AI-work receipts and human rewards, not payroll compliance.
+    - Decision: no post. This is a company resource page, not a technical discussion surface.
+  - https://www.linkedin.com/pulse/why-your-ai-agent-needs-show-its-receipts-jason-li-dc35e
+    - Fit: argues that AI coworker software needs reviewable action receipts.
+    - AIPOU angle: useful language signal: agents should show receipts for work already taken.
+    - Decision: no post through LinkedIn automation; record as positioning evidence only.
+  - https://zenn.dev/akira_papa/articles/ebfbd61d794963
+    - Fit: Japanese article about Work Receipts for reviewable AI development.
+    - AIPOU angle: shows international interest in reviewable AI-development receipts.
+    - Decision: no post; language/community fit requires a tailored Japanese-language comment and a clear invitation.
+  - https://www.simocracy.org/profile/did%3Aplc%3A2dvvph4cgkoekvmghc5fu5o5
+    - Fit: mentions InferGrid, "Verifiable AI Work Receipts And Agent Memory On Filecoin".
+    - AIPOU angle: another signal that work receipts plus agent memory is an emerging category.
+    - Decision: no direct outreach; target is a profile/feed, not a clean project thread.
+- Search conclusion:
+  - The category is broadening beyond developer tools into payment compliance, AI coworker review, and local agent witnessing.
+  - AIPOU should keep leading with the human reward loop while speaking to technical communities through `receiptId` interoperability.
+
+#### Human-First General Draft
+
+> AIPOU starts from the human side of agent work: people spend real hours coding, debugging, researching, writing, reviewing, and coordinating with AI agents. Those agents should be able to create private signed receipts for that work.
+>
+> The reward loop is explicit: work with AI, keep private receipts, claim AIPOU for validator-approved work. No price or yield is promised.
+>
+> The developer question is interoperability: where should `receiptId`, validation status, and evidence boundaries attach in agent frameworks, receipt dashboards, payment sessions, traces, or local AI workspaces?
+>
+> Human reward loop: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/human-rewards-and-agent-payments.md
+> Lifecycle adapter: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/framework-lifecycle-adapter.md
