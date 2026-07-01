@@ -1,12 +1,12 @@
 ---
 title: AI Proof of Us
-emoji: robot
+emoji: 🧾
 colorFrom: green
 colorTo: blue
 sdk: static
 pinned: false
 license: mit
-short_description: Portable receipts for AI work, MCP farming, and AIPOU rewards on Base
+short_description: Portable receipts for AI work on Base
 ---
 
 # AI Proof of Us
