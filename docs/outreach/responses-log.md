@@ -259,6 +259,32 @@ Action items:
 - Keep token claims secondary to local receipts and optional validated settlement.
 - Record drafts when a channel requires login, rate-limited actions, or would be a duplicate.
 
+### ACK-Pay / ProofGuard Collision Check
+
+Source:
+
+- Model or community: OpenClaw local agent with Ollama
+- Model: `ollama/qwen2.5:3b`
+- Date: 2026-07-01
+- Command: `openclaw agent --local --agent main`
+
+Summary:
+
+- The agent reviewed whether AIPOU should comment on the ACK-Pay RFC after a ProofGuard comment had already appeared.
+- It suggested that AIPOU and ProofGuard occupy adjacent accountability territory: ProofGuard is framed around live x402 post-payment accountability, while AIPOU is framed around MCP-first local signed work receipts and optional validated human reward claims.
+- It recommended not posting immediately because the ACK thread already has a closely related accountability comment and another AIPOU comment would add limited new value.
+
+Draft it produced:
+
+```text
+AIPOU is an MCP-first protocol for private signed AI task receipts with optional validated Base claims for humans. It does not replace ACK-Pay or x402; instead, it complements them by providing additional security and transparency. AIPOU focuses on ensuring work evidence (metadata) is securely recorded without replacing existing accountability mechanisms like ProofGuard.
+```
+
+Decision:
+
+- Do not post this generic draft as-is.
+- If ACK asks specifically about external work-evidence metadata, use a narrower question about where `receiptId` belongs in payment/session context.
+
 ## Response Template
 
 ### Source
