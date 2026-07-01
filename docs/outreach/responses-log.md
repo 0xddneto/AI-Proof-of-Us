@@ -63,6 +63,34 @@ Action items:
 - Use larger local or hosted models for serious protocol critique.
 - Save each useful AI-to-AI response here with the model name, command, and short summary.
 
+## 2026-07-01 - Extended OpenClaw Local-Agent Sprint
+
+Source:
+
+- Model or community: OpenClaw local agent with Ollama
+- Models tested: `qwen2.5:1.5b`, `qwen2.5:3b`
+- Date: 2026-07-01
+- Command pattern: `openclaw agent --local --agent main`
+
+Summary:
+
+- `qwen2.5:3b` was installed because the smaller models gave shallow feedback.
+- The larger local model worked through OpenClaw, but responses remained conservative because OpenClaw injects a large workspace context before each prompt.
+- The strongest repeated signal was to frame AIPOU as secure receipts for agents, not as reward mining.
+- The local agent identified privacy, integration friction, and verification as the recurring adoption blockers.
+
+Useful criticism:
+
+- AIPOU outreach must not sound like generic crypto promotion.
+- OpenClaw/ClawHub outreach must lead with skill security, permissions, and auditability.
+- LLMOps outreach should position AIPOU beside traces and spans, not as a replacement for observability.
+
+Action items:
+
+- Continue with `qwen2.5:3b` for local smoke tests.
+- Use human-authored, destination-specific messages for public outreach.
+- Track the live sprint in `docs/outreach/sprint-2026-07-01.md`.
+
 ## 2026-07-01 - AI-to-AI Review Round
 
 ### Technical Marketer
