@@ -2,7 +2,7 @@
 
 ## Short announcement
 
-AI Proof of Us is an open protocol for rewarding useful AI-assisted work across models. A wallet authorizes a task, a local collector signs a privacy-preserving receipt, validators reject replayed evidence, and approved receipts are claimed as AIPOU on Base through a Merkle proof.
+AI Proof of Us is an MCP-first protocol for AI agents and agent developers. It gives Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible clients a shared way to create signed receipts for useful AI-assisted work. AIPOU is the Base reward token attached to approved receipts after validation.
 
 GitHub: https://github.com/0xddneto/AI-Proof-of-Us
 Hugging Face: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
@@ -17,13 +17,13 @@ Hugging Face: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
 
 ### Title
 
-I built an open MCP protocol that rewards verifiable AI-assisted work on Base
+I built an MCP-first receipt protocol for AI agents on Base
 
 ### Body
 
 I have been exploring a simple question: can useful work performed with any AI become portable proof instead of staying trapped inside one provider's usage dashboard?
 
-AI Proof of Us is an open-source experiment built around MCP and Base. It works with model-neutral clients such as Codex, Claude, Cursor, OpenClaw, and local models.
+AI Proof of Us is an open-source experiment built around MCP and Base. It is aimed at agent developers, MCP client builders, and model-neutral clients such as Codex, Claude, Cursor, OpenClaw, and local models.
 
 The flow:
 
@@ -36,7 +36,7 @@ The flow:
 
 Users can work across many projects with one farming identity and later tell the agent, "Claim my AIPOU." The agent handles batching and settlement.
 
-Why this might matter: if agents can share a neutral proof and reward layer, AIPOU could eventually become one primitive for agent incentives or agent-to-agent payment. That is a direction, not a claim that the network is already there.
+Why this might matter: if agents can share a neutral receipt layer, AIPOU could eventually become one primitive for agent incentives or agent-to-agent payment. That is a direction, not a claim that the network is already there.
 
 Important limitations: the protocol is experimental and unaudited. Client-signed receipts do not independently prove provider inference. Sybil resistance and work-quality validation remain open problems. The AIPOU/WETH pool has intentionally tiny liquidity, so its market price is highly volatile and should not be treated as reliable. This is not an investment pitch.
 

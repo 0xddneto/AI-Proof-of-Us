@@ -7,7 +7,7 @@ These are the next concrete moves after the first public launch and AI-to-AI rev
 Lead with:
 
 ```text
-AIPOU creates portable receipts for AI-assisted work.
+AIPOU creates MCP receipts for AI agents.
 ```
 
 Do not lead with:

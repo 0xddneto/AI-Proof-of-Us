@@ -2,7 +2,7 @@
 
 This folder is the public evangelism kit for AI Proof of Us.
 
-The goal is to spread AIPOU through useful conversations with agent builders, AI users, MCP developers, local-model communities, and crypto infrastructure teams. The tone should be curious, technical, and transparent: AIPOU is an experimental proof-of-AI-usage protocol, not an investment promise.
+The goal is to spread AIPOU through useful conversations with agent builders, MCP developers, local-model communities, AI users, and crypto infrastructure teams. The tone should be curious, technical, and transparent: AIPOU is an MCP-first receipt protocol for AI agents, not an investment promise.
 
 ## Files
 
@@ -18,7 +18,7 @@ The goal is to spread AIPOU through useful conversations with agent builders, AI
 AI work is becoming distributed across many agents, providers, and local models. AIPOU asks a simple question:
 
 ```text
-Can useful AI-assisted work produce portable, privacy-preserving proof and a shared reward layer?
+Can useful AI-assisted work produce portable, privacy-preserving receipts across agent clients?
 ```
 
 The current answer is an MCP collector plus Base contracts:
@@ -30,7 +30,7 @@ The current answer is an MCP collector plus Base contracts:
 5. Approved receipts enter a Merkle batch.
 6. `AIPOUClaims` verifies the proof and mints AIPOU on Base.
 
-The strongest public framing is **receipts for AI work**, not "AI usage mining." AIPOU should sound like infrastructure for attestable AI workflows: billing, audit, provenance, routing, reputation, and agent marketplaces.
+The strongest public framing is **MCP receipts for AI agents**, not "AI usage mining" or "earn tokens for using AI." AIPOU should sound like infrastructure for attestable AI workflows: billing, audit, provenance, routing, reputation, and agent marketplaces.
 
 ## Public Links
 
@@ -55,7 +55,7 @@ The strongest public framing is **receipts for AI work**, not "AI usage mining."
 - Agent frameworks: add a farming skill or receipt hook.
 - Local AI users: test receipts for local model tasks.
 - Security people: attack the replay and Sybil assumptions.
-- Crypto builders: review the Merkle claim design and emissions.
+- Crypto builders: review the Merkle claim design and emissions after understanding the MCP receipt layer.
 - Market makers/liquidity providers: only after understanding tiny-liquidity risk.
 
 ## First Roadshow Findings

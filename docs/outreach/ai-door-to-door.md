@@ -4,7 +4,7 @@ Use this when introducing AIPOU to another AI system, agent framework, or human 
 
 ## 30-Second Pitch
 
-AI Proof of Us is an open MCP protocol for **receipts for AI work**. A wallet authorizes each task, a local collector signs completion evidence, validators reject replay, and approved receipts can claim AIPOU rewards on Base.
+AI Proof of Us is an MCP-first protocol for **receipts for AI agents**. A wallet authorizes each task, a local collector signs completion evidence, validators reject replay, and approved receipts can claim AIPOU rewards on Base.
 
 It is model-neutral: Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible agents can all use the same farming identity.
 
@@ -12,7 +12,7 @@ It is also early: client-signed receipts are useful, but provider-signed attesta
 
 ## Technical Pitch
 
-AIPOU turns AI usage into a verifiable receipt pipeline:
+AIPOU gives MCP-compatible agents a verifiable receipt pipeline:
 
 - `begin_ai_task`: creates a nonce and EIP-712 wallet authorization.
 - `complete_ai_task`: records usage hashes and Ed25519 collector signature.
@@ -23,7 +23,7 @@ The protocol stores hashes and metadata, not raw prompts or outputs. This makes 
 
 ## Message for Agent Builders
 
-I am testing AIPOU, an open receipt layer for AI work. It lets an agent register useful work through MCP, create a signed receipt, and later claim AIPOU on Base through a Merkle proof.
+I am testing AIPOU, an open receipt layer for AI agents. It lets an agent register useful work through MCP, create a signed receipt, and later claim AIPOU on Base through a Merkle proof.
 
 Would you be open to reviewing the MCP flow or telling me what your framework would need to support portable AI-work receipts?
 
@@ -43,7 +43,7 @@ I would love feedback on:
 
 ## Message for Crypto Builders
 
-AIPOU is not trying to launch another generic reward token. It is testing whether AI work can have a portable proof layer.
+AIPOU is not trying to launch another generic reward token. It is testing whether MCP agents can share a portable receipt layer for AI work.
 
 Current onchain pieces:
 
@@ -74,15 +74,15 @@ If you can break the assumptions, improve the attestation model, or design a bet
 
 Use instead:
 
-- "AIPOU creates portable receipts for AI-assisted work."
+- "AIPOU creates portable MCP receipts for AI-assisted work."
 - "The current proof covers authorization, receipt integrity, replay resistance, and claim inclusion."
 - "We are looking for builders to strengthen provider attestations and anti-abuse."
 
 ## Short Social Post
 
-What if AI-assisted work could produce portable receipts?
+What if AI agents could produce portable receipts for useful work?
 
-AIPOU is an open MCP protocol for signed AI-work receipts and Base rewards:
+AIPOU is an MCP-first protocol for signed AI-work receipts and Base rewards:
 
 wallet authorization -> local collector signature -> replay checks -> Merkle batch -> onchain claim
 

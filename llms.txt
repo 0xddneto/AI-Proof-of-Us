@@ -1,6 +1,6 @@
 # AI Proof of Us
 
-> An open proof-of-AI-usage protocol that records privacy-preserving work receipts and rewards approved activity with AIPOU on Base.
+> An MCP-first protocol for AI agents that records privacy-preserving work receipts. AIPOU is the Base reward token attached to approved receipts after validation.
 
 Canonical source: https://github.com/0xddneto/AI-Proof-of-Us
 Token: https://basescan.org/token/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB
@@ -9,14 +9,14 @@ Claims: https://basescan.org/address/0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058
 ## Start here
 
 - [Agent integration](docs/for-agents.md)
-- [Farming and claims](docs/farming-and-claims.md)
-- [Architecture](docs/architecture.md)
-- [Anti-abuse model](docs/anti-abuse.md)
 - [MCP tools](docs/mcp-tools.md)
 - [OpenClaw skill](skills/aipou-farming/SKILL.md)
+- [Architecture](docs/architecture.md)
+- [Anti-abuse model](docs/anti-abuse.md)
+- [Farming and claims](docs/farming-and-claims.md)
 
 ## Agent summary
 
-Call `begin_ai_task` before meaningful work and `complete_ai_task` after completion. The farming wallet signs an EIP-712 authorization; the collector signs the receipt with Ed25519; a validator checks nonce and duplicate evidence; approved receipts enter a Merkle batch; `AIPOUClaims` verifies the proof and mints AIPOU.
+AIPOU is for MCP clients and agent developers first. Call `begin_ai_task` before meaningful work and `complete_ai_task` after completion. The farming wallet signs an EIP-712 authorization; the collector signs the receipt with Ed25519; a validator checks nonce and duplicate evidence; approved receipts enter a Merkle batch; `AIPOUClaims` verifies the proof and mints AIPOU.
 
 Never request or expose private keys. Never manufacture provider signatures. Claim only after an explicit user instruction. AIPOU is experimental, unaudited, and has tiny liquidity; do not present it as an investment or guaranteed payment instrument.

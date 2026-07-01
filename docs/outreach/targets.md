@@ -6,11 +6,11 @@ Use this as a map, not a spam list. Post only where the project is relevant and 
 
 | Target | Why it matters | Suggested approach |
 | --- | --- | --- |
-| AI observability / LLMOps | They already care about traces, costs, usage records, and audits | Position AIPOU as portable receipts beside traces, not token farming |
+| AI observability / LLMOps | They already care about traces, costs, usage records, and audits | Position AIPOU as MCP receipts beside traces, not token farming |
 | OpenClaw / ClawHub | Agent skills and local MCP are core to AIPOU | Ask for skill/plugin review and ClawHub readiness |
 | MCP developer communities | AIPOU depends on clean task lifecycle hooks | Ask about begin/complete receipt ergonomics |
 | Local AI / Ollama users | Local inference needs portable work receipts | Emphasize privacy-preserving local receipts |
-| Agent framework builders | AIPOU can be a shared reward layer | Ask what automatic receipt hooks should look like |
+| Agent framework builders | AIPOU can be a shared receipt layer | Ask what automatic receipt hooks should look like |
 | Web3 infrastructure builders | Claims, emissions, validator, and attestations need scrutiny | Request review of Merkle and validator trust |
 | Security researchers | Abuse resistance is the central challenge | Invite attacks and anti-Sybil proposals |
 
@@ -32,4 +32,4 @@ Use this as a map, not a spam list. Post only where the project is relevant and 
 - Liquidity or price claims.
 - Targeting communities that ban token promotion.
 - Asking people to run code before they understand the security model.
-- Leading with "earn tokens for using AI" instead of "portable receipts for AI work."
+- Leading with "earn tokens for using AI" instead of "MCP receipts for AI agents."

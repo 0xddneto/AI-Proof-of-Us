@@ -1,27 +1,37 @@
 # AI Proof of Us
 
-AI Proof of Us is a proof-of-AI-usage protocol for rewarding real work done with AI tools.
+AI Proof of Us is an **MCP-first protocol for AI agents and agent developers**.
+
+It gives Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible clients a shared way to create signed, privacy-preserving receipts for useful AI-assisted work.
+
+The AIPOU token is attached to approved receipts after validation. The token is secondary; the core product is the receipt protocol and MCP integration surface.
 
 The first version ships as:
 
-- an ERC-20 token for Base: `AI Proof of Use` (`AIPOU`)
 - an MCP server that records privacy-preserving AI usage receipts
+- an installable OpenClaw skill for agent workflows
+- docs for MCP clients, agent builders, anti-abuse, and future attestation design
 - a reward model that converts valid receipts into claimable emissions
-- docs for anti-abuse, Base launch, and future attestation design
+- an ERC-20 reward token on Base: `AI Proof of Use` (`AIPOU`)
 
 The core idea is simple:
 
 ```txt
-Use AI -> generate a signed receipt -> validate useful activity -> earn AIPOU
+agent starts task -> MCP creates nonce -> AI work happens -> signed receipt -> validator checks -> optional AIPOU claim
 ```
+
+Start here if you are building or testing an agent integration:
+
+- [AIPOU for AI Agents](docs/for-agents.md)
+- [MCP tools](docs/mcp-tools.md)
+- [OpenClaw skill](skills/aipou-farming/SKILL.md)
+- [llms.txt](llms.txt), a compact machine-readable project map
 
 Read [From AI Work to Onchain Rewards](docs/farming-and-claims.md) for the complete journey, global farming workflow, reward calculation, and one-command claim experience.
 
-Agent builders can start with [AIPOU for AI Agents](docs/for-agents.md), install the included [OpenClaw skill](skills/aipou-farming/SKILL.md), or use [llms.txt](llms.txt) as a compact machine-readable project map.
-
 Public explainer: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
 
-This is not meant to reward raw prompt spam. The protocol rewards signed AI work across tools like Codex, Claude, Cursor, local models, OpenRouter, Ollama, and future MCP-compatible clients.
+This is not meant to reward raw prompt spam or attract passive token speculation. AIPOU is for developers who want to test whether AI work can produce portable receipts across agent clients.
 
 ## Base mainnet deployment
 

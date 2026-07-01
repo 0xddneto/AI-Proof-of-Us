@@ -4,7 +4,7 @@ These prompts are for AI-to-AI outreach, criticism, and adaptation. They should 
 
 ## Critic Prompt
 
-You are reviewing AI Proof of Us (AIPOU), an open protocol for proof-of-AI-usage receipts and AIPOU rewards on Base.
+You are reviewing AI Proof of Us (AIPOU), an MCP-first protocol for AI-agent receipts. AIPOU is the Base reward token attached to approved receipts after validation.
 
 Public links:
 
@@ -54,11 +54,11 @@ Facts:
 
 - AIPOU is experimental and unaudited.
 - Liquidity is tiny and price is unreliable.
-- The interesting primitive is proof of AI-assisted work, not speculation.
+- The interesting primitive is MCP receipts for AI agents, not speculation.
 
 ## OpenClaw Prompt
 
-You are an OpenClaw agent. Inspect AIPOU as a candidate skill/protocol for AI-work receipts.
+You are an OpenClaw agent. Inspect AIPOU as a candidate skill/protocol for MCP-based AI-work receipts.
 
 Please answer:
 
