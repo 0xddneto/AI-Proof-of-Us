@@ -106,6 +106,23 @@ Standing rules:
   - Optional validated claims reward the human operating the agent; CrewAI itself would not become a reward validator.
   - Link to the runnable example and tokenomics disclosure only after the technical question is clear.
 
+### Discovery Pass - 17:40 UTC
+
+- Previous-thread check:
+  - Awesome MCP Servers issue remains open with no visible maintainer response.
+  - MCP discussion remains unanswered; its only visible follow-up is the AIPOU author update.
+  - OpenClaw / ClawHub issue remains open with no visible reviewer response.
+  - Decision: no additional follow-up. Repeating the same links would add noise.
+- Microsoft AutoGen: https://github.com/microsoft/autogen/discussions
+  - Fit: active discussions already cover pre-action authority receipts, post-run trace audit reports, governance hooks, and trust verification for MCP tool calls.
+  - Decision: do not create a parallel AIPOU announcement. First inspect the existing receipt/audit discussions and contribute only if AIPOU can answer a concrete schema, lifecycle-hook, or replay-protection question.
+- PydanticAI: https://github.com/pydantic/pydantic-ai
+  - Fit: first-party MCP support, OpenTelemetry observability, human-in-the-loop approvals, and durable execution provide clear integration points for external receipt IDs.
+  - Decision: prepare a narrow technical question around carrying a receipt reference in spans or durable run state; do not open a generic project-promotion issue.
+- Mastra: https://github.com/mastra-ai/mastra
+  - Fit: MCP tooling, workflow run history, authorization, and observability traces make it relevant to receipt interoperability.
+  - Decision: wait for a concrete mapping example between Mastra run IDs and AIPOU `receiptId` before outreach.
+
 ### Local AI / Ollama Communities
 
 The local AI message was kept as a repo demo instead of being posted externally in this pass.
