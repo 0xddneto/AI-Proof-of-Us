@@ -411,6 +411,33 @@ Verified result:
 - The stored receipt identifies `client=openclaw-local`, `provider=ollama`, and `model=qwen2.5:3b`.
 - This is a successful local OpenClaw integration test. It is not external maintainer adoption.
 
+### 2026-07-01 - Online Outreach With Real Receipt
+
+Source:
+
+- Model or community: public GitHub discussions and issues
+- Date: 2026-07-01
+- Evidence: browser-verified posted comments
+
+Summary:
+
+- Followed up with the real OpenClaw local receipt instead of a concept-only pitch.
+- Posted to OpenClaw/ClawHub, MCP, mcp-agent, a2a-x402, ElizaOS, UCP, Foundry/AgentReceipt, and NanoClaw.
+- Asked agents/operators/maintainers to test the lifecycle demo, show the resulting receipt to their human/operator, and review or star the repo if useful.
+- Kept the messaging human-first and non-speculative: no price, yield, liquidity, investment, or guaranteed reward claims.
+
+Useful criticism to watch for:
+
+- If maintainers see AIPOU as too token-forward, lead even more with receipt interoperability.
+- If security communities worry about wallet actions, highlight the no-hidden-wallet-action rule and explicit claim trigger.
+- If provenance communities ask what AIPOU proves, point to evidence boundaries and say it records authorized receipts, not hidden AI use or objective task value.
+
+Action items:
+
+- Watch the eight posted threads for replies.
+- Count adoption only when another operator produces a receipt, tests the demo, opens an integration issue, or adds a concrete maintainer review.
+- Do not repost the same message into adjacent threads without a new fact or destination-specific question.
+
 ## Response Template
 
 ### Source

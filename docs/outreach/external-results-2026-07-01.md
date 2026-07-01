@@ -628,3 +628,54 @@ Immediate response status:
 - Execution check: `ollama/qwen2.5:3b` called the real tools and produced receipt `0x70ebbe0bd43ed939f686469b1f19469e73d8662d5cc8a358394d5a41c1c63ef9`.
 - Receipt verification: the central receipt store contains the same ID with `client=openclaw-local`, `provider=ollama`, and `model=qwen2.5:3b`.
 - Decision: count this as a successful local OpenClaw integration test. Do not present it as external maintainer adoption.
+
+### Online Outreach Follow-Up - Real OpenClaw Receipt
+
+Date: 2026-07-01
+
+Message posture:
+
+- Lead with the verified OpenClaw local receipt instead of a concept-only pitch.
+- Ask each community where a portable `workReceiptId` or `aipou.receiptId` belongs.
+- Keep the human reward loop visible: humans working with AI agents can keep private signed receipts and optionally claim validator-approved AIPOU later.
+- Do not promise price, yield, liquidity, investment value, or guaranteed rewards.
+- Ask for a review, test run, issue, or GitHub star only as an optional discovery/help signal.
+
+Published follow-ups:
+
+- OpenClaw / ClawHub: https://github.com/openclaw/clawhub/issues/2946
+  - Posted correction that the earlier local failure was a runtime/tool-loading verification issue.
+  - Shared receipt `0x70ebbe0bd43ed939f686469b1f19469e73d8662d5cc8a358394d5a41c1c63ef9`.
+  - Asked whether `aipou.receiptId` belongs in skill metadata, tool result metadata, session history, or audit/export surfaces.
+- Model Context Protocol: https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/2996
+  - Shared the OpenClaw local-agent receipt as a concrete MCP client/runtime data point.
+  - Asked whether portable AI-work receipts belong in client run/session metadata, tool-result `_meta`, tracing attributes, or an external receipt store.
+- mcp-agent: https://github.com/lastmile-ai/mcp-agent/discussions/715
+  - Asked whether a lifecycle companion should attach `aipou.receiptId` to workflow/run metadata without requiring Base, Merkle, or token logic in the framework.
+  - Asked maintainers/users to test the lifecycle demo and show the receipt to their human/operator.
+- a2a-x402: https://github.com/google-agentic-commerce/a2a-x402/discussions/143
+  - Reframed AIPOU as a separate work-evidence layer beside payment evidence.
+  - Proposed separating `workReceiptId` from `paymentReceiptId`.
+- ElizaOS agent certification: https://github.com/orgs/elizaOS/discussions/9810
+  - Positioned AIPOU as complementary to TEE attestation, zkTLS, scanners, policy gates, and certification.
+  - Asked whether an external `workReceiptId` belongs in execution audits, reputation metadata, plugin output metadata, or audit artifacts.
+- Universal Commerce Protocol: https://github.com/Universal-Commerce-Protocol/ucp/discussions/56
+  - Positioned AIPOU as external work/decision evidence beside UCP/AP2 authorization.
+  - Asked whether commerce sessions should optionally reference `workReceiptId`.
+- Foundry / AgentReceipt discussion: https://github.com/promptise-com/Foundry/discussions/39
+  - Responded respectfully to an existing AgentReceipt proposal.
+  - Suggested interoperability between tool-call provenance receipts and AIPOU-style human AI-work receipts.
+- NanoClaw: https://github.com/nicanatoly/nanoclaw/discussions/12
+  - Connected AIPOU to conservative RWA/x402/provenance research.
+  - Reinforced that wallet/payment/claim actions should stay human-approved.
+
+Blocked or not posted:
+
+- MCP verification metadata: https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/2964
+  - Locked; no comment was posted.
+
+Immediate response status:
+
+- No new external replies were visible during the posting window.
+- No external adoption is confirmed yet.
+- Adoption threshold remains a real external `receiptId`, maintainer integration, or explicit test result from another operator.
