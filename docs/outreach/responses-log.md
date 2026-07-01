@@ -332,6 +332,31 @@ Action item:
 
 - Prepare a targeted draft for `mcp_agent_mail` only if a suitable discussion or issue channel exists.
 
+### Human-First Outreach Resume
+
+Source:
+
+- Model or community: OpenClaw local agent with Ollama
+- Model: `ollama/qwen2.5:3b`
+- Date: 2026-07-01
+- Command: `openclaw agent --local --agent main`
+
+Summary:
+
+- After the human-first correction, the local agent selected Lyhna Witness as the best adjacent outreach target.
+- It recognized Lyhna Witness as complementary to AIPOU because both center local AI work receipts.
+- It recommended saying proudly that AIPOU is for the real hours developers and other workers spend with AI agents, while keeping boundaries around price/yield, hidden AI detection, and trustless useful-work claims.
+
+Useful criticism:
+
+- The local agent's draft was too generic and sounded like a partnership pitch before there is a channel or maintainer invitation.
+- A better message should ask an interoperability question: can a witnessed Lyhna receipt reference an external AIPOU `receiptId`, or can an AIPOU receipt reference a Lyhna capsule as evidence?
+
+Action item:
+
+- Do not post into Lyhna's unrelated pricing PR.
+- Prepare a tailored Lyhna interoperability draft and wait for an appropriate discussion, issue, or maintainer contact surface.
+
 ## Response Template
 
 ### Source

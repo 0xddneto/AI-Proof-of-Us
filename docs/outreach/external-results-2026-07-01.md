@@ -409,3 +409,37 @@ Applied to:
 - AI door-to-door playbook
 - launch kit
 - `llms.txt`
+
+### Human-First Outreach Resume - 20:30 UTC
+
+- Web discovery:
+  - https://lyhna-ai.github.io/lyhna-witness/
+    - Fit: Lyhna Witness is a local receipt layer for agents. It is MCP-compatible, local by default, creates readable AI Work Receipts, separates claimed vs witnessed evidence, and does not claim outcomes it cannot witness.
+    - AIPOU angle: Lyhna is a strong adjacent project for receipt interoperability. AIPOU adds the human reward and validator-approved claim loop on Base.
+  - https://github.com/Lyhna-ai/lyhna-witness
+    - Fit: project repo for Lyhna Witness.
+    - Decision: do not post into the current open PR because it is about pricing copy, not receipt interoperability.
+  - https://github.com/Lyhna-ai/lyhna-mcp-proxy
+    - Fit: MCP proxy adapter with enforcement and forwarding boundaries.
+    - Decision: no open issue/discussion; record as a future technical comparison target.
+  - https://forum.zcashcommunity.com/t/grant-application-aweb-zcash-private-agent-receipts/55886
+    - Fit: Aweb private agent receipts shows another serious privacy-receipt direction.
+    - Decision: do not post; the thread is a Zcash grant application and AIPOU would be off-topic unless invited to compare receipt models.
+- Local AI conversation:
+  - Tool: OpenClaw local agent
+  - Model: `ollama/qwen2.5:3b`
+  - Response: selected Lyhna Witness as the best adjacent outreach target after the human-first correction.
+  - Quality note: the model's draft was too generic, so the tailored version below should be used instead.
+
+#### Lyhna Witness Draft
+
+> I am building AI Proof of Us, and Lyhna Witness looks like one of the closest projects to the same problem space.
+>
+> My read: Lyhna witnesses what crossed the agent/tool boundary and turns it into local AI Work Receipts. AIPOU starts from the human side: people spend real hours coding, debugging, researching, writing, and coordinating with AI agents, so their agents should create private signed receipts that can later be claimed if a validator approves them.
+>
+> I do not see AIPOU as replacing Lyhna. A useful interoperability question might be: should a Lyhna capsule be able to reference an external AIPOU `receiptId`, or should an AIPOU receipt be able to cite a Lyhna witnessed capsule as evidence?
+>
+> AIPOU does not promise price, yield, hidden AI-use detection, or trustless proof of useful work. The interesting overlap is human-readable receipts plus machine-readable evidence boundaries.
+>
+> AIPOU human reward loop: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/human-rewards-and-agent-payments.md
+> Evidence boundaries: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md
