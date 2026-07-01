@@ -202,6 +202,18 @@ Body:
   - package dry run: successful.
 - Improvement: added a repository security policy with private-reporting guidance, dedicated-wallet rules, explicit settlement boundaries, and a warning that the project is experimental and unaudited.
 
+### Security Pass - 18:40 UTC
+
+- Windows-compatible scanner search:
+  - Finding: no strong local alternative was identified that was both zero-setup and clearly independent of cloud code submission. Several services accept public repository URLs, but their grades are not substitutes for reproducible review.
+  - Decision: do not send the repository to a third-party scanner merely to collect a badge.
+- Cloud Security Alliance checklist review:
+  - No shell execution, dynamic code evaluation, raw prompt upload, or private-key return path was found in the MCP source.
+  - The agent wallet key is read from the environment and used only for EIP-712 task authorization.
+  - The collector Ed25519 private key is stored unencrypted under `AIPOU_DATA_DIR`; `0600` is requested, but Windows ACL behavior depends on the parent directory.
+  - The validator private key is a separate high-privilege secret and must never be configured on a normal user client.
+- Improvement: disclosed local metadata-at-rest and collector-key risks in `SECURITY.md` and the npm package README. This is a focused internal review, not an independent audit or security certification.
+
 ### Local AI / Ollama Communities
 
 The local AI message was kept as a repo demo instead of being posted externally in this pass.

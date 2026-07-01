@@ -20,6 +20,8 @@ AIPOU_CLAIMS_ADDRESS=0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058
 
 Use a new dedicated farming wallet, never a primary wallet. Do not commit the private key. Optional claims and settlement occur only after an explicit user request.
 
+Do not configure `AIPOU_VALIDATOR_PRIVATE_KEY` on a user installation. That key is only for the separate protocol validator service. The local Ed25519 collector key and receipt metadata are stored unencrypted under `AIPOU_DATA_DIR`; restrict that directory with operating-system permissions and use encrypted backups.
+
 The default network is Base mainnet. `AIPOU_RPC_URL` and `AIPOU_DATA_DIR` can be set when a custom RPC endpoint or receipt directory is needed.
 
 ## Documentation
@@ -28,5 +30,6 @@ The default network is Base mainnet. `AIPOU_RPC_URL` and `AIPOU_DATA_DIR` can be
 - [Evidence Boundaries](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md)
 - [Claim Validation Policy](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/claim-validation-policy.md)
 - [Tokenomics](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/tokenomics.md)
+- [Security Policy](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/SECURITY.md)
 
 License: MIT

@@ -28,9 +28,14 @@ Include only what is necessary to reproduce the problem safely:
 - Use only a new dedicated farming wallet with limited funds.
 - Never configure a primary wallet or commit a private key.
 - Keep raw prompts, outputs, and local receipt state private by default.
+- Protect `AIPOU_DATA_DIR` with operating-system access controls. The Ed25519 collector private key is stored there unencrypted; file mode `0600` is best-effort and Windows ACLs may inherit broader permissions.
+- Back up collector state only to encrypted storage. Anyone who obtains the collector private key can forge local collector signatures until that collector fingerprint is revoked.
+- Never set `AIPOU_VALIDATOR_PRIVATE_KEY` on an ordinary MCP client. It belongs only on the separately operated protocol validator service.
 - Treat claims and settlement as explicit user actions.
 - Verify contract addresses and chain ID before any transaction.
 - Do not treat a receipt as proof of task quality, payment, provider endorsement, or hidden AI-use detection.
+
+The current local store is not encrypted at rest. Receipts contain hashes, public addresses, signatures, usage counts, and model/provider labels. They should still be treated as private metadata.
 
 ## Disclosure
 
