@@ -508,3 +508,65 @@ Applied to:
 >
 > Human reward loop: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/human-rewards-and-agent-payments.md
 > Lifecycle adapter: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/framework-lifecycle-adapter.md
+
+### Human-First Outreach Loop - 21:00 UTC
+
+- Web discovery:
+  - https://github.com/langchain-ai/langgraph/issues/7065
+    - Fit: open LangGraph issue proposing Ed25519-signed Agent Action Receipts with `receiptId`, input/output hashes, and callback integration at node boundaries.
+    - AIPOU angle: strong framework-adapter target. AIPOU should not ask LangGraph to understand claims, Merkle proofs, or Base; the useful question is where external `receiptId` and validation status should attach in callbacks/traces.
+    - Decision: draft only. GitHub UI still shows action friction, and the thread is about AAR integration rather than token rewards.
+  - https://github.com/2FastLabs/agent-squad/issues/429
+    - Fit: open Agent Squad issue about observability, provenance, trust metrics, OpenTelemetry export, selective disclosure, and verifiable multi-agent behavior.
+    - AIPOU angle: good match for human-approved agent work receipts, especially when a multi-agent system coordinates work for one human operator.
+    - Decision: draft only. The thread is already a provenance proposal; avoid derailing it with settlement unless framed as optional external receipt reference.
+  - https://github.com/microsoft/autogen/issues/7492
+    - Fit: multi-agent payment primitive discussion with per-agent spending caps, human approval, and audit trails.
+    - AIPOU angle: adjacent to x402/AgentPay. AIPOU can complement payment receipts by representing human work receipts and optional validator-approved rewards.
+    - Decision: draft only. Keep the message focused on receipt interoperability, not token promotion.
+  - https://github.com/selfradiance/x402-spend-receipt
+    - Fit: local policy checks and signed receipts for x402 payment intents.
+    - AIPOU angle: clear boundary: x402-spend-receipt records allow/deny payment decisions; AIPOU records human AI-work tasks and optional claims. They can be linked by `workReceiptId` / `paymentReceiptId`.
+    - Decision: no post. No issue surface found; record as interoperability reference.
+- Search conclusion:
+  - The cleanest technical surface is not "use our token"; it is "where should a human AI-work `receiptId` attach?"
+  - AIPOU's strongest differentiator remains the positive human reward loop: people doing real work with agents should be able to keep private receipts and optionally claim approved rewards.
+
+#### LangGraph / AAR Draft
+
+> This AAR proposal is very close to one integration question we are exploring in AI Proof of Us.
+>
+> AIPOU starts from the human side of agent work: people spend real hours coding, debugging, researching, writing, reviewing, and coordinating through AI agents. The agent can create private signed task receipts for that work, and the human can optionally claim AIPOU later if a validator approves the receipt. No price or yield is promised.
+>
+> For LangGraph, I do not think the framework should know about Merkle proofs, Base, token claims, or settlement. The useful adapter surface seems smaller: node/task start, node/task finish, `receiptId`, provider/model metadata, input/output hashes, and optional validation status.
+>
+> Interop question: if LangGraph adds AAR-style callback receipts, where would an external `aipou.receiptId` best attach: callback metadata, trace/span attributes, run artifacts, or a separate receipt store?
+>
+> AIPOU lifecycle adapter: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/framework-lifecycle-adapter.md
+> Evidence boundaries: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md
+
+#### Agent Squad / Provenance Draft
+
+> This provenance proposal maps well to what AIPOU calls human AI-work receipts.
+>
+> AIPOU is human-first: people spend real hours coordinating with AI agents, and those agents should be able to create private signed receipts for the work they helped perform. The human can optionally claim AIPOU later if the validator approves the receipt. No price, yield, or guaranteed reward is promised.
+>
+> For a multi-agent framework, AIPOU should stay outside the orchestration core. The small surface would be: task/session start, agent handoff, task/session finish, local hashes instead of raw prompts/outputs, and a `receiptId` that can be exported into traces or provenance records.
+>
+> Interop question: would Agent Squad provenance prefer an external `receiptId` on OpenTelemetry span attributes, an audit artifact, or agent metadata?
+>
+> Human reward loop: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/human-rewards-and-agent-payments.md
+> Claim validation policy: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/claim-validation-policy.md
+
+#### Agent Payments / x402 Draft
+
+> AIPOU is adjacent to agent payment primitives, but it is not trying to replace x402 or AgentPay.
+>
+> x402-style receipts can show that an agent payment was allowed or made. AIPOU focuses on the human work side: people spend real hours coding, debugging, researching, writing, reviewing, and coordinating with AI agents; their agents can create private signed work receipts, and the human can optionally claim validator-approved AIPOU rewards later. No price or yield is promised.
+>
+> The interoperability question is whether payment sessions should be able to reference a separate human work receipt, for example `workReceiptId`, while AIPOU receipts can optionally reference a payment or settlement receipt when relevant.
+>
+> AIPOU does not detect hidden AI use and does not trustlessly prove useful work today. It records authorized work receipts with local hashes and validator policy.
+>
+> Tokenomics transparency: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/tokenomics.md
+> Human rewards and agent payments: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/human-rewards-and-agent-payments.md
