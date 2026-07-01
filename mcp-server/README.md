@@ -18,9 +18,17 @@ npm run demo
 
 The demo launches this MCP server over stdio, creates a local signed receipt with an ephemeral wallet, and prints the `receiptId` reference a framework can attach to metadata. It does not claim rewards or move funds.
 
+## Run From npm
+
+MCP clients can launch the published package with:
+
+```bash
+npx -y aipou-mcp-server
+```
+
 ## Run locally from this repository
 
-The npm package metadata is prepared, but the first public npm publish must be performed by the repository owner. Until `aipou-mcp-server` is published, run the MCP server from a local checkout:
+For local development or source review, run the MCP server from a checkout:
 
 ```bash
 npm install
@@ -32,14 +40,6 @@ For development:
 
 ```bash
 npm run dev -w mcp-server
-```
-
-## Run after npm publication
-
-After the package is published to npm, MCP clients can launch it with:
-
-```bash
-npx -y aipou-mcp-server
 ```
 
 Required configuration:
@@ -56,7 +56,7 @@ Do not configure `AIPOU_VALIDATOR_PRIVATE_KEY` on a user installation. That key 
 
 The default network is Base mainnet. `AIPOU_RPC_URL` and `AIPOU_DATA_DIR` can be set when a custom RPC endpoint or receipt directory is needed.
 
-Publication checklist: [docs/npm-publication.md](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/npm-publication.md).
+Publication details: [docs/npm-publication.md](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/npm-publication.md).
 
 ## Documentation
 

@@ -170,31 +170,34 @@ Run the MCP server locally:
 npm run dev -w mcp-server
 ```
 
-After the npm package is published by the repo owner, MCP clients can launch the same server with:
+MCP clients can launch the published server with:
 
 ```bash
 npx -y aipou-mcp-server
 ```
 
-Publication status: package metadata and dry-run packaging are prepared in `mcp-server`, but public npm publishing requires an authenticated npm account. See [docs/npm-publication.md](docs/npm-publication.md).
+Publication status: `aipou-mcp-server@0.2.0` is published on npm and `io.github.0xddneto/ai-proof-of-us@0.2.0` is published to the official MCP Registry. See [docs/npm-publication.md](docs/npm-publication.md).
 
 ## Local MCP config example
+
+Keep the farming private key in a `.env` file next to the repo and point the server at it with `DOTENV_CONFIG_PATH`. Never paste the private key into the MCP client config itself: client configs are often synced, logged, or read by other tools.
 
 ```json
 {
   "mcpServers": {
     "aipou": {
       "command": "node",
-      "args": ["./mcp-server/dist/index.js"],
+      "args": ["/path/to/AI-Proof-of-Us/mcp-server/dist/index.js"],
       "env": {
-        "AIPOU_AGENT_PRIVATE_KEY": "dedicated-farming-wallet-private-key",
-        "AIPOU_CLAIMS_ADDRESS": "0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058",
-        "AIPOU_DATA_DIR": ".aipou"
+        "DOTENV_CONFIG_PATH": "/path/to/AI-Proof-of-Us/.env",
+        "AIPOU_DATA_DIR": "/path/to/AI-Proof-of-Us/.aipou"
       }
     }
   }
 }
 ```
+
+The `.env` file holds `AIPOU_AGENT_PRIVATE_KEY` and `AIPOU_CLAIMS_ADDRESS`. On the validator machine, keep the validator key out of that shared `.env`: store it in a separate file and reference it with `AIPOU_VALIDATOR_KEY_FILE` so farming-only processes never load it.
 
 ## Reward flow
 

@@ -22,8 +22,6 @@ By default the demo creates an ephemeral local wallet and temporary receipt dire
 
 ## Run With The Published Package
 
-After `aipou-mcp-server` is published to npm:
-
 ```bash
 cd examples/lifecycle-adapter
 npm install
