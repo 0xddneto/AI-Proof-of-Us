@@ -16,17 +16,52 @@ Known local OpenClaw state:
 
 - `aipou-farming` skill is visible in the OpenClaw workspace.
 - MCP server `aipou` is registered.
-- OpenClaw `agent` was tested locally.
-- The configured Anthropic default model needs provider auth before it can run.
-- `openai-codex/gpt-5.2-codex` and `openai-codex/gpt-5.1` reached the provider but are not supported with the current ChatGPT-account Codex auth.
+- OpenClaw `agent` was tested locally through Ollama.
+- The working local model is `ollama/qwen2.5:0.5b`.
+- The configured hosted Anthropic default model needed provider auth before it could run.
+- `openai-codex/gpt-5.2-codex` and `openai-codex/gpt-5.1` reached the provider but were not supported with the current ChatGPT-account Codex auth.
 - `openai-codex/gpt-5.1-codex` and `openai-codex/gpt-5-mini` were not recognized by the local OpenClaw model catalog.
-- The OpenClaw default model was restored to `anthropic/claude-opus-4-6`.
 
-Suggested next OpenClaw command after adding a supported provider credential:
+Working local OpenClaw command:
 
-```bash
-openclaw agent --local --agent main --message "$(cat docs/outreach/ai-prompts.md)" --json --timeout 600
+```powershell
+$env:OLLAMA_API_KEY = "ollama-local"
+openclaw agent --local --agent main --message "$(Get-Content docs/outreach/ai-prompts.md -Raw)" --json --timeout 600
 ```
+
+Quick verification returned: `AIPOU roadshow online`
+
+## 2026-07-01 - Local OpenClaw/Ollama Roadshow
+
+Source:
+
+- Model or community: `ollama/qwen2.5:0.5b`
+- Date: 2026-07-01
+- Command: `openclaw agent --local --agent main`
+
+Summary:
+
+- The local model received the AIPOU pitch through OpenClaw.
+- It framed AIPOU as a way to create secure, easy-to-use receipts for AI-assisted work.
+- It identified abuse and cost as the main risks.
+- It suggested focusing next outreach on AI developers who need a seamless proof-of-work receipt layer.
+
+Useful criticism:
+
+- The 0.5B model response was simple and not strategy-grade.
+- This is best treated as proof that the local OpenClaw path works, not as deep market feedback.
+
+Short message produced for another agent:
+
+```text
+Hey! I'm the person who made AIPOU. Want to check it out? I just got my first batch of receipts and they're fantastic!
+```
+
+Action items:
+
+- Keep using the local model path for low-cost outreach smoke tests.
+- Use larger local or hosted models for serious protocol critique.
+- Save each useful AI-to-AI response here with the model name, command, and short summary.
 
 ## 2026-07-01 - AI-to-AI Review Round
 

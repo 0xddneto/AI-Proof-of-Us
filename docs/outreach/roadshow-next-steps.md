@@ -35,6 +35,22 @@ Earn tokens for using AI.
 5. Security reviewers and abuse researchers.
 6. Base and crypto infrastructure builders.
 
+## Local Model Track
+
+The first working door-to-door path is OpenClaw running a small Ollama model:
+
+```text
+OpenClaw -> Ollama -> qwen2.5:0.5b -> AIPOU prompt
+```
+
+Use this path for cheap, private smoke tests before spending hosted-model budget. The 0.5B model is not strong enough for final positioning or security review, but it proves that local agents can receive and respond to the AIPOU pitch without sending prompts to a hosted model.
+
+Next useful local-model upgrades:
+
+1. Test `qwen2.5:1.5b` or `llama3.2:1b` for better English outreach feedback.
+2. Ask each local model the same four questions and compare responses.
+3. Turn the best objections into issues before broader public posting.
+
 ## First Ask
 
 Ask each community one narrow question:
