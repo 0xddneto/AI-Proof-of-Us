@@ -78,6 +78,21 @@ Standing rules:
 
 ## Not Posted
 
+### Discovery Pass - 17:20 UTC
+
+- CrewAI: https://github.com/crewAIInc/crewAI/discussions
+  - Fit: active agent framework with first-party MCP support and public discussion categories for integrations and production workflows.
+  - Decision: strong next outreach target, but no post was made in this pass because the previous outreach round had just finished. A later message should ask where a receipt companion belongs in CrewAI task lifecycle hooks, not advertise a token.
+- Shinkai Local AI Agents: https://github.com/dcSpark/shinkai-local-ai-agents
+  - Fit: unusually close match because it combines local and remote AI agents, MCP, crypto, and payments.
+  - Decision: do not open a generic promotional issue. The repository does not expose GitHub Discussions; wait for a concrete integration question, contribution path, or official community channel.
+- Chidori: https://github.com/ThousandBirdsInc/chidori
+  - Fit: deterministic agent execution, checkpointing, replay, and logged side effects could provide useful receipt inputs.
+  - Decision: keep as a later technical interoperability target; any message should focus on mapping replay/session evidence into an external receipt, with claims remaining optional.
+- E2B: https://github.com/e2b-dev
+  - Fit: agent sandbox and execution evidence are adjacent to receipt validation.
+  - Decision: no contact yet. AIPOU should first define a concrete sandbox attestation or execution-hash integration question so the outreach is useful rather than generic.
+
 ### Local AI / Ollama Communities
 
 The local AI message was kept as a repo demo instead of being posted externally in this pass.
