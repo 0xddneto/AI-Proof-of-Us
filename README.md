@@ -19,6 +19,8 @@ Read [From AI Work to Onchain Rewards](docs/farming-and-claims.md) for the compl
 
 Agent builders can start with [AIPOU for AI Agents](docs/for-agents.md), install the included [OpenClaw skill](skills/aipou-farming/SKILL.md), or use [llms.txt](llms.txt) as a compact machine-readable project map.
 
+Public explainer: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
+
 This is not meant to reward raw prompt spam. The protocol rewards signed AI work across tools like Codex, Claude, Cursor, local models, OpenRouter, Ollama, and future MCP-compatible clients.
 
 ## Base mainnet deployment
@@ -149,6 +151,11 @@ npm run dev -w mcp-server
 An explicit request such as `claim my AIPOU` authorizes the agent to complete both settlement transactions without another confirmation prompt.
 
 See [docs/base-launch.md](docs/base-launch.md) for the deployment checklist.
+
+## Public launch
+
+- Hugging Face Space: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
+- Reddit announcement: https://www.reddit.com/user/Any_Praline805/comments/1uklabn/i_built_an_open_mcp_protocol_that_rewards/
 
 ## Security and abuse warning
 

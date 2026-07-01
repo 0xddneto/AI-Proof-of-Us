@@ -5,6 +5,12 @@
 AI Proof of Us is an open protocol for rewarding useful AI-assisted work across models. A wallet authorizes a task, a local collector signs a privacy-preserving receipt, validators reject replayed evidence, and approved receipts are claimed as AIPOU on Base through a Merkle proof.
 
 GitHub: https://github.com/0xddneto/AI-Proof-of-Us
+Hugging Face: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
+
+## Published links
+
+- Hugging Face Space: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
+- Reddit announcement: https://www.reddit.com/user/Any_Praline805/comments/1uklabn/i_built_an_open_mcp_protocol_that_rewards/
 
 ## Reddit post
 
