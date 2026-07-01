@@ -1,0 +1,57 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.0xddneto/ai-proof-of-us",
+  "description": "Private signed AI task receipts with replay checks and optional validated AIPOU claims.",
+  "repository": {
+    "url": "https://github.com/0xddneto/AI-Proof-of-Us",
+    "source": "github"
+  },
+  "version": "0.2.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "aipou-mcp-server",
+      "version": "0.2.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Private key for a new dedicated farming wallet. Never use a primary wallet.",
+          "isRequired": true,
+          "format": "string",
+          "isSecret": true,
+          "name": "AIPOU_AGENT_PRIVATE_KEY"
+        },
+        {
+          "description": "AIPOU token contract address on the configured network.",
+          "isRequired": true,
+          "format": "string",
+          "isSecret": false,
+          "name": "AIPOU_CONTRACT_ADDRESS"
+        },
+        {
+          "description": "AIPOU claims contract address on the configured network.",
+          "isRequired": true,
+          "format": "string",
+          "isSecret": false,
+          "name": "AIPOU_CLAIMS_ADDRESS"
+        },
+        {
+          "description": "Optional Base-compatible JSON-RPC endpoint.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false,
+          "name": "AIPOU_RPC_URL"
+        },
+        {
+          "description": "Optional local directory for receipt and collector state.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false,
+          "name": "AIPOU_DATA_DIR"
+        }
+      ]
+    }
+  ]
+}

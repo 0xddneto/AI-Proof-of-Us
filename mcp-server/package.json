@@ -1,8 +1,25 @@
 {
-  "name": "@aipou/mcp-server",
+  "name": "aipou-mcp-server",
   "version": "0.2.0",
-  "private": true,
+  "mcpName": "io.github.0xddneto/ai-proof-of-us",
+  "description": "MCP server for private, signed AI task receipts and optional validated AIPOU claims.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xddneto/AI-Proof-of-Us.git",
+    "directory": "mcp-server"
+  },
+  "homepage": "https://github.com/0xddneto/AI-Proof-of-Us#readme",
+  "bugs": {
+    "url": "https://github.com/0xddneto/AI-Proof-of-Us/issues"
+  },
   "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "bin": {
     "aipou-mcp": "dist/index.js"
   },
@@ -10,7 +27,14 @@
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && node --test dist/protocol.test.js",
     "dev": "tsx src/index.ts",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm test"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.13.0",

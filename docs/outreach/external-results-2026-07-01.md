@@ -165,6 +165,17 @@ Body:
 >
 > Illustrative x402 binding and failure boundaries: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/x402-ap2-demo-outline.md
 
+### Distribution Pass - 18:10 UTC
+
+- Official MCP Registry: https://github.com/modelcontextprotocol/registry
+  - Finding: this is the correct discovery channel for a public MCP server. The registry hosts metadata and verifies the separately published package.
+  - Requirements found: a public npm package, a matching `mcpName`, `server.json`, namespace authentication, and publication through `mcp-publisher`.
+  - Repository state before this pass: the MCP package was private and had no registry metadata.
+  - Prepared: renamed the package to the currently unclaimed `aipou-mcp-server`, added `mcpName` `io.github.0xddneto/ai-proof-of-us`, package safety documentation, and `mcp-server/server.json`.
+  - Not performed: npm publication, registry login, or registry publication. These require the owner's npm and GitHub authorization and should happen only after package validation.
+- Docker MCP Registry: https://github.com/docker/mcp-registry
+  - Decision: defer until the npm/official MCP Registry path is working. Maintaining two catalog submissions before the package is installable would create avoidable review noise.
+
 ### Local AI / Ollama Communities
 
 The local AI message was kept as a repo demo instead of being posted externally in this pass.
