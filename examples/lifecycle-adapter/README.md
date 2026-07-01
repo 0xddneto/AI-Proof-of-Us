@@ -1,0 +1,69 @@
+# Lifecycle Adapter Example
+
+This is the smallest useful adoption path for AIPOU:
+
+```text
+task start -> begin_ai_task -> framework work -> complete_ai_task -> receiptId
+```
+
+The framework does not need to understand Base, Merkle proofs, token claims, or validator rules. It only needs a place to attach the returned `receiptId`.
+
+## Run From This Repository
+
+```bash
+npm install
+npm run build -w mcp-server
+cd examples/lifecycle-adapter
+npm install
+npm run demo
+```
+
+By default the demo creates an ephemeral local wallet and temporary receipt directory. The temporary directory is removed after the demo. It does not claim rewards, spend funds, upload raw prompts, or use a primary wallet.
+
+## Run With The Published Package
+
+After `aipou-mcp-server` is published to npm:
+
+```bash
+cd examples/lifecycle-adapter
+npm install
+AIPOU_DEMO_USE_NPX=1 npm run demo
+```
+
+The demo launches:
+
+```bash
+npx -y aipou-mcp-server
+```
+
+## Output Shape
+
+The important part is the framework metadata:
+
+```json
+{
+  "frameworkMetadata": {
+    "runId": "demo-...",
+    "aipou": {
+      "type": "aipou.receipt",
+      "receiptId": "0x...",
+      "status": "local",
+      "taskHash": "0x...",
+      "outputHash": "0x...",
+      "trustTier": "client_signed"
+    }
+  }
+}
+```
+
+LangGraph, mcp-agent, OpenClaw, LLMOps tools, and payment systems can attach that object to run metadata, trace/span attributes, audit exports, or payment/session metadata.
+
+## Real Farming Wallet
+
+For real rewards, set a new dedicated farming wallet:
+
+```bash
+AIPOU_AGENT_PRIVATE_KEY=0x... npm run demo
+```
+
+Never use a primary wallet. Optional settlement only happens after an explicit user claim command.

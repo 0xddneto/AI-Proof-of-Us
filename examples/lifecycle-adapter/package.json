@@ -1,0 +1,14 @@
+{
+  "name": "aipou-lifecycle-adapter-example",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Minimal MCP lifecycle adapter example for AI Proof of Us receipts.",
+  "scripts": {
+    "demo": "node aipou-lifecycle-demo.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.13.0",
+    "ethers": "^6.17.0"
+  }
+}

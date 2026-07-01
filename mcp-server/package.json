@@ -3,6 +3,15 @@
   "version": "0.2.0",
   "mcpName": "io.github.0xddneto/ai-proof-of-us",
   "description": "MCP server for private, signed AI task receipts and optional validated AIPOU claims.",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ai-agents",
+    "ai-receipts",
+    "provenance",
+    "base",
+    "aipou"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -26,6 +35,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && node --test dist/protocol.test.js",
+    "pack:check": "npm test && npm pack --dry-run",
     "dev": "tsx src/index.ts",
     "start": "node dist/index.js",
     "prepublishOnly": "npm test"

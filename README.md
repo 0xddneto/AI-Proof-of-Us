@@ -31,6 +31,8 @@ Start here if you are building or testing an agent integration:
 - [MCP tools](docs/mcp-tools.md)
 - [OpenClaw skill](skills/aipou-farming/SKILL.md)
 - [Local Receipt Mode demo](examples/local-receipt-mode/README.md)
+- [Lifecycle adapter example](examples/lifecycle-adapter/README.md)
+- [npm publication checklist](docs/npm-publication.md)
 - [llms.txt](llms.txt), a compact machine-readable project map
 
 Read [From AI Work to Onchain Rewards](docs/farming-and-claims.md) for the complete journey, global farming workflow, reward calculation, and one-command claim experience.
@@ -128,6 +130,22 @@ Frameworks do not need to understand Merkle trees, Base, or token claims to inte
 
 ## Quick start
 
+### Test The Receipt Adapter
+
+This is the fastest path for maintainers and agent-framework builders. It creates a local receipt with an ephemeral wallet and prints the `receiptId` object that a framework can attach to run metadata, traces, audit exports, or payment/session metadata.
+
+```bash
+npm install
+npm run build -w mcp-server
+cd examples/lifecycle-adapter
+npm install
+npm run demo
+```
+
+No claim is made. No funds move. No raw prompt or output is uploaded.
+
+### Run The MCP Server
+
 Install dependencies:
 
 ```bash
@@ -151,6 +169,14 @@ Run the MCP server locally:
 ```bash
 npm run dev -w mcp-server
 ```
+
+After the npm package is published by the repo owner, MCP clients can launch the same server with:
+
+```bash
+npx -y aipou-mcp-server
+```
+
+Publication status: package metadata and dry-run packaging are prepared in `mcp-server`, but public npm publishing requires an authenticated npm account. See [docs/npm-publication.md](docs/npm-publication.md).
 
 ## Local MCP config example
 

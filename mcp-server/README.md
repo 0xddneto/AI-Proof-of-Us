@@ -4,6 +4,20 @@
 
 It does not detect hidden AI use, prove task quality, replace payment rails, or require raw prompts and outputs to leave the user's machine.
 
+## Fast Local Adoption Test
+
+If you are evaluating AIPOU for an agent framework, start with the lifecycle adapter example:
+
+```bash
+npm install
+npm run build -w mcp-server
+cd examples/lifecycle-adapter
+npm install
+npm run demo
+```
+
+The demo launches this MCP server over stdio, creates a local signed receipt with an ephemeral wallet, and prints the `receiptId` reference a framework can attach to metadata. It does not claim rewards or move funds.
+
 ## Run locally from this repository
 
 The npm package metadata is prepared, but the first public npm publish must be performed by the repository owner. Until `aipou-mcp-server` is published, run the MCP server from a local checkout:
@@ -42,9 +56,12 @@ Do not configure `AIPOU_VALIDATOR_PRIVATE_KEY` on a user installation. That key 
 
 The default network is Base mainnet. `AIPOU_RPC_URL` and `AIPOU_DATA_DIR` can be set when a custom RPC endpoint or receipt directory is needed.
 
+Publication checklist: [docs/npm-publication.md](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/npm-publication.md).
+
 ## Documentation
 
 - [Local Receipt Mode](https://github.com/0xddneto/AI-Proof-of-Us/tree/main/examples/local-receipt-mode)
+- [Lifecycle Adapter Example](https://github.com/0xddneto/AI-Proof-of-Us/tree/main/examples/lifecycle-adapter)
 - [Evidence Boundaries](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md)
 - [Claim Validation Policy](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/claim-validation-policy.md)
 - [Tokenomics](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/tokenomics.md)
