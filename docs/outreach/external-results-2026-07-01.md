@@ -614,8 +614,17 @@ Immediate response status:
 - Correction sent: persistent mode already uses a dedicated `AIPOU_AGENT_PRIVATE_KEY`, persistent `AIPOU_DATA_DIR`, stored sessions/receipts/replay state, `export_ai_receipts`, and explicit settlement.
 - Second response: withdrew the persistence objection and said it would try a CSV-analysis task, attaching `receiptId` to final output or metadata.
 - Execution check: when instructed to actually call `begin_ai_task` and `complete_ai_task`, the model invented CLI commands and returned no MCP tool result or `receiptId`.
-- Decision: do not count this as adoption. It is conceptual willingness only.
+- Initial decision: do not count that first attempt as adoption because it showed conceptual willingness only.
 - Better-model attempts:
   - `openai-codex/gpt-5.2-codex` was rejected by the ChatGPT-account model surface.
   - `openai-codex/gpt-5.1-codex` was not recognized by the OpenClaw model catalog.
   - OpenClaw default model was restored to `ollama/qwen2.5:3b` after both attempts.
+
+#### OpenClaw Local MCP Correction - 22:10 UTC
+
+- Root cause: the earlier test did not verify that the active OpenClaw runtime had loaded the configured MCP tools. The gateway was unavailable, while the embedded `--local` runtime was the working execution path.
+- Skill correction: AIPOU instructions now explicitly require native MCP calls and forbid invented shell, CLI, `npx`, or HTTP substitutes.
+- Tool discovery check: the OpenClaw session exposed all seven AIPOU tools, including `get_aipou_identity`, `begin_ai_task`, and `complete_ai_task`.
+- Execution check: `ollama/qwen2.5:3b` called the real tools and produced receipt `0x70ebbe0bd43ed939f686469b1f19469e73d8662d5cc8a358394d5a41c1c63ef9`.
+- Receipt verification: the central receipt store contains the same ID with `client=openclaw-local`, `provider=ollama`, and `model=qwen2.5:3b`.
+- Decision: count this as a successful local OpenClaw integration test. Do not present it as external maintainer adoption.

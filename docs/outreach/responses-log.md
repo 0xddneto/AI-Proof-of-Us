@@ -389,6 +389,28 @@ Action items:
 - Treat a returned MCP `receiptId`, not a positive sentence, as the adoption threshold.
 - Improve the OpenClaw skill instructions so small local models call MCP tools instead of inventing CLI syntax.
 
+### 2026-07-01 - OpenClaw MCP Execution Correction
+
+Source:
+
+- Model or community: OpenClaw local agent with Ollama
+- Model: `ollama/qwen2.5:3b`
+- Command: `openclaw agent --local --session-id aipou-real-receipt-20260701`
+
+Root cause:
+
+- The earlier negative result was a session/runtime verification failure, not an AIPOU MCP incompatibility.
+- The AIPOU server was already present under `mcp.servers.aipou`, but the earlier test did not confirm that the active OpenClaw runtime had loaded the MCP tools.
+- The skill also needed an explicit rule forbidding invented shell, CLI, `npx`, and HTTP substitutes for native MCP tool calls.
+
+Verified result:
+
+- OpenClaw exposed all seven AIPOU tools to the local Ollama agent.
+- The agent called `get_aipou_identity`, then completed a real `begin_ai_task` and `complete_ai_task` cycle.
+- Verified receipt: `0x70ebbe0bd43ed939f686469b1f19469e73d8662d5cc8a358394d5a41c1c63ef9`.
+- The stored receipt identifies `client=openclaw-local`, `provider=ollama`, and `model=qwen2.5:3b`.
+- This is a successful local OpenClaw integration test. It is not external maintainer adoption.
+
 ## Response Template
 
 ### Source

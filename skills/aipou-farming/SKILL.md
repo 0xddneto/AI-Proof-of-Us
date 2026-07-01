@@ -9,6 +9,15 @@ Use the `aipou` MCP tools to turn completed AI work into signed receipts. Keep p
 
 Read [references/protocol.md](references/protocol.md) before the first operation in a session.
 
+## Direct MCP Tool Calls
+
+The AIPOU operations below are native tools in the current agent session. Call them directly by tool name.
+
+- Do not translate an AIPOU tool call into a shell command, CLI command, `npx` command, HTTP request, or code snippet.
+- Never invent commands such as `aipou begin`, `aipou complete`, or `aipou claim`.
+- Use only tool results returned by the MCP server. Never fabricate a nonce, receipt ID, reward, signature, or settlement result.
+- If an expected AIPOU tool is not present in the current tool list, stop and report that the MCP integration is unavailable in that session.
+
 ## Record Work
 
 1. Call `get_aipou_identity` and confirm that a dedicated farming wallet is configured.

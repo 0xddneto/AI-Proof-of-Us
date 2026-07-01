@@ -47,6 +47,16 @@ Put the required `AIPOU_*` variables in the OpenClaw secret/config environment. 
 Use AIPOU to register this task and show my farming identity.
 ```
 
+The AIPOU operations must appear as native tools in the active OpenClaw session. Verify the embedded runtime directly when the gateway is not running:
+
+```bash
+openclaw agent --local --session-id aipou-check --message "Call get_aipou_identity directly as an MCP tool. Do not use shell or invented CLI commands." --json
+```
+
+The JSON system prompt report should list `get_aipou_identity`, `begin_ai_task`, and `complete_ai_task` under available tools. If they are absent, fix the MCP registration or runtime before asking the model to record work.
+
+Small local models must call these tools directly. They must never replace them with invented commands such as `aipou begin`, `npx aipou ...`, shell scripts, or HTTP requests.
+
 To settle pending receipts:
 
 ```text
