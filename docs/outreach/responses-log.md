@@ -91,6 +91,36 @@ Action items:
 - Use human-authored, destination-specific messages for public outreach.
 - Track the live sprint in `docs/outreach/sprint-2026-07-01.md`.
 
+### MCP Protocol Designer Prompt
+
+Question:
+
+- Where should `receiptId` and `validationStatus` appear in MCP integrations?
+
+Summary:
+
+- The local OpenClaw agent ranked client lifecycle hooks first, trace attributes second, tool result `_meta` third, and a companion MCP server fourth.
+- The useful product direction is to treat receipt creation as a client lifecycle event, then attach minimal receipt status to traces or local UI metadata.
+
+Action item:
+
+- Ask MCP maintainers whether signed receipt IDs should be modeled as lifecycle hooks, `_meta`, trace attributes, or a companion server.
+
+### Agentic Payments Prompt
+
+Question:
+
+- How should AIPOU relate to x402/AP2-style agentic payment rails?
+
+Summary:
+
+- The local OpenClaw agent identified AIPOU as complementary: payment rails handle settlement and negotiation; AIPOU can provide signed work receipts and accountability.
+- The key confusion risk is presenting AIPOU as a replacement for x402/AP2.
+
+Action item:
+
+- In agentic-payments outreach, ask whether signed work receipts are useful as an audit companion for payment rails.
+
 ## 2026-07-01 - AI-to-AI Review Round
 
 ### Technical Marketer
