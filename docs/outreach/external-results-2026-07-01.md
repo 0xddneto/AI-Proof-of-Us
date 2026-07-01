@@ -187,6 +187,21 @@ Body:
   - Decision: do not add a container solely to bypass npm authentication.
 - Blocker: the owner must authorize `npm adduser` before the first `npm publish --access public`. Registry authentication can then use the existing GitHub namespace.
 
+### Security Pass - 18:30 UTC
+
+- Cloud Security Alliance MCP Server Audit: https://github.com/ModelContextProtocol-Security/mcpserver-audit
+  - Fit: community review and shared MCP security findings are relevant after the package is publicly installable.
+  - Decision: do not request an audit before npm or MCP Registry publication provides a reproducible package identifier.
+- Cisco AI Defense MCP Scanner: https://github.com/cisco-ai-defense/mcp-scanner
+  - Attempt: ran the documented YARA-only stdio scan against the local compiled server, without API or LLM keys.
+  - Result: scan not executed. Installation stopped while building `yara-python` because Microsoft Visual C++ 14 or newer is not installed.
+  - Decision: do not describe this as a pass or failure, and do not install a large native build toolchain solely for this scan.
+- Existing checks that did complete:
+  - MCP protocol tests: 2 passed.
+  - npm production dependency audit for the MCP workspace: 0 known vulnerabilities.
+  - package dry run: successful.
+- Improvement: added a repository security policy with private-reporting guidance, dedicated-wallet rules, explicit settlement boundaries, and a warning that the project is experimental and unaudited.
+
 ### Local AI / Ollama Communities
 
 The local AI message was kept as a repo demo instead of being posted externally in this pass.
