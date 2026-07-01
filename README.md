@@ -15,6 +15,8 @@ The core idea is simple:
 Use AI -> generate a signed receipt -> validate useful activity -> earn AIPOU
 ```
 
+Read [From AI Work to Onchain Rewards](docs/farming-and-claims.md) for the complete journey, global farming workflow, reward calculation, and one-command claim experience.
+
 This is not meant to reward raw prompt spam. The protocol rewards signed AI work across tools like Codex, Claude, Cursor, local models, OpenRouter, Ollama, and future MCP-compatible clients.
 
 ## Base mainnet deployment
