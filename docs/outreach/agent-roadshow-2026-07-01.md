@@ -41,6 +41,425 @@ Verification:
 - `npm run test` passed.
 - Secret scan found no private key, HF token, or personal wallet leak in the touched public files.
 
+## Return Pass After Evidence-Boundary Fixes
+
+After adding `docs/evidence-boundaries.md` and `docs/claim-validation-policy.md`, the same agent personas were asked whether they would now use, list, integrate, or still block AIPOU.
+
+### Round 1 Agents Revisited
+
+#### MCP Maintainer Persona
+
+Decision:
+
+- Would integrate as an experiment.
+
+Remaining blocker:
+
+- `receiptId` placement still needs a consistent MCP surface.
+
+Best next step:
+
+- Propose AIPOU first as a companion MCP server, then discuss lifecycle hooks, tool result `_meta`, or trace attributes.
+
+#### OpenClaw Skill Security Reviewer Persona
+
+Decision:
+
+- Would not approve directly, but would accept AIPOU as a review candidate.
+
+Remaining blocker:
+
+- The skill package must prove there are no hidden wallet actions.
+
+Best next step:
+
+- Publish an OpenClaw skill manifest/review checklist covering permissions, explicit claim command, no background settlement, and network destinations.
+
+#### Local AI / Ollama User Persona
+
+Decision:
+
+- Would try it.
+
+Remaining blocker:
+
+- Base claims still sound abstract for local-only users.
+
+Best next step:
+
+- Explain claims as optional: users can use AIPOU only as a private local receipt trail.
+
+#### Security Researcher Persona
+
+Decision:
+
+- Safe enough for experimental public testing, not production-grade adoption.
+
+Remaining blockers:
+
+- Replay implementation audit.
+- Collector trust and storage audit.
+- Validator operations audit.
+- Trust-tier derivation audit.
+
+Best next step:
+
+- Publish an audit checklist before broader promotion.
+
+### Round 2 Agents Revisited
+
+#### Competitor Intelligence Persona
+
+Decision:
+
+- Differentiation is clearer but still not fully distinct from existing receipt/provenance tools.
+
+Remaining blocker:
+
+- AIPOU needs a concrete demo showing `receipt -> validated claim`, because wallet authorization plus Base claims still reads as incremental until demonstrated.
+
+Best target:
+
+- Builders who need receipt-backed settlement or reward accounting, not generic provenance.
+
+#### Tired Provenance Maintainer Persona
+
+Decision:
+
+- Would still ignore generic outreach.
+
+Acceptable approach:
+
+- Ask one narrow technical question inside their scope.
+
+Best next message:
+
+```text
+I am trying to avoid inventing an incompatible receipt reference. What minimum fields would make an external `receiptId` useful to your provenance model without making your project responsible for token claims?
+```
+
+#### SLSA / Provenance Engineer Persona
+
+Decision:
+
+- Compatible as external provenance evidence if AIPOU stays value-neutral.
+
+Vocabulary to use:
+
+- external provenance evidence
+- Merkle settlement
+- value-neutral evidence
+
+Vocabulary to avoid:
+
+- proves value
+- proof of endorsement
+
+#### Receipt Tool Founder Persona
+
+Decision:
+
+- Would collaborate on a small experiment.
+
+Smallest useful integration:
+
+- Export or accept an AIPOU `receiptId` as an external reference.
+
+Remaining blocker:
+
+- The other tool must not be responsible for validating AIPOU rewards.
+
+### Round 3 Agents Revisited
+
+#### x402 / AP2 Payments Builder Persona
+
+Decision:
+
+- Would not use AIPOU as audit evidence yet.
+
+Remaining blocker:
+
+- Needs a demo connecting payment context to work evidence.
+
+Best next demo:
+
+```text
+x402 payment request -> AI task -> AIPOU receiptId -> payment record external evidence
+```
+
+#### Awesome-List Maintainer Persona
+
+Decision:
+
+- Would accept.
+
+Category:
+
+- Infrastructure.
+
+Accepted framing:
+
+- MCP receipt/provenance server for AI-agent tasks.
+
+#### Agent Framework Maintainer Persona
+
+Decision:
+
+- Would reject token/core integration.
+- Would consider optional observer/adapter integration.
+
+Required PR shape:
+
+- Runtime-configurable observer.
+- No token logic in framework core.
+- Tests for enabled/disabled mode and error handling.
+
+#### Crypto-Skeptical AI Developer Persona
+
+Decision:
+
+- Would keep reading, but still demands stronger proof before adoption.
+
+Remaining blockers:
+
+- Audit trail.
+- Transparent governance.
+- Clear validator policy.
+
+### Round 4 Agents Revisited
+
+#### Receipt Ecosystem Strategist Persona
+
+Decision:
+
+- Proceed to outreach, starting with `protect-mcp` and Assay-like policy/evidence projects.
+
+Message rule:
+
+- Ask for feedback on interoperability. Do not ask them to adopt or validate rewards.
+
+#### Agent Receipts Maintainer Persona
+
+Decision:
+
+- Would engage.
+
+First question:
+
+- What exact evidence supports Base claims, and how does it affect validation?
+
+Remaining blocker:
+
+- Needs a clear `receiptId` interoperability note.
+
+#### AIIR Maintainer Persona
+
+Decision:
+
+- Would consider AIPOU a responsible adjacent project.
+
+Required disclaimer:
+
+- Scope, detection limits, evidence boundaries, eligibility, privacy, and validator-derived trust tier must stay visible.
+
+Remaining concern:
+
+- Misuse or misinterpretation of terms.
+
+#### OpenClaw Main Developer-Relations Agent
+
+Decision:
+
+- Continue outreach through OpenClaw/ClawHub developer channels.
+
+Exact ask:
+
+- Request a security review path for an AIPOU skill manifest that proves no hidden wallet actions and explicit claim-only settlement.
+
+## New Action Items From Return Pass
+
+- Create an OpenClaw skill review checklist.
+- Create a `receiptId` interoperability note.
+- Create an audit checklist for replay, collector trust, storage, validator operations, and trust-tier derivation.
+- Create an x402/AP2 demo outline that treats AIPOU as external work evidence, not a payment rail.
+- Prepare an awesome-list PR first, because the list-maintainer persona now accepts the infrastructure framing.
+
+## New Agents After Return Pass
+
+### Leva 1 - Evidence Interoperability
+
+#### protect-mcp / SLSA-Style Receipt Maintainer Persona
+
+Decision:
+
+- Would use AIPOU `receiptId` as external evidence.
+
+Useful mapping:
+
+- `receiptId` -> external reference.
+
+Accepted ask:
+
+```text
+Would you accept AIPOU `receiptId` as an external reference for record keeping and verification, without making your project responsible for reward validation?
+```
+
+#### Assay / Policy-Gate Maintainer Persona
+
+Decision:
+
+- Would find AIPOU useful as an evidence bundle reference.
+
+Fields wanted:
+
+- task receipt ID
+- evidence boundary
+- trust tier
+- claim status
+
+Remaining blocker:
+
+- Fields must be consistently recorded and queryable.
+
+Best next step:
+
+- Provide a simple export/query interface for receipt status.
+
+#### LLMOps Trace Maintainer Persona
+
+Decision:
+
+- Would support AIPOU as span/session metadata.
+
+Best field placement:
+
+- structured span or session metadata.
+
+Fields:
+
+- `receiptId`
+- `validationStatus`
+
+Boundary:
+
+- no raw prompts
+- no reward validation responsibility
+
+#### MCP Security Scanner Maintainer Persona
+
+Decision:
+
+- Receipt/provenance metadata is useful with caution.
+
+Useful fields:
+
+- timestamp
+- signature details
+- task ID
+- receipt/provenance status
+
+Dangerous fields:
+
+- private keys
+- encryption keys
+- PII
+
+Interpretation:
+
+- Scanners can attach receipt context, but should not say a task is safe just because AIPOU exists.
+
+### Leva 2 - Distribution and Adoption Surfaces
+
+#### Awesome MCP Servers Maintainer Persona
+
+Decision:
+
+- Would reject if the category does not fit.
+
+Interpretation:
+
+- This conflicts with the earlier list-maintainer persona that accepted the infrastructure framing.
+- Safer path: open a category-fit question before sending a PR.
+
+Best ask:
+
+```text
+Would an MCP receipt/provenance server belong under infrastructure, audit, or provenance? If not, is there a better list for this kind of MCP server?
+```
+
+#### mcp-agent Adapter Maintainer Persona
+
+Decision:
+
+- Would reject a core PR.
+- Would consider a separate plugin/library.
+
+Preferred integration:
+
+- external observer plugin
+- no token logic in core
+
+Test expectation:
+
+- unit tests for observer behavior
+- integration tests proving no core behavior changes
+
+#### Agent Marketplace Builder Persona
+
+Decision:
+
+- Would integrate AIPOU for reputation or payouts.
+
+Useful integration:
+
+- signed MCP receipt as reputation/payout evidence.
+
+Abuse risk:
+
+- high Sybil/fraud risk if validation is weak.
+
+Pilot:
+
+- small group of agents or developer communities.
+
+#### Local AI Community Moderator Persona
+
+Decision:
+
+- Would allow a post if framed as local/private receipts.
+
+Accepted angle:
+
+```text
+Private receipt trail for local Ollama work; raw prompts stay local and claims are optional.
+```
+
+Forbidden angle:
+
+- external raw prompt upload
+- token hype
+- claims without user consent
+
+#### Coinbase AgentKit-Style Builder Persona
+
+Decision:
+
+- Would consider AIPOU useful beside agent wallets.
+
+Integration idea:
+
+- signed work receipts as external records for agent wallet actions or automated workflows.
+
+Blocker:
+
+- MCP receipt and claim adoption is still early.
+
+Wording to avoid:
+
+- replacement
+- competing with
+- AIPOU replaces current tools
+
 ## Conversation Log
 
 ### Round 1 - Local Agent Critics
