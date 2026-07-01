@@ -443,3 +443,34 @@ Applied to:
 >
 > AIPOU human reward loop: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/human-rewards-and-agent-payments.md
 > Evidence boundaries: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md
+
+### Human-First Outreach Loop - 20:40 UTC
+
+- Web discovery:
+  - https://github.com/agent-receipts/obsigna
+    - Fit: mature adjacent receipt protocol with cryptographically signed audit trails, SDKs, and MCP proxy.
+    - Decision: no generic post. Open issues are implementation-specific; AIPOU should not interrupt unless a thread asks about external reward/settlement references or human receipt incentives.
+  - https://github.com/agent-receipts/openclaw
+    - Fit: OpenClaw plugin for Agent Receipts / Obsigna.
+    - Decision: no duplicate outreach. AIPOU already has OpenClaw/ClawHub contact and should avoid appearing as a competing receipt plugin pitch.
+  - https://github.com/agent-receipts/dashboard/issues/162
+    - Fit: experimental activity-signature view. Could one day display external reward/claim references.
+    - Decision: draft only. The issue appears implementation-focused and was updated today; do not derail it.
+  - https://github.com/agent-tools-org/erc8004-agent-receipts
+    - Fit: hackathon-style agent receipts around ERC-8004.
+    - Decision: watchlist target for agent identity / receipt / payment interoperability, not enough current discussion surface.
+- Search note:
+  - Current web now shows several independent "AI work receipts" projects. This validates the receipt direction and makes AIPOU's human reward loop a key differentiator.
+
+#### Agent Receipts / Obsigna Draft
+
+> I am building AI Proof of Us beside the Agent Receipts ecosystem, not as a replacement.
+>
+> My read: Obsigna is focused on signed audit trails for agent actions. AIPOU starts from the human reward loop: people spend real hours working with AI agents, so their agents can create private signed task receipts that may later claim AIPOU if a validator approves them.
+>
+> A useful interoperability question: should an Agent Receipts dashboard or activity-signature view ever carry an external `aipou.receiptId` / claim-status reference, or should reward settlement remain fully outside the receipt dashboard?
+>
+> AIPOU does not ask receipt tools to validate token rewards. It only needs a clean way for adjacent tools to reference external work receipts when users opt in.
+>
+> Human reward loop: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/human-rewards-and-agent-payments.md
+> Evidence boundaries: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md
