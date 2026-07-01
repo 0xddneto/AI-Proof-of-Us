@@ -14,6 +14,8 @@ After the task, the client sends usage counts and an output hash to `complete_ai
 
 The collector signs the receipt with Ed25519. Its public key lets validators verify the receipt without receiving a secret capable of creating new signatures. The protocol validator accepts only collector fingerprints listed in `AIPOU_TRUSTED_COLLECTORS_FILE`.
 
+This receipt is an `issuer_asserted` audit artifact: the collector is the issuer, and the verifier checks the collector signature, wallet authorization, nonce, replay state, and validator policy. Onchain settlement can prove Merkle inclusion and claimed state for a `receiptId`, but it does not make the private receipt payload itself `chain_derivable`.
+
 ## 3. Validation
 
 The user cannot select a trust tier.

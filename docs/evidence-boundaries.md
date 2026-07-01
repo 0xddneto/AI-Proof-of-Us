@@ -23,6 +23,19 @@ For a valid `provider_signed` receipt, AIPOU additionally proves:
 - the configured provider key signed the canonical usage assertion
 - the validator found that provider key in `AIPOU_PROVIDER_KEYS_FILE`
 
+## Evidence Class
+
+An AIPOU task receipt should be treated as an `issuer_asserted` audit artifact.
+
+The issuer is the local collector that signs the receipt. Verifying the receipt means checking the collector signature, the wallet authorization, the nonce, replay state, trusted collector admission, and any validator policy that accepted it.
+
+The receipt payload is not `chain_derivable` by default. A Merkle root or claim transaction can make the receipt hash, inclusion, timestamp, wallet, amount, and `receiptId` externally checkable on Base, but the underlying task metadata remains collector-signed evidence. External systems should keep those two claims separate:
+
+- `issuer_asserted`: the signed receipt payload and local hashes
+- `chain_derivable`: onchain root publication, proof inclusion, and claimed `receiptId` state
+
+This distinction is important for integrations with certification, provenance, audit, and payment systems. AIPOU receipts can be useful external evidence without being presented as trustless proof of useful work.
+
 ## What AIPOU Does Not Prove
 
 AIPOU does not prove:

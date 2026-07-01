@@ -10,6 +10,7 @@ Other systems may store:
 {
   "type": "aipou.receipt",
   "receiptId": "0x...",
+  "evidenceClass": "issuer_asserted",
   "status": "pending | validated | claimed | rejected",
   "evidenceBoundary": "https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md",
   "claimPolicy": "https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/claim-validation-policy.md"
@@ -30,6 +31,7 @@ That is enough for:
 | Field | Required | Purpose |
 | --- | --- | --- |
 | `receiptId` | Yes | Stable AIPOU receipt identifier |
+| `evidenceClass` | Yes | `issuer_asserted` for the signed receipt payload |
 | `status` | Yes | Current receipt lifecycle status |
 | `taskHash` | Optional | Private-content-safe task reference |
 | `outputHash` | Optional | Private-content-safe output reference |
@@ -67,6 +69,8 @@ Suggested statuses:
 ## Integration Rule
 
 External systems can reference `receiptId` as evidence.
+
+The signed receipt payload is `issuer_asserted`: the collector signed it and validators may accept it under published policy. Onchain settlement data is narrower: a Merkle proof and claim transaction can show inclusion and claimed state for a `receiptId`, but they do not make the private task payload itself `chain_derivable`.
 
 They should not claim:
 
