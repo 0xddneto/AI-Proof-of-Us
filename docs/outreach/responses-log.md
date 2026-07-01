@@ -285,6 +285,30 @@ Decision:
 - Do not post this generic draft as-is.
 - If ACK asks specifically about external work-evidence metadata, use a narrower question about where `receiptId` belongs in payment/session context.
 
+### AgentPay / AAR / Pipelock Target Check
+
+Source:
+
+- Model or community: OpenClaw local agent with Ollama
+- Model: `ollama/qwen2.5:3b`
+- Date: 2026-07-01
+- Command: `openclaw agent --local --agent main`
+
+Summary:
+
+- New candidates checked: Pipelock, AgentPay MCP, and Agent Action Receipt (AAR).
+- The local agent picked AgentPay MCP as the best outreach target because it already has an open design issue about non-custodial flow, payment observability, and x402 receipt persistence.
+- It suggested asking how AIPOU can complement persistent x402 receipts without competing with AgentPay.
+
+Useful criticism:
+
+- The draft produced by the local agent incorrectly attributed Pipelock-style mediator-signed MCP/A2A/WebSocket receipts to AIPOU.
+- Do not use that draft publicly.
+
+Action item:
+
+- If posting to AgentPay MCP, use a corrected comment that says AIPOU emits MCP task receipts with wallet authorization, hashes, collector signature, and replay checks. Do not describe AIPOU as an MCP/A2A/WebSocket security mediator.
+
 ## Response Template
 
 ### Source

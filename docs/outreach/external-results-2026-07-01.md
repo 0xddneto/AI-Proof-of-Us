@@ -295,3 +295,45 @@ Relevant artifact:
   - https://github.com/aws-samples/sample-secure-agentic-payments-on-aws-x402
     - Fit: secure agentic payments with x402.
     - Decision: do not post unless an issue explicitly discusses audit/work evidence; this is a sample repo, not a general discussion forum.
+
+### Two-Hour Outreach Loop - 19:50 UTC
+
+- Web/GitHub discovery:
+  - https://github.com/luckyPipewrench/pipelock
+    - Fit: MCP/A2A/WebSocket security mediator that emits signed action receipts.
+    - Open issues checked: no current open issue is a clean place for AIPOU; active issues are about fail-closed behavior, defaults, runtime fixtures, and dependency updates.
+    - Decision: do not post.
+  - https://github.com/up2itnow0822/agentpay-mcp/issues/20
+    - Fit: open design question about non-custodial flow, payment-attempt observability, and x402 receipt persistence.
+    - AIPOU angle: ask whether AI work receipts should be a separate external evidence reference beside x402 receipts.
+  - https://github.com/Cyberweasel777/agent-action-receipt-spec/issues/1
+    - Fit: AAR evidence reference types and public-chain anchoring.
+    - AIPOU angle: ask whether an AIPOU receipt can be represented as an external `evidenceRef`, not whether AAR should validate AIPOU claims.
+  - https://github.com/w3c-cg/ai-agent-protocol/issues/34
+    - Fit: open evidence/provenance gap discussion.
+    - Decision: high relevance, but large existing thread. Draft only unless a concise standards-language contribution is clearly additive.
+- Local AI conversation:
+  - Tool: OpenClaw local agent
+  - Model: `ollama/qwen2.5:3b`
+  - Response: selected AgentPay MCP as best target.
+  - Quality note: the agent draft confused Pipelock's mediator receipt model with AIPOU. The draft was rejected and replaced with corrected wording below.
+
+#### AgentPay MCP Draft
+
+> I am working on AI Proof of Us, an MCP-first local work-receipt layer. It is not a payment rail and does not replace x402 receipts, non-custodial signing, or AgentPay's payment-attempt observability.
+>
+> One question from the AIPOU side: when an MCP server records payment attempts and persistent x402 receipts, should there also be a separate optional `workReceiptId` / external evidence reference for the AI task itself?
+>
+> In AIPOU the work receipt covers task nonce, wallet authorization, provider/model metadata, usage/duration, task/output hashes, collector Ed25519 signature, and replay checks. Optional Base claims for humans happen later and should not be part of AgentPay validation.
+>
+> Evidence boundaries: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md
+
+#### AAR evidenceRef Draft
+
+> I am exploring whether AIPOU receipts should be represented as an external evidence reference rather than a competing receipt envelope.
+>
+> AIPOU creates MCP task receipts with wallet authorization, nonce, task/output hashes, collector signature, and validator replay checks. It can later anchor approved claims on Base, but AAR should not need to validate AIPOU rewards.
+>
+> Would an `evidenceRef` type for external MCP work receipts be appropriate here, or should AIPOU stay fully outside the AAR envelope?
+>
+> Evidence boundaries: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md
