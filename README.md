@@ -1,12 +1,14 @@
 # AI Proof of Us
 
-AI Proof of Us is an **MCP-first receipt protocol for AI work**.
+AI Proof of Us is an **MCP-first receipt protocol for humans working with AI**.
 
-It gives Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible clients a shared way to create signed, privacy-preserving receipts for AI-assisted tasks.
+It starts from a simple belief: when people spend real hours building, debugging, researching, writing, and coordinating through AI agents, that work should be able to leave a private, portable receipt.
 
-The core product is the receipt protocol and MCP integration surface. The AIPOU token is secondary: optional validated receipts can later be settled on Base, but the first thing AIPOU offers is portable evidence for billing, audit, provenance, routing, reputation, and agent marketplaces.
+AIPOU gives Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible clients a shared way to create signed, privacy-preserving receipts for AI-assisted tasks.
 
-The human promise is direct but bounded: people who spend their day working with AI can keep private receipts for approved AI-assisted work and may claim AIPOU from receipts accepted by the validator. Agents, marketplaces, and services can also reference AIPOU receipts or voluntarily accept AIPOU as settlement when both sides agree to use it.
+The human reward loop is the point: people can keep receipts for the work they do with AI all day, and validator-approved receipts can claim AIPOU on Base. The protocol exists to make that claimable work more honest, portable, and useful across agents.
+
+The developer surface is intentionally small: receipts, hashes, lifecycle hooks, and `receiptId` interoperability. Agents, marketplaces, and services can also reference AIPOU receipts or voluntarily accept AIPOU as settlement when both sides agree to use it.
 
 The first version ships as:
 
@@ -38,7 +40,7 @@ Read [Evidence Boundaries](docs/evidence-boundaries.md) and [Claim Validation Po
 
 Public explainer: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
 
-This is not "AI usage mining" and it is not meant to reward raw prompt spam or attract passive token speculation. AIPOU is for developers who want to test whether AI work can produce portable receipts across agent clients.
+This is not "AI usage mining" and it is not meant to reward raw prompt spam or attract passive token speculation. AIPOU is for humans doing real work with AI and for developers who want to test whether that work can produce portable receipts across agent clients.
 
 In plain language:
 

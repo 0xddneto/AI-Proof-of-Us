@@ -381,3 +381,31 @@ Repository changes:
 > The AIPOU receipt would only carry minimal metadata: task nonce, provider/model/client, task/output hashes, local collector signature, replay status, and validation status. Raw prompts and outputs stay local by default. Optional Base claims happen later and should not be part of `mcp_agent_mail` validation.
 >
 > Lifecycle adapter note: https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/framework-lifecycle-adapter.md
+
+### Human-First Framing Correction - 20:20 UTC
+
+User feedback:
+
+- The outreach had become too defensive and made AIPOU sound like it was only reluctantly useful.
+- The human reward loop was being hidden behind technical caveats.
+
+Correction:
+
+- AIPOU should be proud about its core idea: humans spend real hours working with AI agents, and those agents can create private signed receipts so humans may claim rewards for validator-approved work.
+- Technical limits should stay visible, but as honesty and trust-building, not as apology.
+- Developer outreach should still ask where `receiptId` belongs, but it should not erase the human reason the protocol exists.
+
+Updated message:
+
+```text
+Work with AI. Keep private receipts. Claim AIPOU for approved work.
+```
+
+Applied to:
+
+- README opening
+- Hugging Face Space hero and README
+- outreach README
+- AI door-to-door playbook
+- launch kit
+- `llms.txt`

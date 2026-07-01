@@ -11,9 +11,11 @@ short_description: MCP receipts for AI agents
 
 # AI Proof of Us
 
-AI Proof of Us, or AIPOU, is an **MCP-first receipt protocol for AI work**.
+AI Proof of Us, or AIPOU, is an **MCP-first receipt protocol for humans working with AI**.
 
-It gives Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible clients a shared way to create signed, privacy-preserving receipts for AI-assisted tasks.
+It starts from a simple human reality: people now spend full workdays with AI agents. They code, debug, research, write, design, review, and coordinate projects through tools like Codex, Claude, Cursor, OpenClaw, and local models. That work should be able to leave a private, portable receipt.
+
+AIPOU gives MCP-compatible clients a shared way to create signed, privacy-preserving receipts for those AI-assisted tasks.
 
 Instead of asking every model, app, or marketplace to invent its own proof layer, AIPOU gives agents a shared flow:
 
@@ -21,7 +23,7 @@ Instead of asking every model, app, or marketplace to invent its own proof layer
 wallet authorization -> task nonce -> AI work -> signed receipt -> validator checks -> optional Merkle claim -> AIPOU on Base
 ```
 
-The AIPOU token is attached to approved receipts after validation. The token is secondary; the core product is the receipt protocol and MCP integration surface.
+The AIPOU token is attached to approved receipts after validation. The token is not a passive investment promise; it is the reward and settlement layer for the receipt protocol.
 
 Humans who spend their day working with AI can keep private receipts and may claim AIPOU for validator-approved receipts. Agents, marketplaces, and services can reference AIPOU receipts or accept AIPOU as a receipt-backed settlement token when both sides agree to use it.
 

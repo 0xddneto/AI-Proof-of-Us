@@ -2,7 +2,7 @@
 
 ## Short announcement
 
-AI Proof of Us is an MCP-first receipt protocol for AI work. It gives Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible clients a shared way to create signed task receipts without publishing raw prompts or outputs. AIPOU is the optional Base settlement token attached only to validator-approved receipts.
+AI Proof of Us is an MCP-first receipt protocol for humans working with AI. It gives Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible clients a shared way to create signed task receipts without publishing raw prompts or outputs. AIPOU is the Base reward and settlement token attached only to validator-approved receipts.
 
 GitHub: https://github.com/0xddneto/AI-Proof-of-Us
 Hugging Face: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
@@ -17,13 +17,13 @@ Hugging Face: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
 
 ### Title
 
-I built an MCP-first receipt protocol for AI work
+I built an MCP-first receipt protocol for people working with AI all day
 
 ### Body
 
-I have been exploring a simple question: can AI-assisted work produce portable receipts instead of staying trapped inside one provider's usage dashboard?
+I have been exploring a simple question: if people spend the whole day working with AI agents, can that effort leave a private receipt and become claimable later?
 
-AI Proof of Us is an open-source experiment built around MCP and Base. It is aimed first at agent developers, MCP client builders, privacy-minded local AI users, and model-neutral clients such as Codex, Claude, Cursor, OpenClaw, and local models.
+AI Proof of Us is an open-source experiment built around MCP and Base. It is aimed at the humans using AI agents to actually work, and at the developers building the clients those humans depend on: Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible tools.
 
 The flow:
 
@@ -34,11 +34,13 @@ The flow:
 5. Approved receipts enter a Merkle batch.
 6. The AIPOUClaims contract verifies the proof and mints AIPOU on Base.
 
-Frameworks do not need to understand Base, Merkle proofs, or reward formulas to integrate the receipt layer. The smallest useful integration is a lifecycle adapter: start a receipt, end a receipt, then expose `receiptId`, provider/model metadata, task hash, output hash, and validation status.
+The human loop is the point: work with AI, keep private receipts, claim AIPOU for approved work.
+
+Frameworks do not need to understand Base, Merkle proofs, or reward formulas to support that loop. The smallest useful integration is a lifecycle adapter: start a receipt, end a receipt, then expose `receiptId`, provider/model metadata, task hash, output hash, and validation status.
 
 Users can work across many projects with one receipt identity and later, if they want settlement, tell the agent, "Claim my AIPOU." The agent handles batching and settlement.
 
-Why this might matter: if agents can share a neutral receipt layer, AIPOU could become useful infrastructure for billing, audit, provenance, routing, reputation, marketplaces, and eventually agent-to-agent settlement. That is a direction, not a claim that the network is already there.
+Why this might matter: the AI workday is becoming real work across many tools. If agents can share a neutral receipt layer, humans get a way to carry proof of effort across clients, and AIPOU can become useful infrastructure for billing, audit, provenance, routing, reputation, marketplaces, and eventually agent-to-agent settlement. That is a direction, not a claim that the network is already there.
 
 Important limitations: the protocol is experimental and unaudited. Client-signed receipts do not independently prove provider inference or trustlessly prove useful work. The validator is currently a protocol authority for `client_signed` receipts. Sybil resistance and work-quality validation remain open problems. The AIPOU/WETH pool has intentionally tiny liquidity, so its market price is highly volatile and should not be treated as reliable. This is not an investment pitch.
 

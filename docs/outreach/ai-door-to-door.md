@@ -4,11 +4,11 @@ Use this when introducing AIPOU to another AI system, agent framework, or human 
 
 ## 30-Second Pitch
 
-AI Proof of Us is an MCP-first protocol for **receipts for AI work**. A wallet authorizes each task, a local collector signs completion evidence, validators reject replay, and approved receipts can optionally claim AIPOU on Base.
+AI Proof of Us is an MCP-first protocol for **humans working with AI**. People now spend full workdays coding, debugging, researching, writing, and coordinating through AI agents. AIPOU lets those agents create private signed receipts for that work, and approved receipts can optionally claim AIPOU on Base.
 
 It is model-neutral: Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compatible agents can all create receipts through the same local identity.
 
-It is also early: client-signed receipts are useful, but provider-signed attestations, Sybil resistance, audits, and governance still need more work.
+It is also honest about its limits: client-signed receipts are useful, but provider-signed attestations, Sybil resistance, audits, and governance still need more work.
 
 ## Technical Pitch
 
@@ -23,7 +23,7 @@ The protocol stores hashes and metadata, not raw prompts or outputs. This makes 
 
 ## Message for Agent Builders
 
-I am testing AIPOU, an open receipt layer for AI work. It lets an agent framework add a small lifecycle adapter: start a receipt, complete the task, expose `receiptId`, and optionally settle approved receipts later.
+I am testing AIPOU, an open receipt layer for humans working with AI agents. The human idea is simple: work with AI, keep private receipts, claim AIPOU for approved work. The framework integration is small: start a receipt, complete the task, expose `receiptId`, and optionally settle approved receipts later.
 
 Would you be open to reviewing where `receiptId` should live in your framework: lifecycle metadata, trace attributes, tool result metadata, or an external audit reference?
 

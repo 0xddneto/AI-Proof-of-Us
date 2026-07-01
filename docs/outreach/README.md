@@ -2,7 +2,7 @@
 
 This folder is the public evangelism kit for AI Proof of Us.
 
-The goal is to spread AIPOU through useful conversations with agent builders, MCP developers, local-model communities, AI users, security reviewers, privacy advocates, and crypto infrastructure teams. The tone should be curious, technical, and transparent: AIPOU is an MCP-first receipt protocol for AI work, not an investment promise or token-mining pitch.
+The goal is to spread AIPOU through useful conversations with agent builders, MCP developers, local-model communities, AI users, security reviewers, privacy advocates, and crypto infrastructure teams. The tone should be proud, human-first, technical, and transparent: AIPOU is an MCP-first receipt protocol for humans working with AI, not an investment promise or token-mining pitch.
 
 ## Files
 
@@ -21,7 +21,13 @@ The goal is to spread AIPOU through useful conversations with agent builders, MC
 
 ## Core Message
 
-AI work is becoming distributed across many agents, providers, and local models. AIPOU asks a simple question:
+AI work is becoming distributed across many agents, providers, and local models. AIPOU starts with a human claim:
+
+```text
+People who spend their day working with AI should be able to keep private receipts and claim rewards for approved work.
+```
+
+Then it asks a technical question:
 
 ```text
 Can useful AI-assisted work produce portable, privacy-preserving receipts across agent clients?
@@ -36,7 +42,7 @@ The current answer is an MCP collector plus Base contracts:
 5. Approved receipts enter a Merkle batch.
 6. `AIPOUClaims` verifies the proof and mints AIPOU on Base.
 
-The strongest public framing is **receipts for AI work**, not "AI usage mining" or "earn tokens for using AI." AIPOU should sound like infrastructure for attestable AI workflows: billing, audit, provenance, routing, reputation, and agent marketplaces.
+The strongest public framing is **humans working with AI can keep receipts and claim approved rewards**. The technical framing is **receipts for AI work**, not "AI usage mining" or passive token hype. AIPOU should sound like useful infrastructure for people, agents, and marketplaces: billing, audit, provenance, routing, reputation, and settlement.
 
 For agent frameworks, the ask is intentionally small: a lifecycle adapter that starts a receipt, ends a receipt, and exposes `receiptId`, provider/model metadata, task hash, output hash, and validation status. Framework maintainers should not need to understand Merkle trees, Base claims, validator keys, or token settlement.
 
