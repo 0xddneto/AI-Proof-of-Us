@@ -223,3 +223,12 @@ Reason: no clean official Ollama discussion target was identified during this pa
 Relevant artifact:
 
 - https://github.com/0xddneto/AI-Proof-of-Us/tree/main/examples/local-receipt-mode
+
+### Distribution Correction - 19:20 UTC
+
+- Finding: the MCP package README showed `npx -y aipou-mcp-server` as the direct run path even though the first npm publication has not happened yet.
+- Risk: this could make the project look installable from npm before a reproducible public package exists.
+- Correction: split the MCP README into two explicit paths:
+  - local checkout usage for the current repository state
+  - `npx -y aipou-mcp-server` only after npm publication
+- Current blocker remains unchanged: the repository owner must authenticate with npm and run the first public publish before MCP Registry submission.

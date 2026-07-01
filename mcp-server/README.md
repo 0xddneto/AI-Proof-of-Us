@@ -4,7 +4,25 @@
 
 It does not detect hidden AI use, prove task quality, replace payment rails, or require raw prompts and outputs to leave the user's machine.
 
-## Run
+## Run locally from this repository
+
+The npm package metadata is prepared, but the first public npm publish must be performed by the repository owner. Until `aipou-mcp-server` is published, run the MCP server from a local checkout:
+
+```bash
+npm install
+npm run build -w mcp-server
+node mcp-server/dist/index.js
+```
+
+For development:
+
+```bash
+npm run dev -w mcp-server
+```
+
+## Run after npm publication
+
+After the package is published to npm, MCP clients can launch it with:
 
 ```bash
 npx -y aipou-mcp-server
