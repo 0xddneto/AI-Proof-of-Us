@@ -705,3 +705,32 @@ Destination-specific note:
 - mcp-agent: emphasize `settle_all_ai_rewards` does not require the framework to understand Merkle/Base; lifecycle hook still only needs receipt metadata.
 - a2a-x402/UCP/NanoClaw: emphasize `workReceiptId` remains separate from payment/session receipt.
 - ElizaOS/Foundry: emphasize `issuer_asserted` boundary; onchain claim/root can be referenced separately.
+
+## 2026-07-03 - Public follow-ups posted after token artwork and claim-all update
+
+Update posted:
+
+- `settle_all_ai_rewards` now supports explicit one-command settlement across all currently eligible pending receipts in the shared AIPOU data directory.
+- `settle_ai_rewards` remains available for one limited batch.
+- Official transparent token artwork and token-list metadata are published.
+- `get_aipou_contract` exposes `logoURI`.
+- The protocol boundary was repeated: no hidden AI-use detection, no trustless useful-work claim, no price/yield/liquidity/investment promise, optional validator-approved claims only.
+
+Posted successfully:
+
+- OpenClaw / ClawHub: https://github.com/openclaw/clawhub/issues/2946
+- Model Context Protocol: https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/2996
+- mcp-agent: https://github.com/lastmile-ai/mcp-agent/discussions/715
+- a2a-x402: https://github.com/google-agentic-commerce/a2a-x402/discussions/143
+- ElizaOS agent certification: https://github.com/orgs/elizaOS/discussions/9810
+- Universal Commerce Protocol: https://github.com/Universal-Commerce-Protocol/ucp/discussions/56
+- Foundry / AgentReceipt discussion: https://github.com/promptise-com/Foundry/discussions/39
+- NanoClaw: https://github.com/nicanatoly/nanoclaw/discussions/12
+- Awesome MCP Servers: https://github.com/punkpeye/awesome-mcp-servers/issues/9036
+- OpenLLMetry: https://github.com/traceloop/openllmetry/issues/4340
+
+Immediate response status:
+
+- Follow-ups were posted through the authenticated GitHub browser session.
+- No new external adoption is confirmed from this posting alone.
+- Next check should look for replies, stars, test receipts, integration issues, or maintainers asking for a concrete adapter.
