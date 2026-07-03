@@ -21,13 +21,16 @@ Claims: https://basescan.org/address/0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058
 - [Evidence boundaries](docs/evidence-boundaries.md)
 - [Claim validation policy](docs/claim-validation-policy.md)
 - [receiptId interoperability](docs/receiptid-interoperability.md)
+- [Work receipt boundaries](docs/work-receipt-boundaries.md)
 - [OpenClaw skill review checklist](docs/openclaw-skill-review-checklist.md)
 - [Audit checklist](docs/audit-checklist.md)
 - [x402/AP2 demo outline](docs/x402-ap2-demo-outline.md)
 
 ## Agent summary
 
-AIPOU is for humans who spend real time working with AI, and for the MCP clients and agent developers who can make that work portable. The smallest integration is a lifecycle adapter: call `begin_ai_task` before meaningful work and `complete_ai_task` after completion, then attach `receiptId` to framework metadata, traces, audit exports, or payment/session context. Frameworks do not need to understand Merkle roots, Base contracts, reward formulas, or validator keys.
+AIPOU is for humans who spend real time working with AI, and for the MCP clients and agent developers who can make that work portable. The smallest integration is a lifecycle adapter: call `begin_ai_task` before meaningful work and `complete_ai_task` after completion, then attach the AIPOU `receiptId` as `workReceiptId` to framework metadata, traces, audit exports, or payment/session context. Frameworks do not need to understand Merkle roots, Base contracts, reward formulas, or validator keys.
+
+Use `workReceiptId` when an AIPOU receipt represents a human/agent work unit. Keep narrower tool-call receipts, boundary-event receipts, payment receipts, and policy receipts separate; link them by reference instead of merging their meanings.
 
 The farming wallet signs an EIP-712 authorization; the collector signs the receipt with Ed25519; a validator checks nonce and duplicate evidence; approved receipts can enter a Merkle batch; `AIPOUClaims` verifies the proof and mints AIPOU.
 

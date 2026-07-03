@@ -9,7 +9,7 @@ This demo shows how a payment rail can reference AIPOU as external work evidence
 Show:
 
 ```text
-payment request -> AI task -> AIPOU receipt -> payment record references receiptId
+payment request -> AI task -> AIPOU receipt -> payment record references workReceiptId
 ```
 
 The payment system does not validate AIPOU rewards. It only stores a reference to work evidence.
@@ -37,6 +37,7 @@ The payment system does not validate AIPOU rewards. It only stores a reference t
 {
   "workEvidence": {
     "type": "aipou.receipt",
+    "workReceiptId": "0x...",
     "receiptId": "0x...",
     "validationStatus": "local | validated | claimed",
     "evidenceBoundary": "https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md"
@@ -56,9 +57,11 @@ This is an application-level example, not a proposed or accepted x402 extension:
   "bindingVersion": "aipou-x402-draft-1",
   "paymentProtocol": "x402",
   "paymentHash": "0x...",
+  "paymentReceiptId": "payment-rail-specific-id",
   "actionRef": "sha256:...",
   "workEvidence": {
     "type": "aipou.receipt",
+    "workReceiptId": "0x...",
     "receiptId": "0x...",
     "taskHash": "0x...",
     "outputHash": "0x..."

@@ -1,7 +1,9 @@
 {
   "type": "aipou.receipt",
   "mode": "local_receipt",
+  "workReceiptId": "0xexample",
   "receiptId": "0xexample",
+  "evidenceClass": "issuer_asserted",
   "status": "local",
   "client": "ollama",
   "provider": "local",

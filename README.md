@@ -8,7 +8,7 @@ AIPOU gives Codex, Claude, Cursor, OpenClaw, local models, and other MCP-compati
 
 The human reward loop is the point: people can keep receipts for the work they do with AI all day, and validator-approved receipts can claim AIPOU on Base. The protocol exists to make that claimable work more honest, portable, and useful across agents.
 
-The developer surface is intentionally small: receipts, hashes, lifecycle hooks, and `receiptId` interoperability. Agents, marketplaces, and services can also reference AIPOU receipts or voluntarily accept AIPOU as settlement when both sides agree to use it.
+The developer surface is intentionally small: receipts, hashes, lifecycle hooks, and `workReceiptId` interoperability. Agents, marketplaces, and services can also reference AIPOU receipts or voluntarily accept AIPOU as settlement when both sides agree to use it.
 
 The first version ships as:
 
@@ -28,6 +28,7 @@ Start here if you are building or testing an agent integration:
 
 - [AIPOU for AI Agents](docs/for-agents.md)
 - [Framework lifecycle adapter](docs/framework-lifecycle-adapter.md)
+- [Work receipt boundaries](docs/work-receipt-boundaries.md)
 - [MCP tools](docs/mcp-tools.md)
 - [OpenClaw skill](skills/aipou-farming/SKILL.md)
 - [Local Receipt Mode demo](examples/local-receipt-mode/README.md)
@@ -126,13 +127,13 @@ Receipts store hashes and metadata, not raw prompts or model outputs.
 
 The dedicated farming key signs EIP-712 authorizations locally. Never paste it into a chat or use a primary wallet. The collector has a separate Ed25519 key that cannot move funds.
 
-Frameworks do not need to understand Merkle trees, Base, or token claims to integrate the receipt layer. The minimal adapter watches task start and task end, records provider/model metadata and hashes, and exposes a `receiptId` for traces, logs, UI, or later optional settlement.
+Frameworks do not need to understand Merkle trees, Base, or token claims to integrate the receipt layer. The minimal adapter watches task start and task end, records provider/model metadata and hashes, and exposes the AIPOU `receiptId` as `workReceiptId` for workflow metadata, traces, UI, audit exports, payment/session records, or later optional settlement.
 
 ## Quick start
 
 ### Test The Receipt Adapter
 
-This is the fastest path for maintainers and agent-framework builders. It creates a local receipt with an ephemeral wallet and prints the `receiptId` object that a framework can attach to run metadata, traces, audit exports, or payment/session metadata.
+This is the fastest path for maintainers and agent-framework builders. It creates a local receipt with an ephemeral wallet and prints the `workReceiptId` object that a framework can attach to run metadata, traces, audit exports, or payment/session metadata.
 
 ```bash
 npm install
@@ -238,6 +239,7 @@ Clear limits:
 - AIPOU is not a scanner or policy gate.
 - AIPOU does not trustlessly prove "useful work" today.
 - The current validator is a protocol authority for `client_signed` receipts.
+- AIPOU work receipts do not replace narrower tool-call, boundary-event, payment, or policy receipts; they can reference each other.
 - AIPOU does not replace SLSA-style provenance, agent-security scanners, or observability traces.
 - AIPOU does not replace x402, AP2, stablecoins, or wallet automation.
 - AIPOU can be used as payment only where participants voluntarily accept it.

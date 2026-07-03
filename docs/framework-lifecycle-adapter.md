@@ -10,6 +10,8 @@ task start -> begin_ai_task -> framework work -> complete_ai_task -> receiptId
 
 The framework only needs to know that a task started, a task ended, and a receipt reference exists. It does not need to validate rewards.
 
+When the receipt represents a meaningful human/agent work unit, expose the returned AIPOU `receiptId` as `workReceiptId` in external metadata. The native AIPOU value does not change; `workReceiptId` is the integration-friendly name.
+
 ## Minimal Integration Surface
 
 At task start, the adapter calls `begin_ai_task` with:
@@ -31,7 +33,10 @@ The adapter can then expose:
 
 ```json
 {
+  "type": "aipou.receipt",
+  "workReceiptId": "0x...",
   "receiptId": "0x...",
+  "evidenceClass": "issuer_asserted",
   "validationStatus": "local",
   "provider": "openai",
   "model": "gpt-5",
@@ -43,16 +48,21 @@ The adapter can then expose:
 
 ## Where To Attach `receiptId`
 
-Useful attachment points:
+Useful attachment points depend on the boundary being verified:
 
-- framework run metadata
-- lifecycle hook result
-- trace or span attributes
-- local UI task history
-- audit export
-- payment/session metadata as an external evidence reference
+| Boundary | Attachment point | Suggested field |
+| --- | --- | --- |
+| Full agent run or human work unit | framework run metadata | `workReceiptId` |
+| Lifecycle callback result | lifecycle hook output | `workReceiptId` |
+| Observability correlation | trace or span attributes | `aipou.work_receipt_id` |
+| Local task history | local UI metadata | `workReceiptId` |
+| Portable evidence | audit export | `workReceiptId` |
+| Payment or session record | payment/session metadata | `workReceiptId` plus the rail's own payment receipt |
+| Specific tool action | tool result metadata | usually a separate tool-call receipt, optionally linked to `workReceiptId` |
 
 Avoid making every tool call or every log line carry AIPOU data. The receipt should represent a meaningful task boundary, not noise.
+
+If a project already has a tool-call receipt or BoundaryAttest-style event receipt, AIPOU should reference it or be referenced by it. AIPOU does not need to replace that lower-level receipt.
 
 ## What Frameworks Do Not Need
 
@@ -91,7 +101,7 @@ For serious production adoption, AIPOU should publish validator rules, move owne
 ## Good First Question For Maintainers
 
 ```text
-Would a signed AI-task receipt fit better as framework lifecycle metadata, trace/span attributes, tool result metadata, or an external audit reference?
+For your framework, where does a human/agent work receipt belong: workflow metadata, trace attributes, payment/session metadata, tool result metadata, or a separate audit artifact?
 ```
 
 That question is more useful than asking a framework to adopt the AIPOU token.

@@ -7,7 +7,7 @@ AI Proof of Us gives agents a common, model-neutral way to create receipts for A
 - Create portable proof that an authorized wallet requested and completed AI work.
 - Give users one receipt trail across many models and projects.
 - Keep raw prompts and outputs local while publishing only hashes and proofs.
-- Expose `receiptId` as interoperability metadata for audit, billing, provenance, routing, reputation, and marketplaces.
+- Expose AIPOU `receiptId` as `workReceiptId` interoperability metadata for audit, billing, provenance, routing, reputation, and marketplaces.
 - Build toward optional agent-to-agent settlement without depending on one model provider.
 
 AIPOU is not yet a universal AI payment rail and does not trustlessly prove useful work. It is an open experiment in receipts first and onchain rewards second. Adoption, stronger provider attestations, governance, useful liquidity, independent audits, validator policy, and multisig control are still required.
@@ -23,9 +23,10 @@ begin_ai_task -> perform useful work -> complete_ai_task -> pending receipt
 explicit user claim -> settle_ai_rewards -> AIPOU minted on Base
 ```
 
-Frameworks can integrate AIPOU as a thin lifecycle adapter. They only need task start, task end, provider/model metadata, hashes, and the returned `receiptId`. They do not need to understand Merkle roots, reward formulas, Base claims, or validator keys.
+Frameworks can integrate AIPOU as a thin lifecycle adapter. They only need task start, task end, provider/model metadata, hashes, and the returned `receiptId` exposed as a `workReceiptId` when the receipt represents a human/agent work unit. They do not need to understand Merkle roots, reward formulas, Base claims, or validator keys.
 
 See [Framework Lifecycle Adapter](framework-lifecycle-adapter.md).
+See [Work Receipt Boundaries](work-receipt-boundaries.md) for how to place `workReceiptId` beside tool-call receipts, traces, audit artifacts, and payment records.
 
 ## Integrate With OpenClaw
 
@@ -69,4 +70,4 @@ The current `client_signed` tier proves wallet authorization, collector signatur
 
 There is no daily cap. Exact duplicate evidence is rejected, but Sybil resistance and task-quality validation are active design problems. Agents should record meaningful completed work, not prompt spam or artificial task fragmentation.
 
-Outreach to other AI systems should be framed as interoperability: where should `receiptId` and validation status attach? Do not lead with "use our token" or "earn tokens for using AI."
+Outreach to other AI systems should be framed as interoperability: where should `workReceiptId` and validation status attach for human/agent work? Do not lead with "use our token" or "earn tokens for using AI."

@@ -91,10 +91,19 @@ Examples:
 - a human rewards an agent workflow with AIPOU
 - an agent marketplace uses AIPOU receipts as payout evidence
 - an AI service accepts AIPOU for completed tasks
-- one agent references another agent's `receiptId` before settling a reward
-- a payment rail stores an AIPOU `receiptId` as external work evidence
+- one agent references another agent's `workReceiptId` before settling a reward
+- a payment rail stores an AIPOU `workReceiptId` as external work evidence
 
 This does not mean AIPOU replaces x402, AP2, AgentKit, stablecoins, or wallet automation. AIPOU is a receipt-backed reward and settlement token. Payment systems can reference it; they do not need to become AIPOU validators.
+
+Keep payment receipts separate from work receipts:
+
+```json
+{
+  "workReceiptId": "0x...",
+  "paymentReceiptId": "payment-rail-specific-id"
+}
+```
 
 ## Useful and Pleasant
 
@@ -139,7 +148,7 @@ The first realistic users are:
 - local AI users who want private receipts
 - agent marketplaces experimenting with reputation and payouts
 - agent frameworks that can attach receipt metadata through optional observers
-- LLMOps tools that can store `receiptId` as trace/session metadata
+- LLMOps tools that can store `workReceiptId` as trace/session metadata
 - payment builders that want external evidence for completed AI work
 
 ## Public One-Liner

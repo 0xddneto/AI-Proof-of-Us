@@ -6,7 +6,7 @@ This is the smallest useful adoption path for AIPOU:
 task start -> begin_ai_task -> framework work -> complete_ai_task -> receiptId
 ```
 
-The framework does not need to understand Base, Merkle proofs, token claims, or validator rules. It only needs a place to attach the returned `receiptId`.
+The framework does not need to understand Base, Merkle proofs, token claims, or validator rules. It only needs a place to attach the returned AIPOU `receiptId`. For external metadata, expose the same value as `workReceiptId` when it represents a human/agent work unit.
 
 ## Run From This Repository
 
@@ -44,7 +44,9 @@ The important part is the framework metadata:
     "runId": "demo-...",
     "aipou": {
       "type": "aipou.receipt",
+      "workReceiptId": "0x...",
       "receiptId": "0x...",
+      "evidenceClass": "issuer_asserted",
       "status": "local",
       "taskHash": "0x...",
       "outputHash": "0x...",
@@ -54,7 +56,7 @@ The important part is the framework metadata:
 }
 ```
 
-LangGraph, mcp-agent, OpenClaw, LLMOps tools, and payment systems can attach that object to run metadata, trace/span attributes, audit exports, or payment/session metadata.
+LangGraph, mcp-agent, OpenClaw, LLMOps tools, and payment systems can attach that object to run metadata, trace/span attributes, audit exports, or payment/session metadata. If they already emit tool-call or boundary-event receipts, link those receipts to `workReceiptId` instead of replacing them.
 
 ## Real Farming Wallet
 
