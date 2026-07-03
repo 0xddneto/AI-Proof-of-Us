@@ -8,7 +8,9 @@
     "deploy:base": "hardhat run scripts/deploy.ts --network base",
     "deploy:base-sepolia": "hardhat run scripts/deploy.ts --network baseSepolia",
     "deploy:claims:base": "hardhat run scripts/deploy-claims.ts --network base",
-    "pool:base": "hardhat run scripts/create-base-pool.ts --network base"
+    "pool:base": "hardhat run scripts/create-base-pool.ts --network base",
+    "verify:base:token": "hardhat verify --network base 0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB 0x1F92Ee5820A706ed1315F239dE8C53eb1d65dac2 0x1F92Ee5820A706ed1315F239dE8C53eb1d65dac2 100000000000000000000000000 1000000000000000000000000000 0x1F92Ee5820A706ed1315F239dE8C53eb1d65dac2",
+    "verify:base:claims": "hardhat verify --network base 0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058 0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB 0xdd6cbDB2C549C71d1C3c75a0061209b970B15515 0xdd6cbDB2C549C71d1C3c75a0061209b970B15515"
   },
   "dependencies": {
     "@openzeppelin/contracts": "5.0.2"
