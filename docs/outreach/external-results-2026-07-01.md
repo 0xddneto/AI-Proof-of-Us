@@ -679,3 +679,29 @@ Immediate response status:
 - No new external replies were visible during the posting window.
 - No external adoption is confirmed yet.
 - Adoption threshold remains a real external `receiptId`, maintainer integration, or explicit test result from another operator.
+## 2026-07-03 - Follow-up draft after token artwork and claim-all update
+
+Public follow-up draft for prior AIPOU outreach threads:
+
+```text
+Small AIPOU update from the implementation side:
+
+- one-command settlement is now implemented as `settle_all_ai_rewards`, so a user can say "claim my AIPOU" and the MCP processes all currently eligible pending receipts from the shared `AIPOU_DATA_DIR` in bounded batches;
+- `settle_ai_rewards` remains available for one limited batch only;
+- the token now has transparent coin artwork and token-list metadata via `logoURI`:
+  https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/assets/token/aipou.png
+  https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/tokenlist.json
+- `get_aipou_contract` now exposes `logoURI` so agents can display the same token metadata.
+
+The protocol boundary is unchanged: AIPOU receipts are local-first, signed, replay-checked AI-work receipts. They do not prove hidden AI use or trustlessly prove useful work; claims are optional and validator-approved. No price, yield, liquidity, investment value, or guaranteed reward is implied.
+
+For this thread, the integration question is still the same: where should an external `aipou.receiptId` / `workReceiptId` and validation or claim status attach without making this project responsible for validating token rewards?
+```
+
+Destination-specific note:
+
+- OpenClaw/ClawHub: emphasize no hidden wallet action, explicit settlement, token image metadata for UI.
+- MCP: emphasize `logoURI` is only contract metadata returned by the server; key question remains lifecycle/session/tool `_meta` placement.
+- mcp-agent: emphasize `settle_all_ai_rewards` does not require the framework to understand Merkle/Base; lifecycle hook still only needs receipt metadata.
+- a2a-x402/UCP/NanoClaw: emphasize `workReceiptId` remains separate from payment/session receipt.
+- ElizaOS/Foundry: emphasize `issuer_asserted` boundary; onchain claim/root can be referenced separately.
