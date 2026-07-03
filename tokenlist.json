@@ -1,0 +1,24 @@
+{
+  "name": "AI Proof of Us Token List",
+  "timestamp": "2026-07-03T16:46:31Z",
+  "version": {
+    "major": 1,
+    "minor": 0,
+    "patch": 0
+  },
+  "tokens": [
+    {
+      "chainId": 8453,
+      "address": "0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB",
+      "name": "AI Proof of Use",
+      "symbol": "AIPOU",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/assets/token/aipou.png",
+      "extensions": {
+        "website": "https://github.com/0xddneto/AI-Proof-of-Us",
+        "basescan": "https://basescan.org/token/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB",
+        "claims": "0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058"
+      }
+    }
+  ]
+}

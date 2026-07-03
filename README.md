@@ -59,10 +59,12 @@ Chain:    Base Mainnet (8453)
 Token:    AI Proof of Use (AIPOU)
 Supply:   100,000,000 AIPOU
 Cap:      1,000,000,000 AIPOU
+Logo:     assets/token/aipou.png
 ```
 
 - Contract: https://basescan.org/token/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB
 - Verified source: https://repo.sourcify.dev/contracts/full_match/8453/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB/
+- Token list: https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/tokenlist.json
 
 ```txt
 Claims:   0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058

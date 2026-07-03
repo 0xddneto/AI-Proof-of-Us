@@ -5,6 +5,7 @@ export interface TokenContractConfig {
   name: string;
   symbol: string;
   address: string | null;
+  logoURI: string | null;
   decimals: number;
   chainId: number;
   chainName: string;
@@ -21,6 +22,7 @@ interface DeploymentFile {
     name?: string;
     symbol?: string;
     address?: string;
+    logoURI?: string;
     decimals?: number;
   };
   chain?: {
@@ -29,6 +31,8 @@ interface DeploymentFile {
     explorer?: string;
   };
 }
+
+const DEFAULT_LOGO_URI = "https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/assets/token/aipou.png";
 
 export const aipouTokenAbi = [
   "function name() view returns (string)",
@@ -72,6 +76,7 @@ function envConfig(): TokenContractConfig | null {
     name: "AI Proof of Use",
     symbol: "AIPOU",
     address,
+    logoURI: process.env.AIPOU_LOGO_URI || DEFAULT_LOGO_URI,
     decimals: 18,
     chainId: Number(process.env.AIPOU_CHAIN_ID || 8453),
     chainName: process.env.AIPOU_CHAIN_NAME || "Base Mainnet",
@@ -99,6 +104,7 @@ async function deploymentFileConfig(): Promise<TokenContractConfig | null> {
       name: deployment.token?.name || "AI Proof of Use",
       symbol: deployment.token?.symbol || "AIPOU",
       address,
+      logoURI: deployment.token?.logoURI || process.env.AIPOU_LOGO_URI || DEFAULT_LOGO_URI,
       decimals: deployment.token?.decimals || 18,
       chainId: deployment.chain?.id || 8453,
       chainName: deployment.chain?.name || "Base Mainnet",
@@ -127,6 +133,7 @@ export async function getTokenContractConfig(): Promise<TokenContractConfig> {
       name: "AI Proof of Use",
       symbol: "AIPOU",
       address: null,
+      logoURI: process.env.AIPOU_LOGO_URI || DEFAULT_LOGO_URI,
       decimals: 18,
       chainId: 8453,
       chainName: "Base Mainnet",
