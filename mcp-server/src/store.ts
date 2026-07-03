@@ -1,5 +1,6 @@
-import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { withFileLock } from "./lock.js";
 import type { ClaimBatch, ProtocolState, TaskSession, UsageReceipt } from "./types.js";
 
 const emptyState = (): ProtocolState => ({ sessions: {}, receipts: [], completedEvidence: {}, batches: [] });
@@ -13,6 +14,14 @@ function statePath(): string {
   return path.join(dataDir(), "state.json");
 }
 
+function lockPath(): string {
+  return `${statePath()}.lock`;
+}
+
+function archiveDir(): string {
+  return path.join(dataDir(), "settled");
+}
+
 async function readState(): Promise<ProtocolState> {
   try {
     return JSON.parse(await readFile(statePath(), "utf8")) as ProtocolState;
@@ -23,18 +32,24 @@ async function readState(): Promise<ProtocolState> {
 }
 
 async function writeState(state: ProtocolState): Promise<void> {
-  await mkdir(dataDir(), { recursive: true });
   const temporary = `${statePath()}.${process.pid}.tmp`;
   await writeFile(temporary, `${JSON.stringify(state, null, 2)}\n`, { encoding: "utf8", mode: 0o600 });
   await rename(temporary, statePath());
 }
 
+// The in-process queue orders local callers; the file lock orders the multiple
+// MCP server processes (Claude Code, OpenClaw, Codex) that share one data dir.
+// Plain reads stay lock-free: writeState replaces state.json atomically via
+// rename, and every authoritative check re-reads inside mutate().
 async function mutate<T>(operation: (state: ProtocolState) => Promise<T> | T): Promise<T> {
   const next = mutationQueue.then(async () => {
-    const state = await readState();
-    const result = await operation(state);
-    await writeState(state);
-    return result;
+    await mkdir(dataDir(), { recursive: true });
+    return withFileLock(lockPath(), async () => {
+      const state = await readState();
+      const result = await operation(state);
+      await writeState(state);
+      return result;
+    });
   });
   mutationQueue = next.catch(() => undefined);
   return next;
@@ -62,6 +77,9 @@ export async function saveCompletedReceipt(evidenceKey: string, receipt: UsageRe
     if (state.receipts.some((item) => item.receiptId === receipt.receiptId)) {
       throw new Error("Receipt id has already been recorded");
     }
+    if ((state.settledReceiptIds ?? []).includes(receipt.receiptId)) {
+      throw new Error("Receipt id has already been settled and archived");
+    }
 
     session.completedAt = receipt.recordedAt;
     state.completedEvidence[evidenceKey] = receipt.receiptId;
@@ -69,8 +87,23 @@ export async function saveCompletedReceipt(evidenceKey: string, receipt: UsageRe
   });
 }
 
+async function readArchivedReceipts(): Promise<UsageReceipt[]> {
+  let files: string[];
+  try {
+    files = await readdir(archiveDir());
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return [];
+    throw error;
+  }
+  const receipts: UsageReceipt[] = [];
+  for (const file of files.filter((name) => name.endsWith(".json")).sort()) {
+    receipts.push(...(JSON.parse(await readFile(path.join(archiveDir(), file), "utf8")) as UsageReceipt[]));
+  }
+  return receipts;
+}
+
 export async function exportStoredReceipts(wallet?: string): Promise<UsageReceipt[]> {
-  const receipts = (await readState()).receipts;
+  const receipts = [...(await readArchivedReceipts()), ...(await readState()).receipts];
   if (!wallet) return receipts;
   return receipts.filter((receipt) => receipt.wallet.toLowerCase() === wallet.toLowerCase());
 }
@@ -79,16 +112,33 @@ export async function unsettledReceipts(limit: number): Promise<UsageReceipt[]> 
   return (await readState()).receipts.filter((receipt) => !receipt.claimTransaction).slice(0, limit);
 }
 
+export async function settledReceiptsSince(sinceMs: number): Promise<UsageReceipt[]> {
+  const receipts = [...(await readArchivedReceipts()), ...(await readState()).receipts];
+  return receipts.filter(
+    (receipt) => receipt.claimTransaction && Date.parse(receipt.recordedAt) >= sinceMs
+  );
+}
+
 export async function markBatchSettled(batch: ClaimBatch): Promise<void> {
-  await mutate((state) => {
+  await mutate(async (state) => {
     const included = new Set(batch.receiptIds);
+    const settled: UsageReceipt[] = [];
     for (const receipt of state.receipts) {
       if (included.has(receipt.receiptId)) {
         if (receipt.claimTransaction) throw new Error(`Receipt ${receipt.receiptId} is already settled`);
         receipt.batchRoot = batch.root;
         receipt.claimTransaction = batch.claimTransaction;
+        settled.push(receipt);
       }
     }
+
+    // Settled receipts move to per-batch archive files so state.json stays
+    // small; their ids stay in state to keep the replay check O(state).
+    await mkdir(archiveDir(), { recursive: true });
+    const archivePath = path.join(archiveDir(), `batch-${batch.root.slice(2, 18)}.json`);
+    await writeFile(archivePath, `${JSON.stringify(settled, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
+    state.receipts = state.receipts.filter((receipt) => !included.has(receipt.receiptId));
+    state.settledReceiptIds = [...(state.settledReceiptIds ?? []), ...batch.receiptIds];
     state.batches.push(batch);
   });
 }

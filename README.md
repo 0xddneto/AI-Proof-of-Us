@@ -121,7 +121,8 @@ The MCP server exposes tools for creating task receipts:
 - `begin_ai_task`
 - `complete_ai_task`
 - `export_ai_receipts`
-- `settle_ai_rewards` (protocol validator only)
+- `settle_ai_rewards` (one limited validator batch)
+- `settle_all_ai_rewards` (one-command claim path for all pending eligible receipts)
 
 Receipts store hashes and metadata, not raw prompts or model outputs.
 
@@ -206,10 +207,10 @@ The `.env` file holds `AIPOU_AGENT_PRIVATE_KEY` and `AIPOU_CLAIMS_ADDRESS`. On t
 2. The client collects usage and calls `complete_ai_task` with the output hash.
 3. The MCP derives the trust tier and signs the receipt with Ed25519.
 4. The validator rejects repeated nonces and repeated task/output evidence.
-5. `settle_ai_rewards` publishes a Merkle root and calls `claimBatch`.
+5. `settle_all_ai_rewards` processes all currently eligible pending receipts from the shared `AIPOU_DATA_DIR` in bounded batches.
 6. `AIPOUClaims` rejects claimed receipt IDs and mints AIPOU to each farming wallet.
 
-An explicit request such as `claim my AIPOU` authorizes the agent to complete both settlement transactions without another confirmation prompt.
+An explicit request such as `claim my AIPOU` is the required trigger for settlement. Broad claim requests use `settle_all_ai_rewards`; `settle_ai_rewards` remains available for a single limited batch. The MCP client and its user keep the final say on how on-chain transactions are confirmed; the server never asks a client to skip its own confirmation policy. The validator can optionally enforce a settlement policy (minimum work floor per receipt via `AIPOU_MIN_RECEIPT_TOKENS`, per-wallet daily receipt limit via `AIPOU_MAX_DAILY_RECEIPTS_PER_WALLET`); both checks are disabled by default.
 
 The trust tier is derived by the MCP and recomputed by the validator. Users cannot self-report `provider_signed`; a provider tier requires a valid provider signature from a configured public key.
 

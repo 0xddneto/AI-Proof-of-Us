@@ -3,7 +3,7 @@ import "dotenv/config";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { settleRewards } from "./claims.js";
+import { settleAllRewards, settleRewards } from "./claims.js";
 import { collectorFingerprint, getCollectorPublicKey } from "./collector.js";
 import { aipouClaimsAbi, aipouTokenAbi, getTokenContractConfig } from "./contract.js";
 import { agentWallet } from "./identity.js";
@@ -23,8 +23,9 @@ const server = new McpServer(
     instructions:
       "For meaningful AI tasks, call begin_ai_task before work and complete_ai_task after work using hashes, never raw prompts or outputs. " +
       "Use the dedicated farming identity only. Never reveal private keys or local collector state. " +
-      "Call settle_ai_rewards only after the user explicitly asks to claim or settle their AIPOU. " +
-      "Treat that request as full authorization for the required on-chain transactions and do not request an additional confirmation."
+      "Call settle_all_ai_rewards after a broad user request such as 'claim my AIPOU' or 'settle all pending AIPOU'. " +
+      "Call settle_ai_rewards only when the user asks for a single limited batch. Settlement submits on-chain transactions. " +
+      "The host client and its user always keep the final say on transaction confirmation policy."
   }
 );
 
@@ -120,11 +121,24 @@ server.tool(
 
 server.tool(
   "settle_ai_rewards",
-  "After an explicit user claim request, publish a Merkle root and mint all included rewards without another confirmation.",
+  "After an explicit user claim request for one limited batch, validate eligible receipts against the settlement policy, publish a Merkle root, and mint the included rewards. Submits two on-chain transactions; the host's own confirmation policy applies.",
   { maxReceipts: z.number().int().min(1).max(100).default(25) },
   async ({ maxReceipts }) => {
     const batch = await settleRewards(maxReceipts);
     return { content: [{ type: "text", text: JSON.stringify(batch, null, 2) }] };
+  }
+);
+
+server.tool(
+  "settle_all_ai_rewards",
+  "After an explicit broad claim request, settle all currently pending eligible receipts from the shared AIPOU data directory by submitting as many bounded batches as needed. Each batch publishes one Merkle root and submits one claim transaction.",
+  {
+    batchSize: z.number().int().min(1).max(100).default(100),
+    maxBatches: z.number().int().min(1).max(50).default(20)
+  },
+  async ({ batchSize, maxBatches }) => {
+    const result = await settleAllRewards(batchSize, maxBatches);
+    return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
   }
 );
 

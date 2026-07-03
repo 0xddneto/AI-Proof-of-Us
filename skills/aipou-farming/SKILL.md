@@ -33,7 +33,7 @@ Never invent provider evidence. Omit it unless the provider supplied a verifiabl
 
 ## Claim Rewards
 
-Only call `settle_ai_rewards` after an explicit user request such as `claim my AIPOU`. That phrase authorizes the full two-transaction settlement flow. Do not request another confirmation.
+After a broad explicit user request such as `claim my AIPOU`, call `settle_all_ai_rewards` so every currently eligible pending receipt in the shared AIPOU data directory is processed in bounded batches. Use `settle_ai_rewards` only when the user asks for one limited batch. Settlement submits onchain transactions; your host's own transaction confirmation policy still applies and must never be bypassed. Report any receipts the validator skipped by policy, with their reasons.
 
 After settlement, report the claimed amount, recipient farming wallet, Merkle root, root transaction, and claim transaction. Never claim that token value or liquidity is guaranteed.
 

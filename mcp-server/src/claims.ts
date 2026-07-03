@@ -4,9 +4,10 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { collectorFingerprint, verifyCollectorPayload } from "./collector.js";
 import { verifyTaskAuthorization } from "./identity.js";
+import { DAY_MS, filterEligibleReceipts, settlementPolicyFromEnv } from "./policy.js";
 import { deriveTrustTier } from "./providers.js";
-import { markBatchSettled, unsettledReceipts } from "./store.js";
-import type { ClaimBatch, TaskSession, UsageReceipt } from "./types.js";
+import { markBatchSettled, settledReceiptsSince, unsettledReceipts } from "./store.js";
+import type { ClaimBatch, SettlementAllResult, SettlementResult, SkippedReceipt, TaskSession, UsageReceipt } from "./types.js";
 
 const claimsAbi = [
   "function token() view returns (address)",
@@ -24,11 +25,27 @@ function claimsAddress(): string {
   return getAddress(value);
 }
 
-function validatorWallet(): Wallet {
-  const privateKey = process.env.AIPOU_VALIDATOR_PRIVATE_KEY;
-  if (!privateKey) throw new Error("AIPOU_VALIDATOR_PRIVATE_KEY is required only on the protocol validator server");
+async function validatorPrivateKey(): Promise<string> {
+  const keyFile = process.env.AIPOU_VALIDATOR_KEY_FILE;
+  if (keyFile) {
+    const key = (await readFile(path.resolve(keyFile), "utf8")).trim();
+    if (!key) throw new Error(`AIPOU_VALIDATOR_KEY_FILE ${keyFile} is empty`);
+    return key;
+  }
+  const envKey = process.env.AIPOU_VALIDATOR_PRIVATE_KEY;
+  if (envKey) {
+    console.error(
+      "aipou-mcp: AIPOU_VALIDATOR_PRIVATE_KEY in the shared environment is deprecated; " +
+        "move it to a separate file and set AIPOU_VALIDATOR_KEY_FILE so farming agents never load the validator key"
+    );
+    return envKey;
+  }
+  throw new Error("AIPOU_VALIDATOR_KEY_FILE (or legacy AIPOU_VALIDATOR_PRIVATE_KEY) is required only on the protocol validator server");
+}
+
+async function validatorWallet(): Promise<Wallet> {
   const provider = new JsonRpcProvider(process.env.AIPOU_RPC_URL || "https://mainnet.base.org");
-  return new Wallet(privateKey, provider);
+  return new Wallet(await validatorPrivateKey(), provider);
 }
 
 async function trustedCollectorFingerprints(): Promise<Set<string>> {
@@ -79,9 +96,19 @@ async function verifyReceipt(receipt: UsageReceipt, trustedCollectors: Set<strin
   if (derivedTier !== receipt.trustTier) throw new Error(`Invalid trust tier for ${receipt.receiptId}`);
 }
 
-export async function settleRewards(maxReceipts = 25): Promise<ClaimBatch> {
-  const receipts = await unsettledReceipts(maxReceipts);
-  if (receipts.length === 0) throw new Error("There are no unsettled receipts");
+export async function settleRewards(maxReceipts = 25): Promise<SettlementResult> {
+  const candidates = await unsettledReceipts(Number.MAX_SAFE_INTEGER);
+  if (candidates.length === 0) throw new Error("There are no unsettled receipts");
+
+  const policy = settlementPolicyFromEnv();
+  const recentlySettled = await settledReceiptsSince(Date.now() - DAY_MS);
+  const { eligible, skipped } = filterEligibleReceipts(candidates, recentlySettled, policy);
+  if (eligible.length === 0) {
+    const reasons = skipped.map((item) => `${item.receiptId.slice(0, 10)}…: ${item.reason}`).join("; ");
+    throw new Error(`No receipts pass the settlement policy. Skipped: ${reasons}`);
+  }
+  const receipts = eligible.slice(0, maxReceipts);
+
   const trustedCollectors = await trustedCollectorFingerprints();
   for (const receipt of receipts) await verifyReceipt(receipt, trustedCollectors);
 
@@ -89,6 +116,8 @@ export async function settleRewards(maxReceipts = 25): Promise<ClaimBatch> {
   const amounts = receipts.map((receipt) => parseUnits(receipt.estimatedReward, 18));
   const receiptIds = receipts.map((receipt) => receipt.receiptId);
   const coder = AbiCoder.defaultAbiCoder();
+  // Leaves are double-hashed (inner keccak, then keccak again) so an interior
+  // Merkle node can never be replayed as a valid leaf (second-preimage guard).
   const leaves = receipts.map((receipt, index) => {
     const inner = keccak256(coder.encode(["address", "uint256", "bytes32"], [receipt.wallet, amounts[index], receipt.receiptId]));
     return Buffer.from(getBytes(keccak256(concat([inner]))));
@@ -101,7 +130,7 @@ export async function settleRewards(maxReceipts = 25): Promise<ClaimBatch> {
   const root = tree.getHexRoot();
   const proofs = leaves.map((leaf) => tree.getHexProof(leaf));
 
-  const signer = validatorWallet();
+  const signer = await validatorWallet();
   const address = claimsAddress();
   const claims = new Contract(address, claimsAbi, signer);
   const configuredValidator = getAddress(await claims.validator());
@@ -134,5 +163,44 @@ export async function settleRewards(maxReceipts = 25): Promise<ClaimBatch> {
     settledAt: new Date().toISOString()
   };
   await markBatchSettled(batch);
-  return batch;
+  return { ...batch, skippedReceipts: skipped };
+}
+
+export async function settleAllRewards(batchSize = 100, maxBatches = 20): Promise<SettlementAllResult> {
+  const batches: SettlementResult[] = [];
+  const skippedByReceiptId = new Map<string, SkippedReceipt>();
+  let stoppedReason: string | undefined;
+
+  for (let index = 0; index < maxBatches; index += 1) {
+    try {
+      const batch = await settleRewards(batchSize);
+      batches.push(batch);
+      for (const skipped of batch.skippedReceipts) {
+        skippedByReceiptId.set(skipped.receiptId, skipped);
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (message === "There are no unsettled receipts") break;
+      stoppedReason = message;
+      break;
+    }
+  }
+
+  if (!stoppedReason && batches.length === maxBatches) {
+    stoppedReason = `Stopped after maxBatches=${maxBatches}; run settle_all_ai_rewards again for any remaining receipts`;
+  }
+
+  const pendingReceiptCount = (await unsettledReceipts(Number.MAX_SAFE_INTEGER)).length;
+  const skippedReceipts = [...skippedByReceiptId.values()];
+  return {
+    batches,
+    batchCount: batches.length,
+    settledReceiptCount: batches.reduce((total, batch) => total + batch.receiptIds.length, 0),
+    skippedReceipts,
+    pendingReceiptCount,
+    publishTransactions: batches.map((batch) => batch.publishTransaction),
+    claimTransactions: batches.map((batch) => batch.claimTransaction),
+    stoppedReason,
+    settledAt: new Date().toISOString()
+  };
 }

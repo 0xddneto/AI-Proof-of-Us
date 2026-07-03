@@ -20,7 +20,7 @@ The agent lifecycle is:
 
 ```text
 begin_ai_task -> perform useful work -> complete_ai_task -> pending receipt
-explicit user claim -> settle_ai_rewards -> AIPOU minted on Base
+explicit user claim -> settle_all_ai_rewards -> AIPOU minted on Base
 ```
 
 Frameworks can integrate AIPOU as a thin lifecycle adapter. They only need task start, task end, provider/model metadata, hashes, and the returned `receiptId` exposed as a `workReceiptId` when the receipt represents a human/agent work unit. They do not need to understand Merkle roots, reward formulas, Base claims, or validator keys.
@@ -63,6 +63,8 @@ To settle pending receipts:
 ```text
 Claim my AIPOU.
 ```
+
+For that broad command, prefer `settle_all_ai_rewards` so receipts from every conversation and project sharing the same `AIPOU_DATA_DIR` are processed in one user action. Use `settle_ai_rewards` only when the user asks for a single limited batch.
 
 ## Protocol Boundaries
 

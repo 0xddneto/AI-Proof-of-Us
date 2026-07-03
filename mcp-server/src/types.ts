@@ -62,9 +62,32 @@ export interface ClaimBatch {
   settledAt: string;
 }
 
+export interface SkippedReceipt {
+  receiptId: string;
+  wallet: string;
+  reason: string;
+}
+
+export interface SettlementResult extends ClaimBatch {
+  skippedReceipts: SkippedReceipt[];
+}
+
+export interface SettlementAllResult {
+  batches: SettlementResult[];
+  batchCount: number;
+  settledReceiptCount: number;
+  skippedReceipts: SkippedReceipt[];
+  pendingReceiptCount: number;
+  publishTransactions: string[];
+  claimTransactions: string[];
+  stoppedReason?: string;
+  settledAt: string;
+}
+
 export interface ProtocolState {
   sessions: Record<string, TaskSession>;
   receipts: UsageReceipt[];
   completedEvidence: Record<string, string>;
   batches: ClaimBatch[];
+  settledReceiptIds?: string[];
 }

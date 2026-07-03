@@ -99,7 +99,9 @@ Receipts remain local and pending until settlement. The user only needs to say:
 Claim my AIPOU.
 ```
 
-That explicit request authorizes the complete claim flow. The agent then:
+That explicit request authorizes the complete claim flow. For broad claim requests, the agent should call `settle_all_ai_rewards`, which keeps running bounded batches until every currently eligible pending receipt in the shared AIPOU data directory has been processed.
+
+The agent then:
 
 1. loads all unsettled receipts
 2. verifies wallet, collector, provider, and duplicate-protection rules
@@ -111,7 +113,9 @@ That explicit request authorizes the complete claim flow. The agent then:
 8. records the root and transaction hashes locally
 9. reports the completed settlement to the user
 
-No second confirmation is required after the explicit claim request. The farming wallet receives the tokens and does not need ETH for the batch settlement.
+The explicit claim request is the trigger for settlement; the MCP client remains free to apply its own transaction confirmation policy on top. The farming wallet receives the tokens and does not need ETH for the batch settlement.
+
+If there are more receipts than one transaction should safely carry, `settle_all_ai_rewards` splits them into multiple batches internally. The user still gives one command; the MCP returns one summary containing every root and transaction hash.
 
 ## Wallet and Key Roles
 

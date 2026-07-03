@@ -49,4 +49,32 @@ Exports signed receipts and settlement status, optionally filtered by wallet.
 
 ## `settle_ai_rewards`
 
-Available only on the protocol validator server. When the user explicitly says something like `claim my AIPOU`, that phrase authorizes the complete flow: validate unsettled receipts, publish their Merkle root, call `claimBatch`, and record both transaction hashes. The agent does not request a second confirmation.
+Available only on the protocol validator server. Use this for one limited batch when the user asks for a bounded claim. The flow: validate unsettled receipts, publish their Merkle root, call `claimBatch`, and record both transaction hashes. An optional settlement policy (minimum work floor, per-wallet daily limit — both disabled by default) can skip receipts, which are reported back with reasons. The host client and its user keep the final say on how the two on-chain transactions are confirmed; the server does not instruct clients to skip their own confirmation policy.
+
+## `settle_all_ai_rewards`
+
+Available only on the protocol validator server. Use this after a broad explicit request such as:
+
+```text
+Claim my AIPOU.
+Settle all pending AIPOU.
+Liquidate all pending AIPOU rewards.
+```
+
+This is the one-command claim path. It repeatedly runs the same validator settlement flow in bounded batches until no eligible pending receipts remain or `maxBatches` is reached.
+
+Inputs:
+
+```json
+{
+  "batchSize": 100,
+  "maxBatches": 20
+}
+```
+
+Each batch still submits two onchain transactions:
+
+1. publish Merkle root
+2. claim batch
+
+The returned summary includes all batch roots, all publish transactions, all claim transactions, total settled receipt count, skipped receipts, and remaining pending receipt count.
