@@ -28,6 +28,8 @@ Run:
 BASESCAN_API_KEY=... npm run verify:base:token -w contracts
 ```
 
+The repository uses the Etherscan API V2 endpoint with Base chain ID `8453`.
+
 ## Verify Claims Contract On BaseScan
 
 The AIPOUClaims constructor arguments:
