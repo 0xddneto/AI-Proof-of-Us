@@ -16,7 +16,8 @@ The protocol was built in layers:
 4. **Signed task receipts** - completed tasks produce privacy-preserving receipts signed by the collector with Ed25519.
 5. **Replay protection** - completed nonces, duplicate task/output evidence, and claimed receipt IDs cannot be reused.
 6. **Merkle settlement** - approved receipts are grouped into an onchain-verifiable batch.
-7. **Autonomous claims** - one explicit user command authorizes the agent to publish the batch and mint the rewards.
+7. **Status first** - the user can ask how much is already recorded, pending, claimed, and visible onchain.
+8. **Authorized claims** - one explicit user command authorizes the agent to publish a pending batch and mint the rewards.
 
 ## Farming Across Projects
 
@@ -91,15 +92,33 @@ There is currently no daily farming limit. Exact replay is blocked, but Sybil fa
 
 The user cannot choose `client_signed` or `provider_signed`. The MCP derives the tier during completion, and the protocol validator recomputes it during settlement. A provider tier requires a valid provider signature from a configured public key; an API response ID or agent statement is not enough.
 
-## Claiming Rewards
+## Checking and Claiming Rewards
 
-Receipts remain local and pending until settlement. The user only needs to say:
+The normal user experience should begin with a status check:
+
+```text
+Show my AIPOU status.
+```
+
+The agent should call `get_aipou_status` and report:
+
+- how many receipts were recorded
+- how many receipts are already claimed
+- how many receipts are still pending
+- the estimated AIPOU already claimed
+- the estimated AIPOU still pending
+- the farming wallet's onchain AIPOU balance
+- the latest claim transaction, when available
+
+This avoids the confusing case where `claim` returns zero pending receipts even though previous work was already claimed.
+
+Receipts remain local and pending until settlement. When there are pending eligible receipts and the user wants to settle them, the user can say:
 
 ```text
 Claim my AIPOU.
 ```
 
-That explicit request authorizes the complete claim flow. For broad claim requests, the agent should call `settle_all_ai_rewards`, which keeps running bounded batches until every currently eligible pending receipt in the shared AIPOU data directory has been processed.
+That explicit request authorizes the complete claim flow for pending receipts. For broad claim requests, the agent should call `settle_all_ai_rewards`, which keeps running bounded batches until every currently eligible pending receipt in the shared AIPOU data directory has been processed.
 
 The agent then:
 
@@ -158,8 +177,9 @@ The intended experience is intentionally small:
 ```text
 Work normally with AI across any project.
 The agent creates signed receipts for useful tasks.
-Say "Claim my AIPOU" when ready.
-Receive the accumulated AIPOU on Base.
+Ask "Show my AIPOU status" to see recorded, pending, claimed, and onchain balance.
+Say "Claim my AIPOU" only when there are pending receipts to settle.
+Receive approved AIPOU on Base in the farming wallet.
 ```
 
 Everything between the work and the final balance - nonce creation, signatures, duplicate checks, reward calculation, Merkle construction, root publication, proof submission, and minting - is handled by the agent and the protocol.

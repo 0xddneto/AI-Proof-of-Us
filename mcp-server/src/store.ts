@@ -112,6 +112,22 @@ export async function unsettledReceipts(limit: number): Promise<UsageReceipt[]> 
   return (await readState()).receipts.filter((receipt) => !receipt.claimTransaction).slice(0, limit);
 }
 
+export async function protocolStateCounts(): Promise<{
+  sessions: number;
+  completedSessions: number;
+  incompleteSessions: number;
+  batches: number;
+}> {
+  const state = await readState();
+  const sessions = Object.values(state.sessions);
+  return {
+    sessions: sessions.length,
+    completedSessions: sessions.filter((session) => session.completedAt).length,
+    incompleteSessions: sessions.filter((session) => !session.completedAt).length,
+    batches: state.batches.length
+  };
+}
+
 export async function settledReceiptsSince(sinceMs: number): Promise<UsageReceipt[]> {
   const receipts = [...(await readArchivedReceipts()), ...(await readState()).receipts];
   return receipts.filter(

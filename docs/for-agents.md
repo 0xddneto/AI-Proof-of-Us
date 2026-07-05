@@ -58,13 +58,21 @@ The JSON system prompt report should list `get_aipou_identity`, `begin_ai_task`,
 
 Small local models must call these tools directly. They must never replace them with invented commands such as `aipou begin`, `npx aipou ...`, shell scripts, or HTTP requests.
 
-To settle pending receipts:
+To show the user's current reward state:
+
+```text
+Show my AIPOU status.
+```
+
+Use `get_aipou_status` for this request. It should show recorded receipts, pending receipts, already claimed receipts, estimated claimed AIPOU, estimated pending AIPOU, and the farming wallet's onchain AIPOU balance without exporting full receipt payloads.
+
+To settle pending receipts after the user explicitly asks:
 
 ```text
 Claim my AIPOU.
 ```
 
-For that broad command, prefer `settle_all_ai_rewards` so receipts from every conversation and project sharing the same `AIPOU_DATA_DIR` are processed in one user action. Use `settle_ai_rewards` only when the user asks for a single limited batch.
+For that broad claim command, prefer `settle_all_ai_rewards` so receipts from every conversation and project sharing the same `AIPOU_DATA_DIR` are processed in one user action. Use `settle_ai_rewards` only when the user asks for a single limited batch. If there are no pending receipts, say that clearly and report the already claimed total instead of implying that no AI work was recorded.
 
 ## Protocol Boundaries
 

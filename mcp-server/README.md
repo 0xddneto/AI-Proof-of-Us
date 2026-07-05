@@ -1,6 +1,6 @@
 # AIPOU MCP Server
 
-`aipou-mcp-server` records private, signed receipts for authorized AI tasks. It supports local receipt collection and optional claims for validated work on Base.
+`aipou-mcp-server` records private, signed receipts for authorized AI tasks. It supports local receipt collection, reward status checks, and optional claims for validated work on Base.
 
 It does not detect hidden AI use, prove task quality, replace payment rails, or require raw prompts and outputs to leave the user's machine.
 
@@ -50,7 +50,7 @@ AIPOU_CONTRACT_ADDRESS=0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB
 AIPOU_CLAIMS_ADDRESS=0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058
 ```
 
-Use a new dedicated farming wallet, never a primary wallet. Do not commit the private key. Optional claims and settlement occur only after an explicit user request.
+Use a new dedicated farming wallet, never a primary wallet. Do not commit the private key. Status checks can show already claimed and pending AIPOU without moving funds. Optional claims and settlement occur only after an explicit user request.
 
 Do not configure `AIPOU_VALIDATOR_PRIVATE_KEY` on a user installation. That key is only for the separate protocol validator service. The local Ed25519 collector key and receipt metadata are stored unencrypted under `AIPOU_DATA_DIR`; restrict that directory with operating-system permissions and use encrypted backups.
 

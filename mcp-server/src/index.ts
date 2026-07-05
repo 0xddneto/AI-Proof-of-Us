@@ -9,6 +9,7 @@ import { aipouClaimsAbi, aipouTokenAbi, getTokenContractConfig } from "./contrac
 import { agentWallet } from "./identity.js";
 import { beginTask, completeTask, exportReceipts } from "./receipts.js";
 import { estimateReward } from "./rewards.js";
+import { getAipouStatus } from "./status.js";
 
 const bytes32 = z.string().regex(/^0x[a-fA-F0-9]{64}$/);
 const usageCounts = {
@@ -18,7 +19,7 @@ const usageCounts = {
 };
 
 const server = new McpServer(
-  { name: "aipou-mcp", version: "0.2.0" },
+  { name: "aipou-mcp", version: "0.2.1" },
   {
     instructions:
       "For meaningful AI tasks, call begin_ai_task before work and complete_ai_task after work using hashes, never raw prompts or outputs. " +
@@ -54,6 +55,16 @@ server.tool(
         text: JSON.stringify({ wallet: wallet.address, collectorPublicKey, collectorFingerprint: collectorFingerprint(collectorPublicKey) }, null, 2)
       }]
     };
+  }
+);
+
+server.tool(
+  "get_aipou_status",
+  "Show recorded, pending, and already claimed AIPOU receipts plus the farming wallet's on-chain AIPOU balance. Does not reveal private keys or full receipt payloads.",
+  {},
+  async () => {
+    const status = await getAipouStatus();
+    return { content: [{ type: "text", text: JSON.stringify(status, null, 2) }] };
   }
 );
 

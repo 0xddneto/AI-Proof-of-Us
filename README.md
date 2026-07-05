@@ -128,6 +128,7 @@ The MCP server exposes tools for creating task receipts:
 - `begin_ai_task`
 - `complete_ai_task`
 - `export_ai_receipts`
+- `get_aipou_status` (recorded, pending, claimed, and onchain balance summary)
 - `settle_ai_rewards` (one limited validator batch)
 - `settle_all_ai_rewards` (one-command claim path for all pending eligible receipts)
 
@@ -214,10 +215,11 @@ The `.env` file holds `AIPOU_AGENT_PRIVATE_KEY` and `AIPOU_CLAIMS_ADDRESS`. On t
 2. The client collects usage and calls `complete_ai_task` with the output hash.
 3. The MCP derives the trust tier and signs the receipt with Ed25519.
 4. The validator rejects repeated nonces and repeated task/output evidence.
-5. `settle_all_ai_rewards` processes all currently eligible pending receipts from the shared `AIPOU_DATA_DIR` in bounded batches.
-6. `AIPOUClaims` rejects claimed receipt IDs and mints AIPOU to each farming wallet.
+5. `get_aipou_status` lets the user see how much has already been recorded, claimed, and left pending.
+6. After an explicit settlement request, `settle_all_ai_rewards` processes all currently eligible pending receipts from the shared `AIPOU_DATA_DIR` in bounded batches.
+7. `AIPOUClaims` rejects claimed receipt IDs and mints AIPOU to each farming wallet.
 
-An explicit request such as `claim my AIPOU` is the required trigger for settlement. Broad claim requests use `settle_all_ai_rewards`; `settle_ai_rewards` remains available for a single limited batch. The MCP client and its user keep the final say on how on-chain transactions are confirmed; the server never asks a client to skip its own confirmation policy. The validator can optionally enforce a settlement policy (minimum work floor per receipt via `AIPOU_MIN_RECEIPT_TOKENS`, per-wallet daily receipt limit via `AIPOU_MAX_DAILY_RECEIPTS_PER_WALLET`); both checks are disabled by default.
+Users should normally ask for status first, for example `show my AIPOU status`, to see already claimed rewards, pending receipts, and the farming wallet's onchain balance. An explicit request such as `claim my AIPOU` is the trigger for settlement only when pending eligible receipts exist. Broad claim requests use `settle_all_ai_rewards`; `settle_ai_rewards` remains available for a single limited batch. The MCP client and its user keep the final say on how on-chain transactions are confirmed; the server never asks a client to skip its own confirmation policy. The validator can optionally enforce a settlement policy (minimum work floor per receipt via `AIPOU_MIN_RECEIPT_TOKENS`, per-wallet daily receipt limit via `AIPOU_MAX_DAILY_RECEIPTS_PER_WALLET`); both checks are disabled by default.
 
 The trust tier is derived by the MCP and recomputed by the validator. Users cannot self-report `provider_signed`; a provider tier requires a valid provider signature from a configured public key.
 
