@@ -746,3 +746,22 @@ Immediate response status:
   - No `GH_TOKEN` or `GITHUB_TOKEN` is available in the shell.
   - The in-app browser webview did not attach during the first GitHub session check.
 - Decision: do not claim any new external outreach posts were published until GitHub/browser authentication is available.
+
+### Published after Chrome session was available
+
+- mcp-agent discussion: https://github.com/lastmile-ai/mcp-agent/discussions/716
+  - Title: "Where should an external AI-work receiptId attach in mcp-agent runs?"
+  - Framing: small MCP lifecycle adapter, `receiptId` as `workReceiptId`, human status loop with `get_aipou_status`, no price/yield claim.
+  - Ask: where should `workReceiptId` live in mcp-agent: lifecycle hook, run metadata, workflow state, trace attribute, or external audit artifact?
+- agent-services-mcp issue: https://github.com/Gareth1953/agent-services-mcp/issues/1
+  - Title: "Interop question: linking provenance receipts with human/agent workReceiptId"
+  - Framing: AIPOU as human/agent work receipt beside lower-level provenance receipts, not a replacement.
+  - Ask: whether provenance receipts can reference an AIPOU `workReceiptId`, whether AIPOU receipts can reference their provenance receipt, and what field shape is best for MCP tool outputs.
+- CoSAI MCP verification receipts issue: https://github.com/cosai-oasis/ws4-secure-design-agentic-systems/issues/110
+  - Commented on an existing implementation note about signed context-bound verification receipts for MCP output pipelines.
+  - Framing: AIPOU as a neighboring human/agent work-receipt layer, not a scanner and not a replacement for SVR/sigma-guard.
+  - Ask: consider a minimal cross-reference shape such as `external_receipts: [{ type, id, issuer, evidence_boundary, verification_status, uri }]`.
+- Agent Receipts / Obsigna organization discussion: https://github.com/orgs/agent-receipts/discussions/966
+  - Title: "Could workReceiptId reference Agent Receipts without merging trust models?"
+  - Framing: AIPOU starts at the human/agent work-unit boundary and should not replace Agent Receipts or Obsigna.
+  - Ask: whether Agent Receipts can reference an AIPOU `workReceiptId`, whether AIPOU can reference Agent Receipts as lower-level evidence, and whether references should carry explicit trust-boundary labels such as `issuer_asserted`, `chain_derivable`, `tool_call`, `workflow`, or `human_agent_work`.
