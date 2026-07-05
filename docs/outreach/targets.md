@@ -13,6 +13,8 @@ Use this as a map, not a spam list. Post only where the project is relevant and 
 | Agent framework builders | AIPOU can be a shared receipt layer | Ask what automatic receipt hooks should look like |
 | Web3 infrastructure builders | Claims, emissions, validator, and attestations need scrutiny | Request review of Merkle and validator trust |
 | Security researchers | Abuse resistance is the central challenge | Invite attacks and anti-Sybil proposals |
+| Agent payment and marketplace builders | AIPOU can become voluntary settlement for agent work without replacing payment rails | Ask where a `workReceiptId` belongs beside payment/session records |
+| Receipt and provenance projects | They already model signed evidence and trust boundaries | Ask whether AIPOU work receipts can reference their lower-level receipts |
 
 ## Public Channels to Try
 
@@ -23,6 +25,8 @@ Use this as a map, not a spam list. Post only where the project is relevant and 
 - Open-source Discords only in channels that allow project sharing.
 - ClawHub submission after the skill is packaged in the expected registry format.
 - LLMOps and observability communities such as Langfuse/Helicone/OpenTelemetry-adjacent circles.
+- MCP governance/security discussions where signed receipts, tool approval, or run records are already being discussed.
+- Agent marketplace/payment communities where voluntary settlement and external work evidence are relevant.
 
 ## Avoid
 

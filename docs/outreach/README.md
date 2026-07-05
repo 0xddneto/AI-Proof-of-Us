@@ -9,6 +9,7 @@ The goal is to spread AIPOU through useful conversations with agent builders, MC
 - [ai-door-to-door.md](ai-door-to-door.md) contains audience-specific pitches.
 - [ai-prompts.md](ai-prompts.md) contains prompts to send to other AI systems.
 - [targets.md](targets.md) maps high-signal places to share AIPOU.
+- [door-to-door-2026-07-05.md](door-to-door-2026-07-05.md) contains the current human-first agent roadshow plan and messages.
 - [openclaw-roadshow.md](openclaw-roadshow.md) tracks OpenClaw automation status.
 - [roadshow-next-steps.md](roadshow-next-steps.md) turns feedback into product and outreach priorities.
 - [responses-log.md](responses-log.md) records AI and community feedback.
