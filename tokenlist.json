@@ -15,7 +15,9 @@
       "decimals": 18,
       "logoURI": "https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/assets/token/aipou.png",
       "extensions": {
-        "website": "https://github.com/0xddneto/AI-Proof-of-Us",
+        "website": "https://0xddneto.github.io/AI-Proof-of-Us/",
+        "repository": "https://github.com/0xddneto/AI-Proof-of-Us",
+        "contact": "aipou001@gmail.com",
         "basescan": "https://basescan.org/token/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB",
         "claims": "0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058"
       }

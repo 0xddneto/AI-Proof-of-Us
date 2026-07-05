@@ -42,6 +42,7 @@ Read [Human Rewards and Agent Payments](docs/human-rewards-and-agent-payments.md
 Read [AIPOU Tokenomics and Launch Transparency](docs/tokenomics.md) for supply, pool, reward, and experimental launch details.
 Read [Evidence Boundaries](docs/evidence-boundaries.md) and [Claim Validation Policy](docs/claim-validation-policy.md) before proposing integrations with receipt, provenance, security, or payment projects.
 
+Official website: https://0xddneto.github.io/AI-Proof-of-Us/
 Public explainer: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
 
 Official project contact: aipou001@gmail.com

@@ -55,7 +55,8 @@ After source verification, submit a BaseScan Token Update request:
 - token contract: `0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB`
 - project name: `AI Proof of Use`
 - symbol: `AIPOU`
-- website/repository: `https://github.com/0xddneto/AI-Proof-of-Us`
+- official website: `https://0xddneto.github.io/AI-Proof-of-Us/`
+- repository: `https://github.com/0xddneto/AI-Proof-of-Us`
 - official project email: `aipou001@gmail.com`
 - token list: `https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/tokenlist.json`
 - 32x32 SVG logo: `https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/assets/token/aipou-32.svg`

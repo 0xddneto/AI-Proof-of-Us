@@ -1,0 +1,264 @@
+:root {
+  color-scheme: dark;
+  --bg: #090a0a;
+  --panel: #111514;
+  --panel-2: #171c1a;
+  --line: #2d352f;
+  --text: #f5f1df;
+  --muted: #b9b39d;
+  --gold: #d7b75a;
+  --green: #82e6a0;
+  --blue: #8ab7ff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0;
+}
+
+a { color: inherit; }
+
+.topbar {
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 0 5vw;
+  border-bottom: 1px solid var(--line);
+  background: rgba(9, 10, 10, .94);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-right: auto;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.brand img,
+.token-panel img {
+  border-radius: 50%;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+}
+
+nav a,
+footer a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+nav a:hover,
+footer a:hover,
+.facts a:hover,
+.links a:hover {
+  color: var(--green);
+}
+
+.hero {
+  min-height: calc(100vh - 68px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(320px, .55fr);
+  gap: 5vw;
+  align-items: center;
+  padding: 8vh 5vw;
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 80% 20%, rgba(215, 183, 90, .16), transparent 32%),
+    linear-gradient(135deg, rgba(130, 230, 160, .08), transparent 38%);
+}
+
+.eyebrow {
+  margin: 0 0 16px;
+  color: var(--green);
+  font: 700 12px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
+  text-transform: uppercase;
+}
+
+h1 {
+  max-width: 920px;
+  margin: 0;
+  font-size: clamp(44px, 8vw, 96px);
+  line-height: .95;
+}
+
+.lede {
+  max-width: 760px;
+  margin: 28px 0;
+  color: var(--muted);
+  font-size: 21px;
+  line-height: 1.55;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  border: 1px solid var(--gold);
+  background: var(--gold);
+  color: #151107;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.button.secondary {
+  background: transparent;
+  color: var(--text);
+}
+
+.token-panel {
+  padding: 28px;
+  border: 1px solid var(--line);
+  background: rgba(17, 21, 20, .86);
+}
+
+dl {
+  margin: 24px 0 0;
+}
+
+dl div {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 18px;
+  padding: 14px 0;
+  border-top: 1px solid rgba(245, 241, 223, .1);
+}
+
+dt {
+  color: var(--muted);
+  font: 700 12px ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.section {
+  padding: 78px 5vw;
+  border-bottom: 1px solid var(--line);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+}
+
+article,
+.notice,
+.facts a,
+.links a {
+  background: var(--panel);
+}
+
+article {
+  min-height: 210px;
+  padding: 28px;
+}
+
+h2 {
+  margin: 0 0 14px;
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1.05;
+}
+
+article h2 {
+  font-size: 25px;
+}
+
+p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(320px, .7fr);
+  gap: 5vw;
+  align-items: center;
+}
+
+.facts,
+.links {
+  display: grid;
+  gap: 1px;
+  background: var(--line);
+}
+
+.facts a,
+.links a {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 18px 22px;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.notice {
+  max-width: 900px;
+  padding: 28px;
+  border-left: 4px solid var(--gold);
+}
+
+footer {
+  min-height: 86px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 5vw;
+  color: var(--muted);
+}
+
+footer span {
+  margin-right: auto;
+  color: var(--text);
+  font-weight: 700;
+}
+
+@media (max-width: 860px) {
+  nav { display: none; }
+  .hero,
+  .grid,
+  .split {
+    grid-template-columns: 1fr;
+  }
+  .hero {
+    min-height: auto;
+    padding-top: 70px;
+  }
+}
+
+@media (max-width: 560px) {
+  h1 { font-size: 42px; }
+  .lede { font-size: 18px; }
+  .section { padding: 58px 5vw; }
+  dl div { grid-template-columns: 1fr; gap: 6px; }
+  footer {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  footer span { margin-right: 0; }
+}

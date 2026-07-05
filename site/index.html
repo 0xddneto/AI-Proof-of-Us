@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AI Proof of Use is an open source MCP receipt protocol for people working with AI agents.">
+  <title>AI Proof of Use</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/assets/token/aipou-32.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="AI Proof of Use home">
+      <img src="https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/assets/token/aipou-32.svg" alt="" width="32" height="32">
+      <span>AI Proof of Use</span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="#protocol">Protocol</a>
+      <a href="#token">Token</a>
+      <a href="#links">Links</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">MCP receipts for AI work</p>
+        <h1>Private receipts for people working with AI agents.</h1>
+        <p class="lede">AI Proof of Use is an open source protocol that lets AI agents create signed work receipts. Approved receipts can be used for optional AIPOU token claims on Base.</p>
+        <div class="actions">
+          <a class="button" href="https://github.com/0xddneto/AI-Proof-of-Us">GitHub</a>
+          <a class="button secondary" href="mailto:aipou001@gmail.com">Contact</a>
+        </div>
+      </div>
+      <aside class="token-panel" aria-label="AIPOU token summary">
+        <img src="https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/assets/token/aipou-32.svg" alt="AIPOU token logo" width="64" height="64">
+        <dl>
+          <div><dt>Token</dt><dd>AI Proof of Use</dd></div>
+          <div><dt>Symbol</dt><dd>AIPOU</dd></div>
+          <div><dt>Chain</dt><dd>Base Mainnet</dd></div>
+          <div><dt>Contact</dt><dd><a href="mailto:aipou001@gmail.com">aipou001@gmail.com</a></dd></div>
+        </dl>
+      </aside>
+    </section>
+
+    <section id="protocol" class="section">
+      <p class="eyebrow">What It Does</p>
+      <div class="grid">
+        <article>
+          <h2>Receipts</h2>
+          <p>Agents create task receipts with nonces, hashes, wallet authorization, model metadata, and collector signatures.</p>
+        </article>
+        <article>
+          <h2>Privacy</h2>
+          <p>The protocol stores local hashes instead of raw prompts or outputs. Users can keep receipts without claiming tokens.</p>
+        </article>
+        <article>
+          <h2>Claims</h2>
+          <p>Validator-approved receipts may enter a Merkle batch. The Base claim contract verifies proofs and mints AIPOU.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="token" class="section split">
+      <div>
+        <p class="eyebrow">Base Deployment</p>
+        <h2>Verified contracts and transparent metadata.</h2>
+        <p>AIPOU is experimental, open source, and unaudited. It does not promise price, yield, liquidity, investment value, or guaranteed rewards.</p>
+      </div>
+      <div class="facts">
+        <a href="https://basescan.org/token/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB">Token contract</a>
+        <a href="https://basescan.org/address/0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058">Claims contract</a>
+        <a href="https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/assets/token/aipou-32.svg">32x32 SVG logo</a>
+        <a href="https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/tokenlist.json">Token list</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">Boundaries</p>
+      <div class="notice">
+        <p>AIPOU does not detect hidden AI use and does not trustlessly prove objective task value today. It records authorized work receipts and allows optional claims after validator review.</p>
+      </div>
+    </section>
+
+    <section id="links" class="section links">
+      <a href="https://github.com/0xddneto/AI-Proof-of-Us">Repository</a>
+      <a href="https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/farming-and-claims.md">Farming and claims</a>
+      <a href="https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md">Evidence boundaries</a>
+      <a href="https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us">Public explainer</a>
+    </section>
+  </main>
+
+  <footer>
+    <span>AI Proof of Use / AIPOU</span>
+    <a href="mailto:aipou001@gmail.com">aipou001@gmail.com</a>
+  </footer>
+</body>
+</html>
