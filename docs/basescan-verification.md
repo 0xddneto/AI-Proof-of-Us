@@ -56,8 +56,10 @@ After source verification, submit a BaseScan Token Update request:
 - project name: `AI Proof of Use`
 - symbol: `AIPOU`
 - website/repository: `https://github.com/0xddneto/AI-Proof-of-Us`
+- official project email: `aipou001@gmail.com`
 - token list: `https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/tokenlist.json`
-- logo: `assets/token/aipou.png`
+- 32x32 SVG logo: `https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/assets/token/aipou-32.svg`
+- PNG logo: `https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/assets/token/aipou.png`
 - description: `AI Proof of Use is an MCP-first receipt protocol for humans working with AI. Agents create private signed receipts for AI-assisted work; validator-approved receipts can optionally claim AIPOU on Base. AIPOU does not promise price, yield, liquidity, investment value, or guaranteed rewards.`
 
 BaseScan token info updates generally require:

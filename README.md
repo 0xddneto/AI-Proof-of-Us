@@ -44,6 +44,8 @@ Read [Evidence Boundaries](docs/evidence-boundaries.md) and [Claim Validation Po
 
 Public explainer: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
 
+Official project contact: aipou001@gmail.com
+
 This is not "AI usage mining" and it is not meant to reward raw prompt spam or attract passive token speculation. AIPOU is for humans doing real work with AI and for developers who want to test whether that work can produce portable receipts across agent clients.
 
 In plain language:
@@ -66,6 +68,7 @@ Logo:     assets/token/aipou.png
 - Contract: https://basescan.org/token/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB
 - Verified source: https://repo.sourcify.dev/contracts/full_match/8453/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB/
 - Token list: https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/tokenlist.json
+- BaseScan SVG logo: https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/assets/token/aipou-32.svg
 
 ```txt
 Claims:   0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058
@@ -224,6 +227,7 @@ See [docs/base-launch.md](docs/base-launch.md) for the deployment checklist.
 - Hugging Face Space: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
 - Reddit announcement: https://www.reddit.com/user/Any_Praline805/comments/1uklabn/i_built_an_open_mcp_protocol_that_rewards/
 - Outreach kit: [docs/outreach](docs/outreach/README.md)
+- Official contact: aipou001@gmail.com
 
 ## Security and abuse warning
 

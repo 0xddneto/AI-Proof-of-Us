@@ -45,6 +45,8 @@ Humans who spend their day working with AI can keep private receipts and may cla
 - GitHub: https://github.com/0xddneto/AI-Proof-of-Us
 - Token on BaseScan: https://basescan.org/token/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB
 - Claims contract: https://basescan.org/address/0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058
+- Official project contact: aipou001@gmail.com
+- 32x32 SVG logo: https://raw.githubusercontent.com/0xddneto/AI-Proof-of-Us/main/assets/token/aipou-32.svg
 
 AIPOU is experimental, unaudited, and not an investment product.
 

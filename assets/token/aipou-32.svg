@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" role="img" aria-labelledby="title desc">
+  <title id="title">AIPOU token logo</title>
+  <desc id="desc">AI Proof of Use token mark</desc>
+  <defs>
+    <radialGradient id="coin" cx="35%" cy="28%" r="76%">
+      <stop offset="0" stop-color="#f5f0c8"/>
+      <stop offset="0.42" stop-color="#c6a94a"/>
+      <stop offset="1" stop-color="#5e471b"/>
+    </radialGradient>
+    <linearGradient id="cut" x1="8" y1="7" x2="24" y2="25">
+      <stop offset="0" stop-color="#1a1f1b"/>
+      <stop offset="1" stop-color="#0a0c0a"/>
+    </linearGradient>
+  </defs>
+  <circle cx="16" cy="16" r="15" fill="url(#coin)"/>
+  <circle cx="16" cy="16" r="12.3" fill="none" stroke="#2d2410" stroke-width="1.2" opacity=".7"/>
+  <path d="M10 22.2 14.4 9.8h3.2L22 22.2h-3l-.8-2.4h-4.5l-.8 2.4h-2.9Zm4.5-5h2.9L16 12.7l-1.5 4.5Z" fill="url(#cut)"/>
+  <path d="M9.2 24.7c4.9 1.8 9.6 1.7 13.9-.4" fill="none" stroke="#fff3b0" stroke-width=".8" opacity=".5" stroke-linecap="round"/>
+  <path d="M9.7 7.8c4.2-2.2 8.5-2.2 12.8.1" fill="none" stroke="#fff9d6" stroke-width=".7" opacity=".45" stroke-linecap="round"/>
+</svg>
