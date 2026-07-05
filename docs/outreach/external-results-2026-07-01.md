@@ -734,3 +734,15 @@ Immediate response status:
 - Follow-ups were posted through the authenticated GitHub browser session.
 - No new external adoption is confirmed from this posting alone.
 - Next check should look for replies, stars, test receipts, integration issues, or maintainers asking for a concrete adapter.
+
+## 2026-07-05 - npm 0.2.1 Published and Door-to-Door Batch Prepared
+
+- Published `aipou-mcp-server@0.2.1` to npm.
+- Confirmed npm `latest` now resolves to `0.2.1`.
+- The package includes the new `get_aipou_status` tool so users can ask "Show my AIPOU status" before claiming pending receipts.
+- Prepared a new door-to-door outreach batch in [door-to-door-batch-2026-07-05.md](door-to-door-batch-2026-07-05.md).
+- Posting blocker in the current Codex session:
+  - `gh auth status` reports no authenticated GitHub host.
+  - No `GH_TOKEN` or `GITHUB_TOKEN` is available in the shell.
+  - The in-app browser webview did not attach during the first GitHub session check.
+- Decision: do not claim any new external outreach posts were published until GitHub/browser authentication is available.
