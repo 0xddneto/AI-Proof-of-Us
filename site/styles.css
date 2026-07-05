@@ -47,6 +47,10 @@ a { color: inherit; }
   border-radius: 50%;
 }
 
+.brand img {
+  object-fit: contain;
+}
+
 nav {
   display: flex;
   gap: 20px;
@@ -128,6 +132,15 @@ h1 {
   padding: 28px;
   border: 1px solid var(--line);
   background: rgba(17, 21, 20, .86);
+}
+
+.coin-logo {
+  width: min(180px, 54vw);
+  height: auto;
+  display: block;
+  margin: 0 auto 8px;
+  object-fit: contain;
+  filter: drop-shadow(0 22px 45px rgba(0, 0, 0, .48));
 }
 
 dl {
