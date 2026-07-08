@@ -89,7 +89,7 @@ Checked on July 8, 2026 after the ElizaOS reply:
 | Website | Live with HTTP 200 |
 | Aerodrome / DEX Screener | Pair indexed; approximately $102.90 displayed liquidity at check time |
 | LP lock | `99.9999%` locked until July 8, 2027 |
-| Local receipt state | 43 recorded, 38 claimed, 5 pending, 2 incomplete sessions |
+| Local receipt state | 44 recorded, 38 claimed, 6 pending, 1 incomplete session |
 
 External thread status:
 
