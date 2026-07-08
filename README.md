@@ -88,11 +88,24 @@ Pool:       0x3bEA7b68Af54Da779454f82148Ef848c76F78D02
 Pair:       AIPOU/WETH
 Type:       Volatile
 Initial LP: 100,000,000 AIPOU + 0.000632035343416403 ETH
+LP lock:    0xc11197E32dFb2352f262D874acFc54467aee6B52
+Unlock:     2027-07-08 20:16:49 UTC
 ```
 
 - Pool: https://basescan.org/address/0x3bEA7b68Af54Da779454f82148Ef848c76F78D02
+- Verified liquidity lock: https://basescan.org/address/0xc11197E32dFb2352f262D874acFc54467aee6B52#code
+- DEX Screener: https://dexscreener.com/base/0x3bea7b68af54da779454f82148ef848c76f78d02
 
-This pool was initialized with intentionally minimal ETH liquidity. Its price is highly volatile and easy to move; it should not be treated as a reliable market price until deeper liquidity is added.
+The pool was initialized with minimal ETH liquidity and later deepened to
+approximately `99.23M AIPOU + 0.02957 WETH`. A total of
+`1,712.89145801936861611` LP tokens, representing `99.9999%` of the LP supply,
+are held by an immutable lock until July 8, 2027. The lock has no owner, admin,
+or early-withdrawal path; after expiry, anyone may trigger release, but the LP
+tokens can only return to the fixed beneficiary.
+
+Liquidity is still small and its price remains volatile. The lock prevents the
+protocol wallet from removing the locked position during the published period;
+it does not guarantee token value, trading volume, or future liquidity.
 
 The initial experimental pool buy was later returned through Aerodrome so the large early purchase would not remain as a misleading concentrated holder balance. See [AIPOU Tokenomics and Launch Transparency](docs/tokenomics.md).
 

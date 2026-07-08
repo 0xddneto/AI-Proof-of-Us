@@ -4,9 +4,9 @@ This page tracks the public BaseScan cleanup needed for AIPOU.
 
 ## Why DEX Screener May Show No Pair
 
-DEX Screener indexes pairs after it sees enough DEX activity and metadata. A newly created token with tiny liquidity, few holders, and low swap activity may return `pairs: null` from the DEX Screener API even when the Aerodrome pool exists onchain.
+DEX Screener indexes pairs after it sees enough DEX activity and metadata. A newly created token with tiny liquidity, few holders, and low swap activity may initially return `pairs: null` even when the Aerodrome pool exists onchain.
 
-AIPOU currently has a real Aerodrome pool, but the WETH side is intentionally tiny. Until the pair has more discovery signals, more swaps, or deeper usable liquidity, indexers may ignore or delay it.
+AIPOU is now indexed at https://dexscreener.com/base/0x3bea7b68af54da779454f82148ef848c76f78d02. The pool remains small, and `99.9999%` of its LP supply is locked until July 8, 2027 in the verified `AIPOULiquidityLock` contract.
 
 ## Verify Token Contract On BaseScan
 

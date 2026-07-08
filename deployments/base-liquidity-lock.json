@@ -1,0 +1,15 @@
+{
+  "contract": "AIPOULiquidityLock",
+  "address": "0xc11197E32dFb2352f262D874acFc54467aee6B52",
+  "lpToken": "0x3bEA7b68Af54Da779454f82148Ef848c76F78D02",
+  "beneficiary": "0x1F92Ee5820A706ed1315F239dE8C53eb1d65dac2",
+  "unlockTime": 1815077809,
+  "unlockDate": "2027-07-08T20:16:49.000Z",
+  "durationDays": 365,
+  "lockedLpTokens": "1712.89145801936861611",
+  "lockedSharePercent": "99.9999",
+  "chain": {
+    "id": 8453,
+    "name": "Base Mainnet"
+  }
+}

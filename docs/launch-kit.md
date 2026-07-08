@@ -42,7 +42,7 @@ Users can work across many projects with one receipt identity and later, if they
 
 Why this might matter: the AI workday is becoming real work across many tools. If agents can share a neutral receipt layer, humans get a way to carry proof of effort across clients, and AIPOU can become useful infrastructure for billing, audit, provenance, routing, reputation, marketplaces, and eventually agent-to-agent settlement. That is a direction, not a claim that the network is already there.
 
-Important limitations: the protocol is experimental and unaudited. Client-signed receipts do not independently prove provider inference or trustlessly prove useful work. The validator is currently a protocol authority for `client_signed` receipts. Sybil resistance and work-quality validation remain open problems. The AIPOU/WETH pool has intentionally tiny liquidity, so its market price is highly volatile and should not be treated as reliable. This is not an investment pitch.
+Important limitations: the protocol is experimental and unaudited. Client-signed receipts do not independently prove provider inference or trustlessly prove useful work. The validator is currently a protocol authority for `client_signed` receipts. Sybil resistance and work-quality validation remain open problems. The AIPOU/WETH pool is still small, although `99.9999%` of its LP supply is locked until July 8, 2027. Its market price remains volatile and should not be treated as reliable. This is not an investment pitch.
 
 I am looking for developers, agent builders, security reviewers, and privacy-minded local AI users who want to test the MCP flow, improve attestations, challenge the anti-abuse model, or integrate another client.
 

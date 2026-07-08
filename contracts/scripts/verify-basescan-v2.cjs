@@ -29,6 +29,16 @@ const targets = {
       "0xdd6cbDB2C549C71d1C3c75a0061209b970B15515",
     ],
   },
+  liquidityLock: {
+    address: "0xc11197E32dFb2352f262D874acFc54467aee6B52",
+    contractName: "contracts/AIPOULiquidityLock.sol:AIPOULiquidityLock",
+    types: ["address", "address", "uint64"],
+    args: [
+      "0x3bEA7b68Af54Da779454f82148Ef848c76F78D02",
+      "0x1F92Ee5820A706ed1315F239dE8C53eb1d65dac2",
+      1815077809n,
+    ],
+  },
 };
 
 function normalizeImmutableBytecode(bytecode, immutableReferences) {
@@ -96,7 +106,7 @@ async function verify(targetName) {
   if (!apiKey) throw new Error("Set BASESCAN_API_KEY or ETHERSCAN_API_KEY locally");
 
   const target = targets[targetName];
-  if (!target) throw new Error("Usage: node scripts/verify-basescan-v2.cjs token|claims");
+  if (!target) throw new Error("Usage: node scripts/verify-basescan-v2.cjs token|claims|liquidityLock");
 
   const deployedCode = await rpc("eth_getCode", [getAddress(target.address), "latest"]);
   if (deployedCode === "0x") throw new Error(`No contract found at ${target.address}`);

@@ -15,6 +15,7 @@
     "deploy:base": "npm run deploy:base -w contracts",
     "deploy:base-sepolia": "npm run deploy:base-sepolia -w contracts",
     "deploy:claims:base": "npm run deploy:claims:base -w contracts",
+    "lock:liquidity:base": "npm run lock:liquidity:base -w contracts",
     "pool:base": "npm run pool:base -w contracts"
   }
 }

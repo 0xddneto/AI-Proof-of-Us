@@ -8,9 +8,11 @@
     "deploy:base": "hardhat run scripts/deploy.ts --network base",
     "deploy:base-sepolia": "hardhat run scripts/deploy.ts --network baseSepolia",
     "deploy:claims:base": "hardhat run scripts/deploy-claims.ts --network base",
+    "lock:liquidity:base": "hardhat run scripts/lock-base-liquidity.ts --network base",
     "pool:base": "hardhat run scripts/create-base-pool.ts --network base",
     "verify:base:token": "node scripts/verify-basescan-v2.cjs token",
-    "verify:base:claims": "node scripts/verify-basescan-v2.cjs claims"
+    "verify:base:claims": "node scripts/verify-basescan-v2.cjs claims",
+    "verify:base:liquidity-lock": "node scripts/verify-basescan-v2.cjs liquidityLock"
   },
   "dependencies": {
     "@openzeppelin/contracts": "5.0.2"
