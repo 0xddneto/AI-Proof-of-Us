@@ -53,3 +53,52 @@ It can reference identity anchors.
 It can inform external reliance decisions.
 It does not replace those layers.
 ```
+
+## ElizaOS Reply And Response
+
+The ElizaOS discussion author replied after the `e4aaa39` update and said the
+alignment is now clean: `issuer_asserted`, a scheme-specific discriminant, and
+a subject key for registry-level invariants.
+
+The additional recommendation was to enforce `scheme + trustVariant`
+compatibility at registry insert time. A known scheme under the wrong
+verification kind must be rejected even when its payload happens to match the
+expected fields.
+
+AIPOU replied with the precise current boundary:
+
+- `issuer_asserted + aipou-receipt-v1` is the only valid pair for an AIPOU task-receipt payload;
+- unknown or mismatched scheme/kind pairs must fail closed;
+- chain-derived root, inclusion, timestamp, wallet, amount, and claimed-state facts remain separate from the collector-signed task payload;
+- the lifecycle adapter currently emits a fixed valid pair, but AIPOU does not yet publish a generic registry-insert validator;
+- AIPOU offered a positive fixture and negative interop tests for unknown schemes, wrong verification kinds, duplicate active records, and incorrectly relabeled anchored payloads.
+
+Reply: https://github.com/orgs/elizaOS/discussions/9810
+
+## Public Status Snapshot
+
+Checked on July 8, 2026 after the ElizaOS reply:
+
+| Surface | Current signal |
+| --- | --- |
+| npm | `aipou-mcp-server@0.2.1`, 277 downloads from July 1-8 |
+| Official MCP Registry | Active, still advertising package version `0.2.0` |
+| External MCP index | Listed by `mcpindex.ai` under Developer Tools |
+| GitHub | 1 star, 0 forks, 0 external issues or PRs |
+| Hugging Face Space | Running, 0 likes |
+| Website | Live with HTTP 200 |
+| Aerodrome / DEX Screener | Pair indexed; approximately $102.90 displayed liquidity at check time |
+| LP lock | `99.9999%` locked until July 8, 2027 |
+| Local receipt state | 43 recorded, 38 claimed, 5 pending, 2 incomplete sessions |
+
+External thread status:
+
+- ElizaOS produced the strongest new response and explicitly validated the updated interop direction.
+- OpenClaw remains a security/product-policy review path; no listing or adoption is confirmed.
+- CoSAI previously provided useful layering feedback; no new adoption signal followed the AIPOU update.
+- mcp-agent, OpenLLMetry, awesome-mcp-servers, and agent-services-mcp still have no external maintainer response to the latest follow-ups.
+
+The correct conclusion remains: AIPOU is installable, discoverable, publicly
+reviewed, and technically better aligned with adjacent receipt work. There is
+still no confirmed third-party receipt, integration, PR, or active external
+user that can be counted as adoption.
