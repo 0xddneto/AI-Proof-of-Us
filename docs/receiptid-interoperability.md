@@ -6,6 +6,24 @@ An AIPOU `receiptId` identifies a signed receipt. When the receipt represents a 
 
 See [Work Receipt Boundaries](work-receipt-boundaries.md) for placement guidance.
 
+## Trust Model Layers
+
+Recent feedback from receipt, security, and agent-certification reviewers converged on one useful separation:
+
+```text
+identity / principal anchor -> execution or work receipt -> reliance decision
+```
+
+AIPOU should occupy the receipt layer. It can reference an identity anchor and it can inform a downstream reliance decision, but it should not collapse all three concepts into one badge.
+
+| Layer | What It Answers | AIPOU Role |
+| --- | --- | --- |
+| Identity / principal anchor | Who is allowed to make or receive this claim? | Dedicated farming wallet, collector fingerprint, optional registry or DID reference |
+| Execution / work receipt | What work unit was recorded, with which hashes, nonce, model metadata, and signatures? | Native AIPOU `receiptId` / `workReceiptId` |
+| Reliance decision | What should a gateway, marketplace, scanner, or user do with the evidence? | External policy decision; AIPOU exposes status and boundaries, not automatic trust |
+
+This keeps AIPOU useful to agent frameworks without asking them to become token validators, payment rails, security scanners, or identity registries.
+
 ## Minimal External Reference
 
 Other systems may store:
@@ -16,7 +34,13 @@ Other systems may store:
   "workReceiptId": "0x...",
   "receiptId": "0x...",
   "evidenceClass": "issuer_asserted",
+  "scheme": "aipou-receipt-v1",
+  "subject": {
+    "kind": "wallet",
+    "id": "eip155:8453:0x..."
+  },
   "status": "local | validated | batched | claimed | rejected",
+  "relianceBoundary": "local-policy-only",
   "evidenceBoundary": "https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md",
   "claimPolicy": "https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/claim-validation-policy.md"
 }
@@ -40,7 +64,10 @@ That is enough for:
 | `receiptId` | Yes | Stable AIPOU receipt identifier |
 | `workReceiptId` | Optional | Alias for `receiptId` when the receipt represents a human/agent work unit |
 | `evidenceClass` | Yes | `issuer_asserted` for the signed receipt payload |
+| `scheme` | Recommended | Versioned receipt scheme, currently `aipou-receipt-v1` |
+| `subject` | Recommended | Principal or wallet the receipt is about, such as `eip155:8453:<wallet>` |
 | `status` | Yes | Current receipt lifecycle status |
+| `relianceBoundary` | Recommended | How a receiver should treat the evidence, such as `local-policy-only`, `gateway-advisory`, or `marketplace-review` |
 | `taskHash` | Optional | Private-content-safe task reference |
 | `outputHash` | Optional | Private-content-safe output reference |
 | `trustTier` | Optional | Validator-derived tier, such as `client_signed` |
@@ -73,6 +100,18 @@ Suggested statuses:
 | `batched` | Receipt was included in a Merkle root |
 | `claimed` | Onchain claim succeeded |
 | `rejected` | Validator rejected or delayed the receipt |
+
+## Fail-Closed Scheme Rule
+
+External verifiers should switch on both evidence class and scheme:
+
+```text
+issuer_asserted + aipou-receipt-v1
+```
+
+Unknown schemes should be rejected or displayed as unsupported, not parsed on a best-effort basis. This lets AIPOU evolve without making old clients silently accept new receipt formats they do not understand.
+
+If a future AIPOU root or claim fact is anchored onchain, that specific onchain fact may be referenced separately as `chain_derivable`. The private task payload remains `issuer_asserted`.
 
 ## Integration Rule
 

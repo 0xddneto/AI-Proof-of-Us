@@ -24,6 +24,18 @@ The skill should declare:
 - no access to browser sessions unless separately requested
 - no background settlement jobs
 
+## ClawHub Scan
+
+Before asking maintainers to upload, list, or recommend the skill, run the local ClawHub scan command when available:
+
+```bash
+clawhub scan -h
+```
+
+Then run the appropriate scan for the packaged skill or repository according to that help output. Record the command, result, warnings, and any follow-up fixes in `docs/outreach`.
+
+If `clawhub` is not installed in the environment, say so explicitly and do not claim the scan passed.
+
 ## Wallet Safety Rules
 
 The skill must not:
@@ -54,6 +66,8 @@ Before listing or recommending the skill, reviewers should ask:
 6. Can users inspect pending receipts before claim?
 7. Does the docs link to evidence boundaries and claim policy?
 8. Are token price, yield, liquidity, or listing promises absent?
+9. Does the package expose `workReceiptId` as an `issuer_asserted` receipt rather than a universal trust badge?
+10. Does the package separate user status checks from explicit settlement commands?
 
 ## Safe First Approval
 

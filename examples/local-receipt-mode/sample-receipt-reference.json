@@ -4,7 +4,13 @@
   "workReceiptId": "0xexample",
   "receiptId": "0xexample",
   "evidenceClass": "issuer_asserted",
+  "scheme": "aipou-receipt-v1",
+  "subject": {
+    "kind": "wallet",
+    "id": "eip155:8453:0xexample-wallet"
+  },
   "status": "local",
+  "relianceBoundary": "local-policy-only",
   "client": "ollama",
   "provider": "local",
   "model": "qwen2.5:3b",

@@ -29,6 +29,7 @@ Start here if you are building or testing an agent integration:
 - [AIPOU for AI Agents](docs/for-agents.md)
 - [Framework lifecycle adapter](docs/framework-lifecycle-adapter.md)
 - [Work receipt boundaries](docs/work-receipt-boundaries.md)
+- [receiptId and workReceiptId interoperability](docs/receiptid-interoperability.md)
 - [MCP tools](docs/mcp-tools.md)
 - [OpenClaw skill](skills/aipou-farming/SKILL.md)
 - [Local Receipt Mode demo](examples/local-receipt-mode/README.md)
@@ -186,7 +187,7 @@ MCP clients can launch the published server with:
 npx -y aipou-mcp-server
 ```
 
-Publication status: `aipou-mcp-server@0.2.0` is published on npm and `io.github.0xddneto/ai-proof-of-us@0.2.0` is published to the official MCP Registry. See [docs/npm-publication.md](docs/npm-publication.md).
+Publication status: `aipou-mcp-server@0.2.1` is published on npm. The official MCP Registry entry may lag package publication; if it still shows `io.github.0xddneto/ai-proof-of-us@0.2.0`, use npm as the package-version source of truth until the registry metadata is republished. See [docs/npm-publication.md](docs/npm-publication.md).
 
 ## Local MCP config example
 

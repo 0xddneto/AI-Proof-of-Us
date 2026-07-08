@@ -87,8 +87,16 @@ async function main() {
 
     const externalReference = {
       type: "aipou.receipt",
+      workReceiptId: receipt.receiptId,
       receiptId: receipt.receiptId,
+      evidenceClass: "issuer_asserted",
+      scheme: "aipou-receipt-v1",
+      subject: {
+        kind: "wallet",
+        id: `eip155:8453:${receipt.wallet}`
+      },
       status: "local",
+      relianceBoundary: "local-policy-only",
       taskHash,
       outputHash,
       trustTier: receipt.trustTier,

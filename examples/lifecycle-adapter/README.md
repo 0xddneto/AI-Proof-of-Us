@@ -47,7 +47,13 @@ The important part is the framework metadata:
       "workReceiptId": "0x...",
       "receiptId": "0x...",
       "evidenceClass": "issuer_asserted",
+      "scheme": "aipou-receipt-v1",
+      "subject": {
+        "kind": "wallet",
+        "id": "eip155:8453:0x..."
+      },
       "status": "local",
+      "relianceBoundary": "local-policy-only",
       "taskHash": "0x...",
       "outputHash": "0x...",
       "trustTier": "client_signed"

@@ -28,6 +28,20 @@ Frameworks can integrate AIPOU as a thin lifecycle adapter. They only need task 
 See [Framework Lifecycle Adapter](framework-lifecycle-adapter.md).
 See [Work Receipt Boundaries](work-receipt-boundaries.md) for how to place `workReceiptId` beside tool-call receipts, traces, audit artifacts, and payment records.
 
+## Trust Model For Integrators
+
+Treat AIPOU as the receipt layer in a three-part model:
+
+```text
+identity / principal anchor -> work receipt -> reliance decision
+```
+
+- Identity can be a farming wallet, collector fingerprint, DID, registry profile, or marketplace account.
+- The AIPOU work receipt is `issuer_asserted` evidence signed by the local collector and bound to wallet authorization, nonce, task hash, output hash, and validator policy.
+- Reliance is the external system's decision: display, ignore, review, pay, route, audit, or block.
+
+Agents should expose `workReceiptId`, `evidenceClass: "issuer_asserted"`, and `scheme: "aipou-receipt-v1"` when returning receipt metadata. Unknown future schemes should fail closed until the agent knows how to verify or display them.
+
 ## Integrate With OpenClaw
 
 Install the included skill from a local checkout:

@@ -8,6 +8,18 @@ The useful rule is:
 Attach the receipt where the verification boundary lives.
 ```
 
+The second useful rule is:
+
+```text
+Do not turn a receipt into a universal trust badge.
+```
+
+A receiving system should decide separately:
+
+- identity / principal anchor: who is the agent, user, wallet, collector, or registry subject?
+- receipt: what event or work unit was signed, hashed, and replay-checked?
+- reliance decision: what local policy should do with that evidence?
+
 ## AIPOU's Boundary
 
 AIPOU is centered on a human/agent work unit:
@@ -50,7 +62,13 @@ External systems may store:
   "workReceiptId": "0x...",
   "receiptId": "0x...",
   "evidenceClass": "issuer_asserted",
+  "scheme": "aipou-receipt-v1",
+  "subject": {
+    "kind": "wallet",
+    "id": "eip155:8453:0x..."
+  },
   "status": "local | validated | batched | claimed | rejected",
+  "relianceBoundary": "local-policy-only",
   "taskHash": "0x...",
   "outputHash": "0x...",
   "evidenceBoundary": "https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md"
@@ -76,6 +94,25 @@ Choose the attachment point based on the boundary being verified:
 | Marketplace payout | payout evidence | `workReceiptId` and validation status |
 
 Avoid putting AIPOU data on every log line. A work receipt should mark a meaningful unit of work, not create noisy metadata.
+
+## External Reference Shape
+
+When another receipt or certification system references AIPOU, prefer an explicit reference object:
+
+```json
+{
+  "type": "aipou.work_receipt",
+  "id": "0x...",
+  "issuer": "collector-ed25519:...",
+  "subject": "eip155:8453:0x...",
+  "evidenceClass": "issuer_asserted",
+  "scheme": "aipou-receipt-v1",
+  "verificationStatus": "local | validated | claimed | rejected",
+  "uri": "https://github.com/0xddneto/AI-Proof-of-Us"
+}
+```
+
+That object can live inside `external_receipts`, trace links, audit exports, marketplace records, or workflow metadata. The host system remains responsible for its own trust decision.
 
 ## Payment Separation
 
