@@ -32,7 +32,13 @@ Before asking maintainers to upload, list, or recommend the skill, run the local
 clawhub scan -h
 ```
 
-Then run the appropriate scan for the packaged skill or repository according to that help output. Record the command, result, warnings, and any follow-up fixes in `docs/outreach`.
+Then follow the current CLI flow for the packaged skill or repository. As of ClawHub CLI `0.23.1`, local folder scans are no longer supported; the CLI expects a published skill version and then a stored scan report download:
+
+```bash
+clawhub scan download <slug> --version <version>
+```
+
+Record the command, result, warnings, and any follow-up fixes in `docs/outreach`.
 
 If `clawhub` is not installed in the environment, say so explicitly and do not claim the scan passed.
 

@@ -26,14 +26,17 @@ Validation:
 
 ClawHub status:
 
-- `clawhub scan -h` could not be run because `clawhub` was not installed in the local Windows environment.
-- The public OpenClaw reply explicitly says the scan was not run and should be the next step before upload/listing claims.
+- `npx -y clawhub@latest scan -h` runs successfully with ClawHub CLI `0.23.1`.
+- Local folder scans are no longer supported by the current CLI. Scanning now requires uploading/publishing a skill version, then downloading the stored report with `clawhub scan download <slug> --version <version>`.
+- `npx -y clawhub@latest publish skills/aipou-farming --dry-run --json` returned `would-publish` for slug `aipou-farming`, version `1.0.0`, 3 files, fingerprint `32e85f00f36d653155fe3de25b1181d5fc35ee5cdc2061a69e6ce7e65c76d6e5`.
+- `clawhub whoami` and `clawhub scan download` still require ClawHub login. AIPOU must not claim a passed ClawHub scan until a stored report exists.
+- A public OpenClaw reply now records this updated scan path and dry-run result.
 
 ## Public Replies Posted
 
 | Target | URL | Follow-up |
 | --- | --- | --- |
-| OpenClaw / ClawHub | https://github.com/openclaw/clawhub/issues/2946 | Replied to Patrick-Erichsen with commit, validation, docs, and honest `clawhub` scan blocker. |
+| OpenClaw / ClawHub | https://github.com/openclaw/clawhub/issues/2946 | Replied to Patrick-Erichsen with commit, validation, docs, and honest `clawhub` scan blocker; later updated with verified CLI help, dry-run result, and the new stored-report scan path. |
 | CoSAI WS4 | https://github.com/cosai-oasis/ws4-secure-design-agentic-systems/issues/110 | Replied with identity/principal anchor, work receipt, and reliance-decision layering. |
 | ElizaOS | https://github.com/orgs/elizaOS/discussions/9810 | Replied with `issuer_asserted + aipou-receipt-v1`, subject-keyed reference, and fail-closed scheme framing. |
 | mcp-agent | https://github.com/lastmile-ai/mcp-agent/discussions/716 | Replied with lifecycle adapter output and asked where `workReceiptId` should attach. |
