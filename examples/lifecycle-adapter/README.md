@@ -48,11 +48,13 @@ The important part is the framework metadata:
       "receiptId": "0x...",
       "evidenceClass": "issuer_asserted",
       "scheme": "aipou-receipt-v1",
+      "factId": "0x...",
       "subject": {
         "kind": "wallet",
         "id": "eip155:8453:0x..."
       },
       "status": "local",
+      "registryStatus": "active",
       "relianceBoundary": "local-policy-only",
       "taskHash": "0x...",
       "outputHash": "0x...",
@@ -61,6 +63,8 @@ The important part is the framework metadata:
   }
 }
 ```
+
+`factId` is deterministic for the receipt scheme, collector fingerprint, and task nonce. Integrators can use it for mechanical duplicate and cross-tier checks without comparing private task fields. Run `npm test` in this directory for fail-closed scheme, duplicate-active-fact, and terminal-revocation fixtures.
 
 LangGraph, mcp-agent, OpenClaw, LLMOps tools, and payment systems can attach that object to run metadata, trace/span attributes, audit exports, or payment/session metadata. If they already emit tool-call or boundary-event receipts, link those receipts to `workReceiptId` instead of replacing them.
 

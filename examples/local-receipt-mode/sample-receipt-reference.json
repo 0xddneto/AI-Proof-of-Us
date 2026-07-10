@@ -5,11 +5,13 @@
   "receiptId": "0xexample",
   "evidenceClass": "issuer_asserted",
   "scheme": "aipou-receipt-v1",
+  "factId": "0xsha256-of-scheme-collector-fingerprint-and-nonce",
   "subject": {
     "kind": "wallet",
     "id": "eip155:8453:0xexample-wallet"
   },
   "status": "local",
+  "registryStatus": "active",
   "relianceBoundary": "local-policy-only",
   "client": "ollama",
   "provider": "local",

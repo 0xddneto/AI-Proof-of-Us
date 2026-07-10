@@ -1,0 +1,31 @@
+name: Publish npm package with provenance
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test MCP package
+        run: npm run test -w mcp-server
+
+      - name: Publish with npm provenance
+        run: npm publish --workspace mcp-server --provenance --access public

@@ -35,11 +35,13 @@ Other systems may store:
   "receiptId": "0x...",
   "evidenceClass": "issuer_asserted",
   "scheme": "aipou-receipt-v1",
+  "factId": "0x...",
   "subject": {
     "kind": "wallet",
     "id": "eip155:8453:0x..."
   },
   "status": "local | validated | batched | claimed | rejected",
+  "registryStatus": "active | superseded | revoked",
   "relianceBoundary": "local-policy-only",
   "evidenceBoundary": "https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md",
   "claimPolicy": "https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/claim-validation-policy.md"
@@ -65,8 +67,10 @@ That is enough for:
 | `workReceiptId` | Optional | Alias for `receiptId` when the receipt represents a human/agent work unit |
 | `evidenceClass` | Yes | `issuer_asserted` for the signed receipt payload |
 | `scheme` | Recommended | Versioned receipt scheme, currently `aipou-receipt-v1` |
+| `factId` | Recommended | Deterministic identity for the underlying receipt fact |
 | `subject` | Recommended | Principal or wallet the receipt is about, such as `eip155:8453:<wallet>` |
 | `status` | Yes | Current receipt lifecycle status |
+| `registryStatus` | Recommended | External registry state; `revoked` is terminal and `superseded` links to a successor |
 | `relianceBoundary` | Recommended | How a receiver should treat the evidence, such as `local-policy-only`, `gateway-advisory`, or `marketplace-review` |
 | `taskHash` | Optional | Private-content-safe task reference |
 | `outputHash` | Optional | Private-content-safe output reference |
@@ -112,6 +116,18 @@ issuer_asserted + aipou-receipt-v1
 Unknown schemes should be rejected or displayed as unsupported, not parsed on a best-effort basis. This lets AIPOU evolve without making old clients silently accept new receipt formats they do not understand.
 
 If a future AIPOU root or claim fact is anchored onchain, that specific onchain fact may be referenced separately as `chain_derivable`. The private task payload remains `issuer_asserted`.
+
+## Deterministic Fact Identity
+
+For `aipou-receipt-v1`, derive `factId` as SHA-256 over this UTF-8 material:
+
+```text
+aipou-receipt-v1\n<collectorFingerprint>\n<lowercaseNonce>
+```
+
+The collector fingerprint is SHA-256 of the Ed25519 SPKI DER public key, written as `sha256:<hex>`. This makes `collector + nonce` a mechanical fact identity without exposing prompts or outputs.
+
+An external registry should allow at most one active record for the same `subject + factId`. Use `active | superseded | revoked` for registry state. `superseded` points to a successor; `revoked` is terminal and must fail closed. These registry semantics do not imply that AIPOU currently operates a universal public registry.
 
 ## Integration Rule
 

@@ -35,6 +35,8 @@ Start here if you are building or testing an agent integration:
 - [Local Receipt Mode demo](examples/local-receipt-mode/README.md)
 - [Lifecycle adapter example](examples/lifecycle-adapter/README.md)
 - [npm publication checklist](docs/npm-publication.md)
+- [Registry trust checklist](docs/registry-trust.md)
+- [Dated token health snapshot](docs/token-health-2026-07-10.md)
 - [BaseScan verification and token info](docs/basescan-verification.md)
 - [llms.txt](llms.txt), a compact machine-readable project map
 

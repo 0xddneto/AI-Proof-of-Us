@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { Wallet } from "ethers";
+import { deriveFactId, validateAipouReference } from "./receipt-reference.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -91,17 +92,20 @@ async function main() {
       receiptId: receipt.receiptId,
       evidenceClass: "issuer_asserted",
       scheme: "aipou-receipt-v1",
+      factId: deriveFactId(receipt.collectorPublicKey, receipt.nonce),
       subject: {
         kind: "wallet",
         id: `eip155:8453:${receipt.wallet}`
       },
       status: "local",
+      registryStatus: "active",
       relianceBoundary: "local-policy-only",
       taskHash,
       outputHash,
       trustTier: receipt.trustTier,
       evidenceBoundary: "https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md"
     };
+    validateAipouReference(externalReference);
 
     console.log(JSON.stringify({
       mode: demoWallet ? "local_receipt_mode_ephemeral_wallet" : "local_receipt_mode_configured_wallet",
