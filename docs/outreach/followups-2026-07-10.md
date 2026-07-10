@@ -25,6 +25,8 @@ The discussion incorporated AIPOU into its draft as `issuer_asserted + aipou-rec
 
 Thread: https://github.com/orgs/elizaOS/discussions/9810
 
+A follow-up was posted after commit `51477b5`, confirming that the deterministic `factId`, tri-state registry status, fail-closed validator, and four conformance fixtures are implemented and passing. AIPOU offered to run the same fixtures against the ElizaOS draft when it is published.
+
 ### Forge Registry
 
 The public listing still showed the stale MCP Registry version `0.2.0` and a `10/100` untrusted score. Live CLI verification independently found npm `0.2.1`, zero known vulnerabilities, and no suspicious lifecycle scripts.
@@ -39,6 +41,20 @@ The current review path remains: publish a skill version after login, then downl
 
 Issue: https://github.com/openclaw/clawhub/issues/2946
 
+No further comment could be added on July 10 because GitHub Actions locked the resolved issue and limited new comments to collaborators. The existing public comments already contain the verified CLI help, successful publish dry-run, and honest stored-report blocker.
+
+### AgentPay MCP
+
+A new, narrowly scoped interoperability comment was posted on the AgentPay Skills-pack issue. It proposed keeping AgentPay's payment receipt and settlement reference authoritative while attaching AIPOU `workReceiptId` and `factId` through an optional `external_receipts[]` field. The message explicitly separated payment authorization from work evidence and optional human rewards.
+
+Issue: https://github.com/up2itnow0822/agentpay-mcp/issues/5
+
+### AutoGen
+
+A new comment was posted on the pre-action authority-receipt discussion. It proposed two linked artifacts: `authorityReceiptId` / `action_ref` before execution and AIPOU `workReceiptId` after completion. This prevents post-hoc work evidence from being mistaken for authority to act. AIPOU offered its negative fixtures as a benchmark case.
+
+Discussion: https://github.com/microsoft/autogen/discussions/7752
+
 ## Adoption Status
 
-There is concrete technical collaboration with ElizaOS and public review activity. There is still no confirmed third-party production integration or independently generated AIPOU receipt that should be counted as adoption.
+There is concrete technical collaboration with ElizaOS and new targeted outreach to AgentPay and AutoGen. There is still no confirmed third-party production integration or independently generated AIPOU receipt that should be counted as adoption.
