@@ -31,7 +31,9 @@ A follow-up was posted after commit `51477b5`, confirming that the deterministic
 
 The public listing still showed the stale MCP Registry version `0.2.0` and a `10/100` untrusted score. Live CLI verification independently found npm `0.2.1`, zero known vulnerabilities, and no suspicious lifecycle scripts.
 
-Repository-side gaps were fixed. Publisher claim remains external: the CLI device flow generated valid-looking codes but GitHub rejected three fresh codes while the CLI continued waiting. The web claim path reaches a GitHub OAuth screen requesting read-only profile and email access; that permission requires the account owner's explicit approval.
+Repository-side gaps were fixed. The owner completed the Forge web OAuth flow and Forge returned a successful `Verified` result, auto-confirming `@0xddneto` as repository owner. The public listing did not immediately synchronize and continued showing the stale community-indexed `0.2.0`, `10/100`, unverified state.
+
+The CLI-side publisher signature is still blocked by a reproducible Forge authentication problem: four fresh device-flow codes were rejected by GitHub as unknown while Forge CLI `0.2.0` remained waiting. `forge publish --dry-run` generated the local Ed25519 publisher key and signature successfully, but submission requires the broken CLI login. No credentials or private signing material were added to the repository.
 
 Listing: https://forgeregistry.com/registry/aipou-mcp-server
 

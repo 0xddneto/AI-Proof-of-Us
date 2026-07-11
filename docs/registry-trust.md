@@ -32,7 +32,10 @@ Until those registry-side steps are complete, external trust grades may remain l
 
 - `npm audit --workspace mcp-server --omit=dev` should report zero known production vulnerabilities before each publication.
 - On July 10, 2026, `npx -y @forge-registry/cli verify aipou-mcp-server --json` resolved npm version `0.2.1`, found zero known vulnerabilities at every severity, and found no suspicious lifecycle scripts. The listing itself remained unclaimed, so this is package verification rather than publisher verification.
-- The Forge CLI device login produced codes that GitHub rejected while the CLI continued waiting. The web claim route reached Forge's GitHub OAuth authorization screen, which requests read-only profile and email access and remains an account-owner permission step.
+- On July 10, 2026, the repository owner completed Forge's web OAuth flow. Forge returned `Verified` and stated that `@0xddneto` was auto-verified as the owner of `0xddneto/AI-Proof-of-Us`.
+- The public listing did not immediately synchronize that result and continued to show its stale community-indexed `0.2.0`, `10/100`, unverified state after reload.
+- Forge CLI `0.2.0` still could not authenticate: four fresh device-flow codes were rejected by GitHub as unknown while the CLI remained waiting. Consequently, `forge publish` could generate and save the local Ed25519 publisher key and signature, but could not submit them to the registry.
+- No Forge credential, GitHub token, email address, device code, or private signing material is stored in this repository.
 - `npx -y clawhub@latest scan -h` verifies the current ClawHub scan command surface.
 - Local folder scans are no longer the ClawHub review path. The current flow is to publish or upload a skill version, then download the official scan report for that version.
 - Do not claim a passed Forge or ClawHub scan until the registry has produced a report for the published package or skill.
