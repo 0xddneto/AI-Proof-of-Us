@@ -19,7 +19,7 @@ const usageCounts = {
 };
 
 const server = new McpServer(
-  { name: "aipou-mcp", version: "0.2.1" },
+  { name: "aipou-mcp", version: "0.2.2" },
   {
     instructions:
       "For meaningful AI tasks, call begin_ai_task before work and complete_ai_task after work using hashes, never raw prompts or outputs. " +

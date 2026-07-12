@@ -5,7 +5,8 @@ The `aipou-mcp-server` package is published on npm and registered in the officia
 ## Current Package
 
 - Package: `aipou-mcp-server`
-- npm version: `0.2.1`
+- prepared version: `0.2.2`
+- currently published npm version before the release workflow: `0.2.1`
 - MCP name: `io.github.0xddneto/ai-proof-of-us`
 - MCP Registry version: `0.2.0` at last check; registry metadata can lag npm publication
 - Binary: `aipou-mcp`
@@ -32,13 +33,13 @@ Published package:
 
 ## Provenance Publication
 
-The next npm publication should use GitHub Actions provenance so registries can verify the source workflow that produced the package.
+Version `0.2.2` should be published through npm Trusted Publishing so registries can verify the GitHub Actions workflow that produced the package without a long-lived npm token.
 
 ```bash
 npm publish --workspace mcp-server --provenance --access public
 ```
 
-Use the manual workflow in `.github/workflows/npm-publish.yml` after npm Trusted Publishing is configured for this repository and package.
+Configure the npm trusted publisher with GitHub owner `0xddneto`, repository `AI-Proof-of-Us`, workflow filename `npm-publish.yml`, and the `npm publish` permission. Then run the manual workflow in `.github/workflows/npm-publish.yml`.
 
 Registry trust checklist:
 

@@ -1,6 +1,6 @@
 {
   "name": "aipou-mcp-server",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "mcpName": "io.github.0xddneto/ai-proof-of-us",
   "description": "MCP server for private, signed AI task receipts and optional validated AIPOU claims.",
   "keywords": [

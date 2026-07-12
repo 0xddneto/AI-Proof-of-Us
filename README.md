@@ -202,7 +202,7 @@ MCP clients can launch the published server with:
 npx -y aipou-mcp-server
 ```
 
-Publication status: `aipou-mcp-server@0.2.1` is published on npm. The official MCP Registry entry may lag package publication; if it still shows `io.github.0xddneto/ai-proof-of-us@0.2.0`, use npm as the package-version source of truth until the registry metadata is republished. See [docs/npm-publication.md](docs/npm-publication.md).
+Release `aipou-mcp-server@0.2.2` is prepared for npm Trusted Publishing with GitHub Actions provenance. Until that workflow completes and the official MCP Registry is republished, npm `0.2.1` and MCP Registry `0.2.0` remain the public versions. See [docs/npm-publication.md](docs/npm-publication.md).
 
 ## Local MCP config example
 
