@@ -64,6 +64,8 @@ Avoid making every tool call or every log line carry AIPOU data. The receipt sho
 
 If a project already has a tool-call receipt or BoundaryAttest-style event receipt, AIPOU should reference it or be referenced by it. AIPOU does not need to replace that lower-level receipt.
 
+For delegated frameworks with pre-action authorization, keep two artifacts linked by `aipou-authority-work-link-v1`: `authorityReceiptId` or `actionRef` before execution, then `workReceiptId` after completion, joined by a stable trace reference. The lifecycle example includes a fail-closed validator for this link. Claim and reward fields are never authority evidence.
+
 ## What Frameworks Do Not Need
 
 A framework integration does not need to:

@@ -2,6 +2,7 @@ import { createHash, createPublicKey } from "node:crypto";
 
 export const AIPOU_EVIDENCE_CLASS = "issuer_asserted";
 export const AIPOU_RECEIPT_SCHEME = "aipou-receipt-v1";
+export const AUTHORITY_WORK_LINK_SCHEME = "aipou-authority-work-link-v1";
 export const REGISTRY_STATUSES = new Set(["active", "superseded", "revoked"]);
 
 export function collectorFingerprint(publicKey) {
@@ -42,6 +43,52 @@ export function validateActiveFactSet(references) {
     const key = `${reference.subject.kind}:${reference.subject.id}:${reference.factId}`;
     if (activeFacts.has(key)) throw new Error("Duplicate active fact");
     activeFacts.add(key);
+  }
+  return true;
+}
+
+export function createAuthorityWorkLink({ authorityReceiptId, actionRef, traceLink, workReference }) {
+  validateAipouReference(workReference);
+  return {
+    scheme: AUTHORITY_WORK_LINK_SCHEME,
+    relation: "authorized_then_work_recorded",
+    authority: { receiptId: authorityReceiptId, actionRef, phase: "pre_action" },
+    work: {
+      receiptId: workReference.workReceiptId,
+      factId: workReference.factId,
+      phase: "post_work"
+    },
+    traceLink
+  };
+}
+
+export function validateAuthorityWorkLink(link, workReference) {
+  validateAipouReference(workReference);
+  if (link.scheme !== AUTHORITY_WORK_LINK_SCHEME) {
+    throw new Error("Unsupported authority/work link scheme");
+  }
+  if (link.relation !== "authorized_then_work_recorded") {
+    throw new Error("Unsupported authority/work relation");
+  }
+  if (link.authority?.phase !== "pre_action" || link.work?.phase !== "post_work") {
+    throw new Error("Authority must precede post-work evidence");
+  }
+  if (!link.authority.receiptId || !link.authority.actionRef || !link.traceLink) {
+    throw new Error("Authority/work links require receipt, action, and trace references");
+  }
+  if (!link.work.receiptId || !link.work.factId) {
+    throw new Error("Authority/work links require work receipt and fact references");
+  }
+  if (link.authority.receiptId === link.work.receiptId) {
+    throw new Error("Authority and work receipts must be separate artifacts");
+  }
+  if (link.work.receiptId !== workReference.workReceiptId || link.work.factId !== workReference.factId) {
+    throw new Error("Authority/work link does not match the work receipt");
+  }
+  for (const field of ["claimStatus", "rewardAmount", "claimReceiptId", "settlementTxHash"]) {
+    if (field in link.authority) {
+      throw new Error("Claim and reward fields cannot establish authority");
+    }
   }
   return true;
 }

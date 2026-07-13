@@ -143,6 +143,28 @@ For payment, marketplace, workflow, and trace integrations, prefer `workReceiptI
 }
 ```
 
+When a framework also has a pre-action authority receipt, use a separate versioned link:
+
+```json
+{
+  "scheme": "aipou-authority-work-link-v1",
+  "relation": "authorized_then_work_recorded",
+  "authority": {
+    "receiptId": "authority-receipt-id",
+    "actionRef": "sealed-action-ref",
+    "phase": "pre_action"
+  },
+  "work": {
+    "receiptId": "0x...",
+    "factId": "0x...",
+    "phase": "post_work"
+  },
+  "traceLink": "trace:run-id"
+}
+```
+
+The authority artifact must exist before execution. The AIPOU work receipt is created after completion. A claim, reward amount, Merkle inclusion, or settlement transaction is post-work state and must never be interpreted as authority to act.
+
 The signed receipt payload is `issuer_asserted`: the collector signed it and validators may accept it under published policy. Onchain settlement data is narrower: a Merkle proof and claim transaction can show inclusion and claimed state for a `receiptId`, but they do not make the private task payload itself `chain_derivable`.
 
 They should not claim:

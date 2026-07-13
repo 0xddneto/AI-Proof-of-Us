@@ -68,6 +68,30 @@ The important part is the framework metadata:
 
 LangGraph, mcp-agent, OpenClaw, LLMOps tools, and payment systems can attach that object to run metadata, trace/span attributes, audit exports, or payment/session metadata. If they already emit tool-call or boundary-event receipts, link those receipts to `workReceiptId` instead of replacing them.
 
+## Pre-Action Authority Link
+
+Frameworks that already seal an authorization before execution can link it to the later AIPOU work receipt without merging the two artifacts:
+
+```json
+{
+  "scheme": "aipou-authority-work-link-v1",
+  "relation": "authorized_then_work_recorded",
+  "authority": {
+    "receiptId": "authority-receipt-id",
+    "actionRef": "framework:sealed-action-ref",
+    "phase": "pre_action"
+  },
+  "work": {
+    "receiptId": "0x...",
+    "factId": "0x...",
+    "phase": "post_work"
+  },
+  "traceLink": "trace:run-id"
+}
+```
+
+`validateAuthorityWorkLink` rejects phase inversions, self-references, mismatched work facts, and claim/reward fields presented as authority. An AIPOU claim remains an optional post-work settlement event and can never authorize an action.
+
 ## Real Farming Wallet
 
 For real rewards, set a new dedicated farming wallet:
