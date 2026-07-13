@@ -40,4 +40,4 @@ ElizaOS plans to reference AIPOU's interoperability rules and fixtures in a draf
 
 ## Publication Status
 
-The `0.2.2` npm release workflow is ready for OIDC provenance. Publishing remains blocked until the npm package owner completes the native security-key confirmation and saves the GitHub Actions Trusted Publisher connection.
+The npm Trusted Publisher connection is configured. `aipou-mcp-server@0.2.2` was published from GitHub Actions with SLSA provenance on July 13, 2026, and `io.github.0xddneto/ai-proof-of-us@0.2.2` was published to the official MCP Registry. Forge reindexing remains pending because its public listing still exposed stale `0.2.0` metadata at the latest check.

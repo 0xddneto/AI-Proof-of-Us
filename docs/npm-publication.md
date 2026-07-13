@@ -5,10 +5,9 @@ The `aipou-mcp-server` package is published on npm and registered in the officia
 ## Current Package
 
 - Package: `aipou-mcp-server`
-- prepared version: `0.2.2`
-- currently published npm version before the release workflow: `0.2.1`
+- published npm version: `0.2.2`
 - MCP name: `io.github.0xddneto/ai-proof-of-us`
-- MCP Registry version: `0.2.0` at last check; registry metadata can lag npm publication
+- MCP Registry version: `0.2.2`
 - Binary: `aipou-mcp`
 - Runtime: Node.js 20+
 - Transport: MCP stdio
@@ -33,13 +32,18 @@ Published package:
 
 ## Provenance Publication
 
-Version `0.2.2` should be published through npm Trusted Publishing so registries can verify the GitHub Actions workflow that produced the package without a long-lived npm token.
+Version `0.2.2` was published on July 13, 2026 through npm Trusted Publishing, so registries can verify the GitHub Actions workflow that produced the package without a long-lived npm token.
 
 ```bash
 npm publish --workspace mcp-server --provenance --access public
 ```
 
-Configure the npm trusted publisher with GitHub owner `0xddneto`, repository `AI-Proof-of-Us`, workflow filename `npm-publish.yml`, and the `npm publish` permission. Then run the manual workflow in `.github/workflows/npm-publish.yml`.
+The npm trusted publisher is configured with GitHub owner `0xddneto`, repository `AI-Proof-of-Us`, workflow filename `npm-publish.yml`, and the `npm publish` permission. Future releases use the manual workflow in `.github/workflows/npm-publish.yml`.
+
+Published evidence:
+
+- GitHub Actions workflow: https://github.com/0xddneto/AI-Proof-of-Us/actions/runs/29247746209
+- npm provenance attestation: https://registry.npmjs.org/-/npm/v1/attestations/aipou-mcp-server@0.2.2
 
 Registry trust checklist:
 
@@ -74,8 +78,8 @@ io.github.0xddneto/ai-proof-of-us
 
 Do not paste npm passwords, npm tokens, GitHub device codes, or private keys into chat. Complete npm and GitHub login in the browser or terminal controlled by the repository owner.
 
-Published Registry entry at last check:
+Published Registry entry:
 
 ```text
-io.github.0xddneto/ai-proof-of-us@0.2.0
+io.github.0xddneto/ai-proof-of-us@0.2.2
 ```
