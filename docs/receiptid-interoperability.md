@@ -127,6 +127,10 @@ aipou-receipt-v1\n<collectorFingerprint>\n<lowercaseNonce>
 
 The collector fingerprint is SHA-256 of the Ed25519 SPKI DER public key, written as `sha256:<hex>`. This makes `collector + nonce` a mechanical fact identity without exposing prompts or outputs.
 
+The nonce is not supplied by the client. `begin_ai_task` creates 32 bytes with the operating system cryptographic random-number generator, and the farming wallet binds that nonce into its EIP-712 task authorization. A caller-controlled entropy seed is intentionally not part of `aipou-receipt-v1`: it would not improve on the collector-generated 256-bit nonce and would expand the signed schema without adding a new trust guarantee.
+
+The current MCP store enforces nonce uniqueness and receipt replay protection at the application/store layer. Each mutation re-reads state while holding a cross-process file lock, rejects an existing nonce or receipt ID before writing, and replaces the state file atomically. It is not a SQL database unique constraint. A future database-backed registry should enforce the equivalent `subject + factId + active` rule transactionally at its storage boundary.
+
 An external registry should allow at most one active record for the same `subject + factId`. Use `active | superseded | revoked` for registry state. `superseded` points to a successor; `revoked` is terminal and must fail closed. These registry semantics do not imply that AIPOU currently operates a universal public registry.
 
 ## Integration Rule

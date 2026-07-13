@@ -62,6 +62,8 @@ test("creates verifiable receipts and rejects nonce/evidence replay", async () =
     chainId: 8453,
     verifyingContract
   });
+  assert.match(repeatedSession.nonce, /^0x[0-9a-f]{64}$/);
+  assert.notEqual(repeatedSession.nonce, session.nonce);
   await assert.rejects(
     completeTask({
       nonce: repeatedSession.nonce,

@@ -34,6 +34,7 @@ const authorityWorkLink = createAuthorityWorkLink({
 
 test("factId is deterministic for collector and nonce", () => {
   assert.equal(deriveFactId(publicKey, nonce), deriveFactId(publicKey, nonce.toUpperCase()));
+  assert.notEqual(deriveFactId(publicKey, nonce), deriveFactId(publicKey, `0x${"13".repeat(32)}`));
 });
 
 test("rejects unknown schemes and mismatched evidence classes", () => {
