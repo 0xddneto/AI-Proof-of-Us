@@ -22,7 +22,13 @@ Update: https://github.com/microsoft/autogen/discussions/7752#discussioncomment-
 
 The update linked the now-verifiable npm, MCP Registry, Forge, and ClawHub state directly to the pending fixture exchange. It repeated that pre-action authority and post-work evidence remain separate, then invited a comparison against `admission_invariant` and `anchoring_invariant`.
 
-Status: published; no new external reply or adoption confirmation at the time of this log.
+External response: https://github.com/microsoft/autogen/discussions/7752#discussioncomment-17637351
+
+Liuyanfeng1234 called npm SLSA provenance and MCP Registry verification a concrete milestone. They said independent distribution makes the two-receipt fixture exchange testable across implementations and described the split as compact digest-bound transport references plus independently verifiable governance artifacts.
+
+AIPOU response: https://github.com/microsoft/autogen/discussions/7752#discussioncomment-17637859
+
+The response proposed the next executable exchange: one AutoGen `canonical_envelope` plus expected `actionRef`, mapped to one valid authority/work link and two fail-closed variants for phase inversion and mismatched action/artifact digest. This is strong technical validation, but it is not yet a submitted fixture, merged integration, or adoption.
 
 ### awesome-mcp-servers
 
@@ -53,6 +59,24 @@ Question: where should an AIPOU `workReceiptId` reference attach without merging
 
 The message proposed a typed `aipou.work_receipt` external reference and explicitly kept rewards separate from authorship, useful-work proof, and hidden-AI detection.
 
+External response: https://github.com/invariant-systems-ai/aiir/discussions/208#discussioncomment-17637166
+
+InvariantSystems agreed that AIIR and AIPOU trust models should remain separate. They identified that an informational extension outside AIIR `record_core` would not integrity-bind the reference and recommended a digest-bearing external artifact or separate in-toto-style linkage. A future generic relation should be scheme-neutral, include canonical vectors, define hash/signature and failure semantics, discuss privacy, and demonstrate at least two non-AIPOU examples.
+
+Implemented in `39b55b9`:
+
+- added experimental `external-evidence-link-v1` without changing AIIR or claiming integration;
+- bound source and target artifacts by lowercase SHA-256 digests;
+- defined a canonical `linkDigest` and optional Ed25519 attestation;
+- failed closed on mutation, unknown relations, malformed digests, self-links, unsupported signatures, and raw content;
+- required `digest_only` privacy and documented digest-guessing risk;
+- published canonical AIPOU/AIIR, SLSA/OCI, and x402/OpenTelemetry vectors;
+- expanded the lifecycle and interoperability fixture set to 12 passing tests.
+
+AIPOU response: https://github.com/invariant-systems-ai/aiir/discussions/208#discussioncomment-17637850
+
+The response asked whether the relation vocabulary and canonicalization should remain in a separate in-toto-style bundle or are ready for a focused profile proposal. AIIR explicitly did not commit to testing, integration, or endorsement.
+
 ### AIR Blackbox
 
 Discussion: https://github.com/airblackbox/airblackbox/discussions/39
@@ -71,4 +95,4 @@ The message proposed a thin lifecycle adapter and explicitly left Bernstein's ch
 
 ## Adoption Status
 
-This round produced three new public technical conversations and two relevant follow-ups. It did not yet produce a confirmed third-party installation, independently generated AIPOU receipt, merged integration, or production user. Stars, comments, and installations must be verified before being counted as adoption.
+This round produced three new public technical conversations, two relevant follow-ups, one detailed AIIR design review, and one AutoGen architecture validation. The AIIR recommendation produced executable code and canonical vectors. It did not yet produce a confirmed third-party installation, independently generated AIPOU receipt, submitted cross-project fixture, merged integration, or production user. Stars, comments, and installations must be verified before being counted as adoption.
