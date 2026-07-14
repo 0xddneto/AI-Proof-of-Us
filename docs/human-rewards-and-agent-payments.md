@@ -105,6 +105,21 @@ Keep payment receipts separate from work receipts:
 }
 ```
 
+## Independent Evidence Grades
+
+Work evidence, payment evidence, and commercial adoption answer different questions and must be evaluated independently:
+
+| Evidence | What It Can Support | What It Cannot Support By Itself |
+| --- | --- | --- |
+| AIPOU `workReceiptId` | A collector recorded a human/agent work unit under the AIPOU receipt policy | Payment, revenue, buyer intent, objective usefulness, or provider endorsement |
+| Payment-rail receipt | A payment attempt or settlement occurred under that rail's rules | Useful work, independent demand, or human reward eligibility |
+| Marketplace/job record | A counterparty requested, awarded, or accepted work | Onchain settlement unless a separate payment proof exists |
+| AIPOU claim transaction | A validator-approved AIPOU reward was included and claimed | External revenue, a sale, or third-party adoption |
+
+Self-payments, same-wallet transfers, testnet activity, and protocol demonstrations must never be presented as independent revenue or adoption. A combined workflow may reference both a `workReceiptId` and `paymentReceiptId`, but each verifier remains authoritative only for its own evidence.
+
+When the cross-reference must be integrity-bound, use a digest-bearing [scheme-neutral external evidence link](external-evidence-links.md). The link does not merge grades or upgrade either receipt's trust level.
+
 ## Useful and Pleasant
 
 AIPOU joins two ideas:
