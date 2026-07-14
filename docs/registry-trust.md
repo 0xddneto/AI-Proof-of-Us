@@ -25,7 +25,7 @@ These remaining steps depend on external registry review or synchronization:
 
 1. Complete Forge CLI `forge publish` once its GitHub device-code flow accepts generated codes, so the listing receives the Ed25519 publish signature.
 2. Wait for Forge to run or refresh its CVE/static analysis and npm provenance checks for the now-indexed `0.2.2` package.
-3. Resolve the ClawHub generated-card / final verification state after the official scan writeback finishes.
+3. Resolve the ClawHub generated-card state; security now verifies clean, but `skill verify` still fails while `skill-card.md` is unavailable from the registry endpoint.
 
 Until those registry-side steps are complete, external trust grades may remain low even when the local package, docs, and protocol tests pass.
 
@@ -41,7 +41,7 @@ Until those registry-side steps are complete, external trust grades may remain l
 - No Forge credential, GitHub token, email address, device code, or private signing material is stored in this repository.
 - On July 14, 2026, `clawhub login` succeeded as `@0xddneto`, and `aipou-farming@1.0.1` was published at `https://clawhub.ai/0xddneto/skills/aipou-farming`.
 - The official ClawHub stored scan report for `aipou-farming@1.0.1` downloaded successfully. Its manifest reported `status: succeeded`; `static-analysis.json` reported `status: clean`, engine `v2.4.26`, no findings, and summary `No suspicious patterns detected.`
-- ClawHub `skill verify aipou-farming --version 1.0.1` still returned `fail` because `card.missing` and `security.pending` remained at verification time. The published artifact lists `SKILL.md`, `references/protocol.md`, and `agents/openai.yaml`; the registry did not attach a generated `skill-card.md` even after the local card file was added. Do not claim full ClawHub verification until those registry-side fields resolve.
+- ClawHub `skill verify aipou-farming --version 1.0.1` still returned `fail` only because `card.missing` remained at verification time. Security passed with `status: clean`, verdict `benign`, confidence `high`, clean static scan, and clean SkillSpector signal. The published artifact lists `SKILL.md`, `references/protocol.md`, and `agents/openai.yaml`; the registry did not attach a generated `skill-card.md` even after the local card file was added. Do not claim full ClawHub verification until that registry-side card field resolves.
 
 ## Why This Matters
 

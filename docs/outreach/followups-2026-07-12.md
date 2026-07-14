@@ -50,4 +50,4 @@ July 14 registry update:
 - ClawHub login succeeded as `@0xddneto`.
 - `aipou-farming@1.0.1` was published to ClawHub at https://clawhub.ai/0xddneto/skills/aipou-farming.
 - The official ClawHub stored scan report downloaded successfully; static analysis was `clean` with no suspicious patterns detected.
-- ClawHub `skill verify` still failed at the latest check because the generated skill card was missing and the final security status was still pending. For `1.0.1`, static analysis is clean; VirusTotal was not yet present in the downloaded `1.0.1` report.
+- ClawHub `skill verify` still failed at the latest check only because the generated skill card was missing. Security now passes as `clean` with verdict `benign`, confidence `high`, clean static analysis, and clean SkillSpector signal.
