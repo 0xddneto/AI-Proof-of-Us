@@ -48,6 +48,10 @@ AIPOU response: https://github.com/microsoft/autogen/discussions/7752#discussion
 
 The response linked the executable enforcement check and asked whether `enforcementPoint.kind` should remain generic or use a small interoperable vocabulary such as `protected_branch`, `sandbox_boundary`, and `orchestrator_policy`.
 
+Executable benchmark follow-up: https://github.com/microsoft/autogen/discussions/7752#discussioncomment-17641419
+
+The first implementation validated a digest-bound observation object. Commit `44d552f` strengthened it with `runEnforcementBenchmark`, which actually calls the protected action without and with the authority receipt. The local fixture confirmed denial with unchanged state, then one authorized mutation; a permissive no-authority path fails closed. The follow-up explicitly states that this proves the reference gate, not AutoGen-wide enforcement, and asks which real AutoGen boundary should host the callback.
+
 ### ElizaOS
 
 Thread: https://github.com/orgs/elizaOS/discussions/9810
@@ -68,6 +72,10 @@ ElizaOS offered to run the future harness against ERC-8004 adapter fixtures. Tha
 AIPOU response: https://github.com/orgs/elizaOS/discussions/9810#discussioncomment-17641296
 
 The response linked the strict conformance validator and 18 passing lifecycle fixtures, confirmed that the base link remains compatible, and invited one canonical ERC-8004 authority fixture plus negative trust-downgrade and mismatched-fact variants.
+
+Collaboration accepted: https://github.com/orgs/elizaOS/discussions/9810#discussioncomment-17641405
+
+AIPOU offered to preserve one canonical ERC-8004 fixture as the positive vector, map its chain-derived authority fact to `preActionFactId`, return fail-closed variants, publish reproducible commands, adapt envelope field names or canonicalization, and open the fixture PR in the repository ElizaOS prefers. Only a synthetic fixture or branch/PR link is requested; no wallet funds, private keys, claims, or production receipts are needed.
 
 ### awesome-mcp-servers
 
