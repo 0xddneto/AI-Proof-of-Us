@@ -23,9 +23,9 @@ npm audit --workspace mcp-server --omit=dev
 
 These remaining steps depend on external registry review or synchronization:
 
-1. Wait for or request Forge Registry to reindex the provenance-published npm `0.2.2` package and the verified owner state.
-2. Re-run Forge Registry scans after the refreshed package is visible.
-3. Publish the official ClawHub scan report after logging in and uploading the OpenClaw skill.
+1. Complete Forge CLI `forge publish` once its GitHub device-code flow accepts generated codes, so the listing receives the Ed25519 publish signature.
+2. Wait for Forge to run or refresh its CVE/static analysis and npm provenance checks for the now-indexed `0.2.2` package.
+3. Resolve the ClawHub generated-card / final verification state after the official scan writeback finishes.
 
 Until those registry-side steps are complete, external trust grades may remain low even when the local package, docs, and protocol tests pass.
 
@@ -34,15 +34,14 @@ Until those registry-side steps are complete, external trust grades may remain l
 - `npm audit --workspace mcp-server --omit=dev` should report zero known production vulnerabilities before each publication.
 - On July 13, 2026, npm `0.2.2` was published successfully by GitHub Actions run `29247746209` through Trusted Publishing, with a public SLSA v1 provenance attestation.
 - On July 13, 2026, MCP Registry entry `io.github.0xddneto/ai-proof-of-us@0.2.2` was published successfully.
-- On July 10, 2026, `npx -y @forge-registry/cli verify aipou-mcp-server --json` resolved npm version `0.2.1`, found zero known vulnerabilities at every severity, and found no suspicious lifecycle scripts. The listing itself remained unclaimed, so this is package verification rather than publisher verification.
+- On July 14, 2026, `npx -y @forge-registry/cli verify aipou-mcp-server --json` resolved npm version `0.2.2`, found zero known vulnerabilities at every severity, and found no suspicious lifecycle scripts. The CLI still returned `forge: null`, so this is package verification rather than a submitted signed Forge publish.
 - On July 10, 2026, the repository owner completed Forge's web OAuth flow. Forge returned `Verified` and stated that `@0xddneto` was auto-verified as the owner of `0xddneto/AI-Proof-of-Us`.
-- The public listing did not immediately synchronize that result and continued to show its stale community-indexed `0.2.0`, `10/100`, unverified state after reload.
-- After the npm `0.2.2` release, the public Forge listing still exposed stale `0.2.0` metadata at the latest check. A Forge refresh is pending; no updated trust grade is claimed here.
-- Forge CLI `0.2.0` still could not authenticate: four fresh device-flow codes were rejected by GitHub as unknown while the CLI remained waiting. Consequently, `forge publish` could generate and save the local Ed25519 publisher key and signature, but could not submit them to the registry.
+- On July 14, 2026, the public Forge listing had reindexed to `aipou-mcp-server@0.2.2`, showed publisher `@0xddneto` as identity verified, and reported trust `35/100 (D)`. Remaining missing Forge signals were Ed25519 publish signature, Forge domain verification, Forge CVE/static scan scoring, and Forge recognition of npm provenance.
+- Forge CLI `0.2.0` still could not authenticate: fresh device-flow codes were rejected by GitHub as unknown while the CLI remained waiting. Consequently, `forge publish --dry-run` can generate the local Ed25519 signature, but the signed publish cannot be submitted until the Forge CLI login flow works.
 - No Forge credential, GitHub token, email address, device code, or private signing material is stored in this repository.
-- `npx -y clawhub@latest scan -h` verifies the current ClawHub scan command surface.
-- Local folder scans are no longer the ClawHub review path. The current flow is to publish or upload a skill version, then download the official scan report for that version.
-- Do not claim a passed Forge or ClawHub scan until the registry has produced a report for the published package or skill.
+- On July 14, 2026, `clawhub login` succeeded as `@0xddneto`, and `aipou-farming@1.0.0` was published at `https://clawhub.ai/0xddneto/skills/aipou-farming`.
+- The official ClawHub stored scan report for `aipou-farming@1.0.0` downloaded successfully. Its manifest reported `status: succeeded`; `static-analysis.json` reported `status: clean`, engine `v2.4.26`, no findings, and summary `No suspicious patterns detected.`
+- ClawHub `skill verify aipou-farming --version 1.0.0` still returned `fail` because `card.missing` and `security.pending` remained at verification time. Do not claim full ClawHub verification until those registry-side fields resolve.
 
 ## Why This Matters
 

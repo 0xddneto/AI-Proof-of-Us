@@ -40,4 +40,14 @@ ElizaOS plans to reference AIPOU's interoperability rules and fixtures in a draf
 
 ## Publication Status
 
-The npm Trusted Publisher connection is configured. `aipou-mcp-server@0.2.2` was published from GitHub Actions with SLSA provenance on July 13, 2026, and `io.github.0xddneto/ai-proof-of-us@0.2.2` was published to the official MCP Registry. Forge reindexing remains pending because its public listing still exposed stale `0.2.0` metadata at the latest check.
+The npm Trusted Publisher connection is configured. `aipou-mcp-server@0.2.2` was published from GitHub Actions with SLSA provenance on July 13, 2026, and `io.github.0xddneto/ai-proof-of-us@0.2.2` was published to the official MCP Registry.
+
+July 14 registry update:
+
+- Forge now shows `aipou-mcp-server@0.2.2`, publisher `@0xddneto` identity verified, and trust `35/100 (D)`.
+- Forge still does not show the Ed25519 publish signature, domain verification, Forge-run CVE/static scan points, or npm provenance points.
+- Forge CLI login remains blocked because generated device codes are rejected by GitHub as unknown.
+- ClawHub login succeeded as `@0xddneto`.
+- `aipou-farming@1.0.0` was published to ClawHub at https://clawhub.ai/0xddneto/skills/aipou-farming.
+- The official ClawHub stored scan report downloaded successfully; static analysis was `clean` with no suspicious patterns detected.
+- ClawHub `skill verify` still failed at the latest check because the generated skill card was missing and the final security status was still pending, even though static analysis and VirusTotal signals were clean.

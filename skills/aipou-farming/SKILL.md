@@ -1,11 +1,14 @@
 ---
 name: aipou-farming
 description: Record meaningful AI-assisted work as privacy-preserving AIPOU receipts and claim accumulated AIPOU rewards on Base. Use when a user asks to farm AIPOU, register an AI task, show their AIPOU identity, inspect pending receipts, estimate rewards, or claim AIPOU through the configured MCP server.
+version: 1.0.1
 ---
 
 # AIPOU Farming
 
 Use the `aipou` MCP tools to turn completed AI work into signed receipts. Keep private keys, raw prompts, model outputs, and private file contents out of tool arguments and responses.
+
+AIPOU is for humans working with AI agents: coding, debugging, researching, reviewing, writing, and coordinating meaningful work. It records private receipts first. Token claims are optional, validator-approved, and only run after an explicit user request.
 
 Read [references/protocol.md](references/protocol.md) before the first operation in a session.
 
