@@ -52,6 +52,26 @@ Executable benchmark follow-up: https://github.com/microsoft/autogen/discussions
 
 The first implementation validated a digest-bound observation object. Commit `44d552f` strengthened it with `runEnforcementBenchmark`, which actually calls the protected action without and with the authority receipt. The local fixture confirmed denial with unchanged state, then one authorized mutation; a permissive no-authority path fails closed. The follow-up explicitly states that this proves the reference gate, not AutoGen-wide enforcement, and asks which real AutoGen boundary should host the callback.
 
+New AutoGen responses:
+
+- vocabulary guidance: https://github.com/microsoft/autogen/discussions/7752#discussioncomment-17641414
+- tool-boundary guidance: https://github.com/microsoft/autogen/discussions/7752#discussioncomment-17641438
+
+Tamish560 recommended three comparable kinds (`protected_branch`, `sandbox_boundary`, and `orchestrator_policy`) plus explicit custom extensions. They also recommended binding first at the tool execution boundary, returning a structured denial the agent can reason about, then using file or git controls as defense in depth.
+
+Implemented in commit `6231a1d`:
+
+- standardized the three enforcement kinds and allowed extensions only as `custom:<name>`;
+- rejected bare ad hoc kinds;
+- added `createToolExecutionPolicyGate` before the side-effecting executor;
+- returned `AIPOU_AUTHORITY_REQUIRED` with `canRequestAuthority: true` on denial;
+- executed once with the matching authority receipt and returned `AIPOU_AUTHORITY_ACCEPTED`;
+- expanded the lifecycle suite to 22 passing tests.
+
+AIPOU response: https://github.com/microsoft/autogen/discussions/7752#discussioncomment-17641585
+
+The response linked AutoGen's official intervention-handler pattern, stated that the current fixture is still framework-neutral, and asked whether the next deliverable should be a minimal Python `DefaultInterventionHandler` example in AIPOU or a patch against an AutoGen examples/cookbook location.
+
 ### ElizaOS
 
 Thread: https://github.com/orgs/elizaOS/discussions/9810
