@@ -74,6 +74,10 @@ An enforcement check remains `issuer_asserted` unless an identified external ver
 
 The reference adapter exposes `runEnforcementBenchmark` so a framework can execute both attempts instead of submitting a pre-filled observation object. Its fixture uses a real local mutation gate and confirms that the unauthorized attempt leaves state unchanged while the authorized attempt mutates state once. This proves the reference gate behavior only; production integrations must supply the callback that reaches their actual enforcement point.
 
+For comparable results, `enforcementPoint.kind` uses `protected_branch`, `sandbox_boundary`, or `orchestrator_policy`. Extensions must use `custom:<name>`, making non-standard boundaries visible instead of silently fragmenting the vocabulary.
+
+The first recommended application binding is the tool execution boundary: check authority before invoking a side-effecting tool, execute only when allowed, and record post-call evidence afterward. A denial should be structured so the agent can request authority or choose another path. The reference `createToolExecutionPolicyGate` returns `AIPOU_AUTHORITY_REQUIRED` with `canRequestAuthority: true` and performs no protected mutation. AutoGen Core exposes a compatible interception pattern through its intervention handler around tool execution; the AIPOU fixture does not claim that a production AutoGen adapter has been installed.
+
 ## What Frameworks Do Not Need
 
 A framework integration does not need to:

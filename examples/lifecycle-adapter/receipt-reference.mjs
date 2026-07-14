@@ -6,10 +6,16 @@ export const AUTHORITY_WORK_LINK_SCHEME = "aipou-authority-work-link-v1";
 export const ENFORCEMENT_CHECK_SCHEME = "aipou-enforcement-check-v1";
 export const REGISTRY_STATUSES = new Set(["active", "superseded", "revoked"]);
 export const ENFORCEMENT_VERIFICATION_STATUSES = new Set(["local_test", "external_verified"]);
+export const ENFORCEMENT_POINT_KINDS = new Set([
+  "protected_branch",
+  "sandbox_boundary",
+  "orchestrator_policy"
+]);
 export const CHAIN_AUTHORITY_SCHEMES = new Set(["delegation-scope-v1"]);
 
 const SHA256_DIGEST = /^sha256:[0-9a-f]{64}$/;
 const BYTES32 = /^0x[0-9a-f]{64}$/;
+const CUSTOM_ENFORCEMENT_POINT_KIND = /^custom:[a-z0-9][a-z0-9._-]{0,63}$/;
 
 function digestEvidence(value) {
   return `sha256:${createHash("sha256").update(JSON.stringify(value)).digest("hex")}`;
@@ -149,6 +155,10 @@ export function validateEnforcementCheck(check, authorityWorkLink) {
   if (!check.enforcementPoint?.kind || !check.enforcementPoint?.id) {
     throw new Error("Enforcement checks require a concrete enforcement point");
   }
+  if (!ENFORCEMENT_POINT_KINDS.has(check.enforcementPoint.kind) &&
+      !CUSTOM_ENFORCEMENT_POINT_KIND.test(check.enforcementPoint.kind)) {
+    throw new Error("Unsupported enforcement point kind; use a standard kind or custom:<name>");
+  }
   if (!SHA256_DIGEST.test(check.policyDigest || "")) {
     throw new Error("Enforcement checks require a lowercase SHA-256 policy digest");
   }
@@ -220,4 +230,35 @@ export async function runEnforcementBenchmark({
 
   validateEnforcementCheck(check, authorityWorkLink);
   return check;
+}
+
+export function createToolExecutionPolicyGate({ authorityWorkLink, executeAction }) {
+  if (typeof executeAction !== "function") {
+    throw new Error("Tool execution policy gates require an action executor");
+  }
+
+  const expectedReceiptId = authorityWorkLink.authority?.receiptId;
+  const expectedActionRef = authorityWorkLink.authority?.actionRef;
+
+  return async function executeAtToolBoundary({ actionRef, authorityReceiptId }) {
+    if (actionRef !== expectedActionRef || authorityReceiptId !== expectedReceiptId) {
+      return {
+        outcome: "denied",
+        code: "AIPOU_AUTHORITY_REQUIRED",
+        message: "Tool action blocked by orchestrator policy: matching pre-action authority is required.",
+        actionRef,
+        enforcementPointKind: "orchestrator_policy",
+        canRequestAuthority: true
+      };
+    }
+
+    const result = await executeAction({ actionRef, authorityReceiptId });
+    return {
+      outcome: "allowed",
+      code: "AIPOU_AUTHORITY_ACCEPTED",
+      actionRef,
+      enforcementPointKind: "orchestrator_policy",
+      result
+    };
+  };
 }

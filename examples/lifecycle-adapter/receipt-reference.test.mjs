@@ -5,6 +5,7 @@ import {
   AIPOU_EVIDENCE_CLASS,
   AIPOU_RECEIPT_SCHEME,
   ENFORCEMENT_CHECK_SCHEME,
+  createToolExecutionPolicyGate,
   createAuthorityWorkLink,
   deriveFactId,
   runEnforcementBenchmark,
@@ -161,6 +162,51 @@ test("executable benchmark fails when the untrusted path reaches the action", as
     policyDigest: enforcementCheck.policyDigest,
     attemptAction: async () => ({ outcome: "allowed" })
   }));
+});
+
+test("accepts standard enforcement kinds and explicit custom extensions", () => {
+  assert.equal(validateEnforcementCheck({
+    ...enforcementCheck,
+    enforcementPoint: { kind: "orchestrator_policy", id: "autogen:tool-execution" }
+  }, authorityWorkLink), true);
+  assert.equal(validateEnforcementCheck({
+    ...enforcementCheck,
+    enforcementPoint: { kind: "custom:remote-tool-proxy", id: "proxy:example" }
+  }, authorityWorkLink), true);
+  assert.throws(() => validateEnforcementCheck({
+    ...enforcementCheck,
+    enforcementPoint: { kind: "tool_hook", id: "autogen:tool-execution" }
+  }, authorityWorkLink));
+});
+
+test("returns a structured denial at the tool execution boundary", async () => {
+  const executedActions = [];
+  const gate = createToolExecutionPolicyGate({
+    authorityWorkLink,
+    executeAction: async ({ actionRef }) => {
+      executedActions.push(actionRef);
+      return { resultDigest: `sha256:${"95".repeat(32)}` };
+    }
+  });
+
+  const denied = await gate({
+    actionRef: authorityWorkLink.authority.actionRef,
+    authorityReceiptId: null
+  });
+  assert.equal(denied.outcome, "denied");
+  assert.equal(denied.code, "AIPOU_AUTHORITY_REQUIRED");
+  assert.equal(denied.canRequestAuthority, true);
+  assert.deepEqual(executedActions, []);
+
+  const check = await runEnforcementBenchmark({
+    authorityWorkLink,
+    enforcementPoint: { kind: "orchestrator_policy", id: "autogen:tool-execution" },
+    policyDigest: enforcementCheck.policyDigest,
+    attemptAction: gate
+  });
+  assert.equal(check.observations.withoutAuthority.outcome, "denied");
+  assert.equal(check.observations.withAuthority.outcome, "allowed");
+  assert.deepEqual(executedActions, [authorityWorkLink.authority.actionRef]);
 });
 
 test("fails closed when execution without authority is possible", () => {

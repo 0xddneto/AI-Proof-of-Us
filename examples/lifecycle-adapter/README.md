@@ -143,6 +143,16 @@ A receipt proves that authorization evidence exists. It does not, by itself, pre
 
 `runEnforcementBenchmark` performs those two attempts through an integration-supplied action callback. The executable fixture proves that its local protected mutation is denied without the matching authority receipt, leaves protected state unchanged, and succeeds exactly once with the receipt. An integration must connect that callback to its real orchestrator, sandbox, branch protection, or policy gate before describing the result as deployment enforcement.
 
+Use one of three comparable enforcement point kinds:
+
+- `protected_branch` for git or branch-policy enforcement;
+- `sandbox_boundary` for a worktree, container, or runtime isolation boundary;
+- `orchestrator_policy` for an application-level tool or workflow gate.
+
+Implementations that genuinely need another category can use `custom:<name>`. Bare ad hoc names fail closed so independent benchmark results do not silently invent incompatible taxonomies.
+
+`createToolExecutionPolicyGate` is the reference `orchestrator_policy` boundary. It blocks a tool before side effects when the matching pre-action receipt is absent and returns a structured `AIPOU_AUTHORITY_REQUIRED` result with `canRequestAuthority: true`. With the matching receipt, it executes the action and returns `AIPOU_AUTHORITY_ACCEPTED`. This maps to AutoGen's tool-call interception pattern, but remains a framework-neutral JavaScript fixture rather than claiming a shipped AutoGen integration.
+
 ## Real Farming Wallet
 
 For real rewards, set a new dedicated farming wallet:
