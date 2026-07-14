@@ -4,11 +4,14 @@ import test from "node:test";
 import {
   AIPOU_EVIDENCE_CLASS,
   AIPOU_RECEIPT_SCHEME,
+  ENFORCEMENT_CHECK_SCHEME,
   createAuthorityWorkLink,
   deriveFactId,
   validateActiveFactSet,
   validateAipouReference,
-  validateAuthorityWorkLink
+  validateAuthorityWorkLink,
+  validateAuthorityWorkConformanceLink,
+  validateEnforcementCheck
 } from "./receipt-reference.mjs";
 
 const publicKey = generateKeyPairSync("ed25519").publicKey
@@ -31,6 +34,54 @@ const authorityWorkLink = createAuthorityWorkLink({
   traceLink: "trace:run-123",
   workReference: base
 });
+
+const enforcementCheck = {
+  scheme: ENFORCEMENT_CHECK_SCHEME,
+  evidenceClass: AIPOU_EVIDENCE_CLASS,
+  relation: "pre_action_receipt_required",
+  authorityReceiptId: authorityWorkLink.authority.receiptId,
+  actionRef: authorityWorkLink.authority.actionRef,
+  enforcementPoint: {
+    kind: "protected_branch",
+    id: "github:example/project:refs/heads/main"
+  },
+  policyDigest: `sha256:${"90".repeat(32)}`,
+  observations: {
+    withoutAuthority: {
+      attempted: true,
+      authorityReceiptPresent: false,
+      outcome: "denied",
+      evidenceDigest: `sha256:${"91".repeat(32)}`
+    },
+    withAuthority: {
+      attempted: true,
+      authorityReceiptPresent: true,
+      authorityReceiptId: authorityWorkLink.authority.receiptId,
+      outcome: "allowed",
+      evidenceDigest: `sha256:${"92".repeat(32)}`
+    }
+  },
+  verificationStatus: "local_test",
+  relianceBoundary: "enforcement-point-test-only"
+};
+
+const conformanceLink = {
+  ...authorityWorkLink,
+  authority: {
+    ...authorityWorkLink.authority,
+    evidenceClass: "chain_derivable",
+    scheme: "delegation-scope-v1",
+    subject: { kind: "delegation", id: "eip155:8453:registry:owner:signer" },
+    factId: `0x${"93".repeat(32)}`
+  },
+  work: {
+    ...authorityWorkLink.work,
+    evidenceClass: AIPOU_EVIDENCE_CLASS,
+    scheme: AIPOU_RECEIPT_SCHEME,
+    subject: base.subject,
+    preActionFactId: `0x${"93".repeat(32)}`
+  }
+};
 
 test("factId is deterministic for collector and nonce", () => {
   assert.equal(deriveFactId(publicKey, nonce), deriveFactId(publicKey, nonce.toUpperCase()));
@@ -75,5 +126,52 @@ test("rejects mismatched work and claim fields presented as authority", () => {
   assert.throws(() => validateAuthorityWorkLink({
     ...authorityWorkLink,
     authority: { ...authorityWorkLink.authority, rewardAmount: "100" }
+  }, base));
+});
+
+test("records a point-specific enforcement test separately from receipt evidence", () => {
+  assert.equal(validateEnforcementCheck(enforcementCheck, authorityWorkLink), true);
+});
+
+test("fails closed when execution without authority is possible", () => {
+  assert.throws(() => validateEnforcementCheck({
+    ...enforcementCheck,
+    observations: {
+      ...enforcementCheck.observations,
+      withoutAuthority: { ...enforcementCheck.observations.withoutAuthority, outcome: "allowed" }
+    }
+  }, authorityWorkLink));
+});
+
+test("rejects mismatched authority links and unverifiable external enforcement", () => {
+  assert.throws(() => validateEnforcementCheck({
+    ...enforcementCheck,
+    actionRef: "autogen:canonical-envelope:other-run"
+  }, authorityWorkLink));
+  assert.throws(() => validateEnforcementCheck({
+    ...enforcementCheck,
+    verificationStatus: "external_verified"
+  }, authorityWorkLink));
+});
+
+test("maps a chain-derived authority fact to issuer-asserted post-work evidence", () => {
+  assert.equal(validateAuthorityWorkConformanceLink(conformanceLink, base), true);
+});
+
+test("fails closed on conformance trust-model downgrade", () => {
+  assert.throws(() => validateAuthorityWorkConformanceLink({
+    ...conformanceLink,
+    authority: { ...conformanceLink.authority, evidenceClass: AIPOU_EVIDENCE_CLASS }
+  }, base));
+  assert.throws(() => validateAuthorityWorkConformanceLink({
+    ...conformanceLink,
+    work: { ...conformanceLink.work, evidenceClass: "chain_derivable" }
+  }, base));
+});
+
+test("fails closed when post-work evidence points to another authority fact", () => {
+  assert.throws(() => validateAuthorityWorkConformanceLink({
+    ...conformanceLink,
+    work: { ...conformanceLink.work, preActionFactId: `0x${"94".repeat(32)}` }
   }, base));
 });

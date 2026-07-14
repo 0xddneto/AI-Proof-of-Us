@@ -30,6 +30,37 @@ AIPOU response: https://github.com/microsoft/autogen/discussions/7752#discussion
 
 The response proposed the next executable exchange: one AutoGen `canonical_envelope` plus expected `actionRef`, mapped to one valid authority/work link and two fail-closed variants for phase inversion and mismatched action/artifact digest. This is strong technical validation, but it is not yet a submitted fixture, merged integration, or adoption.
 
+New external response: https://github.com/microsoft/autogen/discussions/7752#discussioncomment-17640612
+
+Tamish560 identified a separate enforcement boundary: a valid authority receipt proves that authorization evidence exists, but does not prevent an agent from bypassing the authorized path. They recommended adding a benchmark assertion that attempts the action without a pre-action receipt and verifies that the orchestrator, sandbox, protected branch, or policy gate actually denies it.
+
+Implemented locally:
+
+- added `aipou-enforcement-check-v1` as a separate `issuer_asserted` test artifact, not a receipt trust upgrade;
+- required one observed denied attempt without authority and one observed allowed attempt with the matching authority receipt;
+- bound the policy and both observations to lowercase SHA-256 evidence digests;
+- failed closed on bypass success, missing observations, authority mismatch, malformed evidence, and unverifiable external status;
+- limited reliance to the specific enforcement point and test time instead of claiming universal bypass prevention.
+
+This is an important security improvement, not proof that every AIPOU deployment enforces pre-action authority.
+
+### ElizaOS
+
+Thread: https://github.com/orgs/elizaOS/discussions/9810
+
+New external response: https://github.com/orgs/elizaOS/discussions/9810#discussioncomment-17639976
+
+Kawacukennedy accepted the collector-generated nonce and current file-lock duplicate protection for the pre-1.0 topology. For the planned ElizaOS/ERC-8004 conformance exchange, they proposed a fact-linked chain: a `chain_derivable + delegation-scope-v1` authority fact, an `issuer_asserted + aipou-receipt-v1` post-work fact, and `execution.preActionFactId` pointing to `authority.factId`.
+
+Implemented locally:
+
+- preserved the existing `aipou-authority-work-link-v1` base shape;
+- added a stricter conformance validator for the proposed authority/work fact chain;
+- rejected trust-model downgrades, unsupported authority schemes, work-subject mismatches, and mismatched `preActionFactId` links;
+- kept the AIPOU task payload issuer-asserted even when the authority artifact is chain-derived.
+
+ElizaOS offered to run the future harness against ERC-8004 adapter fixtures. That is a concrete collaboration path, but no exchanged fixture, PR, merge, installation, or adoption is confirmed yet.
+
 ### awesome-mcp-servers
 
 Thread: https://github.com/punkpeye/awesome-mcp-servers/issues/9036
@@ -42,7 +73,6 @@ Status: published; no maintainer reply at the time of this log.
 
 ### Threads Intentionally Not Reposted
 
-- ElizaOS already received the nonce, duplicate-store, and cross-artifact implementation response on July 12. Its promised conformance draft is still pending.
 - mcp-agent has only AIPOU-authored comments and no maintainer response. A third unilateral update would be spam.
 - CoSAI, Traceloop, agent-services-mcp, and AgentPay have no new external reply that changes the technical question.
 - The OpenClaw/ClawHub review issue is closed and locked. The live ClawHub verification result is the current evidence instead.

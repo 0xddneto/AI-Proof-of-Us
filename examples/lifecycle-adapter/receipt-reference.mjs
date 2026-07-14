@@ -3,7 +3,13 @@ import { createHash, createPublicKey } from "node:crypto";
 export const AIPOU_EVIDENCE_CLASS = "issuer_asserted";
 export const AIPOU_RECEIPT_SCHEME = "aipou-receipt-v1";
 export const AUTHORITY_WORK_LINK_SCHEME = "aipou-authority-work-link-v1";
+export const ENFORCEMENT_CHECK_SCHEME = "aipou-enforcement-check-v1";
 export const REGISTRY_STATUSES = new Set(["active", "superseded", "revoked"]);
+export const ENFORCEMENT_VERIFICATION_STATUSES = new Set(["local_test", "external_verified"]);
+export const CHAIN_AUTHORITY_SCHEMES = new Set(["delegation-scope-v1"]);
+
+const SHA256_DIGEST = /^sha256:[0-9a-f]{64}$/;
+const BYTES32 = /^0x[0-9a-f]{64}$/;
 
 export function collectorFingerprint(publicKey) {
   const der = createPublicKey(publicKey).export({ format: "der", type: "spki" });
@@ -89,6 +95,77 @@ export function validateAuthorityWorkLink(link, workReference) {
     if (field in link.authority) {
       throw new Error("Claim and reward fields cannot establish authority");
     }
+  }
+  return true;
+}
+
+export function validateAuthorityWorkConformanceLink(link, workReference) {
+  validateAuthorityWorkLink(link, workReference);
+  if (link.authority.evidenceClass !== "chain_derivable" ||
+      !CHAIN_AUTHORITY_SCHEMES.has(link.authority.scheme)) {
+    throw new Error("Conformance authority must use a supported chain-derivable scheme");
+  }
+  if (!link.authority.subject?.kind || !link.authority.subject?.id ||
+      !BYTES32.test(link.authority.factId || "")) {
+    throw new Error("Conformance authority requires a subject and deterministic factId");
+  }
+  if (link.work.evidenceClass !== AIPOU_EVIDENCE_CLASS || link.work.scheme !== AIPOU_RECEIPT_SCHEME) {
+    throw new Error("Conformance work evidence must remain issuer_asserted aipou-receipt-v1");
+  }
+  if (link.work.subject?.kind !== workReference.subject?.kind ||
+      link.work.subject?.id !== workReference.subject?.id) {
+    throw new Error("Conformance work subject does not match the AIPOU receipt");
+  }
+  if (link.work.preActionFactId !== link.authority.factId) {
+    throw new Error("Post-work evidence must reference the authority factId");
+  }
+  return true;
+}
+
+export function validateEnforcementCheck(check, authorityWorkLink) {
+  if (check.scheme !== ENFORCEMENT_CHECK_SCHEME) {
+    throw new Error("Unsupported enforcement check scheme");
+  }
+  if (check.evidenceClass !== AIPOU_EVIDENCE_CLASS) {
+    throw new Error("Enforcement checks must remain issuer_asserted");
+  }
+  if (check.relation !== "pre_action_receipt_required") {
+    throw new Error("Unsupported enforcement relation");
+  }
+  if (check.relianceBoundary !== "enforcement-point-test-only") {
+    throw new Error("Enforcement checks must state their narrow reliance boundary");
+  }
+  if (!ENFORCEMENT_VERIFICATION_STATUSES.has(check.verificationStatus)) {
+    throw new Error("Unsupported enforcement verification status");
+  }
+  if (check.authorityReceiptId !== authorityWorkLink.authority?.receiptId ||
+      check.actionRef !== authorityWorkLink.authority?.actionRef) {
+    throw new Error("Enforcement check does not match the authority artifact");
+  }
+  if (!check.enforcementPoint?.kind || !check.enforcementPoint?.id) {
+    throw new Error("Enforcement checks require a concrete enforcement point");
+  }
+  if (!SHA256_DIGEST.test(check.policyDigest || "")) {
+    throw new Error("Enforcement checks require a lowercase SHA-256 policy digest");
+  }
+
+  const withoutAuthority = check.observations?.withoutAuthority;
+  const withAuthority = check.observations?.withAuthority;
+  if (withoutAuthority?.attempted !== true || withoutAuthority?.authorityReceiptPresent !== false ||
+      withoutAuthority?.outcome !== "denied" || !SHA256_DIGEST.test(withoutAuthority?.evidenceDigest || "")) {
+    throw new Error("The no-authority attempt must be observed and denied with digest-bound evidence");
+  }
+  if (withAuthority?.attempted !== true || withAuthority?.authorityReceiptPresent !== true ||
+      withAuthority?.authorityReceiptId !== check.authorityReceiptId || withAuthority?.outcome !== "allowed" ||
+      !SHA256_DIGEST.test(withAuthority?.evidenceDigest || "")) {
+    throw new Error("The authorized attempt must be observed and allowed with digest-bound evidence");
+  }
+  if (check.verificationStatus === "external_verified" &&
+      (!check.externalVerifier?.id || !SHA256_DIGEST.test(check.externalVerifier?.evidenceDigest || ""))) {
+    throw new Error("External verification requires a verifier ID and evidence digest");
+  }
+  for (const field of ["claimStatus", "rewardAmount", "claimReceiptId", "settlementTxHash"]) {
+    if (field in check) throw new Error("Claim and reward fields cannot establish enforcement");
   }
   return true;
 }

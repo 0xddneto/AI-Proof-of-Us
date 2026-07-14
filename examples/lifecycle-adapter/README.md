@@ -94,6 +94,53 @@ Frameworks that already seal an authorization before execution can link it to th
 
 `validateAuthorityWorkLink` rejects phase inversions, self-references, mismatched work facts, and claim/reward fields presented as authority. An AIPOU claim remains an optional post-work settlement event and can never authorize an action.
 
+For cross-implementation conformance, `validateAuthorityWorkConformanceLink` applies a stricter profile without changing the base link scheme:
+
+- the authority artifact is `chain_derivable + delegation-scope-v1` with its own subject and deterministic `factId`;
+- the post-work artifact remains `issuer_asserted + aipou-receipt-v1`;
+- the work artifact carries `preActionFactId`, which must equal `authority.factId`;
+- a trust-model downgrade, unsupported authority scheme, subject mismatch, or fact-link mismatch fails closed.
+
+This profile lets an external verifier walk from a delegation or policy fact to the later work receipt while each artifact keeps its own schema and verification authority.
+
+## Enforcement Check
+
+A receipt proves that authorization evidence exists. It does not, by itself, prevent an agent from bypassing the authorized path. Frameworks can benchmark that separate control with `aipou-enforcement-check-v1`:
+
+```json
+{
+  "scheme": "aipou-enforcement-check-v1",
+  "evidenceClass": "issuer_asserted",
+  "relation": "pre_action_receipt_required",
+  "authorityReceiptId": "authority-receipt-id",
+  "actionRef": "framework:sealed-action-ref",
+  "enforcementPoint": {
+    "kind": "protected_branch",
+    "id": "github:example/project:refs/heads/main"
+  },
+  "policyDigest": "sha256:...",
+  "observations": {
+    "withoutAuthority": {
+      "attempted": true,
+      "authorityReceiptPresent": false,
+      "outcome": "denied",
+      "evidenceDigest": "sha256:..."
+    },
+    "withAuthority": {
+      "attempted": true,
+      "authorityReceiptPresent": true,
+      "authorityReceiptId": "authority-receipt-id",
+      "outcome": "allowed",
+      "evidenceDigest": "sha256:..."
+    }
+  },
+  "verificationStatus": "local_test",
+  "relianceBoundary": "enforcement-point-test-only"
+}
+```
+
+`validateEnforcementCheck` fails closed if the untrusted path succeeds, if the authorized path is not observed, if evidence digests are malformed, or if the check does not match the authority artifact. This remains a point-in-time test of one orchestrator, sandbox, protected branch, or policy gate. It is not a universal proof that no bypass exists. Only emit it after actually running both attempts.
+
 ## Real Farming Wallet
 
 For real rewards, set a new dedicated farming wallet:

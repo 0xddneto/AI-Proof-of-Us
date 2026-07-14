@@ -66,6 +66,12 @@ If a project already has a tool-call receipt or BoundaryAttest-style event recei
 
 For delegated frameworks with pre-action authorization, keep two artifacts linked by `aipou-authority-work-link-v1`: `authorityReceiptId` or `actionRef` before execution, then `workReceiptId` after completion, joined by a stable trace reference. The lifecycle example includes a fail-closed validator for this link. Claim and reward fields are never authority evidence.
 
+The optional conformance profile makes the fact chain explicit: a `chain_derivable + delegation-scope-v1` authority artifact exposes `authority.factId`, while the `issuer_asserted + aipou-receipt-v1` work artifact exposes the same value as `work.preActionFactId`. `validateAuthorityWorkConformanceLink` rejects trust-model downgrades, unsupported authority schemes, work-subject mismatches, and links to a different authority fact. This is intended for fixture exchange with governance or ERC-8004-style adapters; it does not make the AIPOU task payload chain-derived.
+
+Receipts are evidence, not enforcement. A framework can produce correct receipts while still allowing an agent to bypass the authorized path. When a deployment claims that pre-action authority is mandatory, test the actual control point separately with `aipou-enforcement-check-v1`. The executable example requires an observed denied attempt without the authority receipt and an observed allowed attempt with the matching receipt, both bound to SHA-256 evidence digests.
+
+An enforcement check remains `issuer_asserted` unless an identified external verifier signs or attests to its evidence. Its reliance boundary is the specific orchestrator, sandbox, protected branch, or policy gate tested at that time. It does not prove that every alternate bypass is impossible, and it does not upgrade the trust tier of the work receipt or any reward claim.
+
 ## What Frameworks Do Not Need
 
 A framework integration does not need to:
