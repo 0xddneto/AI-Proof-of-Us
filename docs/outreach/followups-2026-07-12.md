@@ -51,3 +51,6 @@ July 14 registry update:
 - `aipou-farming@1.0.1` was published to ClawHub at https://clawhub.ai/0xddneto/skills/aipou-farming.
 - The official ClawHub stored scan report downloaded successfully; static analysis was `clean` with no suspicious patterns detected.
 - ClawHub's official worker generated and attached `skill-card.md`. `clawhub skill verify aipou-farming --version 1.0.1` now returns `ok: true` and `decision: pass`, with clean security, benign verdict, high confidence, clean static analysis, and a clean SkillSpector signal.
+- The account-root verification file is now live at `https://0xddneto.github.io/.well-known/forge.json`. A new signed publish made Forge report `domainVerified: true` for `0xddneto.github.io`.
+- Forge still does not ingest npm's public attestations. ClawHub verification passes, but the existing skill version remains unsigned and has no server-resolved repository provenance.
+- The next external outreach round is recorded in [door-to-door-2026-07-14.md](door-to-door-2026-07-14.md).

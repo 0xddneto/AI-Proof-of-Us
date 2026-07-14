@@ -2,13 +2,14 @@
 
 AIPOU is published as `aipou-mcp-server` on npm and can be indexed by MCP and agent registries. Some registries grade trust with supply-chain signals that are separate from protocol design: publisher identity, domain control, signed/provenance publication, package scans, and ownership claims.
 
-This document tracks what is already reproducible and what still depends on external registry synchronization or domain hosting.
+This document tracks what is already reproducible and what still depends on external registry synchronization.
 
 ## Completed In This Repository
 
 - The package homepage points to the official project site: `https://0xddneto.github.io/AI-Proof-of-Us/`.
 - The MCP `server.json` website URL points to the same official site.
 - The official site publishes `/.well-known/forge.json` with publisher `0xddneto`, repository, and package metadata.
+- The account-root site publishes `https://0xddneto.github.io/.well-known/forge.json`, allowing registries to verify control of the package homepage origin.
 - A manual GitHub Actions workflow exists at `.github/workflows/npm-publish.yml` to publish the npm package with provenance.
 - npm Trusted Publishing is configured for the repository and `npm-publish.yml` workflow.
 - `aipou-mcp-server@0.2.2` was published from GitHub Actions with an npm SLSA provenance attestation on July 13, 2026.
@@ -25,8 +26,8 @@ npm audit --workspace mcp-server --omit=dev
 
 These remaining steps depend on external registry review or synchronization:
 
-1. Host `/.well-known/forge.json` at the origin root used by the package homepage. The project-path URL works, but Forge checks `https://0xddneto.github.io/.well-known/forge.json`, which currently returns `404`.
-2. Wait for Forge to recognize the public npm provenance attestation. Forge's CVE and static analysis checks are now complete.
+1. Wait for Forge to recognize the public npm provenance attestation. Forge's publisher, domain, signature, CVE, and static-analysis checks are complete.
+2. If ClawHub adds publisher signatures or server-resolved repository provenance for existing versions, republish or import the skill through that path. The current skill passes verification but remains unsigned and has no ClawHub provenance record.
 
 Until those registry-side steps are complete, external trust grades may remain low even when the local package, docs, and protocol tests pass.
 
@@ -39,11 +40,13 @@ Until those registry-side steps are complete, external trust grades may remain l
 - On July 10, 2026, the repository owner completed Forge's web OAuth flow. Forge returned `Verified` and stated that `@0xddneto` was auto-verified as the owner of `0xddneto/AI-Proof-of-Us`.
 - On July 14, 2026, Forge CLI authentication succeeded as `@0xddneto`. The signed publish initially failed because CLI `0.2.0` defaults to the retired `https://forge.dev` API, which returns HTML instead of registry JSON. Retrying with `FORGE_REGISTRY_URL=https://forgeregistry.com` completed successfully.
 - The public Forge API now records `verified: true` plus the publisher Ed25519 public key and signature for `@0xddneto`. Its cached scan is `clean`: 30 files scanned, zero known vulnerabilities, no suspicious scripts, no prompt/content findings, and nine MCP tools classified as non-privileged.
-- The Forge UI reports grade `A` and `100/100`, while its detail rows still show domain verification and npm provenance as `0/5` each. Treat those row-level gaps as unresolved despite the displayed total.
+- On July 14, 2026, the account-root GitHub Pages repository published `/.well-known/forge.json`. A new signed Forge publish then reported `domainVerified: true` and `verifiedDomain: "0xddneto.github.io"`.
+- The Forge UI reports grade `A` and `100/100`. The public API now confirms domain verification, while Forge still does not ingest the two public npm attestations and reports package provenance as unattested. Treat that remaining row-level gap as a registry synchronization limitation.
 - No Forge credential, GitHub token, email address, device code, or private signing material is stored in this repository.
 - On July 14, 2026, `clawhub login` succeeded as `@0xddneto`, and `aipou-farming@1.0.1` was published at `https://clawhub.ai/0xddneto/skills/aipou-farming`.
 - The official ClawHub stored scan report for `aipou-farming@1.0.1` downloaded successfully. Its manifest reported `status: succeeded`; `static-analysis.json` reported `status: clean`, engine `v2.4.26`, no findings, and summary `No suspicious patterns detected.`
 - On July 14, 2026, ClawHub's official Skill Card worker generated and attached `skill-card.md`. `clawhub skill verify aipou-farming --version 1.0.1` now returns `ok: true` and `decision: pass`, with security `clean`, verdict `benign`, confidence `high`, clean static analysis, and a clean SkillSpector result.
+- ClawHub currently reports the skill signature as unsigned and provenance as unavailable because version `1.0.1` was not imported with server-resolved GitHub provenance. These are distribution metadata gaps, not scan failures.
 
 ## Why This Matters
 
