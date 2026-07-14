@@ -44,9 +44,9 @@ The npm Trusted Publisher connection is configured. `aipou-mcp-server@0.2.2` was
 
 July 14 registry update:
 
-- Forge now shows `aipou-mcp-server@0.2.2`, publisher `@0xddneto` identity verified, and trust `35/100 (D)`.
+- Forge now shows `aipou-mcp-server@0.2.2`, publisher `@0xddneto` identity verified, and grade `A` with a displayed `100/100` trust score.
 - Forge CLI login succeeded as `@0xddneto`, and the Ed25519-signed `0.2.2` submission was accepted after overriding the CLI's retired `forge.dev` default with `FORGE_REGISTRY_URL=https://forgeregistry.com`.
-- Forge now exposes the publisher public key and signature. Domain verification, Forge-run CVE/static scan points, and Forge recognition of the existing npm provenance attestation remain pending.
+- Forge now exposes the publisher public key and signature. Its official cached scan is `clean`: 30 files scanned, zero known vulnerabilities, no suspicious scripts, no prompt/content findings, and nine MCP tools classified as non-privileged. Domain verification and Forge recognition of the existing npm provenance attestation remain pending; the UI still assigns those rows `0/5` despite displaying `100/100` overall.
 - ClawHub login succeeded as `@0xddneto`.
 - `aipou-farming@1.0.1` was published to ClawHub at https://clawhub.ai/0xddneto/skills/aipou-farming.
 - The official ClawHub stored scan report downloaded successfully; static analysis was `clean` with no suspicious patterns detected.

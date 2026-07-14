@@ -26,7 +26,7 @@ npm audit --workspace mcp-server --omit=dev
 These remaining steps depend on external registry review or synchronization:
 
 1. Host `/.well-known/forge.json` at the origin root used by the package homepage. The project-path URL works, but Forge checks `https://0xddneto.github.io/.well-known/forge.json`, which currently returns `404`.
-2. Wait for Forge to run or refresh its CVE/static analysis and npm provenance checks for the signed, indexed `0.2.2` package.
+2. Wait for Forge to recognize the public npm provenance attestation. Forge's CVE and static analysis checks are now complete.
 
 Until those registry-side steps are complete, external trust grades may remain low even when the local package, docs, and protocol tests pass.
 
@@ -38,7 +38,8 @@ Until those registry-side steps are complete, external trust grades may remain l
 - On July 14, 2026, `npx -y @forge-registry/cli verify aipou-mcp-server --json` resolved npm version `0.2.2`, found zero known vulnerabilities at every severity, and found no suspicious lifecycle scripts.
 - On July 10, 2026, the repository owner completed Forge's web OAuth flow. Forge returned `Verified` and stated that `@0xddneto` was auto-verified as the owner of `0xddneto/AI-Proof-of-Us`.
 - On July 14, 2026, Forge CLI authentication succeeded as `@0xddneto`. The signed publish initially failed because CLI `0.2.0` defaults to the retired `https://forge.dev` API, which returns HTML instead of registry JSON. Retrying with `FORGE_REGISTRY_URL=https://forgeregistry.com` completed successfully.
-- The public Forge API now records `verified: true` plus the publisher Ed25519 public key and signature for `@0xddneto`. Domain verification remains false, and the registry has not yet attached a cached scan or recognized the public npm provenance attestation.
+- The public Forge API now records `verified: true` plus the publisher Ed25519 public key and signature for `@0xddneto`. Its cached scan is `clean`: 30 files scanned, zero known vulnerabilities, no suspicious scripts, no prompt/content findings, and nine MCP tools classified as non-privileged.
+- The Forge UI reports grade `A` and `100/100`, while its detail rows still show domain verification and npm provenance as `0/5` each. Treat those row-level gaps as unresolved despite the displayed total.
 - No Forge credential, GitHub token, email address, device code, or private signing material is stored in this repository.
 - On July 14, 2026, `clawhub login` succeeded as `@0xddneto`, and `aipou-farming@1.0.1` was published at `https://clawhub.ai/0xddneto/skills/aipou-farming`.
 - The official ClawHub stored scan report for `aipou-farming@1.0.1` downloaded successfully. Its manifest reported `status: succeeded`; `static-analysis.json` reported `status: clean`, engine `v2.4.26`, no findings, and summary `No suspicious patterns detected.`

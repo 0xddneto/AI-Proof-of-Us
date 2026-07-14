@@ -49,7 +49,7 @@ These values are mathematical reserve snapshots, not reliable market prices. A t
 
 ## Priority Improvements
 
-1. Complete Forge root-domain verification and wait for Forge to ingest the already-public npm provenance and package scan signals.
+1. Complete Forge root-domain verification and wait for Forge to ingest the already-public npm provenance signal; the Forge package scan is now clean.
 2. Keep the public claims policy and tokenomics page synchronized with deployed contracts.
 3. Resolve DexScreener indexing through its token/pair support channels without manufacturing volume.
 4. Publish periodic dated snapshots of supply, claims, reserves, and locked-LP percentage.
