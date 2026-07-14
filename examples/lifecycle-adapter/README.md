@@ -68,6 +68,8 @@ The important part is the framework metadata:
 
 LangGraph, mcp-agent, OpenClaw, LLMOps tools, and payment systems can attach that object to run metadata, trace/span attributes, audit exports, or payment/session metadata. If they already emit tool-call or boundary-event receipts, link those receipts to `workReceiptId` instead of replacing them.
 
+If the external reference must be integrity-bound, use the scheme-neutral `external-evidence-link-v1` prototype in `external-evidence-link.mjs`. It binds source and target artifact digests, supports an optional Ed25519 signature, fails closed on mutation or raw private content, and includes canonical AIPOU/AIIR, SLSA/OCI, and x402/OpenTelemetry vectors. See [Scheme-Neutral External Evidence Links](../../docs/external-evidence-links.md).
+
 ## Pre-Action Authority Link
 
 Frameworks that already seal an authorization before execution can link it to the later AIPOU work receipt without merging the two artifacts:

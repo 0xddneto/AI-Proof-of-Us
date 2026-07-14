@@ -6,7 +6,7 @@
   "description": "Minimal MCP lifecycle adapter example for AI Proof of Us receipts.",
   "scripts": {
     "demo": "node aipou-lifecycle-demo.mjs",
-    "test": "node --test receipt-reference.test.mjs"
+    "test": "node --test *.test.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.13.0",

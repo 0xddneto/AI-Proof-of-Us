@@ -6,6 +6,8 @@ An AIPOU `receiptId` identifies a signed receipt. When the receipt represents a 
 
 See [Work Receipt Boundaries](work-receipt-boundaries.md) for placement guidance.
 
+For integrity-bound relationships between independent receipt protocols, use the experimental [scheme-neutral external evidence link](external-evidence-links.md). An informational extension that only stores `workReceiptId` may be useful for display, but it does not cryptographically bind that reference to the host receipt.
+
 ## Trust Model Layers
 
 Recent feedback from receipt, security, and agent-certification reviewers converged on one useful separation:
@@ -136,6 +138,8 @@ An external registry should allow at most one active record for the same `subjec
 ## Integration Rule
 
 External systems can reference `receiptId` as evidence.
+
+When the relationship itself must be integrity-bound, store a SHA-256 artifact digest and a separate `external-evidence-link-v1` object. The host verifier must still validate its native receipt, and the AIPOU verifier must still validate the AIPOU receipt. The link imports neither trust model.
 
 For payment, marketplace, workflow, and trace integrations, prefer `workReceiptId` when the receipt is being attached as external work evidence. Keep separate identifiers for other systems:
 

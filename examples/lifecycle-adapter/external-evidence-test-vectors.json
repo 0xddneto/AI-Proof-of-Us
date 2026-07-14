@@ -1,0 +1,59 @@
+[
+  {
+    "scheme": "external-evidence-link-v1",
+    "relation": "input_to",
+    "source": {
+      "kind": "receipt",
+      "scheme": "aipou-receipt-v1",
+      "id": "0xaipou-fixture",
+      "digest": "sha256:bbf0882646cdbb935ab08907bb07e4019c9cb2d1453d69bdbff2d1960aa7ef73"
+    },
+    "target": {
+      "kind": "bundle",
+      "scheme": "aiir-agent-receipt-bundle-v1",
+      "id": "aiir:fixture:1",
+      "digest": "sha256:6ab71d627fc25b5742e1b74ac759ce56b4a1413ffecf50c441918fca624cd711"
+    },
+    "privacy": "digest_only",
+    "issuedAt": "2026-07-14T15:30:00.000Z",
+    "linkDigest": "sha256:23a64a7c1d79ce2f4638502193cb53226b83f25f711e396861ee63ede3fdc9e1"
+  },
+  {
+    "scheme": "external-evidence-link-v1",
+    "relation": "supports",
+    "source": {
+      "kind": "attestation",
+      "scheme": "slsa-provenance-v1",
+      "id": "slsa:fixture:1",
+      "digest": "sha256:448877686af6bb7bf2945f48c1f1369d5247b3a236ad198e6b1305d2daeac47e"
+    },
+    "target": {
+      "kind": "artifact",
+      "scheme": "oci-image-manifest-v1",
+      "id": "oci:fixture:1",
+      "digest": "sha256:35855c5f0a98d47ff84e5272aa23b7bbc48cb3a4da488fa1dc952084b27fd9d4"
+    },
+    "privacy": "digest_only",
+    "issuedAt": "2026-07-14T15:30:00.000Z",
+    "linkDigest": "sha256:fad625537833ed7a9dcaa9765da5213bd91b8ac591836482240d858e83742430"
+  },
+  {
+    "scheme": "external-evidence-link-v1",
+    "relation": "output_of",
+    "source": {
+      "kind": "receipt",
+      "scheme": "x402-payment-receipt-v1",
+      "id": "x402:fixture:1",
+      "digest": "sha256:83b2480b14ac4d6077a8374ac2de0e1d787ba45d70e65814b258ce922dc90118"
+    },
+    "target": {
+      "kind": "trace",
+      "scheme": "opentelemetry-trace-v1",
+      "id": "otel:fixture:1",
+      "digest": "sha256:4c84a88e4bb1c6342832ee54a9e2d14e6b1d5c963a459b0f23397537791b0fe8"
+    },
+    "privacy": "digest_only",
+    "issuedAt": "2026-07-14T15:30:00.000Z",
+    "linkDigest": "sha256:c842200c8dad49a4a944e33f1110c80d081e0c9425992d154418ed5eb1d0d987"
+  }
+]

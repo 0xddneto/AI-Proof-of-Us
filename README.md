@@ -30,6 +30,7 @@ Start here if you are building or testing an agent integration:
 - [Framework lifecycle adapter](docs/framework-lifecycle-adapter.md)
 - [Work receipt boundaries](docs/work-receipt-boundaries.md)
 - [receiptId and workReceiptId interoperability](docs/receiptid-interoperability.md)
+- [Scheme-neutral external evidence links](docs/external-evidence-links.md)
 - [MCP tools](docs/mcp-tools.md)
 - [OpenClaw skill](skills/aipou-farming/SKILL.md)
 - [Local Receipt Mode demo](examples/local-receipt-mode/README.md)
