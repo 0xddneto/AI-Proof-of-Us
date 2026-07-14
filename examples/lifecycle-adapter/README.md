@@ -141,6 +141,8 @@ A receipt proves that authorization evidence exists. It does not, by itself, pre
 
 `validateEnforcementCheck` fails closed if the untrusted path succeeds, if the authorized path is not observed, if evidence digests are malformed, or if the check does not match the authority artifact. This remains a point-in-time test of one orchestrator, sandbox, protected branch, or policy gate. It is not a universal proof that no bypass exists. Only emit it after actually running both attempts.
 
+`runEnforcementBenchmark` performs those two attempts through an integration-supplied action callback. The executable fixture proves that its local protected mutation is denied without the matching authority receipt, leaves protected state unchanged, and succeeds exactly once with the receipt. An integration must connect that callback to its real orchestrator, sandbox, branch protection, or policy gate before describing the result as deployment enforcement.
+
 ## Real Farming Wallet
 
 For real rewards, set a new dedicated farming wallet:

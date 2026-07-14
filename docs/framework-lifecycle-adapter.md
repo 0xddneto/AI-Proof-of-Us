@@ -72,6 +72,8 @@ Receipts are evidence, not enforcement. A framework can produce correct receipts
 
 An enforcement check remains `issuer_asserted` unless an identified external verifier signs or attests to its evidence. Its reliance boundary is the specific orchestrator, sandbox, protected branch, or policy gate tested at that time. It does not prove that every alternate bypass is impossible, and it does not upgrade the trust tier of the work receipt or any reward claim.
 
+The reference adapter exposes `runEnforcementBenchmark` so a framework can execute both attempts instead of submitting a pre-filled observation object. Its fixture uses a real local mutation gate and confirms that the unauthorized attempt leaves state unchanged while the authorized attempt mutates state once. This proves the reference gate behavior only; production integrations must supply the callback that reaches their actual enforcement point.
+
 ## What Frameworks Do Not Need
 
 A framework integration does not need to:

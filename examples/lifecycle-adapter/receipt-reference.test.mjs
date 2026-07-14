@@ -7,6 +7,7 @@ import {
   ENFORCEMENT_CHECK_SCHEME,
   createAuthorityWorkLink,
   deriveFactId,
+  runEnforcementBenchmark,
   validateActiveFactSet,
   validateAipouReference,
   validateAuthorityWorkLink,
@@ -131,6 +132,35 @@ test("rejects mismatched work and claim fields presented as authority", () => {
 
 test("records a point-specific enforcement test separately from receipt evidence", () => {
   assert.equal(validateEnforcementCheck(enforcementCheck, authorityWorkLink), true);
+});
+
+test("executes the protected action without and with the authority receipt", async () => {
+  const protectedMutations = [];
+  const check = await runEnforcementBenchmark({
+    authorityWorkLink,
+    enforcementPoint: enforcementCheck.enforcementPoint,
+    policyDigest: enforcementCheck.policyDigest,
+    attemptAction: async ({ authorityReceiptId }) => {
+      if (authorityReceiptId !== authorityWorkLink.authority.receiptId) {
+        return { outcome: "denied", reason: "missing_or_invalid_authority" };
+      }
+      protectedMutations.push(authorityWorkLink.authority.actionRef);
+      return { outcome: "allowed", result: "protected_mutation_applied" };
+    }
+  });
+
+  assert.equal(check.observations.withoutAuthority.outcome, "denied");
+  assert.equal(check.observations.withAuthority.outcome, "allowed");
+  assert.deepEqual(protectedMutations, [authorityWorkLink.authority.actionRef]);
+});
+
+test("executable benchmark fails when the untrusted path reaches the action", async () => {
+  await assert.rejects(() => runEnforcementBenchmark({
+    authorityWorkLink,
+    enforcementPoint: enforcementCheck.enforcementPoint,
+    policyDigest: enforcementCheck.policyDigest,
+    attemptAction: async () => ({ outcome: "allowed" })
+  }));
 });
 
 test("fails closed when execution without authority is possible", () => {

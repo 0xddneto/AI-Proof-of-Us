@@ -11,6 +11,10 @@ export const CHAIN_AUTHORITY_SCHEMES = new Set(["delegation-scope-v1"]);
 const SHA256_DIGEST = /^sha256:[0-9a-f]{64}$/;
 const BYTES32 = /^0x[0-9a-f]{64}$/;
 
+function digestEvidence(value) {
+  return `sha256:${createHash("sha256").update(JSON.stringify(value)).digest("hex")}`;
+}
+
 export function collectorFingerprint(publicKey) {
   const der = createPublicKey(publicKey).export({ format: "der", type: "spki" });
   return `sha256:${createHash("sha256").update(der).digest("hex")}`;
@@ -168,4 +172,52 @@ export function validateEnforcementCheck(check, authorityWorkLink) {
     if (field in check) throw new Error("Claim and reward fields cannot establish enforcement");
   }
   return true;
+}
+
+export async function runEnforcementBenchmark({
+  authorityWorkLink,
+  enforcementPoint,
+  policyDigest,
+  attemptAction
+}) {
+  if (typeof attemptAction !== "function") {
+    throw new Error("Enforcement benchmarks require an executable action attempt");
+  }
+
+  const authorityReceiptId = authorityWorkLink.authority?.receiptId;
+  const actionRef = authorityWorkLink.authority?.actionRef;
+  const withoutAuthorityInput = { actionRef, authorityReceiptId: null };
+  const withAuthorityInput = { actionRef, authorityReceiptId };
+  const withoutAuthorityResult = await attemptAction(withoutAuthorityInput);
+  const withAuthorityResult = await attemptAction(withAuthorityInput);
+
+  const check = {
+    scheme: ENFORCEMENT_CHECK_SCHEME,
+    evidenceClass: AIPOU_EVIDENCE_CLASS,
+    relation: "pre_action_receipt_required",
+    authorityReceiptId,
+    actionRef,
+    enforcementPoint,
+    policyDigest,
+    observations: {
+      withoutAuthority: {
+        attempted: true,
+        authorityReceiptPresent: false,
+        outcome: withoutAuthorityResult?.outcome,
+        evidenceDigest: digestEvidence({ input: withoutAuthorityInput, result: withoutAuthorityResult })
+      },
+      withAuthority: {
+        attempted: true,
+        authorityReceiptPresent: true,
+        authorityReceiptId,
+        outcome: withAuthorityResult?.outcome,
+        evidenceDigest: digestEvidence({ input: withAuthorityInput, result: withAuthorityResult })
+      }
+    },
+    verificationStatus: "local_test",
+    relianceBoundary: "enforcement-point-test-only"
+  };
+
+  validateEnforcementCheck(check, authorityWorkLink);
+  return check;
 }
