@@ -44,6 +44,10 @@ Implemented locally:
 
 This is an important security improvement, not proof that every AIPOU deployment enforces pre-action authority.
 
+AIPOU response: https://github.com/microsoft/autogen/discussions/7752#discussioncomment-17641270
+
+The response linked the executable enforcement check and asked whether `enforcementPoint.kind` should remain generic or use a small interoperable vocabulary such as `protected_branch`, `sandbox_boundary`, and `orchestrator_policy`.
+
 ### ElizaOS
 
 Thread: https://github.com/orgs/elizaOS/discussions/9810
@@ -60,6 +64,10 @@ Implemented locally:
 - kept the AIPOU task payload issuer-asserted even when the authority artifact is chain-derived.
 
 ElizaOS offered to run the future harness against ERC-8004 adapter fixtures. That is a concrete collaboration path, but no exchanged fixture, PR, merge, installation, or adoption is confirmed yet.
+
+AIPOU response: https://github.com/orgs/elizaOS/discussions/9810#discussioncomment-17641296
+
+The response linked the strict conformance validator and 18 passing lifecycle fixtures, confirmed that the base link remains compatible, and invited one canonical ERC-8004 authority fixture plus negative trust-downgrade and mismatched-fact variants.
 
 ### awesome-mcp-servers
 
