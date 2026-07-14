@@ -93,6 +93,24 @@ Question: should an external `workReceiptId` attach at task completion, agent ha
 
 The message proposed a thin lifecycle adapter and explicitly left Bernstein's chained audit log authoritative. It invited a small adapter test, technical feedback, or a repository star.
 
+### a2a-x402 Follow-up
+
+External response: https://github.com/google-agentic-commerce/a2a-x402/discussions/143#discussioncomment-17619619
+
+AmitabhainArunachala said their live receipt verifier already uses the dual-receipt pattern and independently grades work evidence and payment evidence. The useful rule was that external settlement, receivables, buyer intent, distribution, and self-pay/test evidence must not collapse into one revenue or adoption claim.
+
+Implemented in `2926cb2`:
+
+- documented independent grades for AIPOU work receipts, payment-rail receipts, marketplace/job records, and AIPOU claim transactions;
+- prohibited presenting self-payments, same-wallet transfers, testnet activity, or protocol demonstrations as independent revenue or adoption;
+- linked cross-protocol evidence to the scheme-neutral digest-bearing relation from `39b55b9`.
+
+The offered endpoint was tested only with a synthetic public fixture. It currently returns `payment_required` for `0.05` USDC on Base even though the comment described the test as free. No private receipt was sent and no payment was authorized.
+
+AIPOU response: https://github.com/google-agentic-commerce/a2a-x402/discussions/143#discussioncomment-17637908
+
+The response asked for the free test route or invited the verifier operator to run the public canonical fixture and return the tier and missing-proof output. No verifier result or first-class AIPOU evidence integration is confirmed yet.
+
 ## Adoption Status
 
-This round produced three new public technical conversations, two relevant follow-ups, one detailed AIIR design review, and one AutoGen architecture validation. The AIIR recommendation produced executable code and canonical vectors. It did not yet produce a confirmed third-party installation, independently generated AIPOU receipt, submitted cross-project fixture, merged integration, or production user. Stars, comments, and installations must be verified before being counted as adoption.
+This round produced three new public technical conversations, three relevant follow-ups, one detailed AIIR design review, one AutoGen architecture validation, and one production-verifier offer from a2a-x402. The feedback produced executable code, canonical vectors, and independent evidence-grade documentation. It did not yet produce a confirmed third-party installation, independently generated AIPOU receipt, submitted cross-project fixture, returned external verifier result, merged integration, or production user. Stars, comments, and installations must be verified before being counted as adoption.
