@@ -45,9 +45,9 @@ The npm Trusted Publisher connection is configured. `aipou-mcp-server@0.2.2` was
 July 14 registry update:
 
 - Forge now shows `aipou-mcp-server@0.2.2`, publisher `@0xddneto` identity verified, and trust `35/100 (D)`.
-- Forge still does not show the Ed25519 publish signature, domain verification, Forge-run CVE/static scan points, or npm provenance points.
-- Forge CLI login remains blocked because generated device codes are rejected by GitHub as unknown.
+- Forge CLI login succeeded as `@0xddneto`, and the Ed25519-signed `0.2.2` submission was accepted after overriding the CLI's retired `forge.dev` default with `FORGE_REGISTRY_URL=https://forgeregistry.com`.
+- Forge now exposes the publisher public key and signature. Domain verification, Forge-run CVE/static scan points, and Forge recognition of the existing npm provenance attestation remain pending.
 - ClawHub login succeeded as `@0xddneto`.
 - `aipou-farming@1.0.1` was published to ClawHub at https://clawhub.ai/0xddneto/skills/aipou-farming.
 - The official ClawHub stored scan report downloaded successfully; static analysis was `clean` with no suspicious patterns detected.
-- ClawHub `skill verify` still failed at the latest check only because the generated skill card was missing. Security now passes as `clean` with verdict `benign`, confidence `high`, clean static analysis, and clean SkillSpector signal.
+- ClawHub's official worker generated and attached `skill-card.md`. `clawhub skill verify aipou-farming --version 1.0.1` now returns `ok: true` and `decision: pass`, with clean security, benign verdict, high confidence, clean static analysis, and a clean SkillSpector signal.
