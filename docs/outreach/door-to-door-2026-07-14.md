@@ -105,12 +105,26 @@ Implemented in `2926cb2`:
 - prohibited presenting self-payments, same-wallet transfers, testnet activity, or protocol demonstrations as independent revenue or adoption;
 - linked cross-protocol evidence to the scheme-neutral digest-bearing relation from `39b55b9`.
 
-The offered endpoint was tested only with a synthetic public fixture. It currently returns `payment_required` for `0.05` USDC on Base even though the comment described the test as free. No private receipt was sent and no payment was authorized.
+The offered endpoint was first tested only with a synthetic public fixture. It returned `payment_required` for `0.05` USDC on Base even though the earlier comment described the test as free. After explicit user authorization, AIPOU repeated the test with a payment policy locked to the exact network, USDC contract, recipient, and `0.05` USDC amount. No private receipt was sent.
+
+Public payment evidence:
+
+- ETH-to-USDC preparation transaction: https://basescan.org/tx/0x09be0117adffbfaf7c66c0d59b369bcefd87cfdacebb76337543ebe5dfc69d1c
+- x402 settlement transaction: https://basescan.org/tx/0xde69d892947a149928a1ca48f246e160972111a54d6aa5455dabb867d894aa19
+- settled amount: exactly `0.05` USDC on Base;
+- fixture: synthetic `aipou-receipt-v1`, `issuer_asserted`, and `local_fixture` evidence with placeholder hashes;
+- verifier result: `R0_CLAIM_ONLY`, score `0`;
+- detected evidence: no transport acknowledgement, handler acknowledgement, semantic reply, domain receipt, verifier receipt, or human approval;
+- missing for done: `semantic_reply`, `domain_receipt`, and `verifier_receipt`.
+
+This is a useful fail-closed result. The verifier correctly treated a local synthetic receipt reference as a claim rather than proof that work, payment revenue, adoption, or completion occurred. It is an external verifier result, not an AIPOU integration or user adoption event.
 
 AIPOU response: https://github.com/google-agentic-commerce/a2a-x402/discussions/143#discussioncomment-17637908
 
-The response asked for the free test route or invited the verifier operator to run the public canonical fixture and return the tier and missing-proof output. No verifier result or first-class AIPOU evidence integration is confirmed yet.
+Paid verification follow-up: https://github.com/google-agentic-commerce/a2a-x402/discussions/143#discussioncomment-17638326
+
+The initial response asked for the free test route or invited the verifier operator to run the public canonical fixture. The later user-authorized paid run returned the tier and missing-proof output above. No first-class AIPOU evidence integration is confirmed yet.
 
 ## Adoption Status
 
-This round produced three new public technical conversations, three relevant follow-ups, one detailed AIIR design review, one AutoGen architecture validation, and one production-verifier offer from a2a-x402. The feedback produced executable code, canonical vectors, and independent evidence-grade documentation. It did not yet produce a confirmed third-party installation, independently generated AIPOU receipt, submitted cross-project fixture, returned external verifier result, merged integration, or production user. Stars, comments, and installations must be verified before being counted as adoption.
+This round produced three new public technical conversations, three relevant follow-ups, one detailed AIIR design review, one AutoGen architecture validation, one production-verifier offer from a2a-x402, and one externally returned fail-closed verifier result for a paid synthetic fixture. The feedback produced executable code, canonical vectors, and independent evidence-grade documentation. It did not yet produce a confirmed third-party installation, independently generated AIPOU receipt, merged integration, or production user. Stars, comments, and installations must be verified before being counted as adoption.
