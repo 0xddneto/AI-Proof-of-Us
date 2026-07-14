@@ -48,6 +48,6 @@ July 14 registry update:
 - Forge still does not show the Ed25519 publish signature, domain verification, Forge-run CVE/static scan points, or npm provenance points.
 - Forge CLI login remains blocked because generated device codes are rejected by GitHub as unknown.
 - ClawHub login succeeded as `@0xddneto`.
-- `aipou-farming@1.0.0` was published to ClawHub at https://clawhub.ai/0xddneto/skills/aipou-farming.
+- `aipou-farming@1.0.1` was published to ClawHub at https://clawhub.ai/0xddneto/skills/aipou-farming.
 - The official ClawHub stored scan report downloaded successfully; static analysis was `clean` with no suspicious patterns detected.
-- ClawHub `skill verify` still failed at the latest check because the generated skill card was missing and the final security status was still pending, even though static analysis and VirusTotal signals were clean.
+- ClawHub `skill verify` still failed at the latest check because the generated skill card was missing and the final security status was still pending. For `1.0.1`, static analysis is clean; VirusTotal was not yet present in the downloaded `1.0.1` report.

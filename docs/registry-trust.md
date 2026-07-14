@@ -39,9 +39,9 @@ Until those registry-side steps are complete, external trust grades may remain l
 - On July 14, 2026, the public Forge listing had reindexed to `aipou-mcp-server@0.2.2`, showed publisher `@0xddneto` as identity verified, and reported trust `35/100 (D)`. Remaining missing Forge signals were Ed25519 publish signature, Forge domain verification, Forge CVE/static scan scoring, and Forge recognition of npm provenance.
 - Forge CLI `0.2.0` still could not authenticate: fresh device-flow codes were rejected by GitHub as unknown while the CLI remained waiting. Consequently, `forge publish --dry-run` can generate the local Ed25519 signature, but the signed publish cannot be submitted until the Forge CLI login flow works.
 - No Forge credential, GitHub token, email address, device code, or private signing material is stored in this repository.
-- On July 14, 2026, `clawhub login` succeeded as `@0xddneto`, and `aipou-farming@1.0.0` was published at `https://clawhub.ai/0xddneto/skills/aipou-farming`.
-- The official ClawHub stored scan report for `aipou-farming@1.0.0` downloaded successfully. Its manifest reported `status: succeeded`; `static-analysis.json` reported `status: clean`, engine `v2.4.26`, no findings, and summary `No suspicious patterns detected.`
-- ClawHub `skill verify aipou-farming --version 1.0.0` still returned `fail` because `card.missing` and `security.pending` remained at verification time. Do not claim full ClawHub verification until those registry-side fields resolve.
+- On July 14, 2026, `clawhub login` succeeded as `@0xddneto`, and `aipou-farming@1.0.1` was published at `https://clawhub.ai/0xddneto/skills/aipou-farming`.
+- The official ClawHub stored scan report for `aipou-farming@1.0.1` downloaded successfully. Its manifest reported `status: succeeded`; `static-analysis.json` reported `status: clean`, engine `v2.4.26`, no findings, and summary `No suspicious patterns detected.`
+- ClawHub `skill verify aipou-farming --version 1.0.1` still returned `fail` because `card.missing` and `security.pending` remained at verification time. The published artifact lists `SKILL.md`, `references/protocol.md`, and `agents/openai.yaml`; the registry did not attach a generated `skill-card.md` even after the local card file was added. Do not claim full ClawHub verification until those registry-side fields resolve.
 
 ## Why This Matters
 
