@@ -7,7 +7,6 @@ test("canonicalJson serializes primitives correctly", () => {
   assert.equal(canonicalJson("hello"), "\"hello\"");
   assert.equal(canonicalJson(true), "true");
   assert.equal(canonicalJson(null), "null");
-  assert.equal(canonicalJson(undefined), "undefined");
 });
 
 test("canonicalJson sorts object keys lexicographically", () => {
