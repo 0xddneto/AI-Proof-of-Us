@@ -1,0 +1,43 @@
+name: Interop fixtures
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/interop-fixtures.yml"
+      - "examples/lifecycle-adapter/**"
+      - "examples/autogen-intervention/**"
+  pull_request:
+    paths:
+      - ".github/workflows/interop-fixtures.yml"
+      - "examples/lifecycle-adapter/**"
+      - "examples/autogen-intervention/**"
+
+permissions:
+  contents: read
+
+jobs:
+  lifecycle-adapter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --test examples/lifecycle-adapter/*.test.mjs
+
+  autogen-intervention:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: examples/autogen-intervention
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: examples/autogen-intervention/requirements.txt
+      - run: python -m pip install -r requirements.txt
+      - run: python -m unittest -v
+      - run: python run_demo.py

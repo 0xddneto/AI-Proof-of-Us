@@ -78,6 +78,10 @@ For comparable results, `enforcementPoint.kind` uses `protected_branch`, `sandbo
 
 The first recommended application binding is the tool execution boundary: check authority before invoking a side-effecting tool, execute only when allowed, and record post-call evidence afterward. A denial should be structured so the agent can request authority or choose another path. The reference `createToolExecutionPolicyGate` returns `AIPOU_AUTHORITY_REQUIRED` with `canRequestAuthority: true` and performs no protected mutation. AutoGen Core exposes a compatible interception pattern through its intervention handler around tool execution; the AIPOU fixture does not claim that a production AutoGen adapter has been installed.
 
+Do not mark every denial as recoverable. A permanently forbidden action returns `AIPOU_ACTION_FORBIDDEN` with `canRequestAuthority: false`; the reference agent loop does not request authority, retry, or execute the tool. A temporarily unauthorized action returns `AIPOU_AUTHORITY_REQUIRED`, requests authority once, and retries once with the matching receipt.
+
+A runnable `DefaultInterventionHandler` fixture is available in `examples/autogen-intervention`. It uses the real `autogen-core` class and `FunctionCall` type, but needs no model, API key, Docker, wallet, claim, or funds.
+
 ## What Frameworks Do Not Need
 
 A framework integration does not need to:

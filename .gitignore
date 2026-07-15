@@ -9,4 +9,6 @@ typechain-types/
 !.env.example
 .aipou/
 *.log
-
+.venv/
+__pycache__/
+*.pyc

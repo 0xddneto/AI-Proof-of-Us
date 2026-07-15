@@ -8,6 +8,7 @@ import {
   createToolExecutionPolicyGate,
   createAuthorityWorkLink,
   deriveFactId,
+  runAgentPolicyLoop,
   runEnforcementBenchmark,
   validateActiveFactSet,
   validateAipouReference,
@@ -206,6 +207,62 @@ test("returns a structured denial at the tool execution boundary", async () => {
   });
   assert.equal(check.observations.withoutAuthority.outcome, "denied");
   assert.equal(check.observations.withAuthority.outcome, "allowed");
+  assert.deepEqual(executedActions, [authorityWorkLink.authority.actionRef]);
+});
+
+test("does not request authority or retry permanently forbidden actions", async () => {
+  const executedActions = [];
+  let authorityRequests = 0;
+  const gate = createToolExecutionPolicyGate({
+    authorityWorkLink,
+    executeAction: async ({ actionRef }) => {
+      executedActions.push(actionRef);
+      return { outcome: "executed" };
+    },
+    isPermanentlyForbidden: async ({ actionRef }) => actionRef === authorityWorkLink.authority.actionRef
+  });
+
+  const loopResult = await runAgentPolicyLoop({
+    actionRef: authorityWorkLink.authority.actionRef,
+    attemptAction: gate,
+    requestAuthority: async () => {
+      authorityRequests += 1;
+      return authorityWorkLink.authority.receiptId;
+    }
+  });
+
+  assert.equal(loopResult.attempts, 1);
+  assert.equal(loopResult.authorityRequested, false);
+  assert.equal(loopResult.result.code, "AIPOU_ACTION_FORBIDDEN");
+  assert.equal(loopResult.result.canRequestAuthority, false);
+  assert.equal(authorityRequests, 0);
+  assert.deepEqual(executedActions, []);
+});
+
+test("requests authority once and retries a temporarily unauthorized action", async () => {
+  const executedActions = [];
+  let authorityRequests = 0;
+  const gate = createToolExecutionPolicyGate({
+    authorityWorkLink,
+    executeAction: async ({ actionRef }) => {
+      executedActions.push(actionRef);
+      return { outcome: "executed" };
+    }
+  });
+
+  const loopResult = await runAgentPolicyLoop({
+    actionRef: authorityWorkLink.authority.actionRef,
+    attemptAction: gate,
+    requestAuthority: async () => {
+      authorityRequests += 1;
+      return authorityWorkLink.authority.receiptId;
+    }
+  });
+
+  assert.equal(loopResult.attempts, 2);
+  assert.equal(loopResult.authorityRequested, true);
+  assert.equal(loopResult.result.code, "AIPOU_AUTHORITY_ACCEPTED");
+  assert.equal(authorityRequests, 1);
   assert.deepEqual(executedActions, [authorityWorkLink.authority.actionRef]);
 });
 

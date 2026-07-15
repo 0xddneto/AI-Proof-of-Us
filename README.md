@@ -35,6 +35,7 @@ Start here if you are building or testing an agent integration:
 - [OpenClaw skill](skills/aipou-farming/SKILL.md)
 - [Local Receipt Mode demo](examples/local-receipt-mode/README.md)
 - [Lifecycle adapter example](examples/lifecycle-adapter/README.md)
+- [AutoGen intervention example](examples/autogen-intervention/README.md)
 - [npm publication checklist](docs/npm-publication.md)
 - [Registry trust checklist](docs/registry-trust.md)
 - [Dated token health snapshot](docs/token-health-2026-07-10.md)

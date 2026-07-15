@@ -232,15 +232,32 @@ export async function runEnforcementBenchmark({
   return check;
 }
 
-export function createToolExecutionPolicyGate({ authorityWorkLink, executeAction }) {
+export function createToolExecutionPolicyGate({
+  authorityWorkLink,
+  executeAction,
+  isPermanentlyForbidden = async () => false
+}) {
   if (typeof executeAction !== "function") {
     throw new Error("Tool execution policy gates require an action executor");
+  }
+  if (typeof isPermanentlyForbidden !== "function") {
+    throw new Error("Permanent policy checks must be executable functions");
   }
 
   const expectedReceiptId = authorityWorkLink.authority?.receiptId;
   const expectedActionRef = authorityWorkLink.authority?.actionRef;
 
   return async function executeAtToolBoundary({ actionRef, authorityReceiptId }) {
+    if (await isPermanentlyForbidden({ actionRef, authorityReceiptId })) {
+      return {
+        outcome: "denied",
+        code: "AIPOU_ACTION_FORBIDDEN",
+        message: "Tool action is permanently forbidden by orchestrator policy.",
+        actionRef,
+        enforcementPointKind: "orchestrator_policy",
+        canRequestAuthority: false
+      };
+    }
     if (actionRef !== expectedActionRef || authorityReceiptId !== expectedReceiptId) {
       return {
         outcome: "denied",
@@ -261,4 +278,23 @@ export function createToolExecutionPolicyGate({ authorityWorkLink, executeAction
       result
     };
   };
+}
+
+export async function runAgentPolicyLoop({ actionRef, attemptAction, requestAuthority }) {
+  if (typeof attemptAction !== "function" || typeof requestAuthority !== "function") {
+    throw new Error("Agent policy loops require action and authority callbacks");
+  }
+
+  const firstResult = await attemptAction({ actionRef, authorityReceiptId: null });
+  if (firstResult?.outcome !== "denied" || firstResult?.canRequestAuthority !== true) {
+    return { attempts: 1, authorityRequested: false, result: firstResult };
+  }
+
+  const authorityReceiptId = await requestAuthority({ actionRef, denial: firstResult });
+  if (!authorityReceiptId) {
+    return { attempts: 1, authorityRequested: true, result: firstResult };
+  }
+
+  const secondResult = await attemptAction({ actionRef, authorityReceiptId });
+  return { attempts: 2, authorityRequested: true, result: secondResult };
 }
