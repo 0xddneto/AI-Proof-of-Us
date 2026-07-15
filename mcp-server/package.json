@@ -3,6 +3,7 @@
   "version": "0.2.2",
   "mcpName": "io.github.0xddneto/ai-proof-of-us",
   "description": "MCP server for private, signed AI task receipts and optional validated AIPOU claims.",
+  "author": "0xddneto",
   "keywords": [
     "mcp",
     "model-context-protocol",

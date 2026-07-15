@@ -52,6 +52,14 @@ Public explainer: https://huggingface.co/spaces/0xddneto/AI-Proof-of-Us
 
 Official project contact: aipou001@gmail.com
 
+Project identity and authorship:
+
+- [Origin and authorship record](docs/origin-and-authorship.md)
+- [AIPOU name and logo policy](TRADEMARKS.md)
+- [Copyright and project notice](NOTICE)
+
+`AIPOU` and `AI Proof of Us` are currently unregistered project identifiers. The MIT license covers the software, not permission to present another token, service, or package as the official AIPOU project.
+
 This is not "AI usage mining" and it is not meant to reward raw prompt spam or attract passive token speculation. AIPOU is for humans doing real work with AI and for developers who want to test whether that work can produce portable receipts across agent clients.
 
 In plain language:

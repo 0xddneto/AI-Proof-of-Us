@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "MCP-first receipt protocol and AIPOU reward token for humans working with AI.",
+  "author": "0xddneto",
   "license": "MIT",
   "workspaces": [
     "contracts",
