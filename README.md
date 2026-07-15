@@ -45,6 +45,7 @@ Start here if you are building or testing an agent integration:
 Read [From AI Work to Onchain Rewards](docs/farming-and-claims.md) for the complete journey, global farming workflow, reward calculation, and one-command claim experience.
 Read [Human Rewards and Agent Payments](docs/human-rewards-and-agent-payments.md) for the human reward loop and experimental agent-payment framing.
 Read [AIPOU Tokenomics and Launch Transparency](docs/tokenomics.md) for supply, pool, reward, and experimental launch details.
+Read [AIPOU Funding and Partnership Brief](docs/funding-and-partnerships.md) for the public Base grant, protocol partnership, and responsible-liquidity proposal.
 Read [Evidence Boundaries](docs/evidence-boundaries.md) and [Claim Validation Policy](docs/claim-validation-policy.md) before proposing integrations with receipt, provenance, security, or payment projects.
 
 Official website: https://0xddneto.github.io/AI-Proof-of-Us/
