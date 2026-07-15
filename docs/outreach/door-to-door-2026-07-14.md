@@ -116,6 +116,18 @@ Collaboration accepted: https://github.com/orgs/elizaOS/discussions/9810#discuss
 
 AIPOU offered to preserve one canonical ERC-8004 fixture as the positive vector, map its chain-derived authority fact to `preActionFactId`, return fail-closed variants, publish reproducible commands, adapt envelope field names or canonicalization, and open the fixture PR in the repository ElizaOS prefers. Only a synthetic fixture or branch/PR link is requested; no wallet funds, private keys, claims, or production receipts are needed.
 
+Fixture intake review: https://github.com/orgs/elizaOS/discussions/9810#discussioncomment-17654046
+
+Kuberna published a synthetic authority fixture, but the first intake failed closed: the declared `fact_id` did not match the JCS-canonicalized scope and the placeholder ECDSA signature was not explicitly synthetic. AIPOU did not execute Kuberna code or import the file as an approved positive vector.
+
+Kuberna correction: https://github.com/kawacukennedy/kuberna-labs/commit/5c0cbdf
+
+Kuberna accepted the findings, removed absent optional fields, and marked the signature `synthetic: true`. Independent recomputation found one remaining drift introduced by that correction: `0x2369ba...` is the hash of the previous scope that still contained `attestation`, while the corrected seven-field scope hashes to `0x82c33017978a70f0cf08ecc45df9ae81107410d466f0e5205b426981466baaad`.
+
+AIPOU follow-up: https://github.com/orgs/elizaOS/discussions/9810#discussioncomment-17654691
+
+The follow-up requested either the corrected hash or exact canonical preimage bytes and recommended a repository test that reconstructs the preimage from `preimage_fields`, applies JCS, and asserts both published hash fields. Integration remains fail-closed until the immutable fixture is reproducible and test-covered. This is active technical collaboration, not an ElizaOS integration, installation, or adoption claim.
+
 ### awesome-mcp-servers
 
 Thread: https://github.com/punkpeye/awesome-mcp-servers/issues/9036
