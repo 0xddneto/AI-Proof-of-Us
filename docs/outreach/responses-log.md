@@ -492,6 +492,8 @@ Validation:
 Current state:
 
 - the pull request is open;
+- the individual Microsoft CLA was accepted and the `license/cla` check passed;
+- GitGuardian passed with no secrets detected;
 - seven upstream workflows require maintainer approval because this is a first-time fork contribution;
 - at least one maintainer review is required before merge;
 - `tamish560` was asked to review whether the protocol-neutral names preserve the independently tested semantics.
