@@ -72,6 +72,25 @@ AIPOU response: https://github.com/microsoft/autogen/discussions/7752#discussion
 
 The response linked AutoGen's official intervention-handler pattern, stated that the current fixture is still framework-neutral, and asked whether the next deliverable should be a minimal Python `DefaultInterventionHandler` example in AIPOU or a patch against an AutoGen examples/cookbook location.
 
+Further AutoGen responses:
+
+- permanent-denial fixture: https://github.com/microsoft/autogen/discussions/7752#discussioncomment-17641639
+- ship the local AutoGen fixture first: https://github.com/microsoft/autogen/discussions/7752#discussioncomment-17641646
+
+Tamish560 asked AIPOU to distinguish a recoverable missing-authority result from a permanently forbidden action so an agent does not retry forever. They also recommended shipping a minimal `DefaultInterventionHandler` example inside AIPOU, proving it end to end, and only then proposing an upstream AutoGen cookbook patch.
+
+Implemented in commits `f9d7766` and `3e5a5e4`:
+
+- `AIPOU_AUTHORITY_REQUIRED` keeps `canRequestAuthority: true` and retries once after one authority request;
+- `AIPOU_ACTION_FORBIDDEN` sets `canRequestAuthority: false` and performs no request, retry, or protected mutation;
+- a real `autogen-core==0.7.5` fixture subclasses `DefaultInterventionHandler` and handles `FunctionCall`/`ToolException` without a model, API key, Docker, wallet, claim, or funds;
+- 24 lifecycle tests and 4 AutoGen tests pass;
+- the public interop workflow passed both jobs in 17 seconds and was then updated to current Node 24-based GitHub Actions releases.
+
+AIPOU response: https://github.com/microsoft/autogen/discussions/7752#discussioncomment-17643733
+
+The response requested an independent clone-and-run result before preparing the upstream cookbook proposal. That is a concrete test request, not yet an external reproduction, merged integration, or adoption.
+
 ### ElizaOS
 
 Thread: https://github.com/orgs/elizaOS/discussions/9810
