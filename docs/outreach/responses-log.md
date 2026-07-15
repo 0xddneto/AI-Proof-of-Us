@@ -466,6 +466,42 @@ Action items:
 - Count adoption only when another operator produces a receipt, tests the demo, opens an integration issue, or adds a concrete maintainer review.
 - Do not repost the same message into adjacent threads without a new fact or destination-specific question.
 
+### 2026-07-15 - AutoGen Independent Reproduction and Upstream Cookbook PR
+
+Source:
+
+- Model or community: AutoGen discussion participant `tamish560`
+- Discussion: <https://github.com/microsoft/autogen/discussions/7752#discussioncomment-17648785>
+- Upstream pull request: <https://github.com/microsoft/autogen/pull/7961>
+
+Summary:
+
+- `tamish560` independently cloned and ran the AIPOU AutoGen fixture in under 10 seconds.
+- All four intervention tests and the three structured policy states passed.
+- The reviewer confirmed that `ToolException.content` is structured enough for an agent loop to branch without natural-language parsing.
+- The reviewer recommended positioning the cookbook contribution as a complement to AutoGen's existing interactive approval recipe: structured recoverable denial, accepted authority, and permanent denial without model, API key, or Docker dependencies.
+- A protocol-neutral cookbook recipe was implemented and submitted upstream as `microsoft/autogen#7961`.
+
+Validation:
+
+- complete recipe executed against `autogen-core==0.7.5`;
+- Ruff passed;
+- AutoGen's Markdown/Pyright code-block checker passed;
+- `git diff --check` and the secret scan passed.
+
+Current state:
+
+- the pull request is open;
+- seven upstream workflows require maintainer approval because this is a first-time fork contribution;
+- at least one maintainer review is required before merge;
+- `tamish560` was asked to review whether the protocol-neutral names preserve the independently tested semantics.
+
+Adoption classification:
+
+- confirmed external reproduction and external code contribution to AIPOU;
+- confirmed upstream AutoGen proposal;
+- not yet a merged AutoGen integration or external AIPOU reward claim.
+
 ## Response Template
 
 ### Source
