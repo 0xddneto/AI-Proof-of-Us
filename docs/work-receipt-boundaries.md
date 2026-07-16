@@ -93,6 +93,8 @@ Choose the attachment point based on the boundary being verified:
 | Payment session | payment/session metadata | `workReceiptId` plus payment rail's own receipt |
 | Marketplace payout | payout evidence | `workReceiptId` and validation status |
 
+For artifact-lineage systems, prefer an opaque provider-neutral reference in lineage metadata and mirror it into the run-level audit summary. Do not insert an external `workReceiptId` into the host's native chain of custody. The [lineage metadata example](lineage-attestation-metadata.md) keeps the receipt `issuer_asserted`, deterministic under replay, and separate from wallet, reward, and claim semantics.
+
 Avoid putting AIPOU data on every log line. A work receipt should mark a meaningful unit of work, not create noisy metadata.
 
 ## External Reference Shape

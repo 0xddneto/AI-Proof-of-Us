@@ -70,6 +70,8 @@ LangGraph, mcp-agent, OpenClaw, LLMOps tools, and payment systems can attach tha
 
 If the external reference must be integrity-bound, use the scheme-neutral `external-evidence-link-v1` prototype in `external-evidence-link.mjs`. It binds source and target artifact digests, supports an optional Ed25519 signature, fails closed on mutation or raw private content, and includes canonical AIPOU/AIIR, SLSA/OCI, and x402/OpenTelemetry vectors. See [Scheme-Neutral External Evidence Links](../../docs/external-evidence-links.md).
 
+If a framework owns a deterministic artifact-lineage record, keep an external receipt as provider-neutral `externalAttestations[]` metadata and mirror the same normalized reference into the run audit summary. `lineage-attestation.mjs` makes attachment deterministic and idempotent, fixes the trust model to `issuer_asserted`, and rejects raw content, wallet, reward, and claim fields. It does not insert external receipts into the host audit chain or fetch them during replay. See [External Attestations In Artifact Lineage](../../docs/lineage-attestation-metadata.md).
+
 ## Pre-Action Authority Link
 
 Frameworks that already seal an authorization before execution can link it to the later AIPOU work receipt without merging the two artifacts:
