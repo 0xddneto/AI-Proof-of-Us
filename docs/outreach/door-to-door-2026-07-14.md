@@ -91,6 +91,14 @@ AIPOU response: https://github.com/microsoft/autogen/discussions/7752#discussion
 
 The response requested an independent clone-and-run result before preparing the upstream cookbook proposal. That is a concrete test request, not yet an external reproduction, merged integration, or adoption.
 
+Upstream cookbook proposal: https://github.com/microsoft/autogen/pull/7961
+
+Tamish560 independently reviewed the protocol-neutral recipe and confirmed that it preserves the recoverable authority, accepted authority, permanent prohibition, and non-tool pass-through semantics. They also confirmed that the current `ToolException` signature matches the newer API, the return type matches the base class, and the denial payload avoids leaking raw tool arguments.
+
+AIPOU response: https://github.com/microsoft/autogen/pull/7961#issuecomment-4992639249
+
+The response reported the current verification state: 36 root tests and 29 lifecycle-adapter tests pass; CLA and GitGuardian are green; the remaining upstream workflows require maintainer approval. The recipe remains protocol-neutral and introduces no AIPOU dependency, wallet, reward, receipt, or claim fields. The pull request is ready for maintainer review but is not merged and is not evidence of AutoGen adoption.
+
 ### ElizaOS
 
 Thread: https://github.com/orgs/elizaOS/discussions/9810
@@ -189,6 +197,23 @@ Discussion: https://github.com/sipyourdrink-ltd/bernstein/discussions/2494
 Question: should an external `workReceiptId` attach at task completion, agent handoff, artifact-lineage metadata, or the run-level audit summary?
 
 The message proposed a thin lifecycle adapter and explicitly left Bernstein's chained audit log authoritative. It invited a small adapter test, technical feedback, or a repository star.
+
+Maintainer response: https://github.com/sipyourdrink-ltd/bernstein/discussions/2494#discussioncomment-17656659
+
+Bernstein maintainer Alex Chernysh recommended attaching an external `issuer_asserted` receipt as optional typed metadata on the produced artifact's lineage record and mirroring the reference into the run-level audit summary. They explicitly kept it outside Bernstein's first-class audit chain and internal task/handoff transitions, required the ID to exist at record time, and required deterministic replay without a mid-run fetch.
+
+Implemented in commit `6210720`:
+
+- optional provider-neutral `externalAttestations[]` lineage metadata;
+- exact normalized mirroring into run-summary metadata;
+- deterministic sorting, deduplication, and idempotent replay;
+- fail-closed rejection of unknown or sensitive fields and mirror divergence;
+- fixtures for both AIPOU and SLSA-labeled references;
+- explicit separation from wallet, reward, settlement, and claim authority.
+
+AIPOU response: https://github.com/sipyourdrink-ltd/bernstein/discussions/2494#discussioncomment-17662241
+
+The response offered a compact canonical replay fixture if the field contract fits Bernstein's direction. This is meaningful maintainer feedback and an implemented interoperability recommendation, but it is not a Bernstein integration, merged contribution, or confirmed adoption.
 
 ### a2a-x402 Follow-up
 
