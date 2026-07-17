@@ -11,6 +11,7 @@ The goal is to spread AIPOU through useful conversations with agent builders, MC
 - [targets.md](targets.md) maps high-signal places to share AIPOU.
 - [door-to-door-2026-07-05.md](door-to-door-2026-07-05.md) contains the current human-first agent roadshow plan and messages.
 - [door-to-door-2026-07-14.md](door-to-door-2026-07-14.md) records verified registry milestones, selected follow-ups, and three new technical outreach conversations.
+- [door-to-door-2026-07-17.md](door-to-door-2026-07-17.md) records the Kuberna pin follow-up, AutoGen PR update, and new mcp-agent, AgentGraph, and ZeroID outreach.
 - [openclaw-roadshow.md](openclaw-roadshow.md) tracks OpenClaw automation status.
 - [roadshow-next-steps.md](roadshow-next-steps.md) turns feedback into product and outreach priorities.
 - [responses-log.md](responses-log.md) records AI and community feedback.
