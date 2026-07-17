@@ -146,6 +146,10 @@ Implemented in AIPOU after this check:
 
 This is stronger collaboration evidence, but still not an ElizaOS/Kuberna adoption event until their canonical positive receipt is internally consistent or a PR/fixture exchange is merged.
 
+AIPOU response after commit `d541cbc`: https://github.com/orgs/elizaOS/discussions/9810#discussioncomment-17673572
+
+The response confirmed the new AIPOU harness behavior: the standalone Kuberna preimage is accepted as the positive derivation vector for `0x82c330...`, while the current public `authority-receipt.json` remains rejected because it still declares `0x2369ba...`. AIPOU offered to pin the immutable Kuberna commit SHA as the positive ERC-8004/Kuberna conformance vector after their canonical receipt file updates both hash fields and the reconstruction test passes on their side.
+
 ### awesome-mcp-servers
 
 Thread: https://github.com/punkpeye/awesome-mcp-servers/issues/9036
