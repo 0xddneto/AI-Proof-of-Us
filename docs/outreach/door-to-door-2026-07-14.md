@@ -150,6 +150,10 @@ AIPOU response after commit `d541cbc`: https://github.com/orgs/elizaOS/discussio
 
 The response confirmed the new AIPOU harness behavior: the standalone Kuberna preimage is accepted as the positive derivation vector for `0x82c330...`, while the current public `authority-receipt.json` remains rejected because it still declares `0x2369ba...`. AIPOU offered to pin the immutable Kuberna commit SHA as the positive ERC-8004/Kuberna conformance vector after their canonical receipt file updates both hash fields and the reconstruction test passes on their side.
 
+Kuberna final fixture fix: https://github.com/kawacukennedy/kuberna-labs/commit/fada367f122adf10dcd0b8c63dba98df7d06a2d6
+
+Kuberna confirmed that commit `fada367` updates `authority-receipt.json` to `0x82c33017978a70f0cf08ecc45df9ae81107410d466f0e5205b426981466baaad`, adds a reconstruction test that loads the preimage, applies JCS, hashes with SHA-256, and asserts equality with the receipt `fact_id`, with all 10 Kuberna tests passing. AIPOU now pins `fada367f122adf10dcd0b8c63dba98df7d06a2d6` as the positive synthetic ERC-8004/Kuberna conformance vector and keeps the previous `0x2369ba...` mismatch as a negative fail-closed fixture.
+
 ### awesome-mcp-servers
 
 Thread: https://github.com/punkpeye/awesome-mcp-servers/issues/9036

@@ -88,6 +88,9 @@ const conformanceLink = {
   }
 };
 
+const kubernaFixtureCommit = "fada367f122adf10dcd0b8c63dba98df7d06a2d6";
+const kubernaFactId = "0x82c33017978a70f0cf08ecc45df9ae81107410d466f0e5205b426981466baaad";
+const kubernaPreviousDriftFactId = "0x2369ba13f2ab8beba8dcd01fcd1b8c8e49076bc7019fda4eb80e1bf1b22a7c0e";
 const kubernaAuthorityPreimage = {
   principal: "0x90aBcDeF0123456789abcdef0123456789aBcDef",
   body: "Swap 5000 USDC on Base for USDT on Polygon, slippage <= 0.3%",
@@ -114,11 +117,20 @@ const kubernaAuthorityPreimage = {
 const kubernaAuthorityReceipt = {
   receipt_type: "chain_derivable",
   scope_version: "delegation-scope-v1",
-  fact_id: "0x2369ba13f2ab8beba8dcd01fcd1b8c8e49076bc7019fda4eb80e1bf1b22a7c0e",
+  fact_id: kubernaFactId,
   delegation_scope: kubernaAuthorityPreimage,
   fact_id_derivation: {
     scheme: "jcs-sha256",
-    bytes32: "0x2369ba13f2ab8beba8dcd01fcd1b8c8e49076bc7019fda4eb80e1bf1b22a7c0e"
+    bytes32: kubernaFactId
+  }
+};
+
+const kubernaDriftedAuthorityReceipt = {
+  ...kubernaAuthorityReceipt,
+  fact_id: kubernaPreviousDriftFactId,
+  fact_id_derivation: {
+    ...kubernaAuthorityReceipt.fact_id_derivation,
+    bytes32: kubernaPreviousDriftFactId
   }
 };
 
@@ -327,23 +339,14 @@ test("maps a chain-derived authority fact to issuer-asserted post-work evidence"
   assert.equal(validateAuthorityWorkConformanceLink(conformanceLink, base), true);
 });
 
-test("derives the Kuberna ERC-8004 delegation scope fact from the standalone preimage", () => {
-  assert.equal(
-    deriveDelegationScopeFactId(kubernaAuthorityPreimage),
-    "0x82c33017978a70f0cf08ecc45df9ae81107410d466f0e5205b426981466baaad"
-  );
-  assert.equal(validateDelegationScopeAuthorityReceipt({
-    ...kubernaAuthorityReceipt,
-    fact_id: "0x82c33017978a70f0cf08ecc45df9ae81107410d466f0e5205b426981466baaad",
-    fact_id_derivation: {
-      ...kubernaAuthorityReceipt.fact_id_derivation,
-      bytes32: "0x82c33017978a70f0cf08ecc45df9ae81107410d466f0e5205b426981466baaad"
-    }
-  }), true);
+test("accepts the pinned Kuberna ERC-8004 authority receipt as a positive vector", () => {
+  assert.equal(kubernaFixtureCommit, "fada367f122adf10dcd0b8c63dba98df7d06a2d6");
+  assert.equal(deriveDelegationScopeFactId(kubernaAuthorityPreimage), kubernaFactId);
+  assert.equal(validateDelegationScopeAuthorityReceipt(kubernaAuthorityReceipt), true);
 });
 
-test("fails closed on the current Kuberna authority receipt fact_id drift", () => {
-  assert.throws(() => validateDelegationScopeAuthorityReceipt(kubernaAuthorityReceipt));
+test("fails closed on the previous Kuberna authority receipt fact_id drift", () => {
+  assert.throws(() => validateDelegationScopeAuthorityReceipt(kubernaDriftedAuthorityReceipt));
 });
 
 test("fails closed on conformance trust-model downgrade", () => {
