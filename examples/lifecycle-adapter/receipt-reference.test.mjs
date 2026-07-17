@@ -7,11 +7,13 @@ import {
   ENFORCEMENT_CHECK_SCHEME,
   createToolExecutionPolicyGate,
   createAuthorityWorkLink,
+  deriveDelegationScopeFactId,
   deriveFactId,
   runAgentPolicyLoop,
   runEnforcementBenchmark,
   validateActiveFactSet,
   validateAipouReference,
+  validateDelegationScopeAuthorityReceipt,
   validateAuthorityWorkLink,
   validateAuthorityWorkConformanceLink,
   validateEnforcementCheck
@@ -83,6 +85,40 @@ const conformanceLink = {
     scheme: AIPOU_RECEIPT_SCHEME,
     subject: base.subject,
     preActionFactId: `0x${"93".repeat(32)}`
+  }
+};
+
+const kubernaAuthorityPreimage = {
+  principal: "0x90aBcDeF0123456789abcdef0123456789aBcDef",
+  body: "Swap 5000 USDC on Base for USDT on Polygon, slippage <= 0.3%",
+  constraints: {
+    budget: "5000000000000000000",
+    deadline: "2026-07-30T23:59:59.000Z",
+    jurisdiction: ["US", "RW", "SG"],
+    allowed_tools: ["cross_chain_swap", "bridge_adapter", "liquidity_router"],
+    max_gas: "5000000"
+  },
+  success_criteria: {
+    type: "exact_output",
+    conditions: [
+      { field: "filled_amount", operator: ">=", value: "4985000000" },
+      { field: "destination_token", operator: "==", value: "USDT" },
+      { field: "bridge_status", operator: "==", value: "confirmed" }
+    ]
+  },
+  nonce: "1721053927481-a3xk9bm2f",
+  issued_at: "2026-07-15T14:32:07.481Z",
+  expires_at: "2026-07-30T23:59:59.000Z"
+};
+
+const kubernaAuthorityReceipt = {
+  receipt_type: "chain_derivable",
+  scope_version: "delegation-scope-v1",
+  fact_id: "0x2369ba13f2ab8beba8dcd01fcd1b8c8e49076bc7019fda4eb80e1bf1b22a7c0e",
+  delegation_scope: kubernaAuthorityPreimage,
+  fact_id_derivation: {
+    scheme: "jcs-sha256",
+    bytes32: "0x2369ba13f2ab8beba8dcd01fcd1b8c8e49076bc7019fda4eb80e1bf1b22a7c0e"
   }
 };
 
@@ -289,6 +325,25 @@ test("rejects mismatched authority links and unverifiable external enforcement",
 
 test("maps a chain-derived authority fact to issuer-asserted post-work evidence", () => {
   assert.equal(validateAuthorityWorkConformanceLink(conformanceLink, base), true);
+});
+
+test("derives the Kuberna ERC-8004 delegation scope fact from the standalone preimage", () => {
+  assert.equal(
+    deriveDelegationScopeFactId(kubernaAuthorityPreimage),
+    "0x82c33017978a70f0cf08ecc45df9ae81107410d466f0e5205b426981466baaad"
+  );
+  assert.equal(validateDelegationScopeAuthorityReceipt({
+    ...kubernaAuthorityReceipt,
+    fact_id: "0x82c33017978a70f0cf08ecc45df9ae81107410d466f0e5205b426981466baaad",
+    fact_id_derivation: {
+      ...kubernaAuthorityReceipt.fact_id_derivation,
+      bytes32: "0x82c33017978a70f0cf08ecc45df9ae81107410d466f0e5205b426981466baaad"
+    }
+  }), true);
+});
+
+test("fails closed on the current Kuberna authority receipt fact_id drift", () => {
+  assert.throws(() => validateDelegationScopeAuthorityReceipt(kubernaAuthorityReceipt));
 });
 
 test("fails closed on conformance trust-model downgrade", () => {

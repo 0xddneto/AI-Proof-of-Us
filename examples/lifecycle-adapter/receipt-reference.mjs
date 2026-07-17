@@ -17,6 +17,12 @@ const SHA256_DIGEST = /^sha256:[0-9a-f]{64}$/;
 const BYTES32 = /^0x[0-9a-f]{64}$/;
 const CUSTOM_ENFORCEMENT_POINT_KIND = /^custom:[a-z0-9][a-z0-9._-]{0,63}$/;
 
+export function canonicalJson(value) {
+  if (value === null || typeof value !== "object") return JSON.stringify(value);
+  if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
+  return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(",")}}`;
+}
+
 function digestEvidence(value) {
   return `sha256:${createHash("sha256").update(JSON.stringify(value)).digest("hex")}`;
 }
@@ -30,6 +36,35 @@ export function deriveFactId(publicKey, nonce) {
   const fingerprint = collectorFingerprint(publicKey);
   const material = `${AIPOU_RECEIPT_SCHEME}\n${fingerprint}\n${nonce.toLowerCase()}`;
   return `0x${createHash("sha256").update(material).digest("hex")}`;
+}
+
+export function deriveDelegationScopeFactId(scope) {
+  if (!scope || typeof scope !== "object" || Array.isArray(scope)) {
+    throw new Error("Delegation scope must be an object");
+  }
+  const preimage = { ...scope };
+  delete preimage.version;
+  return `0x${createHash("sha256").update(canonicalJson(preimage)).digest("hex")}`;
+}
+
+export function validateDelegationScopeAuthorityReceipt(receipt) {
+  if (receipt?.receipt_type !== "chain_derivable") {
+    throw new Error("Authority receipt must be chain_derivable");
+  }
+  if (receipt?.scope_version !== "delegation-scope-v1") {
+    throw new Error("Unsupported authority receipt scope version");
+  }
+  if (!BYTES32.test(receipt?.fact_id || "")) {
+    throw new Error("Authority receipt requires a bytes32 fact_id");
+  }
+  const derived = deriveDelegationScopeFactId(receipt.delegation_scope);
+  if (receipt.fact_id !== derived) {
+    throw new Error("Authority receipt fact_id does not match its canonical delegation scope");
+  }
+  if (receipt.fact_id_derivation?.bytes32 && receipt.fact_id_derivation.bytes32 !== derived) {
+    throw new Error("Authority receipt derivation metadata does not match the canonical fact_id");
+  }
+  return true;
 }
 
 export function validateAipouReference(reference) {

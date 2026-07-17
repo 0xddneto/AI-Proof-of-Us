@@ -136,6 +136,16 @@ AIPOU follow-up: https://github.com/orgs/elizaOS/discussions/9810#discussioncomm
 
 The follow-up requested either the corrected hash or exact canonical preimage bytes and recommended a repository test that reconstructs the preimage from `preimage_fields`, applies JCS, and asserts both published hash fields. Integration remains fail-closed until the immutable fixture is reproducible and test-covered. This is active technical collaboration, not an ElizaOS integration, installation, or adoption claim.
 
+July 17 verification: Kuberna added `sdk/src/verify/fixtures/authority-preimage.json` and JCS test coverage in `kawacukennedy/kuberna-labs`. AIPOU independently recomputed that standalone preimage to `0x82c33017978a70f0cf08ecc45df9ae81107410d466f0e5205b426981466baaad`, matching the previously reported corrected hash. The current public `authority-receipt.json` still declares `0x2369ba13f2ab8beba8dcd01fcd1b8c8e49076bc7019fda4eb80e1bf1b22a7c0e`, so AIPOU keeps the full receipt fail-closed while accepting the standalone preimage as the reproducible positive derivation vector.
+
+Implemented in AIPOU after this check:
+
+- `deriveDelegationScopeFactId` for JCS-style canonical SHA-256 over delegation scope preimages, excluding `version` by envelope convention;
+- `validateDelegationScopeAuthorityReceipt` for chain-derived `delegation-scope-v1` authority receipts;
+- lifecycle fixtures proving the Kuberna preimage derives `0x82c330...` and the current public receipt with `0x2369ba...` is rejected.
+
+This is stronger collaboration evidence, but still not an ElizaOS/Kuberna adoption event until their canonical positive receipt is internally consistent or a PR/fixture exchange is merged.
+
 ### awesome-mcp-servers
 
 Thread: https://github.com/punkpeye/awesome-mcp-servers/issues/9036

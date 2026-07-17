@@ -26,7 +26,7 @@ npm audit --workspace mcp-server --omit=dev
 
 These remaining steps depend on external registry review or synchronization:
 
-1. Wait for Forge to recognize the public npm provenance attestation. Forge's publisher, domain, signature, CVE, and static-analysis checks are complete.
+1. Wait for Forge to recognize the public npm provenance attestation row. Forge's overall score is already `A / 100/100`, and its publisher, domain, signature, CVE, and static-analysis checks are complete.
 2. If ClawHub adds publisher signatures or server-resolved repository provenance for existing versions, republish or import the skill through that path. The current skill passes verification but remains unsigned and has no ClawHub provenance record.
 
 Until those registry-side steps are complete, external trust grades may remain low even when the local package, docs, and protocol tests pass.
@@ -41,7 +41,7 @@ Until those registry-side steps are complete, external trust grades may remain l
 - On July 14, 2026, Forge CLI authentication succeeded as `@0xddneto`. The signed publish initially failed because CLI `0.2.0` defaults to the retired `https://forge.dev` API, which returns HTML instead of registry JSON. Retrying with `FORGE_REGISTRY_URL=https://forgeregistry.com` completed successfully.
 - The public Forge API now records `verified: true` plus the publisher Ed25519 public key and signature for `@0xddneto`. Its cached scan is `clean`: 30 files scanned, zero known vulnerabilities, no suspicious scripts, no prompt/content findings, and nine MCP tools classified as non-privileged.
 - On July 14, 2026, the account-root GitHub Pages repository published `/.well-known/forge.json`. A new signed Forge publish then reported `domainVerified: true` and `verifiedDomain: "0xddneto.github.io"`.
-- The Forge UI reports grade `A` and `100/100`. The public API now confirms domain verification, while Forge still does not ingest the two public npm attestations and reports package provenance as unattested. Treat that remaining row-level gap as a registry synchronization limitation.
+- On July 17, 2026, the public Forge listing reports grade `A`, `100/100 Trusted`, signed Ed25519 publication, verified domain `0xddneto.github.io`, clean CVE scan, clean static analysis, zero vulnerable dependencies, and nine non-privileged MCP tools. Its npm provenance row still reports `0/5` even though npm exposes the public SLSA attestation at `https://registry.npmjs.org/-/npm/v1/attestations/aipou-mcp-server@0.2.2`. Treat that remaining row-level gap as a Forge ingestion limitation, not as a missing npm publication artifact.
 - No Forge credential, GitHub token, email address, device code, or private signing material is stored in this repository.
 - On July 14, 2026, `clawhub login` succeeded as `@0xddneto`, and `aipou-farming@1.0.1` was published at `https://clawhub.ai/0xddneto/skills/aipou-farming`.
 - The official ClawHub stored scan report for `aipou-farming@1.0.1` downloaded successfully. Its manifest reported `status: succeeded`; `static-analysis.json` reported `status: clean`, engine `v2.4.26`, no findings, and summary `No suspicious patterns detected.`
