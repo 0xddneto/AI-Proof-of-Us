@@ -91,6 +91,31 @@ AIPOU should be presented as complementary to:
 
 Those systems can decide whether an AIPOU `receiptId` is useful as external evidence. They should not be expected to validate AIPOU rewards or token claims.
 
+## Receipt Verification vs Claim Validation
+
+AIPOU separates receipt verification from reward validation.
+
+Receipt verification is meant to be portable: a third party can verify that a
+receipt payload was signed by the published collector public key, that the
+wallet authorization matches the task nonce and chain context, and that the
+receipt hash or `receiptId` matches the artifact being referenced. This makes
+the work receipt usable as an external audit artifact beside identity,
+payment, trace, or provenance records.
+
+Claim validation is narrower and protocol-specific: only the current AIPOU
+validator policy decides whether a receipt is eligible for an AIPOU reward,
+which trust tier applies, and which Merkle batch can settle on Base. A valid
+receipt can be useful external evidence even when it has no approved claim, and
+an approved claim does not upgrade the private receipt payload into a
+trustless proof of useful work.
+
+In short:
+
+- `verify receipt`: check collector signature, wallet authorization, nonce,
+  digest, and published public keys;
+- `validate claim`: apply AIPOU validator policy, trusted collector admission,
+  reward rules, Merkle inclusion, and onchain claimed state.
+
 ## Current Trust Assumption
 
 The first public version relies on protocol validator policy for `client_signed` receipts. Reviewers should treat this as an explicit trust assumption, not as a solved decentralization claim.

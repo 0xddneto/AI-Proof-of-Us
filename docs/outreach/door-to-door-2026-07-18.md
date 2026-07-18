@@ -397,6 +397,77 @@ keys, wallet secrets, or private receipts.
   limits, but the thread already contained a closely related pre-action receipt
   comment from another project. I avoided a redundant AIPOU reply.
 
+## Responses Received
+
+Checked after the wider outreach continuation. Most threads still had no
+visible external reply after the AIPOU comment. Two threads produced relevant
+technical responses.
+
+### A2A / x402 + AP2
+
+- Thread: https://github.com/a2aproject/A2A/discussions/1341
+- AIPOU reply: https://github.com/a2aproject/A2A/discussions/1341#discussioncomment-17681020
+- Follow-up signal: two comments appeared after the AIPOU reply.
+- External feedback:
+  - A Concordia comment argued that if a receipt is content-addressed, linking
+    by digest from task metadata and hosting the receipt as a separate artifact
+    converge because the digest becomes the identity.
+  - `chopmob-cloud` said the separation between payment state and work-receipt
+    state maps to what they run in production. Their recommendation was to keep
+    x402 enforcement in middleware, reference a signed settlement receipt from
+    the task, and emit recomputable signed receipts over canonical bytes,
+    verifiable offline against a published key.
+- Project impact: positive technical validation for AIPOU's
+  payment/work-receipt separation. Added documentation guidance that
+  content-addressed receipts should use digest-bound references and remain
+  independently verifiable.
+- Adoption status: not AIPOU adoption. It is external validation of a compatible
+  architecture.
+
+### Universal Commerce Protocol / Facet
+
+- Thread: https://github.com/Universal-Commerce-Protocol/ucp/discussions/240
+- AIPOU reply: https://github.com/Universal-Commerce-Protocol/ucp/discussions/240#discussioncomment-17681045
+- External reply: https://github.com/Universal-Commerce-Protocol/ucp/discussions/240#discussioncomment-17681985
+- External feedback: `westonale-facet` strongly agreed with separating payment
+  authority from work evidence and called the digest-bound external reference
+  the right joint. They described Facet's model as separate signed artifacts for
+  identity, payment authorization, and response provenance. Their key question
+  for AIPOU was whether a work receipt is verifier-agnostic against a published
+  key or whether the claim/reward path assumes a specific validator set.
+- Project impact: good question. Updated `docs/evidence-boundaries.md` to
+  explicitly separate portable receipt verification from AIPOU-specific claim
+  validation.
+- Adoption status: not AIPOU adoption. It is a serious architecture review and
+  compatibility question from a payment/provenance builder.
+
+### Draft Public Reply For UCP / Facet
+
+Do not post without explicit user approval:
+
+```text
+Great question. The intended boundary is two-layered.
+
+The work receipt itself should be verifier-agnostic as an audit artifact: anyone
+with the receipt payload, collector public key, wallet authorization, nonce, and
+canonical bytes should be able to verify that this collector signed this exact
+human/agent work boundary. That makes it composable as a sibling artifact beside
+identity, payment authorization, AP2/x402 settlement, trace, or response
+provenance.
+
+The AIPOU claim/reward path is separate and does assume AIPOU validator policy:
+trusted collector admission, trust-tier derivation, duplicate/replay checks,
+reward calculation, Merkle inclusion, and onchain claimed state. So a receipt
+can be externally verifiable and still not be claim-approved, and a claim does
+not upgrade the private receipt payload into trustless proof of useful work.
+
+I updated the docs to make that line explicit:
+https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md#receipt-verification-vs-claim-validation
+
+Your "link, do not absorb" framing is exactly the interop rule I want AIPOU to
+follow.
+```
+
 ## Current Status
 
 This July 18 round produced twenty-six new public outreach posts total: four in

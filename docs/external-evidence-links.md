@@ -47,6 +47,26 @@ Objects are serialized with lexicographically sorted keys, arrays preserve order
 
 Changing an artifact ID, digest, relation, privacy mode, or timestamp invalidates `linkDigest`.
 
+## Content-Addressed Receipt Guidance
+
+When a receipt or transition artifact can be content-addressed, prefer making
+the digest the stable identity. In that shape, task metadata can carry a digest
+or URI to the artifact without absorbing the artifact's trust model, and
+independent verifiers can recompute the digest offline.
+
+This is especially important at payment and workflow boundaries:
+
+- x402/AP2 settlement receipts should prove payment or authorization facts;
+- AIPOU work receipts should prove the signed human/agent work boundary;
+- trace or task metadata should link to those artifacts by digest instead of
+  embedding raw prompts, outputs, private files, or wallet secrets.
+
+AIPOU's current examples publish deterministic canonical fixtures and expected
+SHA-256 digests. They should not be described as a full universal replacement
+for RFC 8785/JCS or another ecosystem's canonicalization profile. If another
+protocol already uses RFC 8785/JCS, AIPOU should interoperate by linking to
+that protocol's digest rather than rewriting it into an AIPOU-specific payload.
+
 ## Signature Semantics
 
 An unsigned link is a deterministic bundle artifact. A signed link adds:
