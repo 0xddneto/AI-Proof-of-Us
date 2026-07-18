@@ -105,7 +105,121 @@ ElizaOS/Kuberna conformance fixture were already public.
 - Issue pages may require account/2FA state that the current browser session
   did not satisfy; GitHub Discussions remained postable.
 
+## Expanded Round
+
+The user asked to continue beyond the first four posts, so I widened the search
+to MCP security, permission, provenance, observability, CycloneDX, LiteLLM, and
+x402 discussions. Each comment was tailored to the thread and kept the same
+guardrails: no price/yield promise, no claim of adoption, and a clear separation
+between work receipts, payment receipts, permission decisions, and optional
+validator-approved AIPOU claims.
+
+### MCP / Pre-Action Tool Checks
+
+- Thread: https://github.com/orgs/modelcontextprotocol/discussions/791
+- Reply: https://github.com/orgs/modelcontextprotocol/discussions/791#discussioncomment-17680893
+- Topic: whether AI agent tool calls should be checked before execution.
+- Message: mapped AIPOU to a four-artifact model: pre-action
+  decision/authority, tool execution result, post-work receipt, and optional
+  settlement/claim. Asked whether decision records should live in result
+  `_meta`, trace/span metadata, or separate signed audit artifacts.
+- Status: new outreach; no response yet.
+
+### MCP / Permission Specification
+
+- Thread: https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/2498
+- Reply: https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/2498#discussioncomment-17680895
+- Topic: standard permission rules for MCP tool calls.
+- Message: positioned AIPOU beside permission systems, with permission rules and
+  authority facts before the tool call, work receipts after the task, and
+  claim/payment evidence kept separate. Proposed stable external reference
+  fields such as `decisionId`, `workReceiptId`, policy digest, trace/span ids,
+  and validation status.
+- Status: new outreach; no response yet.
+
+### Langfuse
+
+- Thread: https://github.com/orgs/langfuse/discussions/14787
+- Reply: https://github.com/orgs/langfuse/discussions/14787#discussioncomment-17680898
+- Topic: whether claim-level provenance belongs in tracing or runtime layers.
+- Message: described AIPOU's split between tracing, runtime/provenance, receipt,
+  and optional claim/reward layers. Suggested that traces should carry compact
+  references such as `workReceiptId`, `validation_status`, `evidence_boundary`,
+  and digest/URI rather than whole receipts.
+- Status: new outreach; no response yet.
+
+### CycloneDX
+
+- Thread: https://github.com/CycloneDX/specification/discussions/909
+- Reply: https://github.com/CycloneDX/specification/discussions/909#discussioncomment-17680901
+- Topic: AI-agent provenance in CycloneDX workflow properties.
+- Message: suggested keeping AI work receipts outside the core BOM while
+  allowing digest-bound external evidence references for actor/agent identity,
+  policy/authority facts, work receipt references, and evidence boundaries.
+- Status: new outreach; no response yet.
+
+### MCP / SMCP RFC
+
+- Thread: https://github.com/orgs/modelcontextprotocol/discussions/689
+- Reply: https://github.com/orgs/modelcontextprotocol/discussions/689#discussioncomment-17680903
+- Topic: Secure Model Context Protocol.
+- Message: framed AIPOU as a complementary post-work receipt layer beside the
+  secure envelope/gateway layer. Explicitly stated that AIPOU does not detect
+  hidden AI use or trustlessly prove useful work today, and asked for stable
+  fields to attach external `workReceiptId`, validation status, and evidence
+  boundary.
+- Status: new outreach; no response yet.
+
+### MCP / PIC Standard
+
+- Thread: https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/2478
+- Reply: https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/2478#discussioncomment-17680907
+- Topic: fail-closed security guard for MCP tool servers.
+- Message: agreed with fail-closed execution and separated PIC/guard
+  pre-action contracts from AIPOU post-work receipts and optional reward claims.
+  Asked whether PIC would prefer `workReceiptId` inside the proposal, tool
+  result `_meta`, or a separate digest-linked audit artifact.
+- Status: new outreach; no response yet.
+
+### LiteLLM
+
+- Thread: https://github.com/BerriAI/litellm/discussions/9891
+- Reply: https://github.com/BerriAI/litellm/discussions/9891#discussioncomment-17680911
+- Topic: LiteLLM MCP roadmap.
+- Message: suggested compact receipt metadata for MCP analytics: server/tool
+  identity, normalized args digest, provider/model/client metadata, pre-action
+  decision id or policy digest, post-work `workReceiptId`, validation status,
+  and trace/span ids.
+- Status: new outreach; no response yet.
+
+### browser-use / x402
+
+- Thread: https://github.com/browser-use/browser-use/discussions/4302
+- Reply: https://github.com/browser-use/browser-use/discussions/4302#discussioncomment-17680919
+- Topic: x402-powered web scraping API for AI agents.
+- Message: linked x402 payment receipts to AIPOU work receipts while keeping
+  them separate. Repeated that self-payments, tests, and wallet-to-wallet
+  transfers should not be counted as adoption or revenue by themselves.
+- Status: new outreach; no response yet.
+
+## Additional Targets Skipped
+
+- https://github.com/orgs/community/discussions/194494 was relevant to workflow
+  dependency receipts, but it was already closed/resolved and only loosely about
+  AI-agent work receipts.
+- https://github.com/orgs/community/discussions/194493 was relevant to
+  agentic-workflow cache security, but also closed/resolved and too far from
+  AIPOU's current interop surface.
+- https://github.com/orgs/modelcontextprotocol/discussions/784 was relevant to
+  x402-style agent payments, but the thread was a one-participant show-and-tell;
+  I prioritized broader protocol and framework discussions first.
+- https://github.com/microsoft/autogen/discussions/7526 was relevant to agent
+  identity and trading transparency, but AutoGen already has an active AIPOU
+  discussion with stronger technical feedback, so I avoided opening a second
+  broad AutoGen thread in the same round.
+
 ## Current Status
 
-This round produced four new public outreach posts. It does not establish new
-adoption, external receipts, package installs, claims, or integrations.
+This July 18 round produced twelve new public outreach posts total: four in the
+first pass and eight in the expanded pass. It does not establish new adoption,
+external receipts, package installs, claims, or integrations.
