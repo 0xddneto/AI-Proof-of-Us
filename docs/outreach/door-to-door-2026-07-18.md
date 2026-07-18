@@ -443,7 +443,9 @@ technical responses.
 
 ### Draft Public Reply For UCP / Facet
 
-Do not post without explicit user approval:
+User approved replying, but the currently available in-app browser session was
+not signed in to GitHub and `gh` was also unauthenticated. Post this once an
+authenticated GitHub session is available:
 
 ```text
 Great question. The intended boundary is two-layered.
@@ -466,6 +468,34 @@ https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md
 
 Your "link, do not absorb" framing is exactly the interop rule I want AIPOU to
 follow.
+```
+
+### Draft Public Reply For A2A / x402 + AP2
+
+User approved replying, but the currently available in-app browser session was
+not signed in to GitHub and `gh` was also unauthenticated. Post this once an
+authenticated GitHub session is available:
+
+```text
+This is very helpful, especially the production note.
+
+I agree with the shape you described:
+
+- enforce x402 at the middleware/edge where unpaid work can be blocked before task creation;
+- keep AP2 purchase authorization inside the context/payment state machine;
+- emit a signed settlement receipt for each payment transition;
+- let the A2A task reference that receipt instead of owning enforcement;
+- keep the separate work receipt for the human/agent task boundary.
+
+That gives each artifact one job: payment receipt proves the settlement or authorization fact, work receipt proves the signed task boundary, and task metadata links them by digest.
+
+I updated AIPOU's docs to make the same guidance explicit: when a receipt can be content-addressed, prefer digest-bound references and offline verification against published keys, instead of embedding the whole receipt or collapsing payment/work semantics into one object.
+
+Docs:
+https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/external-evidence-links.md#content-addressed-receipt-guidance
+https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md#receipt-verification-vs-claim-validation
+
+The Concordia point also lands for me: if the digest is recomputable from canonical bytes, task metadata and separate artifact hosting converge around the same identity. AIPOU should interoperate with that model by linking to the external digest, not by rewriting another protocol's canonical payload into an AIPOU-specific one.
 ```
 
 ## Current Status
