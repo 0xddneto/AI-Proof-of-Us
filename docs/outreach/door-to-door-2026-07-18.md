@@ -218,8 +218,188 @@ validator-approved AIPOU claims.
   discussion with stronger technical feedback, so I avoided opening a second
   broad AutoGen thread in the same round.
 
+## Wider Outreach Continuation
+
+The user asked to continue without artificially limiting the search. I expanded
+the target set again across agent frameworks, computer-use agents,
+OpenTelemetry/observability, OAuth delegation, AP2/x402 payments, and developer
+workflow discussions. The same guardrails were kept: no duplicate comments, no
+price/yield/investment promise, no adoption claim, and no request for private
+keys, wallet secrets, or private receipts.
+
+### GitHub Community / MCP Workflows
+
+- Thread: https://github.com/orgs/community/discussions/174921
+- Reply: https://github.com/orgs/community/discussions/174921#discussioncomment-17681004
+- Topic: MCP developer workflows.
+- Message: introduced AIPOU as a work-session receipt layer beside MCP tool
+  calls, A2A delegation, authority facts, and optional payment/claim evidence.
+  Asked where `workReceiptId` should attach in MCP/A2A/GitHub workflow/OTel
+  surfaces.
+- Status: new outreach; no response yet.
+
+### Agent-S
+
+- Thread: https://github.com/simular-ai/Agent-S/discussions/198
+- Reply: https://github.com/simular-ai/Agent-S/discussions/198#discussioncomment-17681011
+- Topic: pre-action authority receipts for computer-use agents.
+- Message: separated pre-action authority receipts, execution results,
+  post-work receipts, and optional AIPOU claim/reward. Suggested the insertion
+  point should be before consequential browser side effects such as submit,
+  send, export, purchase, account mutation, or workflow close.
+- Status: new outreach; no response yet.
+
+### Google ADK
+
+- Thread: https://github.com/google/adk-python/discussions/5090
+- Reply: https://github.com/google/adk-python/discussions/5090#discussioncomment-17681013
+- Topic: execution provenance exporter for compliance-grade audit trails.
+- Message: mapped ADK/OTel spans, framework decision records, external signed
+  work receipts, and optional AIPOU claims to separate layers. Suggested compact
+  fields such as `workReceiptId`, digest/URI, evidence boundary, validation
+  status, and trace/span linkage.
+- Status: new outreach; no response yet.
+
+### Anthropic SDK
+
+- Thread: https://github.com/anthropics/anthropic-sdk-python/discussions/1341
+- Reply: https://github.com/anthropics/anthropic-sdk-python/discussions/1341#discussioncomment-17681016
+- Topic: AI agent error recovery patterns.
+- Message: proposed durable task receipts as an audit complement to retries,
+  checkpoints, and circuit breakers. Highlighted fail-closed receipt mutation
+  rules when retries change normalized args, policy version, provider/model, or
+  task boundary.
+- Status: new outreach; no response yet.
+
+### Semantic Kernel
+
+- Thread: https://github.com/microsoft/semantic-kernel/discussions/13720
+- Reply: https://github.com/microsoft/semantic-kernel/discussions/13720#discussioncomment-17681017
+- Topic: HDP cryptographic chain-of-custody for agent delegation.
+- Message: framed HDP as delegation/authority chain, Semantic Kernel filters as
+  enforcement points, AIPOU as post-work receipt, and optional AIPOU
+  claims/rewards as downstream validator-approved artifacts.
+- Status: new outreach; no response yet.
+
+### A2A / x402 + AP2
+
+- Thread: https://github.com/a2aproject/A2A/discussions/1341
+- Reply: https://github.com/a2aproject/A2A/discussions/1341#discussioncomment-17681020
+- Topic: coordinating x402 and AP2 in A2A through a context-based payment state
+  machine.
+- Message: separated A2A context, payment state, pre-action authority facts,
+  work receipts, and optional AIPOU claims. Asked whether `workReceiptId` should
+  live on task metadata, message/artifact metadata, or separate digest-linked
+  evidence.
+- Status: new outreach; no response yet.
+
+### Spring AI
+
+- Thread: https://github.com/spring-projects/spring-ai/discussions/5965
+- Reply: https://github.com/spring-projects/spring-ai/discussions/5965#discussioncomment-17681024
+- Topic: Spring AI agents capability roadmap.
+- Message: suggested a small lifecycle/audit adapter surface rather than a full
+  blockchain or reward integration in the framework. Listed task/run,
+  provider/model/client, tool-call digest, pre-action decision, `workReceiptId`,
+  validation status, and trace/span ids as enough for interop.
+- Status: new outreach; no response yet.
+
+### MCP / OpenTelemetry Trace Support
+
+- Thread: https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/269
+- Reply: https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/269#discussioncomment-17681037
+- Topic: OpenTelemetry trace support for MCP.
+- Message: positioned AIPOU beside MCP OTel tracing. Suggested spans carry
+  compact references such as `workReceiptId`, `authorityFactId`, validation
+  status, evidence boundary, and digest/URI rather than whole signed receipts.
+- Status: new outreach; no response yet.
+
+### MCP / Agent Guard
+
+- Thread: https://github.com/orgs/modelcontextprotocol/discussions/781
+- Reply: https://github.com/orgs/modelcontextprotocol/discussions/781#discussioncomment-17681040
+- Topic: runtime security proxy for MCP tool calls.
+- Message: described Agent Guard as runtime enforcement/inspection and AIPOU as
+  post-work receipt. Proposed linking guard decision id, matched policy,
+  normalized args digest, tool result metadata, trace/span ids, `workReceiptId`,
+  validation status, and evidence boundary.
+- Status: new outreach; no response yet.
+
+### Uptrace
+
+- Thread: https://github.com/uptrace/uptrace/discussions/596
+- Reply: https://github.com/uptrace/uptrace/discussions/596#discussioncomment-17681044
+- Topic: Heimdall OTLP traces for AI agent tool calls.
+- Message: mapped Heimdall/OTLP spans, policy decisions, AIPOU work receipts,
+  and optional claim/reward layers. Suggested compact span attributes for
+  `workReceiptId`, `policyDecisionId`, `validation_status`,
+  `evidence_boundary`, and digest/URI.
+- Status: new outreach; no response yet.
+
+### Universal Commerce Protocol
+
+- Thread: https://github.com/Universal-Commerce-Protocol/ucp/discussions/240
+- Reply: https://github.com/Universal-Commerce-Protocol/ucp/discussions/240#discussioncomment-17681045
+- Topic: non-custodial AI agent bridge for AP2/ISO 20022 payments.
+- Message: separated AP2 mandate/payment artifacts, non-custodial wallet
+  evidence, AIPOU work receipts, and optional AIPOU claims. Suggested
+  digest-bound external evidence links between AP2/payment artifacts and
+  `workReceiptId`.
+- Status: new outreach; no response yet.
+
+### LangChain / open-swe
+
+- Thread: https://github.com/langchain-ai/open-swe/discussions/1106
+- Reply: https://github.com/langchain-ai/open-swe/discussions/1106#discussioncomment-17681046
+- Topic: AgentPay MCP payments for open-swe agents.
+- Message: paired AgentPay/x402 payments with separate AIPOU work receipts.
+  Repeated that self-payments, tests, and internal wallet movements should not
+  be counted as adoption or revenue by themselves. Proposed compact run
+  metadata for `workReceiptId`, payment receipt id, trace/span ids, repo/task
+  id, and validation status.
+- Status: new outreach; no response yet.
+
+### GitHub Community / Kaeso
+
+- Thread: https://github.com/orgs/community/discussions/188952
+- Reply: https://github.com/orgs/community/discussions/188952#discussioncomment-17681047
+- Topic: OAuth hub for AI agents.
+- Message: proposed separating OAuth identity/delegation, narrowed tokens,
+  pre-action authority facts, work receipts, and optional AIPOU claims. Framed
+  `workReceiptId` as a way to map cost attribution to a human/agent work
+  session without overloading OAuth claims.
+- Status: new outreach; no response yet.
+
+### AutoGen / Tool Calling Context
+
+- Thread: https://github.com/microsoft/autogen/discussions/5741
+- Reply: https://github.com/microsoft/autogen/discussions/5741#discussioncomment-17681050
+- Topic: improved tool-calling context and trace propagation.
+- Message: summarized AIPOU's AutoGen lesson: tracing context, security
+  context, work context, and optional settlement context should remain
+  separate. Mentioned fail-closed behavior and structured errors for agents.
+- Status: new outreach; no response yet.
+
+## Wider Continuation Targets Not Posted
+
+- https://github.com/x402-foundation/x402/issues/2067 was highly relevant to
+  delegated x402 policy enforcement, but the current browser session did not
+  expose a visible comment textarea. No comment was posted.
+- https://github.com/slsa-framework/slsa/issues/1606 was closed and SLSA had
+  already answered a similar agent-provenance framing; no comment was posted.
+- https://github.com/firecrawl/firecrawl/issues/3279 was closed as not planned;
+  no comment was posted.
+- https://github.com/traceloop/openllmetry/issues/3460 was relevant to agent
+  semantic conventions, but it is an issue thread with prior receipt-heavy
+  discussion and no clean AIPOU-specific opening in this round. No comment was
+  posted.
+- https://github.com/stripe/ai/discussions/216 was relevant to MCP action
+  limits, but the thread already contained a closely related pre-action receipt
+  comment from another project. I avoided a redundant AIPOU reply.
+
 ## Current Status
 
-This July 18 round produced twelve new public outreach posts total: four in the
-first pass and eight in the expanded pass. It does not establish new adoption,
-external receipts, package installs, claims, or integrations.
+This July 18 round produced twenty-six new public outreach posts total: four in
+the first pass, eight in the expanded pass, and fourteen in the wider
+continuation. It does not establish new adoption, external receipts, package
+installs, claims, or integrations.
