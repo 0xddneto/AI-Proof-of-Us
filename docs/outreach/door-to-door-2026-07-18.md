@@ -441,11 +441,11 @@ technical responses.
 - Adoption status: not AIPOU adoption. It is a serious architecture review and
   compatibility question from a payment/provenance builder.
 
-### Draft Public Reply For UCP / Facet
+### Posted Public Reply For UCP / Facet
 
-User approved replying, but the currently available in-app browser session was
-not signed in to GitHub and `gh` was also unauthenticated. Post this once an
-authenticated GitHub session is available:
+- Posted reply: https://github.com/Universal-Commerce-Protocol/ucp/discussions/240#discussioncomment-17693201
+- Method: authenticated GitHub API using local Git Credential Manager state;
+  no browser session, wallet secret, or private token was recorded.
 
 ```text
 Great question. The intended boundary is two-layered.
@@ -470,11 +470,11 @@ Your "link, do not absorb" framing is exactly the interop rule I want AIPOU to
 follow.
 ```
 
-### Draft Public Reply For A2A / x402 + AP2
+### Posted Public Reply For A2A / x402 + AP2
 
-User approved replying, but the currently available in-app browser session was
-not signed in to GitHub and `gh` was also unauthenticated. Post this once an
-authenticated GitHub session is available:
+- Posted reply: https://github.com/a2aproject/A2A/discussions/1341#discussioncomment-17693202
+- Method: authenticated GitHub API using local Git Credential Manager state;
+  no browser session, wallet secret, or private token was recorded.
 
 ```text
 This is very helpful, especially the production note.
