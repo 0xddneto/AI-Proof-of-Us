@@ -11,6 +11,7 @@ import { agentWallet } from "./identity.js";
 import { beginTask, completeTask, exportReceipts } from "./receipts.js";
 import { estimateReward } from "./rewards.js";
 import { getAipouStatus } from "./status.js";
+import { getPackageVersion } from "./version.js";
 
 const bytes32 = z.string().regex(/^0x[a-fA-F0-9]{64}$/);
 const usageCounts = {
@@ -20,7 +21,7 @@ const usageCounts = {
 };
 
 const server = new McpServer(
-  { name: "aipou-mcp", version: "0.2.2" },
+  { name: "aipou-mcp", version: await getPackageVersion() },
   {
     instructions:
       "For meaningful AI tasks, call begin_ai_task before work and complete_ai_task after work using hashes, never raw prompts or outputs. " +
