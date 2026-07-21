@@ -66,8 +66,18 @@ discovery path, then submitted AIPOU to an independently maintained MCP list.
 - Added a repository description, GitHub Pages homepage, and 14 focused GitHub
   topics, including `mcp-server`, `model-context-protocol`, `ai-agents`,
   `agent-provenance`, `work-receipts`, `eip-712`, and `ed25519`.
+- Verified the independently indexed Glama listing at
+  https://glama.ai/mcp/servers/0xddneto/AI-Proof-of-Us (HTTP 200 with the AIPOU
+  project title).
 - A separate directory form could not be completed because no interactive
   browser session was available. No submission is claimed for that directory.
+
+## Measurement Baseline
+
+- The public npm downloads API reported 67 package downloads for July 14-20
+  and 7 downloads for July 20, the latest closed day at verification time.
+- npm download counts include evaluation, automation, CI, and maintainer tests;
+  they do not establish unique external users or successful integrations.
 
 ## Evidence Boundary
 
