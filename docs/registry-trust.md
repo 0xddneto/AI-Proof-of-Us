@@ -12,8 +12,8 @@ This document tracks what is already reproducible and what still depends on exte
 - The account-root site publishes `https://0xddneto.github.io/.well-known/forge.json`, allowing registries to verify control of the package homepage origin.
 - A manual GitHub Actions workflow exists at `.github/workflows/npm-publish.yml` to publish the npm package with provenance.
 - npm Trusted Publishing is configured for the repository and `npm-publish.yml` workflow.
-- `aipou-mcp-server@0.2.2` was published from GitHub Actions with an npm SLSA provenance attestation on July 13, 2026.
-- `io.github.0xddneto/ai-proof-of-us@0.2.2` is published in the official MCP Registry.
+- `aipou-mcp-server@0.3.1` was published from GitHub Actions with an npm SLSA provenance attestation on July 21, 2026.
+- `io.github.0xddneto/ai-proof-of-us@0.3.1` is published and marked latest in the official MCP Registry.
 - Forge has a verified GitHub publisher submission with an Ed25519 public key and signature for `aipou-mcp-server@0.2.2`.
 - ClawHub `skill verify aipou-farming --version 1.0.1` passes with a generated skill card and clean security evidence.
 - Production dependency audit can be reproduced with:
@@ -34,6 +34,10 @@ Until those registry-side steps are complete, external trust grades may remain l
 ## Current Verification Notes
 
 - `npm audit --workspace mcp-server --omit=dev` should report zero known production vulnerabilities before each publication.
+- On July 21, 2026, npm `0.3.1` was published successfully by GitHub Actions run `29833762433` through Trusted Publishing, with a public SLSA provenance attestation.
+- On July 21, 2026, MCP Registry entry `io.github.0xddneto/ai-proof-of-us@0.3.1` was published successfully by GitHub Actions run `29833835701` and marked latest.
+- On July 21, 2026, an MCP client launched `aipou-mcp-server@0.3.1` from npm and verified that its initialization handshake advertises package version `0.3.1`.
+- On July 21, 2026, `npx -y aipou-mcp-server@0.3.0 --demo` completed from a neutral temporary directory, verified the wallet authorization and collector signature, moved no funds, and removed its temporary receipt state.
 - On July 13, 2026, npm `0.2.2` was published successfully by GitHub Actions run `29247746209` through Trusted Publishing, with a public SLSA v1 provenance attestation.
 - On July 13, 2026, MCP Registry entry `io.github.0xddneto/ai-proof-of-us@0.2.2` was published successfully.
 - On July 14, 2026, `npx -y @forge-registry/cli verify aipou-mcp-server --json` resolved npm version `0.2.2`, found zero known vulnerabilities at every severity, and found no suspicious lifecycle scripts.
