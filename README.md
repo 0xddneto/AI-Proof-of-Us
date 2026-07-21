@@ -167,6 +167,26 @@ Frameworks do not need to understand Merkle trees, Base, or token claims to inte
 
 ## Quick start
 
+### Create A Verified Local Receipt
+
+From a source checkout, this is the lowest-friction adoption test:
+
+```bash
+npm install
+npm run demo -w mcp-server
+```
+
+It creates an ephemeral wallet, records and cryptographically verifies one local
+receipt, prints the `workReceiptId` integration object, and removes all temporary
+state. It requires no wallet setup, funds, network access, claim, or raw prompt
+and output storage.
+
+The next npm release will expose the same check without a checkout:
+
+```bash
+npx -y aipou-mcp-server --demo
+```
+
 ### Test The Receipt Adapter
 
 This is the fastest path for maintainers and agent-framework builders. It creates a local receipt with an ephemeral wallet and prints the `workReceiptId` object that a framework can attach to run metadata, traces, audit exports, or payment/session metadata.

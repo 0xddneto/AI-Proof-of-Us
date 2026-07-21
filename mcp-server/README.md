@@ -6,6 +6,25 @@ It does not detect hidden AI use, prove task quality, replace payment rails, or 
 
 ## Fast Local Adoption Test
 
+From a source checkout, create and verify one disposable local receipt:
+
+```bash
+npm install
+npm run demo -w mcp-server
+```
+
+The command needs no wallet setup, funds, network, or claims. It prints a
+framework-ready `workReceiptId` object and deletes its ephemeral wallet,
+collector key, and receipt state before exiting.
+
+After the next npm release, the same check will run without cloning:
+
+```bash
+npx -y aipou-mcp-server --demo
+```
+
+For a complete framework lifecycle example, continue with the adapter below.
+
 If you are evaluating AIPOU for an agent framework, start with the lifecycle adapter example:
 
 ```bash

@@ -6,6 +6,7 @@ import { z } from "zod";
 import { settleAllRewards, settleRewards } from "./claims.js";
 import { collectorFingerprint, getCollectorPublicKey } from "./collector.js";
 import { aipouClaimsAbi, aipouTokenAbi, getTokenContractConfig } from "./contract.js";
+import { runLocalReceiptDemo } from "./demo.js";
 import { agentWallet } from "./identity.js";
 import { beginTask, completeTask, exportReceipts } from "./receipts.js";
 import { estimateReward } from "./rewards.js";
@@ -153,5 +154,21 @@ server.tool(
   }
 );
 
-const transport = new StdioServerTransport();
-await server.connect(transport);
+const cliArguments = new Set(process.argv.slice(2));
+
+if (cliArguments.has("--demo")) {
+  console.log(JSON.stringify(await runLocalReceiptDemo(), null, 2));
+} else if (cliArguments.has("--help") || cliArguments.has("-h")) {
+  console.log(`AIPOU MCP Server
+
+Usage:
+  aipou-mcp                 Start the MCP stdio server
+  aipou-mcp --demo          Create and verify one disposable local receipt
+  aipou-mcp --help          Show this help
+
+The demo needs no wallet, funds, network, or configuration. Its temporary
+wallet, collector key, and receipt state are removed before the command exits.`);
+} else {
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+}
