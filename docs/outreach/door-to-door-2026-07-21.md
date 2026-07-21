@@ -28,7 +28,8 @@ discovery path, then submitted AIPOU to an independently maintained MCP list.
 - Automation disclosure: the PR title includes the target repository's required
   `🤖🤖🤖` marker for automated-agent submissions.
 - Initial repository validation labels: `has-emoji`, `valid-name`, and
-  `has-glama`; GitHub reported the PR as mergeable when checked.
+  `has-glama`; `check-submission` completed successfully and GitHub reported
+  the PR as cleanly mergeable when checked.
 
 ## Release Metadata Correction
 
