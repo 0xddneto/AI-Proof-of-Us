@@ -1,6 +1,6 @@
 {
   "name": "aipou-mcp-server",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "mcpName": "io.github.0xddneto/ai-proof-of-us",
   "description": "MCP server for private, signed AI task receipts and optional validated AIPOU claims.",
   "author": "0xddneto",
@@ -36,7 +36,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node --test dist/protocol.test.js dist/rewards.test.js dist/canonical.test.js dist/demo.test.js dist/version.test.js",
+    "test": "npm run build && node --test dist/protocol.test.js dist/rewards.test.js dist/canonical.test.js dist/demo.test.js dist/init.test.js dist/version.test.js",
     "pack:check": "npm test && npm pack --dry-run",
     "demo": "npm run build && node dist/index.js --demo",
     "dev": "tsx src/index.ts",

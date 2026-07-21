@@ -9,22 +9,29 @@
     "source": "github",
     "subfolder": "mcp-server"
   },
-  "version": "0.3.1",
+  "version": "0.4.0",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "aipou-mcp-server",
-      "version": "0.3.1",
+      "version": "0.4.0",
       "transport": {
         "type": "stdio"
       },
       "environmentVariables": [
         {
-          "description": "Private key for a new dedicated farming wallet. Never use a primary wallet.",
-          "isRequired": true,
+          "description": "Optional inline private key for a dedicated farming wallet. Prefer AIPOU_AGENT_KEY_FILE and never use a primary wallet.",
+          "isRequired": false,
           "format": "string",
           "isSecret": true,
           "name": "AIPOU_AGENT_PRIVATE_KEY"
+        },
+        {
+          "description": "Path to the protected dedicated-wallet key created by aipou-mcp --init.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false,
+          "name": "AIPOU_AGENT_KEY_FILE"
         },
         {
           "description": "AIPOU token contract address on the configured network.",

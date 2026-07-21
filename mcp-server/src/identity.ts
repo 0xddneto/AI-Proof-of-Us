@@ -1,4 +1,6 @@
 import { randomBytes } from "node:crypto";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { Wallet, getAddress, hexlify, isAddress, verifyTypedData } from "ethers";
 import type { TaskSession } from "./types.js";
 
@@ -13,10 +15,26 @@ export const authorizationTypes = {
   ]
 };
 
+function readKeyFile(keyFile: string): string {
+  try {
+    return readFileSync(path.resolve(keyFile), "utf8").trim();
+  } catch {
+    throw new Error(
+      `AIPOU_AGENT_KEY_FILE could not be read (${keyFile}); ` +
+      "run aipou-mcp --init to create a dedicated wallet key"
+    );
+  }
+}
+
 export function agentWallet(): Wallet {
-  const privateKey = process.env.AIPOU_AGENT_PRIVATE_KEY;
+  const inlinePrivateKey = process.env.AIPOU_AGENT_PRIVATE_KEY?.trim();
+  const keyFile = process.env.AIPOU_AGENT_KEY_FILE;
+  const privateKey = inlinePrivateKey || (keyFile ? readKeyFile(keyFile) : undefined);
   if (!privateKey) {
-    throw new Error("AIPOU_AGENT_PRIVATE_KEY is required; use a dedicated farming wallet, never a primary wallet");
+    throw new Error(
+      "AIPOU_AGENT_PRIVATE_KEY or AIPOU_AGENT_KEY_FILE is required; " +
+      "run aipou-mcp --init to create a dedicated wallet, never use a primary wallet"
+    );
   }
   return new Wallet(privateKey);
 }

@@ -8,6 +8,7 @@ import { collectorFingerprint, getCollectorPublicKey } from "./collector.js";
 import { aipouClaimsAbi, aipouTokenAbi, getTokenContractConfig } from "./contract.js";
 import { runLocalReceiptDemo } from "./demo.js";
 import { agentWallet } from "./identity.js";
+import { describeExistingIdentity, initializePersistentIdentity } from "./init.js";
 import { beginTask, completeTask, exportReceipts } from "./receipts.js";
 import { estimateReward } from "./rewards.js";
 import { getAipouStatus } from "./status.js";
@@ -157,18 +158,46 @@ server.tool(
 
 const cliArguments = new Set(process.argv.slice(2));
 
+function cliValue(name: string): string | undefined {
+  const args = process.argv.slice(2);
+  const inline = args.find((argument) => argument.startsWith(`${name}=`));
+  if (inline) return inline.slice(name.length + 1);
+  const index = args.indexOf(name);
+  if (index === -1) return undefined;
+  const value = args[index + 1];
+  return value && !value.startsWith("--") ? value : undefined;
+}
+
 if (cliArguments.has("--demo")) {
   console.log(JSON.stringify(await runLocalReceiptDemo(), null, 2));
+} else if (cliArguments.has("--init")) {
+  const dataDir = cliValue("--data-dir");
+  try {
+    console.log(JSON.stringify(await initializePersistentIdentity(dataDir), null, 2));
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "EEXIST") {
+      console.log(JSON.stringify(await describeExistingIdentity(dataDir), null, 2));
+    } else {
+      console.error(`aipou-mcp --init failed: ${error instanceof Error ? error.message : String(error)}`);
+      process.exitCode = 1;
+    }
+  }
 } else if (cliArguments.has("--help") || cliArguments.has("-h")) {
   console.log(`AIPOU MCP Server
 
 Usage:
   aipou-mcp                 Start the MCP stdio server
   aipou-mcp --demo          Create and verify one disposable local receipt
+  aipou-mcp --init          Create a protected persistent farming identity
+  aipou-mcp --init --data-dir <path>
+                            Initialize in a specific directory
   aipou-mcp --help          Show this help
 
 The demo needs no wallet, funds, network, or configuration. Its temporary
-wallet, collector key, and receipt state are removed before the command exits.`);
+wallet, collector key, and receipt state are removed before the command exits.
+Init writes a new dedicated-wallet key with restricted access and never prints
+the secret. Re-running init reports the existing identity instead of
+overwriting it.`);
 } else {
   const transport = new StdioServerTransport();
   await server.connect(transport);

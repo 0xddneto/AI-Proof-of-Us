@@ -16,6 +16,16 @@ The command needs no wallet setup, funds, network, or claims. It prints a
 framework-ready `workReceiptId` object and deletes its ephemeral wallet,
 collector key, and receipt state before exiting.
 
+To create a persistent dedicated wallet without printing its private key:
+
+```bash
+npx -y aipou-mcp-server --init
+```
+
+The command writes a protected `agent-wallet.key` and prints an MCP
+configuration using `AIPOU_AGENT_KEY_FILE`. Re-running it reports the existing
+identity instead of overwriting the key.
+
 From a source checkout, the same check runs with:
 
 ```bash
@@ -68,6 +78,10 @@ AIPOU_AGENT_PRIVATE_KEY=<dedicated farming wallet key>
 AIPOU_CONTRACT_ADDRESS=0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB
 AIPOU_CLAIMS_ADDRESS=0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058
 ```
+
+`AIPOU_AGENT_KEY_FILE=/protected/path/agent-wallet.key` is the recommended
+alternative to the inline private-key variable. One of the two identity options
+is required for persistent receipt collection.
 
 Use a new dedicated farming wallet, never a primary wallet. Do not commit the private key. Status checks can show already claimed and pending AIPOU without moving funds. Optional claims and settlement occur only after an explicit user request.
 

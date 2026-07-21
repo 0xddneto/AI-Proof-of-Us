@@ -1,26 +1,8 @@
-import { execFile } from "node:child_process";
 import { createHash, createPublicKey, generateKeyPairSync, sign, verify } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { promisify } from "node:util";
 import { canonicalJson } from "./canonical.js";
-
-const execFileAsync = promisify(execFile);
-
-// mode 0o600 is a no-op on NTFS, so on Windows the private key would keep the
-// permissive inherited ACL. Strip inheritance and grant only the current user.
-// Best-effort: an ACL failure must not block receipt collection.
-async function restrictToCurrentUser(filePath: string): Promise<void> {
-  if (process.platform !== "win32") return;
-  const user = process.env.USERNAME;
-  if (!user) return;
-  const principal = process.env.USERDOMAIN ? `${process.env.USERDOMAIN}\\${user}` : user;
-  try {
-    await execFileAsync("icacls", [filePath, "/inheritance:r", "/grant:r", `${principal}:F`]);
-  } catch {
-    // keep the inherited ACL rather than failing key creation
-  }
-}
+import { restrictToCurrentUser } from "./secure-file.js";
 
 function dataDir(): string {
   return path.resolve(process.env.AIPOU_DATA_DIR || ".aipou");
