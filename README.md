@@ -169,11 +169,10 @@ Frameworks do not need to understand Merkle trees, Base, or token claims to inte
 
 ### Create A Verified Local Receipt
 
-From a source checkout, this is the lowest-friction adoption test:
+This is the lowest-friction adoption test — one command, no checkout, no setup:
 
 ```bash
-npm install
-npm run demo -w mcp-server
+npx -y aipou-mcp-server --demo
 ```
 
 It creates an ephemeral wallet, records and cryptographically verifies one local
@@ -181,10 +180,11 @@ receipt, prints the `workReceiptId` integration object, and removes all temporar
 state. It requires no wallet setup, funds, network access, claim, or raw prompt
 and output storage.
 
-The next npm release will expose the same check without a checkout:
+From a source checkout, the same check runs with:
 
 ```bash
-npx -y aipou-mcp-server --demo
+npm install
+npm run demo -w mcp-server
 ```
 
 ### Test The Receipt Adapter
