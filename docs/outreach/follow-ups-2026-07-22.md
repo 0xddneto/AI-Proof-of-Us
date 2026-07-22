@@ -30,10 +30,40 @@ feedback or a concrete collaboration offer.
   exactly the four proposed fields and excludes wallet, reward, prompt, output,
   and claim authority. Verification passed 38 MCP tests, package dry-run, and a
   production dependency audit with zero vulnerabilities.
-- The contributor immediately fixed the trailing newline. Moving the constants
-  out of the `Deprecated` section remains pending in the external PR.
+- The contributor fixed the trailing newline and moved the constants out of
+  the `Deprecated` section in commit `301044a`.
+- Latest review: https://github.com/traceloop/openllmetry/pull/4373#issuecomment-5050681023
+- The names and trust boundary now match AIPOU. One non-behavioral cleanup is
+  pending because the new section currently interrupts the existing Watson
+  attribute group instead of sitting before or after the complete group.
 - Current status: external code contribution open and under review. This is a
   concrete integration attempt, but it is not merged adoption yet.
+
+## A2A
+
+- Confirmation: https://github.com/a2aproject/A2A/discussions/1341#discussioncomment-17738267
+- Reply: https://github.com/a2aproject/A2A/discussions/1341#discussioncomment-17739506
+- Result: Erik Newton confirmed that adopting the reference-by-digest shape in
+  an independent receipt system is the practical interoperability test. AIPOU
+  applies it while keeping work, payment, identity, and optional claim as
+  sibling artifacts that cannot upgrade one another's trust.
+- Status: external architectural validation; not an A2A integration or
+  endorsement.
+
+## awesome-mcp-servers
+
+- Maintainer direction: https://github.com/punkpeye/awesome-mcp-servers/issues/9036#issuecomment-5048308687
+- Existing submission: https://github.com/punkpeye/awesome-mcp-servers/pull/10577
+- Reply: https://github.com/punkpeye/awesome-mcp-servers/issues/9036#issuecomment-5050680680
+- Result: the owner directed AIPOU to the official PR or Glama route. The PR
+  already existed and its submission check had passed, so its description was
+  refreshed from `0.3.x` to the live npm `0.5.0` verification. The redundant
+  routing issue was closed while the listing PR remains open for review.
+- Verification: the public `npx -y aipou-mcp-server@0.5.0 --demo` command
+  completed successfully without funds, RPC, persistent state, a claim, or
+  private-key output.
+- Status: valid external directory submission under review; not listed until
+  the pull request is merged.
 
 ## Model Context Protocol
 
@@ -63,10 +93,7 @@ feedback or a concrete collaboration offer.
 
 ## Reviewed Without A Reply
 
-- General comments in A2A registry and GitHub Community threads were not direct
-  AIPOU feedback and already had their own project focus, so no promotional
-  reply was added.
-- The awesome-mcp-servers pull request received an automated Glama badge check,
-  not a human review or partnership offer.
+- General comments in GitHub Community threads were not direct AIPOU feedback
+  and already had their own project focus, so no promotional reply was added.
 - The completed ElizaOS/Kuberna fixture exchange already has a closing response
   from AIPOU. No duplicate follow-up was posted.
