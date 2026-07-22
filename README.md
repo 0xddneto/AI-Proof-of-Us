@@ -260,7 +260,7 @@ MCP clients can launch the published server with:
 npx -y aipou-mcp-server
 ```
 
-Release `aipou-mcp-server@0.4.0` is live on npm and marked latest in the official MCP Registry. It was published from GitHub Actions through npm Trusted Publishing with SLSA provenance. See [docs/npm-publication.md](docs/npm-publication.md).
+Release `aipou-mcp-server@0.5.0` is live on npm and marked latest in the official MCP Registry. It was published from GitHub Actions through npm Trusted Publishing with SLSA provenance. See [docs/npm-publication.md](docs/npm-publication.md).
 
 ## Local MCP config example
 
