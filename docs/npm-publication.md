@@ -5,9 +5,9 @@ The `aipou-mcp-server` package is published on npm and registered in the officia
 ## Current Package
 
 - Package: `aipou-mcp-server`
-- published npm version: `0.3.1`
+- published npm version: `0.4.0`
 - MCP name: `io.github.0xddneto/ai-proof-of-us`
-- MCP Registry version: `0.3.1`
+- MCP Registry version: `0.4.0`
 - Binary: `aipou-mcp`
 - Runtime: Node.js 20+
 - Transport: MCP stdio
@@ -29,10 +29,11 @@ npx -y aipou-mcp-server
 Published package:
 
 - https://www.npmjs.com/package/aipou-mcp-server
+- https://github.com/0xddneto/AI-Proof-of-Us/releases/tag/v0.4.0
 
 ## Provenance Publication
 
-Version `0.3.1` was published on July 21, 2026 through npm Trusted Publishing, so registries can verify the GitHub Actions workflow that produced the package without a long-lived npm token.
+Version `0.4.0` was published on July 21, 2026 through npm Trusted Publishing, so registries can verify the GitHub Actions workflow that produced the package without a long-lived npm token.
 
 ```bash
 npm publish --workspace mcp-server --provenance --access public
@@ -42,8 +43,8 @@ The npm trusted publisher is configured with GitHub owner `0xddneto`, repository
 
 Published evidence:
 
-- GitHub Actions workflow: https://github.com/0xddneto/AI-Proof-of-Us/actions/runs/29833762433
-- npm provenance attestation: https://registry.npmjs.org/-/npm/v1/attestations/aipou-mcp-server@0.3.1
+- GitHub Actions workflow: https://github.com/0xddneto/AI-Proof-of-Us/actions/runs/29835818563
+- npm provenance attestation: https://registry.npmjs.org/-/npm/v1/attestations/aipou-mcp-server@0.4.0
 
 Registry trust checklist:
 
@@ -90,5 +91,5 @@ Do not paste npm passwords, npm tokens, GitHub device codes, or private keys int
 Published Registry entry:
 
 ```text
-io.github.0xddneto/ai-proof-of-us@0.3.1
+io.github.0xddneto/ai-proof-of-us@0.4.0
 ```

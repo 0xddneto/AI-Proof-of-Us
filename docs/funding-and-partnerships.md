@@ -15,8 +15,8 @@ trading volume.
 - AIPOU token and claims contracts on Base mainnet, with verified source;
 - EIP-712 task authorization, unique nonces, Ed25519-signed receipts, Merkle
   settlement, and onchain replay protection;
-- `aipou-mcp-server@0.3.1` on npm with SLSA provenance and a disposable one-command demo;
-- `io.github.0xddneto/ai-proof-of-us@0.3.1` marked latest in the official MCP Registry;
+- `aipou-mcp-server@0.4.0` on npm with SLSA provenance, a disposable one-command demo, and protected persistent identity setup;
+- `io.github.0xddneto/ai-proof-of-us@0.4.0` marked latest in the official MCP Registry;
 - an installable and verified OpenClaw skill;
 - local receipt, lifecycle adapter, AutoGen intervention, and interoperability
   fixtures with fail-closed tests;

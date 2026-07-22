@@ -1,5 +1,8 @@
 # AI Proof of Us
 
+[![npm version](https://img.shields.io/npm/v/aipou-mcp-server)](https://www.npmjs.com/package/aipou-mcp-server)
+[![AIPOU MCP server quality](https://glama.ai/mcp/servers/0xddneto/AI-Proof-of-Us/badges/score.svg)](https://glama.ai/mcp/servers/0xddneto/AI-Proof-of-Us)
+
 AI Proof of Us is an **MCP-first receipt protocol for humans working with AI**.
 
 It starts from a simple belief: when people spend real hours building, debugging, researching, writing, and coordinating through AI agents, that work should be able to leave a private, portable receipt.
@@ -246,7 +249,7 @@ MCP clients can launch the published server with:
 npx -y aipou-mcp-server
 ```
 
-Release `aipou-mcp-server@0.3.1` is live on npm and marked latest in the official MCP Registry. It was published from GitHub Actions through npm Trusted Publishing with SLSA provenance. See [docs/npm-publication.md](docs/npm-publication.md).
+Release `aipou-mcp-server@0.4.0` is live on npm and marked latest in the official MCP Registry. It was published from GitHub Actions through npm Trusted Publishing with SLSA provenance. See [docs/npm-publication.md](docs/npm-publication.md).
 
 ## Local MCP config example
 

@@ -13,7 +13,8 @@ The goal is to spread AIPOU through useful conversations with agent builders, MC
 - [door-to-door-2026-07-14.md](door-to-door-2026-07-14.md) records verified registry milestones, selected follow-ups, and three new technical outreach conversations.
 - [door-to-door-2026-07-17.md](door-to-door-2026-07-17.md) records the Kuberna pin follow-up, AutoGen PR update, and new mcp-agent, AgentGraph, and ZeroID outreach.
 - [door-to-door-2026-07-18.md](door-to-door-2026-07-18.md) records a new outreach round to ArmorerLabs, MCP core, A2A, and GitHub Community, plus drafts blocked by issue-comment UI limits.
-- [door-to-door-2026-07-21.md](door-to-door-2026-07-21.md) verifies the public one-command demo, `0.3.1` handshake correction, and external Awesome MCP Servers pull request.
+- [door-to-door-2026-07-21.md](door-to-door-2026-07-21.md) verifies the public demo, `0.4.0` persistent identity release, Glama listing, and external directory submissions.
+- [door-to-door-2026-07-22.md](door-to-door-2026-07-22.md) records the Glama trust manifest, GitHub `v0.4.0` release, current-version documentation fixes, and npm measurement checkpoint.
 - [openclaw-roadshow.md](openclaw-roadshow.md) tracks OpenClaw automation status.
 - [roadshow-next-steps.md](roadshow-next-steps.md) turns feedback into product and outreach priorities.
 - [responses-log.md](responses-log.md) records AI and community feedback.
