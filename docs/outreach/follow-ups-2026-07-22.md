@@ -13,8 +13,19 @@ feedback or a concrete collaboration offer.
 - Agreed boundary: meaningful work units only; no raw prompts, outputs, wallet,
   reward, private receipt payload, or claim authority in spans. OpenLLMetry
   would correlate external status, not derive or validate it.
-- Status: concrete collaboration offer accepted; no PR or integration exists
-  yet, so this is not adoption.
+- Initial status: concrete collaboration offer accepted; integration was not
+  yet implemented at that point.
+
+### External implementation update
+
+- Pull request: https://github.com/traceloop/openllmetry/pull/4373
+- A contributor opened a real OpenLLMetry PR adding the four opt-in AIPOU span
+  reference constants and shared semantic-convention tests.
+- Review reply: https://github.com/traceloop/openllmetry/pull/4373#issuecomment-5046620955
+- Requested corrections: move the constants out of the existing `Deprecated`
+  section and add the trailing newline identified by automated review.
+- Current status: external code contribution open and under review. This is a
+  concrete integration attempt, but it is not merged adoption yet.
 
 ## Model Context Protocol
 
