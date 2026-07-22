@@ -24,6 +24,14 @@ feedback or a concrete collaboration offer.
 - Review reply: https://github.com/traceloop/openllmetry/pull/4373#issuecomment-5046620955
 - Requested corrections: move the constants out of the existing `Deprecated`
   section and add the trailing newline identified by automated review.
+- AIPOU-side implementation: https://github.com/0xddneto/AI-Proof-of-Us/commit/90551cf
+- Follow-up reply: https://github.com/traceloop/openllmetry/pull/4373#issuecomment-5046697215
+- Added a tested `buildReceiptSpanAttributes` reference projection that emits
+  exactly the four proposed fields and excludes wallet, reward, prompt, output,
+  and claim authority. Verification passed 38 MCP tests, package dry-run, and a
+  production dependency audit with zero vulnerabilities.
+- The contributor immediately fixed the trailing newline. Moving the constants
+  out of the `Deprecated` section remains pending in the external PR.
 - Current status: external code contribution open and under review. This is a
   concrete integration attempt, but it is not merged adoption yet.
 
