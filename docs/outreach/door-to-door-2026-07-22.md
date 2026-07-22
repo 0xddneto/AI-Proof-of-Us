@@ -42,4 +42,3 @@ This round improved package trust and directory discovery after the public
 - `glama.json` passes the live Glama JSON Schema.
 - `git diff --check` passes.
 - Pre-existing untracked `output/` material was not modified.
-
