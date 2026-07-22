@@ -13,3 +13,7 @@ contributions and license those contributions under the repository license.
 The MIT License grants rights to the software. It does not grant a right to
 claim that an unrelated or modified token, service, package, account, or
 organization is the official AIPOU project. See TRADEMARKS.md.
+
+The published MCP executable bundles the stdio runtime from the
+Model Context Protocol TypeScript SDK, Copyright (c) 2024 Anthropic, PBC,
+under the MIT License. Source: https://github.com/modelcontextprotocol/typescript-sdk

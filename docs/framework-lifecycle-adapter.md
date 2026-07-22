@@ -62,6 +62,20 @@ Useful attachment points depend on the boundary being verified:
 
 Avoid making every tool call or every log line carry AIPOU data. The receipt should represent a meaningful task boundary, not noise.
 
+For MCP tool results, the signed receipt remains authoritative in the local
+receipt store. `complete_ai_task` also returns a compact projection under the
+reverse-DNS `_meta` key `io.github.0xddneto/aipou-receipt` with the receipt ID,
+opaque URI, issuer fingerprint, digest, evidence class, scheme, and current
+local status. Clients may collect that projection into their own run metadata,
+but `_meta` is transport metadata and must not be treated as the only retained
+copy of the receipt.
+
+Keep an MCP `taskId` distinct from `receiptId`. A task ID tracks execution and
+result retrieval; a receipt ID tracks evidence with a different retention and
+verification lifecycle. Traces should copy only correlation fields, while
+claim or settlement status must be read from the authoritative AIPOU store or
+the relevant onchain state.
+
 If a project already has a tool-call receipt or BoundaryAttest-style event receipt, AIPOU should reference it or be referenced by it. AIPOU does not need to replace that lower-level receipt.
 
 For delegated frameworks with pre-action authorization, keep two artifacts linked by `aipou-authority-work-link-v1`: `authorityReceiptId` or `actionRef` before execution, then `workReceiptId` after completion, joined by a stable trace reference. The lifecycle example includes a fail-closed validator for this link. Claim and reward fields are never authority evidence.

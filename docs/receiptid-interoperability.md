@@ -59,6 +59,33 @@ That is enough for:
 - agent marketplaces
 - MCP security scanners
 
+## MCP Result Projection
+
+The authoritative signed receipt belongs in the AIPOU receipt store. When
+`complete_ai_task` finalizes a receipt, its MCP result carries only this compact
+projection in `_meta`:
+
+```json
+{
+  "io.github.0xddneto/aipou-receipt": {
+    "id": "0x...",
+    "uri": "aipou://receipts/0x...",
+    "issuer": "sha256:...",
+    "digest": "sha256:...",
+    "evidenceClass": "issuer_asserted",
+    "scheme": "aipou-receipt-v1",
+    "status": "local"
+  }
+}
+```
+
+This is a transport projection, not a second receipt and not claim approval.
+Clients are not required to retain arbitrary `_meta`, so a client may index the
+reference in run/session metadata while the signed artifact remains in the
+receipt store. An MCP execution `taskId` stays separate because execution
+lifecycle and evidence retention answer different questions. Traces may mirror
+the ID, scheme, evidence class, and validation status for correlation only.
+
 `workReceiptId` and `receiptId` may be the same value. Keep both only when the receiving system needs to distinguish work evidence from other receipt types.
 
 ## Recommended Metadata Fields

@@ -7,9 +7,11 @@ import { settleAllRewards, settleRewards } from "./claims.js";
 import { collectorFingerprint, getCollectorPublicKey } from "./collector.js";
 import { aipouClaimsAbi, aipouTokenAbi, getTokenContractConfig } from "./contract.js";
 import { runLocalReceiptDemo } from "./demo.js";
+import { runInstallationDoctor } from "./doctor.js";
 import { agentWallet } from "./identity.js";
 import { describeExistingIdentity, initializePersistentIdentity } from "./init.js";
 import { beginTask, completeTask, exportReceipts } from "./receipts.js";
+import { buildReceiptResultMeta } from "./receipt-metadata.js";
 import { estimateReward } from "./rewards.js";
 import { getAipouStatus } from "./status.js";
 import { getPackageVersion } from "./version.js";
@@ -119,7 +121,10 @@ server.tool(
   },
   async (input) => {
     const receipt = await completeTask(input);
-    return { content: [{ type: "text", text: JSON.stringify(receipt, null, 2) }] };
+    return {
+      content: [{ type: "text", text: JSON.stringify(receipt, null, 2) }],
+      _meta: buildReceiptResultMeta(receipt)
+    };
   }
 );
 
@@ -170,6 +175,10 @@ function cliValue(name: string): string | undefined {
 
 if (cliArguments.has("--demo")) {
   console.log(JSON.stringify(await runLocalReceiptDemo(), null, 2));
+} else if (cliArguments.has("--doctor")) {
+  const result = await runInstallationDoctor(cliValue("--data-dir"));
+  console.log(JSON.stringify(result, null, 2));
+  if (!result.ready) process.exitCode = 1;
 } else if (cliArguments.has("--init")) {
   const dataDir = cliValue("--data-dir");
   try {
@@ -191,13 +200,17 @@ Usage:
   aipou-mcp --init          Create a protected persistent farming identity
   aipou-mcp --init --data-dir <path>
                             Initialize in a specific directory
+  aipou-mcp --doctor        Validate a persistent installation without changes
+  aipou-mcp --doctor --data-dir <path>
+                            Diagnose a specific identity directory
   aipou-mcp --help          Show this help
 
 The demo needs no wallet, funds, network, or configuration. Its temporary
 wallet, collector key, and receipt state are removed before the command exits.
 Init writes a new dedicated-wallet key with restricted access and never prints
 the secret. Re-running init reports the existing identity instead of
-overwriting it.`);
+overwriting it. Doctor reads configuration without writing files, making
+network requests, moving funds, or submitting claims.`);
 } else {
   const transport = new StdioServerTransport();
   await server.connect(transport);

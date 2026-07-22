@@ -26,6 +26,17 @@ The command writes a protected `agent-wallet.key` and prints an MCP
 configuration using `AIPOU_AGENT_KEY_FILE`. Re-running it reports the existing
 identity instead of overwriting the key.
 
+Verify the persistent setup without writing files, contacting an RPC, moving
+funds, or submitting a claim:
+
+```bash
+npx -y aipou-mcp-server --doctor
+```
+
+The diagnostic returns structured checks for Node.js, storage, identity,
+contract addresses, and chain. It prints only the public wallet address, never
+the private key.
+
 From a source checkout, the same check runs with:
 
 ```bash

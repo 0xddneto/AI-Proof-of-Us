@@ -6,6 +6,17 @@ Canonical source: https://github.com/0xddneto/AI-Proof-of-Us
 Token: https://basescan.org/token/0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB
 Claims: https://basescan.org/address/0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058
 
+## Evaluate and install
+
+Run `npx -y aipou-mcp-server --demo` to create and verify one disposable local
+receipt without a wallet, funds, network, or persistent state.
+
+Run `npx -y aipou-mcp-server --init` to create a protected persistent dedicated
+identity without printing its private key. Then run
+`npx -y aipou-mcp-server --doctor` to validate Node.js, storage, identity, key
+permissions, contract addresses, and chain without writing files, contacting
+an RPC, moving funds, or submitting a claim.
+
 ## Start here
 
 - [Agent integration](docs/for-agents.md)

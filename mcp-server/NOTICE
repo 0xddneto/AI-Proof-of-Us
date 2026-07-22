@@ -1,0 +1,8 @@
+AI Proof of Us (AIPOU) MCP Server
+Copyright (c) 2026 0xddneto and AI Proof of Us contributors
+
+This package bundles the stdio runtime from the Model Context Protocol
+TypeScript SDK, Copyright (c) 2024 Anthropic, PBC, under the MIT License.
+Source: https://github.com/modelcontextprotocol/typescript-sdk
+
+The software and bundled dependency are distributed under the MIT License.

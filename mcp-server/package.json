@@ -1,6 +1,6 @@
 {
   "name": "aipou-mcp-server",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "mcpName": "io.github.0xddneto/ai-proof-of-us",
   "description": "MCP server for private, signed AI task receipts and optional validated AIPOU claims.",
   "author": "0xddneto",
@@ -29,14 +29,15 @@
   "files": [
     "dist",
     "README.md",
+    "NOTICE",
     "server.json"
   ],
   "bin": {
     "aipou-mcp": "dist/index.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node --test dist/protocol.test.js dist/rewards.test.js dist/canonical.test.js dist/demo.test.js dist/init.test.js dist/version.test.js",
+    "build": "tsc -p tsconfig.json && esbuild src/index.ts --bundle --platform=node --format=esm --target=node20 --outfile=dist/index.js --external:dotenv --external:dotenv/* --external:ethers --external:merkletreejs --external:zod --external:zod/*",
+    "test": "npm run build && node --test dist/protocol.test.js dist/rewards.test.js dist/canonical.test.js dist/demo.test.js dist/doctor.test.js dist/init.test.js dist/receipt-metadata.test.js dist/version.test.js",
     "pack:check": "npm test && npm pack --dry-run",
     "demo": "npm run build && node dist/index.js --demo",
     "dev": "tsx src/index.ts",
@@ -50,14 +51,15 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.13.0",
     "dotenv": "^16.6.1",
     "ethers": "^6.17.0",
     "merkletreejs": "^0.6.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0",
     "@types/node": "^22.5.4",
+    "esbuild": "0.28.1",
     "tsx": "^4.19.0",
     "typescript": "^5.5.4"
   }

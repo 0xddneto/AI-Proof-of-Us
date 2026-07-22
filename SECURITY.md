@@ -6,8 +6,22 @@ AI Proof of Us is experimental and unaudited. Treat the MCP server, token contra
 
 | Version | Supported |
 | --- | --- |
-| `0.2.x` | Yes |
+| `0.5.x` | Yes |
+| `0.4.x` | Security fixes only |
 | Earlier versions | No |
+
+## Published Runtime
+
+The npm package exposes only the MCP `stdio` transport. Its build bundles the
+reachable stdio runtime from the current Model Context Protocol TypeScript SDK,
+while the SDK remains a development dependency for compilation and integration
+tests. This prevents unused HTTP server dependencies from entering the
+published production dependency tree.
+
+Release verification requires `npm audit --omit=dev` to report zero known
+production vulnerabilities, a clean tarball installation, and a working local
+receipt demo. Development dependencies are reviewed separately because the MCP
+SDK currently includes transports that AIPOU does not publish or execute.
 
 ## Reporting a Vulnerability
 

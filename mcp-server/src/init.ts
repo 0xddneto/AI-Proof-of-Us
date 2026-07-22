@@ -4,8 +4,8 @@ import path from "node:path";
 import { Wallet } from "ethers";
 import { restrictToCurrentUser } from "./secure-file.js";
 
-const TOKEN_ADDRESS = "0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB";
-const CLAIMS_ADDRESS = "0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058";
+export const AIPOU_TOKEN_ADDRESS = "0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB";
+export const AIPOU_CLAIMS_ADDRESS = "0x4ca4C98fB784D20EdC8E2A7F531dAab4c6e53058";
 
 export interface InitializationResult {
   mode: "persistent_identity_initialized" | "persistent_identity_already_initialized";
@@ -61,8 +61,8 @@ function buildResult(
           env: {
             AIPOU_AGENT_KEY_FILE: keyFile,
             AIPOU_DATA_DIR: dataDir,
-            AIPOU_CONTRACT_ADDRESS: TOKEN_ADDRESS,
-            AIPOU_CLAIMS_ADDRESS: CLAIMS_ADDRESS
+            AIPOU_CONTRACT_ADDRESS: AIPOU_TOKEN_ADDRESS,
+            AIPOU_CLAIMS_ADDRESS
           }
         }
       }
