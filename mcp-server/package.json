@@ -54,7 +54,7 @@
     "dotenv": "^16.6.1",
     "ethers": "^6.17.0",
     "merkletreejs": "^0.6.0",
-    "zod": "^3.23.8"
+    "zod": "^3.25.0"
   },
   "devDependencies": {
     "@modelcontextprotocol/sdk": "1.29.0",
