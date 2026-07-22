@@ -34,8 +34,12 @@ Technical brief:
 
 ## Status
 
-Prepared for submission through Robinhood's official Partner Opportunities
-form under AI integrations and product integration/enablement. Submission
-confirmation and any reply should be recorded here without publishing private
-contact details.
+Submitted through Robinhood's official Partner Opportunities form under AI,
+Investing & Trading, and Product integration/enablement. The form displayed an
+automated confirmation that Robinhood received the inquiry and will review the
+details. Robinhood stated that it will contact the project if it identifies a
+mutual fit.
 
+This is a confirmed partnership inquiry, not an endorsement, partnership,
+pilot acceptance, or adoption. Any later reply should be recorded here without
+publishing private contact details.
