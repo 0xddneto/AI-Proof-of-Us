@@ -67,12 +67,20 @@ feedback or a concrete collaboration offer.
   the pull request is merged.
 - Maintainer follow-up: https://github.com/punkpeye/awesome-mcp-servers/pull/10577#issuecomment-5051399149
 - Merge requirements: claim the AIPOU server listing on Glama and complete a
-  Glama quality evaluation. The repository already contains a valid root
-  `glama.json` declaring `0xddneto`, but the public score page still reports
-  `Author not verified` and `No Glama release`.
-- Next external action: authenticate the Glama claim with GitHub, configure and
-  deploy the Glama build, then publish a Glama release so server coherence,
-  tool-definition quality, and security checks can be evaluated.
+  Glama quality evaluation.
+- Claim status: completed. Glama now displays `Author verified` and confirms
+  that the server maintainers are verified.
+- Build configuration: Glama is configured for Node.js 20, `npm ci`, the MCP
+  workspace build, and the compiled stdio server behind `mcp-proxy`. Only the
+  public Base contract addresses and an ephemeral data directory are supplied
+  as placeholders; no wallet key was uploaded.
+- Verification: the same pinned commit builds locally and all 38 MCP tests
+  pass. Two Glama build attempts remained in `pending` before any Docker or
+  instance logs were produced, so the release and quality evaluation are still
+  waiting on the external Glama build worker.
+- Next external action: allow the queued Build & Release test to complete, then
+  confirm the generated release and quality score before reporting completion
+  to the directory maintainer.
 
 ## Model Context Protocol
 
