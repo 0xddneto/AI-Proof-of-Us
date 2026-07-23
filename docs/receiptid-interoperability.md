@@ -178,6 +178,14 @@ For payment, marketplace, workflow, and trace integrations, prefer `workReceiptI
 }
 ```
 
+Reputation and trust systems should attach the receipt at the action boundary
+where the evidence can be checked. If the host calls that field `action_ref`,
+map it deterministically to AIPOU `actionRef` and retain `workReceiptId`,
+issuer, digest, scheme, and evidence class as a separate evidence record. A
+score may consume that record as an input, but it must remain recomputable from
+the referenced receipts. The score ID must not replace the receipt ID, rewrite
+the signed receipt, or imply AIPOU claim approval.
+
 When a framework also has a pre-action authority receipt, use a separate versioned link:
 
 ```json

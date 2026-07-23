@@ -17,9 +17,23 @@ visited technical threads.
 ## AutoGen
 
 - Thread: https://github.com/microsoft/autogen/discussions/7476
-- New activity: an unrelated streaming-application advertisement was posted.
-- Decision: treated as spam and left unanswered. It provides no technical
-  signal for AIPOU.
+- New technical response:
+  https://github.com/microsoft/autogen/discussions/7476#discussioncomment-17757035
+- Result: the AgentGraph author described signed, offline-verifiable receipts
+  as the evidence substrate and reputation scores as separate products that
+  must remain recomputable from those receipts.
+- AIPOU-specific placement: attach the external receipt to the exact action
+  through `action_ref`, keep it content-addressed and independently
+  verifiable, and allow it to inform a score without hiding it inside that
+  score.
+- Applied: the interoperability guide now maps host `action_ref` to AIPOU
+  `actionRef` and keeps `workReceiptId`, issuer, digest, scheme, and evidence
+  class separate from score output. A score cannot replace a receipt or imply
+  claim approval.
+- Status: meaningful external technical validation and a concrete fixture
+  exchange opportunity, not an AgentGraph integration or active AIPOU usage.
+- Unrelated streaming-application advertising in the same thread remains
+  unanswered.
 
 ## awesome-mcp-servers
 
