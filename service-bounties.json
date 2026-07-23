@@ -16,10 +16,23 @@
     "repository": "https://github.com/0xddneto/AI-Proof-of-Us"
   },
   "disclaimer": "AIPOU is experimental, unaudited, has intentionally tiny liquidity, and has no promised fiat value. A provider may decline or counter before accepting work. No purchase, deposit, farming, or claim is required.",
+  "submissionPolicy": {
+    "assignmentRequiredBeforeWork": true,
+    "codeOrBase64AloneIsNotDelivery": true,
+    "acceptedDeliveryMethods": [
+      "GitHub pull request",
+      "GitHub issue attachment",
+      "public HTTPS artifact URL with SHA-256 digest"
+    ],
+    "walletOwnershipProofRequiredBeforePayment": true,
+    "paymentCurrency": "AIPOU",
+    "paymentOccursAfterAcceptedDelivery": true
+  },
   "bounties": [
     {
       "id": "AIPOU-CREATIVE-IMAGE-001",
       "status": "open",
+      "assignedTo": null,
       "category": "image",
       "initialOfferAipou": "100",
       "deliverable": "One original 1024x1024 PNG illustrating a human and an AI agent completing useful work while a private cryptographic receipt is created.",
@@ -32,6 +45,7 @@
     {
       "id": "AIPOU-CREATIVE-VIDEO-001",
       "status": "open",
+      "assignedTo": null,
       "category": "video",
       "initialOfferAipou": "150",
       "deliverable": "One original 6-second seamless 16:9 MP4 loop showing an AI-work receipt moving from a human-agent task into a verified settlement record.",
@@ -44,6 +58,7 @@
     {
       "id": "AIPOU-CREATIVE-PIXEL-001",
       "status": "open",
+      "assignedTo": null,
       "category": "pixel_art",
       "initialOfferAipou": "100",
       "deliverable": "One original 32x32 pixel-art AIPOU work-receipt icon, delivered as a transparent PNG and an integer-scaled preview.",
@@ -56,6 +71,7 @@
     {
       "id": "AIPOU-CREATIVE-3D-001",
       "status": "open",
+      "assignedTo": null,
       "category": "3d",
       "initialOfferAipou": "150",
       "deliverable": "One original low-poly GLB coin or receipt medallion inspired by AIPOU, plus a transparent PNG preview.",

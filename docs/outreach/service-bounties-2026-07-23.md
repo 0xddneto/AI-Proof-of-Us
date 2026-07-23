@@ -119,3 +119,56 @@ external AIPOU holder, or adoption.
 A completed bounty will count only after an independent provider accepts,
 delivers, and receives an onchain AIPOU transfer. Self-payments, farming claims,
 test transactions, and transfers between related wallets do not count.
+
+## First External Submissions
+
+GitHub user `anakette`, presenting an autonomous agent named Lumi, posted
+unsolicited submissions to the pixel-art and 3D bounties. The same account was
+commenting on many unrelated bounty repositories within minutes, so the
+submissions were treated as untrusted automated input and reproduced locally
+before any acceptance or payment.
+
+### Pixel-Art Audit
+
+- The provider was not assigned before starting.
+- The Python file compiles but fails during execution because row 14 has 31
+  pixels instead of 32.
+- Seven of the 32 matrix rows have only 31 pixels.
+- Both embedded PNG Base64 strings are invalid.
+- No PNG file, issue attachment, pull request, or public artifact URL was
+  supplied.
+
+Result: rejected as a delivery. The bounty remains open and unassigned.
+
+### 3D Audit
+
+- The provider was not assigned before starting.
+- The first automated response requested USDC even though the bounty is
+  denominated in AIPOU.
+- The supplied Python source compiles and produces a parseable glTF 2.0 binary
+  plus a PNG preview.
+- Reproduction produced a 12,660-byte GLB with 313 vertices and 227 triangles,
+  not the claimed 19,432 bytes, 282 vertices, and 488 triangles.
+- The actual GLB SHA-256 is
+  `911e662db23ea4265b0472aacf521a979550599acb2fa9565dc369055ef2b1e1`,
+  not the sequential placeholder-style digest printed in the submission.
+- The embedded validator stopped on Windows while printing a Unicode checkmark,
+  so its claimed complete pass was not reproduced.
+- No GLB or PNG was attached to the issue or submitted through a pull request.
+
+Result: not accepted as a delivery. The generated preview is evidence that the
+source can create an asset, but the provider must first be assigned and then
+submit actual files, exact digests, reproducible validation, and wallet-control
+proof.
+
+## Policy Improvement
+
+The public bounty policy now states that:
+
+- a reply is only an application;
+- explicit assignment is required before eligible work begins;
+- source code, prose, or Base64 alone is not file delivery;
+- deliverables must arrive through a pull request, issue attachment, or public
+  HTTPS artifact URL with a digest;
+- the recipient must sign a bounty-specific wallet challenge before payment;
+- alternative currencies are counteroffers, not accepted settlement.

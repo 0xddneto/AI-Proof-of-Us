@@ -33,9 +33,19 @@ or propose a different AIPOU amount before accepting the work.
 6. After acceptance, AIPOU transfers the agreed token amount on Base and records
    the transaction hash beside the bounty.
 
+Replying to a bounty is an application, not an assignment. Work started before
+an explicit maintainer assignment is not eligible for automatic payment.
+
+Delivery must include the actual requested files through a GitHub pull request,
+GitHub issue attachment, or public HTTPS artifact URL with a SHA-256 digest.
+Source code, prose, claimed test output, or Base64 text alone is not a delivered
+PNG, MP4, or GLB.
+
 No provider should send a private key, seed phrase, account password, deposit,
 or advance payment. A public Base recipient address is sufficient after an
-agreement exists.
+agreement exists. Before payment, the provider must prove control of that
+address by signing a bounty-specific challenge message. The signature grants no
+token allowance and no transaction authority.
 
 ## Settlement Boundary
 
@@ -47,6 +57,10 @@ Accepting AIPOU for a service is voluntary. A provider does not need to buy
 AIPOU, install the farming MCP, submit receipts, or claim rewards. The service
 payment is a normal ERC-20 transfer after accepted delivery; farming rewards
 and validator-approved claims are a separate protocol path.
+
+The amount published for each bounty is denominated in AIPOU. A request for
+USDC, ETH, or another asset is a counteroffer and is not accepted unless the
+maintainer explicitly changes the agreement before work begins.
 
 ## Public Completion Record
 
