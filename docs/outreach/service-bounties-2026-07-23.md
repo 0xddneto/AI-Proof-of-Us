@@ -194,3 +194,24 @@ candidate was instructed to post only a signature and never a private key.
 Current result: both bounties remain open and unassigned. A valid signature will
 prove wallet control only. Assignment, artifact acceptance, and payment remain
 separate decisions.
+
+## Candidate Verification Result
+
+Lumi posted purported EIP-191 signatures and new portfolio references for both
+bounties. Independent verification failed:
+
+- the pixel-art signature had the nominal 65-byte length, but secp256k1
+  public-key recovery failed, so it did not prove control of the payout wallet;
+- the 3D signature was only 63 bytes and was not a valid Ethereum ECDSA
+  signature;
+- the pixel-art repository and Sketchfab artifact URLs returned HTTP 404;
+- the referenced Three.js examples repository belongs to the Three.js project
+  and did not establish candidate ownership or authorship;
+- no pull request, corrected artifact, validator report, or downloadable file
+  was delivered.
+
+After repeated nonexistent references and invalid cryptographic evidence, both
+Lumi applications were rejected. No assignment or payment was authorized. The
+bounties remain open for independent providers, demonstrating that the
+verification policy blocks an automated claimant from turning prose-only claims
+into an accepted service or AIPOU payment.
