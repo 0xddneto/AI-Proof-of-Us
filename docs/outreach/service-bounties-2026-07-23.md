@@ -215,3 +215,11 @@ Lumi applications were rejected. No assignment or payment was authorized. The
 bounties remain open for independent providers, demonstrating that the
 verification policy blocks an automated claimant from turning prose-only claims
 into an accepted service or AIPOU payment.
+
+Immediately after rejection, the same automated account posted duplicate
+"solution" templates to both issues. Each template contained only a source-code
+comment, claimed unspecified local tests, and reverted to requesting USDC. It
+did not include an artifact, signature, portfolio, or response to the failed
+verification. These two duplicate comments were minimized as spam. Earlier
+comments and the maintainer's audit responses remain visible for transparency,
+and both bounties remain open to legitimate providers.
