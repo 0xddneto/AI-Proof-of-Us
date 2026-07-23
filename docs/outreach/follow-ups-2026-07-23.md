@@ -30,6 +30,10 @@ visited technical threads.
   `actionRef` and keeps `workReceiptId`, issuer, digest, scheme, and evidence
   class separate from score output. A score cannot replace a receipt or imply
   claim approval.
+- AIPOU reply:
+  https://github.com/microsoft/autogen/discussions/7476#discussioncomment-17757471
+- Offered next step: exchange one valid action-to-work receipt fixture and one
+  mismatch vector using only hashes and public verification material.
 - Status: meaningful external technical validation and a concrete fixture
   exchange opportunity, not an AgentGraph integration or active AIPOU usage.
 - Unrelated streaming-application advertising in the same thread remains
