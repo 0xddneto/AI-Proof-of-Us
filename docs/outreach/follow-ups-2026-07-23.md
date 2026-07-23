@@ -62,3 +62,25 @@ visited technical threads.
 - Boundary: these changes improve agent usability and directory quality only.
   They do not alter reward calculation, receipt validation, farming, claims, or
   token contracts.
+
+## UCP / Facet
+
+- Thread:
+  https://github.com/Universal-Commerce-Protocol/ucp/discussions/240
+- New response:
+  https://github.com/Universal-Commerce-Protocol/ucp/discussions/240#discussioncomment-17754214
+- Result: Facet confirmed the four-sibling boundary used by the AIPOU pilot.
+  Identity, payment authorization, response provenance, and the work receipt
+  remain independently signed and verified artifacts. An issuer-and-digest
+  reference does not become proof of useful work or a claim-approval decision.
+- AIPOU reply:
+  https://github.com/Universal-Commerce-Protocol/ucp/discussions/240#discussioncomment-17755574
+- Decision: keep the existing scheme-neutral digest links and fail-closed
+  tests. Do not invent a competing multi-artifact envelope before the host
+  envelope is agreed. AIPOU offered a neutral four-artifact fixture after the
+  referenced Facet envelope fields stabilize, with expected results proving
+  that no sibling upgrades another and that no envelope outcome implies AIPOU
+  claim approval.
+- Status: meaningful external technical validation and a concrete
+  interoperability path, not a UCP or Facet integration commitment and not
+  evidence of active AIPOU usage.
