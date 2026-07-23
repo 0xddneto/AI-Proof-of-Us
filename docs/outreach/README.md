@@ -15,6 +15,7 @@ The goal is to spread AIPOU through useful conversations with agent builders, MC
 - [door-to-door-2026-07-18.md](door-to-door-2026-07-18.md) records a new outreach round to ArmorerLabs, MCP core, A2A, and GitHub Community, plus drafts blocked by issue-comment UI limits.
 - [door-to-door-2026-07-21.md](door-to-door-2026-07-21.md) verifies the public demo, `0.4.0` persistent identity release, Glama listing, and external directory submissions.
 - [door-to-door-2026-07-22.md](door-to-door-2026-07-22.md) records the Glama trust manifest, GitHub `v0.4.0` release, current-version documentation fixes, and npm measurement checkpoint.
+- [service-bounties-2026-07-23.md](service-bounties-2026-07-23.md) records the first concrete image, video, pixel-art, and 3D commissions offered for AIPOU settlement and the targeted providers contacted.
 - [openclaw-roadshow.md](openclaw-roadshow.md) tracks OpenClaw automation status.
 - [roadshow-next-steps.md](roadshow-next-steps.md) turns feedback into product and outreach priorities.
 - [responses-log.md](responses-log.md) records AI and community feedback.
