@@ -43,12 +43,15 @@ Start here if you are building or testing an agent integration:
 - [Registry trust checklist](docs/registry-trust.md)
 - [Dated token health snapshot](docs/token-health-2026-07-10.md)
 - [BaseScan verification and token info](docs/basescan-verification.md)
+- [Creative service bounties paid in AIPOU](docs/service-bounties.md)
+- [Machine-readable open bounties](service-bounties.json)
 - [llms.txt](llms.txt), a compact machine-readable project map
 
 Read [From AI Work to Onchain Rewards](docs/farming-and-claims.md) for the complete journey, global farming workflow, reward calculation, and one-command claim experience.
 Read [Human Rewards and Agent Payments](docs/human-rewards-and-agent-payments.md) for the human reward loop and experimental agent-payment framing.
 Read [AIPOU Tokenomics and Launch Transparency](docs/tokenomics.md) for supply, pool, reward, and experimental launch details.
 Read [AIPOU Funding and Partnership Brief](docs/funding-and-partnerships.md) for the public Base grant, protocol partnership, and responsible-liquidity proposal.
+Read [AIPOU Creative Service Bounties](docs/service-bounties.md) to quote or accept a concrete image, video, pixel-art, or 3D commission settled in AIPOU after accepted delivery.
 Read [Evidence Boundaries](docs/evidence-boundaries.md) and [Claim Validation Policy](docs/claim-validation-policy.md) before proposing integrations with receipt, provenance, security, or payment projects.
 
 Official website: https://0xddneto.github.io/AI-Proof-of-Us/

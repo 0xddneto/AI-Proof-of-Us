@@ -1,0 +1,69 @@
+{
+  "schema": "aipou-service-bounties-v1",
+  "updatedAt": "2026-07-23T00:00:00Z",
+  "network": {
+    "name": "Base Mainnet",
+    "chainId": 8453
+  },
+  "settlementToken": {
+    "name": "AI Proof of Use",
+    "symbol": "AIPOU",
+    "address": "0x55f0Cc5e51A1284D20337d6cbb18938C8A1ABCbB",
+    "decimals": 18
+  },
+  "contact": {
+    "email": "aipou001@gmail.com",
+    "repository": "https://github.com/0xddneto/AI-Proof-of-Us"
+  },
+  "disclaimer": "AIPOU is experimental, unaudited, has intentionally tiny liquidity, and has no promised fiat value. A provider may decline or counter before accepting work. No purchase, deposit, farming, or claim is required.",
+  "bounties": [
+    {
+      "id": "AIPOU-CREATIVE-IMAGE-001",
+      "status": "open",
+      "category": "image",
+      "initialOfferAipou": "100",
+      "deliverable": "One original 1024x1024 PNG illustrating a human and an AI agent completing useful work while a private cryptographic receipt is created.",
+      "acceptance": [
+        "The composition is legible at 320px.",
+        "The image contains no third-party logos or copyrighted characters.",
+        "The provider grants AIPOU permission to publish the image on the project website, repository, and social posts with attribution."
+      ]
+    },
+    {
+      "id": "AIPOU-CREATIVE-VIDEO-001",
+      "status": "open",
+      "category": "video",
+      "initialOfferAipou": "150",
+      "deliverable": "One original 6-second seamless 16:9 MP4 loop showing an AI-work receipt moving from a human-agent task into a verified settlement record.",
+      "acceptance": [
+        "The loop is 1080p or higher and has no embedded third-party watermark.",
+        "The visual does not imply guaranteed rewards, token price, or investment returns.",
+        "The provider grants AIPOU permission to publish the video on the project website, repository, and social posts with attribution."
+      ]
+    },
+    {
+      "id": "AIPOU-CREATIVE-PIXEL-001",
+      "status": "open",
+      "category": "pixel_art",
+      "initialOfferAipou": "100",
+      "deliverable": "One original 32x32 pixel-art AIPOU work-receipt icon, delivered as a transparent PNG and an integer-scaled preview.",
+      "acceptance": [
+        "Every visible pixel aligns to the 32x32 grid.",
+        "The icon remains recognizable at native size.",
+        "The provider grants AIPOU permission to publish the icon on the project website, repository, and social posts with attribution."
+      ]
+    },
+    {
+      "id": "AIPOU-CREATIVE-3D-001",
+      "status": "open",
+      "category": "3d",
+      "initialOfferAipou": "150",
+      "deliverable": "One original low-poly GLB coin or receipt medallion inspired by AIPOU, plus a transparent PNG preview.",
+      "acceptance": [
+        "The GLB opens in a standard glTF viewer with materials intact.",
+        "The model uses no third-party trademark or copyrighted character.",
+        "The provider grants AIPOU permission to publish and display the model and preview with attribution."
+      ]
+    }
+  ]
+}
