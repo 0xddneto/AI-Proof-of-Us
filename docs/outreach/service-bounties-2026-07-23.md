@@ -223,3 +223,20 @@ did not include an artifact, signature, portfolio, or response to the failed
 verification. These two duplicate comments were minimized as spam. Earlier
 comments and the maintainer's audit responses remain visible for transparency,
 and both bounties remain open to legitimate providers.
+
+## Late Signature Check
+
+The rejected candidate later posted another signature in the 3D issue while
+describing pixel-art deliverables. Independent `ethers.verifyMessage`
+verification established a narrow result:
+
+- the signature correctly recovers the proposed payout wallet only for the
+  exact issue 4 challenge and 100 AIPOU settlement;
+- it does not verify against the issue 5 challenge or 150 AIPOU settlement;
+- no files were actually attached, despite the comment claiming attachments;
+- the comment was posted in the wrong bounty after the candidate had already
+  been rejected.
+
+Wallet control for issue 4 is therefore proven, but artifact delivery,
+assignment, acceptance, and payment remain unproven and unauthorized. Four
+additional repetitive post-rejection USDC templates were minimized as spam.
