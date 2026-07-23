@@ -37,7 +37,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json && esbuild src/index.ts --bundle --platform=node --format=esm --target=node20 --outfile=dist/index.js --external:dotenv --external:dotenv/* --external:ethers --external:merkletreejs --external:zod --external:zod/*",
-    "test": "npm run build && node --test dist/protocol.test.js dist/rewards.test.js dist/canonical.test.js dist/demo.test.js dist/doctor.test.js dist/init.test.js dist/receipt-metadata.test.js dist/version.test.js",
+    "test": "npm run build && node --test dist/protocol.test.js dist/rewards.test.js dist/canonical.test.js dist/demo.test.js dist/doctor.test.js dist/init.test.js dist/receipt-metadata.test.js dist/tool-metadata.test.js dist/version.test.js",
     "pack:check": "npm test && npm pack --dry-run",
     "demo": "npm run build && node dist/index.js --demo",
     "dev": "tsx src/index.ts",

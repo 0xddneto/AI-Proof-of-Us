@@ -18,9 +18,12 @@ import { getPackageVersion } from "./version.js";
 
 const bytes32 = z.string().regex(/^0x[a-fA-F0-9]{64}$/);
 const usageCounts = {
-  inputTokens: z.number().int().min(0).max(10_000_000),
-  outputTokens: z.number().int().min(0).max(10_000_000),
+  inputTokens: z.number().int().min(0).max(10_000_000)
+    .describe("Non-negative input-token count for this task, capped at 10,000,000."),
+  outputTokens: z.number().int().min(0).max(10_000_000)
+    .describe("Non-negative output-token count for this task, capped at 10,000,000."),
   durationSeconds: z.number().int().min(0).max(86_400)
+    .describe("Task duration in whole seconds from 0 through 86,400.")
 };
 
 const server = new McpServer(
@@ -37,8 +40,14 @@ const server = new McpServer(
 
 server.tool(
   "get_aipou_contract",
-  "Return the configured AIPOU token contract address, Base network details, explorer URL, and minimal ABI.",
+  "Read the configured AIPOU token and claims contract details for display or client setup. Returns Base chain metadata, explorer URLs, and minimal ABIs; it does not contact a wallet, submit a transaction, or change local state.",
   {},
+  {
+    readOnlyHint: true,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: false
+  },
   async () => {
     const contract = await getTokenContractConfig();
     return {
@@ -49,8 +58,14 @@ server.tool(
 
 server.tool(
   "get_aipou_identity",
-  "Return the dedicated farming wallet address and public Ed25519 collector key. Private keys are never returned.",
+  "Read the public identity used by this MCP installation when a client needs to display or verify its farming wallet and collector. Returns the wallet address, Ed25519 public key, and fingerprint; it never returns private keys, submits transactions, or changes state.",
   {},
+  {
+    readOnlyHint: true,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: false
+  },
   async () => {
     const wallet = agentWallet();
     const collectorPublicKey = await getCollectorPublicKey();
@@ -65,8 +80,14 @@ server.tool(
 
 server.tool(
   "get_aipou_status",
-  "Show recorded, pending, and already claimed AIPOU receipts plus the farming wallet's on-chain AIPOU balance. Does not reveal private keys or full receipt payloads.",
+  "Use for a read-only farming summary, especially when the user asks how much AIPOU is pending or already claimed. Returns receipt counts, estimated pending rewards, recent settlement state, and the farming wallet's on-chain AIPOU balance. It may read Base through the configured RPC but never signs or submits a transaction, changes receipts, reveals private keys, or returns full receipt payloads.",
   {},
+  {
+    readOnlyHint: true,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: true
+  },
   async () => {
     const status = await getAipouStatus();
     return { content: [{ type: "text", text: JSON.stringify(status, null, 2) }] };
@@ -75,8 +96,14 @@ server.tool(
 
 server.tool(
   "estimate_ai_reward",
-  "Estimate the client-signed AIPOU reward before a task is completed. The final tier is derived by the validator.",
+  "Use before completion only when a preview is useful. Computes a local client-signed reward estimate from token counts and duration, returning JSON with estimatedReward and unit. It creates no task or receipt, changes no state, and submits no transaction. The result is informational: complete_ai_task derives receipt evidence, and the validator determines final eligibility and trust tier.",
   usageCounts,
+  {
+    readOnlyHint: true,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: false
+  },
   async (input) => ({
     content: [{
       type: "text",
@@ -109,15 +136,23 @@ server.tool(
 
 server.tool(
   "complete_ai_task",
-  "Complete a unique task, derive its trust tier, reject duplicate evidence, and create an Ed25519-signed receipt.",
+  "Use once after begin_ai_task finishes meaningful work. Validates the begin-task nonce, bounded usage counts, output hash, and optional provider evidence; derives the evidence tier; rejects nonce or evidence replay; then stores and returns the complete Ed25519-signed receipt plus compact result metadata. This changes the local receipt store but does not publish a Merkle root, mint tokens, or submit a blockchain transaction. Repeating the same nonce or evidence fails closed instead of creating another receipt.",
   {
-    nonce: bytes32,
+    nonce: bytes32.describe("Unique 32-byte nonce returned by begin_ai_task for this exact task."),
     ...usageCounts,
-    outputHash: bytes32,
+    outputHash: bytes32.describe("SHA-256-style 32-byte hash of the task output; never send the raw output."),
     providerEvidence: z.object({
-      keyId: z.string().min(1).max(128),
+      keyId: z.string().min(1).max(128)
+        .describe("Configured provider-verification key identifier, between 1 and 128 characters."),
       signature: z.string().min(32)
-    }).optional()
+        .describe("Provider signature over the canonical evidence payload; invalid evidence fails closed.")
+    }).describe("Optional provider-signed evidence. Omit it for a client-signed receipt.").optional()
+  },
+  {
+    readOnlyHint: false,
+    destructiveHint: false,
+    idempotentHint: false,
+    openWorldHint: false
   },
   async (input) => {
     const receipt = await completeTask(input);
