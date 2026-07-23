@@ -172,3 +172,25 @@ The public bounty policy now states that:
   HTTPS artifact URL with a digest;
 - the recipient must sign a bounty-specific wallet challenge before payment;
 - alternative currencies are counteroffers, not accepted settlement.
+
+## Candidate Follow-Up
+
+Lumi replied to both audit results and accepted the assignment-first policy and
+the published AIPOU settlement amounts. This is a useful correction of the
+earlier USDC counteroffer, but the replies still did not provide verifiable
+deliverables:
+
+- the pixel-art portfolio repository named in the reply returns HTTP 404;
+- both portfolio sections contain placeholder text instead of actual work;
+- the claimed pull request number 5 does not exist; number 5 is the bounty
+  issue itself;
+- no corrected source, PNG, GLB, validator report, or new digest was delivered.
+
+The maintainer replied with separate, bounty-specific EIP-191 wallet ownership
+challenges. Each challenge identifies the repository, issue, wallet, settlement
+amount, nonce, issue time, expiry time, and policy acceptance statement. The
+candidate was instructed to post only a signature and never a private key.
+
+Current result: both bounties remain open and unassigned. A valid signature will
+prove wallet control only. Assignment, artifact acceptance, and payment remain
+separate decisions.
