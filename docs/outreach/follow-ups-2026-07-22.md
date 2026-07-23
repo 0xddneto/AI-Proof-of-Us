@@ -33,11 +33,12 @@ feedback or a concrete collaboration offer.
 - The contributor fixed the trailing newline and moved the constants out of
   the `Deprecated` section in commit `301044a`.
 - Latest review: https://github.com/traceloop/openllmetry/pull/4373#issuecomment-5050681023
-- The names and trust boundary now match AIPOU. One non-behavioral cleanup is
-  pending because the new section currently interrupts the existing Watson
-  attribute group instead of sitting before or after the complete group.
+- The names and trust boundary now match AIPOU. The contributor completed the
+  final source-organization cleanup in commit `708791a`, moving the complete
+  AIPOU section after the Watson attribute group.
 - Current status: external code contribution open and under review. This is a
-  concrete integration attempt, but it is not merged adoption yet.
+  concrete integration attempt and is ready from the AIPOU side, but it still
+  needs at least one approving OpenLLMetry maintainer review before merge.
 
 ## A2A
 
@@ -64,6 +65,14 @@ feedback or a concrete collaboration offer.
   private-key output.
 - Status: valid external directory submission under review; not listed until
   the pull request is merged.
+- Maintainer follow-up: https://github.com/punkpeye/awesome-mcp-servers/pull/10577#issuecomment-5051399149
+- Merge requirements: claim the AIPOU server listing on Glama and complete a
+  Glama quality evaluation. The repository already contains a valid root
+  `glama.json` declaring `0xddneto`, but the public score page still reports
+  `Author not verified` and `No Glama release`.
+- Next external action: authenticate the Glama claim with GitHub, configure and
+  deploy the Glama build, then publish a Glama release so server coherence,
+  tool-definition quality, and security checks can be evaluated.
 
 ## Model Context Protocol
 
