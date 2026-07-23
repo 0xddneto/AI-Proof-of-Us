@@ -34,9 +34,22 @@ visited technical threads.
   the directory rules, and announced that the pull request will be merged.
 - AIPOU thanked the maintainer and committed to keeping the listing,
   installation instructions, and quality evidence current.
-- Status: independently approved directory contribution awaiting the actual
-  merge event. This is a real distribution milestone, but it is not yet
-  evidence of an external install, receipt, claim, or active user.
+- Later triage regression:
+  https://github.com/punkpeye/awesome-mcp-servers/pull/10577#issuecomment-5063398685
+- Live diagnosis: Glama still shows release `0.1.0` and its prior successful
+  test in the authenticated admin, but the quality score reverted to not
+  tested. Repository sync remains stuck on commit `a48aa17`, the public API
+  returns an empty tools array, and no new test was created after a manual
+  Build & Release attempt.
+- Current AIPOU head `0e89763` contains the improved tool descriptions and
+  parameter documentation. A manual Glama sync was started but remained in
+  progress after several minutes.
+- Diagnostic reply:
+  https://github.com/punkpeye/awesome-mcp-servers/pull/10577#issuecomment-5063625912
+- Status: independently approved directory contribution whose merge is now
+  blocked by a reproduced Glama indexing/sync inconsistency. This remains a
+  distribution milestone, but not a completed merge or evidence of an external
+  install, receipt, claim, or active user.
 
 ## OpenLLMetry
 
