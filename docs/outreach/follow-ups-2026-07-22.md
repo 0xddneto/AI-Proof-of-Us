@@ -75,12 +75,19 @@ feedback or a concrete collaboration offer.
   public Base contract addresses and an ephemeral data directory are supplied
   as placeholders; no wallet key was uploaded.
 - Verification: the same pinned commit builds locally and all 38 MCP tests
-  pass. Two Glama build attempts remained in `pending` before any Docker or
-  instance logs were produced, so the release and quality evaluation are still
-  waiting on the external Glama build worker.
-- Next external action: allow the queued Build & Release test to complete, then
-  confirm the generated release and quality score before reporting completion
-  to the directory maintainer.
+  pass. The Glama worker initially remained in `pending`, but the subsequent
+  Build & Release job completed and published Glama release `v0.1.0`.
+- Quality page: https://glama.ai/mcp/servers/0xddneto/AI-Proof-of-Us/score
+- Initial evaluation: 67% checklist completion while the final tool score was
+  still processing. `get_aipou_identity` scored A (4.3/5),
+  `get_aipou_contract` scored A (4.4/5), `get_aipou_status` scored B (3.4/5),
+  and `complete_ai_task` scored C (2.6/5). The C result identifies missing
+  parameter descriptions, output expectations, side-effect disclosure, and
+  explicit guidance about when to use the completion tool.
+- Directory follow-up: https://github.com/punkpeye/awesome-mcp-servers/pull/10577#issuecomment-5053670051
+- Current status: ownership, release, and the public quality evaluation are
+  now visible. The listing PR remains open until a maintainer merges it; this
+  is directory progress, not evidence of external user adoption.
 
 ## Model Context Protocol
 
