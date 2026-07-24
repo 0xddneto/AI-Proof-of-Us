@@ -1,0 +1,22 @@
+{
+  "schema": "aipou-acp-work-evidence-v1",
+  "note": "Synthetic fixture. This is application metadata, not an ACP extension specification.",
+  "acpJobRef": "acp:job:demo-2026-07-24",
+  "actionRef": "sha256:72c7c23cf97f58f7d3ef339d3e1f799ffb76254f462d63a1fd131a50dc3e55ec",
+  "phase": "post_delivery",
+  "workEvidence": {
+    "type": "aipou.receipt",
+    "workReceiptId": "0x34d3be87d9dbe9aeced79bf1ddb299c94be78f5d355f4a9d22afc6dc6e01b08f",
+    "receiptId": "0x34d3be87d9dbe9aeced79bf1ddb299c94be78f5d355f4a9d22afc6dc6e01b08f",
+    "scheme": "aipou-receipt-v1",
+    "evidenceClass": "issuer_asserted",
+    "validationStatus": "local",
+    "taskHash": "0xa9c1dfb1b681d683c0e07f1853f748f5245bace36347f04135ba2136ddb0583c",
+    "outputHash": "0xf8d6e1b89e94b1f1c3b6a7ef079adce9fe9c762a2d146e83cd4432c56a777482"
+  },
+  "paymentEvidence": {
+    "paymentReceiptId": "acp-payment:separate-rail-reference",
+    "verificationOwner": "ACP payment rail",
+    "status": "not_asserted_by_aipou"
+  }
+}
