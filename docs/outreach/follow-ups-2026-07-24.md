@@ -7,6 +7,8 @@ AIPOU response. Technical validation remains separate from adoption.
 
 - Feedback:
   https://github.com/a2aproject/A2A/discussions/1341#discussioncomment-17772347
+- Reply:
+  https://github.com/a2aproject/A2A/discussions/1341#discussioncomment-17773289
 - Finding: a resolvable reference must never be treated as a passed
   verification check. Correlation is not entailment.
 - AIPOU impact: the claims path did not consume external evidence links as
