@@ -7,7 +7,8 @@ import {
   sha256Digest,
   signExternalEvidenceLink,
   validateArtifactContent,
-  validateExternalEvidenceLink
+  validateExternalEvidenceLink,
+  verifyExternalEvidenceArtifacts
 } from "./external-evidence-link.mjs";
 
 const issuedAt = "2026-07-14T15:30:00.000Z";
@@ -120,4 +121,43 @@ test("fails closed on digest mutation, raw content, and unsupported relations", 
     target: aipouAiirLink.target
   }));
   assert.throws(() => validateArtifactContent(aipouAiirLink.source, "different-content"));
+});
+
+test("does not treat a resolvable link as verified evidence", async () => {
+  const artifacts = new Map([
+    [aipouAiirLink.source.id, aipouReceipt],
+    [aipouAiirLink.target.id, aiirBundle]
+  ]);
+  const resolveArtifact = async (reference) => artifacts.get(reference.id);
+
+  await assert.rejects(
+    verifyExternalEvidenceArtifacts(aipouAiirLink, { resolveArtifact }),
+    /protocol verifier/
+  );
+  await assert.rejects(
+    verifyExternalEvidenceArtifacts(aipouAiirLink, {
+      resolveArtifact,
+      verifyArtifact: async (reference) => reference.id !== aipouAiirLink.target.id
+    }),
+    /Target artifact protocol verification failed/
+  );
+  assert.equal(
+    await verifyExternalEvidenceArtifacts(aipouAiirLink, {
+      resolveArtifact,
+      verifyArtifact: async () => true
+    }),
+    true
+  );
+});
+
+test("fails closed when resolved artifact bytes do not match the reference", async () => {
+  await assert.rejects(
+    verifyExternalEvidenceArtifacts(aipouAiirLink, {
+      resolveArtifact: async (reference) => (
+        reference.id === aipouAiirLink.source.id ? "mutated-content" : aiirBundle
+      ),
+      verifyArtifact: async () => true
+    }),
+    /Artifact content does not match its digest/
+  );
 });

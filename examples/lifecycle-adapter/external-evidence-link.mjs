@@ -152,3 +152,31 @@ export function validateArtifactContent(reference, content) {
   }
   return true;
 }
+
+export async function verifyExternalEvidenceArtifacts(
+  link,
+  { requireSignature = false, resolveArtifact, verifyArtifact } = {}
+) {
+  validateExternalEvidenceLink(link, { requireSignature });
+  if (typeof resolveArtifact !== "function") {
+    throw new Error("External evidence verification requires an artifact resolver");
+  }
+  if (typeof verifyArtifact !== "function") {
+    throw new Error("External evidence verification requires a protocol verifier");
+  }
+
+  for (const [label, reference] of [
+    ["Source", link.source],
+    ["Target", link.target]
+  ]) {
+    const content = await resolveArtifact(reference);
+    if (content === undefined || content === null) {
+      throw new Error(`${label} artifact could not be resolved`);
+    }
+    validateArtifactContent(reference, content);
+    if (await verifyArtifact(reference, content) !== true) {
+      throw new Error(`${label} artifact protocol verification failed`);
+    }
+  }
+  return true;
+}

@@ -91,6 +91,11 @@ AIPOU should be presented as complementary to:
 
 Those systems can decide whether an AIPOU `receiptId` is useful as external evidence. They should not be expected to validate AIPOU rewards or token claims.
 
+An artifact that resolves successfully is not automatically verified. A URI,
+ID, or digest can correlate sibling artifacts, but each artifact must still
+pass its own verifier before it can affect authority, reputation, payment, or
+reward state.
+
 ## Receipt Verification vs Claim Validation
 
 AIPOU separates receipt verification from reward validation.

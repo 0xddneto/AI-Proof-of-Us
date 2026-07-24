@@ -98,6 +98,26 @@ The validator fails closed on:
 
 A receiver must still run each referenced protocol's own verifier. A valid external link cannot upgrade `issuer_asserted` evidence into chain-derived or provider-endorsed evidence.
 
+Resolution is not verification. Finding bytes at a URI, resolving an ID, or
+matching a content digest proves only availability and integrity. It does not
+prove that the referenced artifact passed its protocol verifier. Correlation is
+not entailment: the presence of one valid sibling artifact cannot validate or
+upgrade another.
+
+The reference implementation makes these stages explicit:
+
+1. `validateExternalEvidenceLink` validates the relation envelope, its digest,
+   and any required link signature.
+2. `verifyExternalEvidenceArtifacts` resolves both artifacts and rejects
+   content that does not match the referenced digests.
+3. The caller-supplied `verifyArtifact` callback must return `true` for each
+   artifact under its own protocol. A missing verifier, unresolved artifact,
+   digest mismatch, or failed protocol check is rejected.
+
+No reward, reputation, authority, payment, or claim decision should consume a
+link as a passed check before all required artifact verifiers and the
+downstream policy have succeeded.
+
 ## Privacy
 
 Version 1 permits only `privacy: "digest_only"`. Artifact references must not contain raw prompts, outputs, private files, keys, or personal data. SHA-256 digests can still leak information when the input space is small or guessable, so private artifacts should use high-entropy salts or remain unlinked when correlation risk is unacceptable.
