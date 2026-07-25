@@ -21,5 +21,11 @@ AIPOU response. Technical validation remains separate from adoption.
   explicitly that resolution, availability, and digest integrity do not
   establish protocol verification, authority, payment, reputation, or reward
   eligibility.
-- Status: actionable external review implemented; not A2A or Concordia
-  adoption.
+- External confirmation:
+  https://github.com/a2aproject/A2A/discussions/1341#discussioncomment-17773654
+- Result: Erik Newton confirmed that the fail-closed caller-supplied verifier
+  and the resolvable-but-unverified negative test address the relevant
+  integrator failure mode. No further reply was added because the confirmation
+  contained no new question or requested change.
+- Status: actionable external review implemented and independently confirmed;
+  not A2A or Concordia adoption.
