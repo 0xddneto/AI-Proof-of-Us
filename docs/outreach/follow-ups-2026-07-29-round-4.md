@@ -22,6 +22,14 @@ Summary of the change:
 - the same LLM that makes the claim should not write the host's authoritative evidence keys;
 - `workReceiptId` remains a sibling post-work artifact for correlation, audit, and optional reward or settlement flows.
 
+## Public reply posted
+
+- A follow-up reply was posted on the LangGraph thread after the docs update.
+- Message focus:
+  - the recommendation was adopted on the AIPOU side;
+  - the host-derived-evidence rule is now explicit in the public docs;
+  - the baseline is now `host-derived evidence first, external receipt second`.
+
 ## Hermes note
 
 - Thread: <https://github.com/NousResearch/hermes-agent/issues/16462>
