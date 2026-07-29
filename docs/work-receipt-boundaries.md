@@ -30,6 +30,17 @@ human asks for work -> agent performs work -> AIPOU creates workReceiptId -> opt
 
 For external integrations, `workReceiptId` is the preferred alias for an AIPOU `receiptId` when the receipt represents a meaningful unit of AI-assisted work. The onchain claim system still uses `receiptId`; `workReceiptId` is an interoperability name that makes the scope clearer.
 
+The host system should derive its own evidence first. If a framework, workflow,
+or graph wants to claim "tests passed", "artifact produced", or "delivery
+completed", those keys should come from host-controlled state and captured tool
+output, not from the same model writing the claim in free text or JSON.
+
+AIPOU belongs after that:
+
+```text
+host-derived completion evidence -> AIPOU workReceiptId as sibling post-work evidence
+```
+
 Use AIPOU for:
 
 - coding, debugging, research, writing, review, or coordination tasks
@@ -94,6 +105,10 @@ Choose the attachment point based on the boundary being verified:
 | Marketplace payout | payout evidence | `workReceiptId` and validation status |
 
 For artifact-lineage systems, prefer an opaque provider-neutral reference in lineage metadata and mirror it into the run-level audit summary. Do not insert an external `workReceiptId` into the host's native chain of custody. The [lineage metadata example](lineage-attestation-metadata.md) keeps the receipt `issuer_asserted`, deterministic under replay, and separate from wallet, reward, and claim semantics.
+
+Do not let an external `workReceiptId` become the host's only proof that a task
+finished. The host should be able to explain completion without trusting AIPOU,
+and AIPOU should be able to reference that work boundary without replacing it.
 
 Avoid putting AIPOU data on every log line. A work receipt should mark a meaningful unit of work, not create noisy metadata.
 

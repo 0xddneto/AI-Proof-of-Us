@@ -12,6 +12,23 @@ The framework only needs to know that a task started, a task ended, and a receip
 
 When the receipt represents a meaningful human/agent work unit, expose the returned AIPOU `receiptId` as `workReceiptId` in external metadata. The native AIPOU value does not change; `workReceiptId` is the integration-friendly name.
 
+## Host-Derived Evidence First
+
+The host framework should derive its own completion or audit evidence from
+graph state, captured tool output, exit codes, checkpoints, or stored artifact
+digests. Do not let the same LLM that makes the claim write the host's
+authoritative evidence keys.
+
+Use this order:
+
+```text
+host derives completion evidence -> optional external AIPOU workReceiptId attaches afterward
+```
+
+That keeps the host's native completion truth native, while AIPOU remains a
+sibling post-work artifact for correlation, audit, rewards, or later optional
+settlement.
+
 ## Minimal Integration Surface
 
 At task start, the adapter calls `begin_ai_task` with:
@@ -45,6 +62,10 @@ The adapter can then expose:
   "outputHash": "0x..."
 }
 ```
+
+The object above is external receipt metadata. It must not replace the host's
+own completion record. If the framework already records structured evidence,
+keep that evidence authoritative and attach `workReceiptId` beside it.
 
 ## Where To Attach `receiptId`
 

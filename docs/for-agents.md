@@ -28,6 +28,11 @@ Frameworks can integrate AIPOU as a thin lifecycle adapter. They only need task 
 See [Framework Lifecycle Adapter](framework-lifecycle-adapter.md).
 See [Work Receipt Boundaries](work-receipt-boundaries.md) for how to place `workReceiptId` beside tool-call receipts, traces, audit artifacts, and payment records.
 
+The host should derive its own evidence first. Completion status, test results,
+checkpoint state, and captured tool output belong to the framework or
+orchestrator. AIPOU should attach afterward as sibling post-work evidence,
+never as the host's only source of completion truth.
+
 ## Trust Model For Integrators
 
 Treat AIPOU as the receipt layer in a three-part model:
