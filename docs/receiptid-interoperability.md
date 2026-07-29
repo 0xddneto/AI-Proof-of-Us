@@ -208,6 +208,12 @@ When a framework also has a pre-action authority receipt, use a separate version
 
 The authority artifact must exist before execution. The AIPOU work receipt is created after completion. A claim, reward amount, Merkle inclusion, or settlement transaction is post-work state and must never be interpreted as authority to act.
 
+If the host already seals its pre-action authority artifact, keep that seal
+unchanged. AIPOU should reference the sealed authority artifact inward by its
+stable receipt ID, digest, `actionRef`, covenant hash, or equivalent native
+binding fields. Do not ask the host to append AIPOU-specific external-receipt
+links into the sealed artifact after the fact.
+
 The signed receipt payload is `issuer_asserted`: the collector signed it and validators may accept it under published policy. Onchain settlement data is narrower: a Merkle proof and claim transaction can show inclusion and claimed state for a `receiptId`, but they do not make the private task payload itself `chain_derivable`.
 
 They should not claim:
