@@ -73,6 +73,19 @@ The opaque reference is not a wallet address, credential, card token, prompt,
 or payment secret. The two digests bind exact artifacts without publishing
 their contents.
 
+## AIPOU Bridge Tool
+
+The AIPOU MCP now exposes `create_paybox_work_link`. It builds the envelope
+above from an existing `workReceiptId`, an opaque Paybox operation reference,
+and the SHA-256 digest of the operation artifact. It is deliberately
+read-only: it does not connect to Paybox, unlock a vault, request a payment,
+sign a wallet operation, persist a credential, submit a claim, or mint AIPOU.
+
+This is a bridge, not a fork of Paybox. The public Paybox SDK is Apache-2.0,
+but the published source-repository URL was not available for an upstream fork
+when this profile was created. AIPOU therefore keeps an independent MIT
+implementation and only uses the public protocol boundary.
+
 ## Required Safety Rules
 
 - AIPOU never receives, stores, or asks for a Paybox credential or private key.

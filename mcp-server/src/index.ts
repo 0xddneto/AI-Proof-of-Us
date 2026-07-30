@@ -12,6 +12,7 @@ import { agentWallet } from "./identity.js";
 import { describeExistingIdentity, initializePersistentIdentity } from "./init.js";
 import { beginTask, completeTask, exportReceipts } from "./receipts.js";
 import { buildReceiptResultMeta } from "./receipt-metadata.js";
+import { createPayboxWorkLink } from "./paybox-link.js";
 import { estimateReward } from "./rewards.js";
 import { getAipouStatus } from "./status.js";
 import { getPackageVersion } from "./version.js";
@@ -171,6 +172,30 @@ server.tool(
     const receipts = await exportReceipts(wallet);
     return { content: [{ type: "text", text: JSON.stringify({ count: receipts.length, receipts }, null, 2) }] };
   }
+);
+
+server.tool(
+  "create_paybox_work_link",
+  "Create a digest-only external evidence link between an existing AIPOU workReceiptId and an opaque Paybox operation artifact. This tool never calls Paybox, unlocks a wallet, creates a payment, signs a transaction, or changes AIPOU claim eligibility. Verify both artifacts with their native systems before relying on the link.",
+  {
+    workReceiptId: z.string().regex(/^0x[a-f0-9]{64}$/)
+      .describe("Existing lowercase AIPOU workReceiptId."),
+    payboxOperationId: z.string().min(1).max(256)
+      .describe("Opaque Paybox operation reference. Never send a credential, wallet address, payment token, or secret."),
+    payboxOperationDigest: z.string().regex(/^sha256:[a-f0-9]{64}$/)
+      .describe("Lowercase SHA-256 digest of the Paybox operation artifact bytes."),
+    issuedAt: z.string().datetime()
+      .describe("ISO-8601 time at which this correlation artifact is issued.")
+  },
+  {
+    readOnlyHint: true,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: false
+  },
+  async (input) => ({
+    content: [{ type: "text", text: JSON.stringify(createPayboxWorkLink(input), null, 2) }]
+  })
 );
 
 server.tool(
