@@ -12,6 +12,8 @@ export type PayboxWorkLinkInput = {
 
 export type PayboxWorkLink = {
   scheme: typeof EXTERNAL_EVIDENCE_LINK_SCHEME;
+  /** Stable logical identity that excludes issuedAt for retry-safe deduplication. */
+  linkId: string;
   relation: "supports";
   source: {
     kind: "receipt";
@@ -55,7 +57,7 @@ function assertValidInput(input: PayboxWorkLinkInput): void {
 export function createPayboxWorkLink(input: PayboxWorkLinkInput): PayboxWorkLink {
   assertValidInput(input);
 
-  const payload = {
+  const identity = {
     scheme: EXTERNAL_EVIDENCE_LINK_SCHEME as typeof EXTERNAL_EVIDENCE_LINK_SCHEME,
     relation: "supports" as const,
     source: {
@@ -70,12 +72,17 @@ export function createPayboxWorkLink(input: PayboxWorkLinkInput): PayboxWorkLink
       id: input.payboxOperationId,
       digest: input.payboxOperationDigest
     },
-    privacy: "digest_only" as const,
+    privacy: "digest_only" as const
+  };
+
+  const payload = {
+    ...identity,
     issuedAt: input.issuedAt
   };
 
   return {
     ...payload,
+    linkId: `sha256:${sha256Hex(canonicalJson(identity)).slice(2)}`,
     linkDigest: `sha256:${sha256Hex(canonicalJson(payload)).slice(2)}`
   };
 }

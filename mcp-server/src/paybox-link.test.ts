@@ -18,6 +18,7 @@ test("creates a digest-only Paybox to AIPOU work link without payment authority"
   assert.equal(link.target.scheme, "paybox-operation-v1");
   assert.equal(link.target.id, input.payboxOperationId);
   assert.equal(link.target.digest, input.payboxOperationDigest);
+  assert.match(link.linkId, /^sha256:[0-9a-f]{64}$/);
   assert.match(link.linkDigest, /^sha256:[0-9a-f]{64}$/);
   assert.equal("wallet" in link, false);
   assert.equal("paymentStatus" in link, false);
@@ -27,9 +28,17 @@ test("creates a digest-only Paybox to AIPOU work link without payment authority"
 
 test("is deterministic and changes when the external artifact changes", () => {
   assert.equal(createPayboxWorkLink(input).linkDigest, createPayboxWorkLink(input).linkDigest);
+  assert.equal(
+    createPayboxWorkLink(input).linkId,
+    createPayboxWorkLink({ ...input, issuedAt: "2026-07-30T14:30:00.000Z" }).linkId
+  );
   assert.notEqual(
     createPayboxWorkLink(input).linkDigest,
-    createPayboxWorkLink({ ...input, payboxOperationDigest: `sha256:${"ef".repeat(32)}` }).linkDigest
+    createPayboxWorkLink({ ...input, issuedAt: "2026-07-30T14:30:00.000Z" }).linkDigest
+  );
+  assert.notEqual(
+    createPayboxWorkLink(input).linkId,
+    createPayboxWorkLink({ ...input, payboxOperationDigest: `sha256:${"ef".repeat(32)}` }).linkId
   );
 });
 

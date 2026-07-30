@@ -39,7 +39,21 @@ or private keys.
 - AIIR discussion #208 returned GitHub 404 during this pass, so no message was forced.
 - OpenClaw/ClawHub issue #2946 is about skill review and is closed. A payment-control-plane update would not have been relevant there, so no duplicate or off-topic reply was posted.
 
+## A2A follow-up applied
+
+After the update, [A2A feedback](https://github.com/a2aproject/A2A/discussions/1341#discussioncomment-17842096)
+confirmed that an MCP-level payment-control placement can preserve the same
+receipt boundaries. It also highlighted a concrete idempotency rule: an action
+identity must not include wall-clock time, otherwise retries of the same
+logical operation fail to deduplicate.
+
+AIPOU applied that rule to the Paybox bridge:
+
+- `linkId` is now derived only from immutable relation fields;
+- `issuedAt` remains auditable metadata and stays in `linkDigest`;
+- a regression test proves reissuing the same relation at a different time
+  preserves `linkId` while changing the full-envelope digest.
+
 ## Public technical reference
 
 - [Paybox + AIPOU interoperability proposal](../paybox-interoperability.md)
-

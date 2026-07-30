@@ -81,6 +81,12 @@ and the SHA-256 digest of the operation artifact. It is deliberately
 read-only: it does not connect to Paybox, unlock a vault, request a payment,
 sign a wallet operation, persist a credential, submit a claim, or mint AIPOU.
 
+`linkId` derives only from immutable relation fields. It excludes `issuedAt`,
+so retrying the same logical link produces the same idempotency key.
+`linkDigest` covers the full emitted envelope, including `issuedAt`, for audit
+of that specific artifact. Consumers should deduplicate by `linkId`, never by
+wall-clock data.
+
 This is a bridge, not a fork of Paybox. The public Paybox SDK is Apache-2.0,
 but the published source-repository URL was not available for an upstream fork
 when this profile was created. AIPOU therefore keeps an independent MIT
