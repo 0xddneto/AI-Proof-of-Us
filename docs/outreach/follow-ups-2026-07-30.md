@@ -47,6 +47,10 @@ Thursday, July 30, 2026.
 - Status:
   already applied in commit `68bfc59`; no further code change was needed in
   this sweep.
+- Follow-up posted:
+  confirmed that AIPOU now treats the wall-clock-free relation key as a
+  reusable best-practice pattern across placements, not as a claim that one
+  concrete placement is the normative architecture.
 
 ### UCP decision provenance thread
 
@@ -61,6 +65,9 @@ Thursday, July 30, 2026.
   authorization and separate again from AIPOU work receipts. The useful shape is
   likely optional external references to fulfillment, return, or outcome
   records, not turning AIPOU into a merchant-score authority.
+- Follow-up posted:
+  answered that merchant outcome quality belongs on the same trust roadmap but
+  in a different lane from both payment authorization and AIPOU work receipts.
 
 ### open-swe AgentPay thread
 
@@ -73,6 +80,36 @@ Thursday, July 30, 2026.
 - AIPOU position:
   first win is transparency and debugging; routing comes after raw provider
   usage is preserved in a way that operators can audit.
+- Follow-up posted:
+  answered that raw provider usage should stay beside normalized totals and
+  linked the updated framework guidance.
+
+### AutoGen PR scope
+
+- Thread:
+  <https://github.com/microsoft/autogen/pull/7961>
+- New response:
+  `tamish560` recommended the narrower `Workbench.call_tool(...)` binding as the
+  real execution chokepoint.
+- AIPOU position:
+  keep the current upstream PR scoped as reviewed, while treating the workbench
+  boundary as the better next-step production attachment point.
+- Follow-up posted:
+  linked the updated AIPOU docs and explicitly said that a workbench-shaped
+  upstream recipe would be better shipped as a follow-up rather than by
+  rewriting the current PR mid-review.
+
+## AIPOU repository conversations
+
+Clarification comments were also posted on the open bounty pull requests that
+still needed an explicit review state:
+
+- PR `#6`: concrete artifact received, under review, no approval or payout yet.
+- PR `#7`: concrete artifact received, under review, no approval or payout yet.
+- PR `#8`: patch-only submission; asked for the actual icon assets.
+- PR `#9`: patch-only submission; asked for the actual 1024x1024 image asset.
+- PR `#12`: one generic mock file cannot satisfy four separate bounty scopes;
+  asked to split by bounty and include the real deliverables.
 
 ## Threads without a required new reply
 
