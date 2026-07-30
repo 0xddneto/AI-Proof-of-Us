@@ -1,46 +1,93 @@
 # Follow-Ups - July 30, 2026
 
-## ElizaOS trust-model fixture response
+## What was checked
 
-- Thread: <https://github.com/orgs/elizaOS/discussions/9810>
-- New external response: <https://github.com/orgs/elizaOS/discussions/9810#discussioncomment-17839078>
+I re-checked the active AIPOU GitHub conversations and notification inbox on
+Thursday, July 30, 2026.
 
-Kawacukennedy agreed that the useful post-work receipt surface should remain
-modest after the verifier-failure field report. They proposed making the trust
-model trinary executable with:
+## Positive recommendations applied locally
 
-1. a `chain_derivable` delegation-scope authority fixture before action;
-2. an `issuer_asserted` AIPOU post-work fixture linked by `preActionFactId`;
-3. a fail-closed case that labels an issuer-style receipt as `chain_derivable`.
+### AutoGen binding point
 
-## AIPOU change applied
+- Source: `tamish560` on
+  <https://github.com/microsoft/autogen/pull/7961#issuecomment-5132834553>
+- Recommendation:
+  prefer a real `Workbench.call_tool(...)` wrapper as the first AutoGen
+  enforcement point, instead of treating `DefaultInterventionHandler.on_send`
+  as the final integration target.
+- AIPOU change:
+  updated `examples/autogen-intervention/README.md` and
+  `docs/framework-lifecycle-adapter.md` to distinguish:
+  - the current public intervention fixture as the smallest runnable example;
+  - the workbench boundary as the narrower production attachment point.
 
-Commit [`43e5c06`](https://github.com/0xddneto/AI-Proof-of-Us/commit/43e5c06)
-adds an explicit conformance guard:
+### Usage visibility beside normalized totals
 
-- a `chain_derivable + delegation-scope-v1` authority cannot carry
-  AIPOU-specific collector fields such as `collectorSignature`;
-- the guard intentionally does not prescribe how external authority systems
-  encode their own signatures;
-- a named negative test proves the rejection path.
+- Source: `richardchen874-sys` on
+  <https://github.com/langchain-ai/open-swe/discussions/1106>
+- Recommendation:
+  preserve raw provider usage beside normalized totals so debugging,
+  optimization, and reconciliation do not collapse into one opaque cost number.
+- AIPOU change:
+  `docs/framework-lifecycle-adapter.md` now recommends keeping provider,
+  model, request type, prompt/output tokens, cached-token behavior, latency,
+  retry count, and billing bucket together when a framework projects receipt
+  metadata into cost or routing telemetry.
 
-The lifecycle-adapter suite passed all 34 tests after the change.
+## External conversation state
 
-## Response posted
+### A2A payment-state thread
 
-AIPOU replied that the fixture bundle now contains:
+- Thread:
+  <https://github.com/a2aproject/A2A/discussions/1341>
+- New response:
+  `chopmob-cloud` validated the stable-id split after the recent Paybox bridge
+  correction: immutable relation fields belong in the idempotent `linkId`,
+  while `issuedAt` stays in the audit digest.
+- Status:
+  already applied in commit `68bfc59`; no further code change was needed in
+  this sweep.
 
-- the pinned positive Kuberna authority/work link;
-- a mismatched authority fact link;
-- a chain-derived relabeling vector carrying an AIPOU collector field.
+### UCP decision provenance thread
 
-The response keeps the scope honest: this is executable interoperability
-evidence for trust boundaries, not certification of execution quality and not
-an ElizaOS integration claim.
+- Thread:
+  <https://github.com/Universal-Commerce-Protocol/ucp/discussions/56>
+- New response:
+  `privilegemendes` raised the merchant-outcome side of trust: not only whether
+  an agent is authorized, but whether a merchant actually delivers good
+  outcomes.
+- AIPOU position:
+  merchant quality should stay a separate evidence stream from payment
+  authorization and separate again from AIPOU work receipts. The useful shape is
+  likely optional external references to fulfillment, return, or outcome
+  records, not turning AIPOU into a merchant-score authority.
 
-## Bounty inbox check
+### open-swe AgentPay thread
 
-The July 30 notifications for AIPOU bounty issues #2 through #5 were the
-maintainer clarification comments posted in the previous round. No new
-reviewable artifact delivery or payout-eligible external response appeared in
-this sweep.
+- Thread:
+  <https://github.com/langchain-ai/open-swe/discussions/1106>
+- New response:
+  `richardchen874-sys` asked whether the first practical win is user-facing cost
+  transparency, internal spend debugging, or routing cheaper calls to cheaper
+  models.
+- AIPOU position:
+  first win is transparency and debugging; routing comes after raw provider
+  usage is preserved in a way that operators can audit.
+
+## Threads without a required new reply
+
+These remained either already answered or without a fresh substantive external
+question in this pass:
+
+- ElizaOS discussion `#9810`
+- AIR Gate discussion `#39`
+- AutoGen authority discussion `#7752`
+- AgentGraph / AutoGen trust discussion `#7476`
+- OpenLLMetry PR `#4373`
+- Bernstein discussion `#2494`
+
+## Net result
+
+This pass produced two concrete local documentation improvements and identified
+two public threads worth answering in plain terms: UCP on merchant outcome trust
+and open-swe on raw-versus-normalized usage visibility.

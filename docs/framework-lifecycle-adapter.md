@@ -63,6 +63,22 @@ The adapter can then expose:
 }
 ```
 
+If the host already tracks provider usage or billing telemetry, keep both the
+raw provider numbers and any normalized totals. They answer different
+questions. A routing or observability layer should preserve at least:
+
+- provider
+- model
+- request type
+- prompt and output tokens
+- cached-token behavior when available
+- latency
+- retry count
+- final billing bucket or normalized cost class
+
+That makes future spend debugging, route selection, and reconciliation easier
+without asking AIPOU to become a billing engine.
+
 The object above is external receipt metadata. It must not replace the host's
 own completion record. If the framework already records structured evidence,
 keep that evidence authoritative and attach `workReceiptId` beside it.
@@ -117,7 +133,14 @@ The reference adapter exposes `runEnforcementBenchmark` so a framework can execu
 
 For comparable results, `enforcementPoint.kind` uses `protected_branch`, `sandbox_boundary`, or `orchestrator_policy`. Extensions must use `custom:<name>`, making non-standard boundaries visible instead of silently fragmenting the vocabulary.
 
-The first recommended application binding is the tool execution boundary: check authority before invoking a side-effecting tool, execute only when allowed, and record post-call evidence afterward. A denial should be structured so the agent can request authority or choose another path. The reference `createToolExecutionPolicyGate` returns `AIPOU_AUTHORITY_REQUIRED` with `canRequestAuthority: true` and performs no protected mutation. AutoGen Core exposes a compatible interception pattern through its intervention handler around tool execution; the AIPOU fixture does not claim that a production AutoGen adapter has been installed.
+The first recommended application binding is the tool execution boundary: check authority before invoking a side-effecting tool, execute only when allowed, and record post-call evidence afterward. A denial should be structured so the agent can request authority or choose another path. The reference `createToolExecutionPolicyGate` returns `AIPOU_AUTHORITY_REQUIRED` with `canRequestAuthority: true` and performs no protected mutation.
+
+For AutoGen specifically, the narrowest typed chokepoint is a `Workbench.call_tool(...)`
+wrapper. It sees the invocation right where a workbench is about to execute the
+tool and can return a structured denial as a `ToolResult` without intercepting
+unrelated runtime messages. The AIPOU repository still keeps the smaller
+`DefaultInterventionHandler` fixture because it is easy to reproduce in public,
+but the preferred real binding point is the workbench boundary.
 
 Do not mark every denial as recoverable. A permanently forbidden action returns `AIPOU_ACTION_FORBIDDEN` with `canRequestAuthority: false`; the reference agent loop does not request authority, retry, or execute the tool. A temporarily unauthorized action returns `AIPOU_AUTHORITY_REQUIRED`, requests authority once, and retries once with the matching receipt.
 
