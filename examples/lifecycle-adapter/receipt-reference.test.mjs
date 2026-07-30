@@ -360,6 +360,16 @@ test("fails closed on conformance trust-model downgrade", () => {
   }, base));
 });
 
+test("rejects an authority relabeled chain-derivable while carrying AIPOU issuer fields", () => {
+  assert.throws(() => validateAuthorityWorkConformanceLink({
+    ...conformanceLink,
+    authority: {
+      ...conformanceLink.authority,
+      collectorSignature: "synthetic-ed25519-signature"
+    }
+  }, base));
+});
+
 test("fails closed when post-work evidence points to another authority fact", () => {
   assert.throws(() => validateAuthorityWorkConformanceLink({
     ...conformanceLink,

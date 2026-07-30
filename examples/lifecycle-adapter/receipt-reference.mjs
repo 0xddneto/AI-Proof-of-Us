@@ -12,6 +12,16 @@ export const ENFORCEMENT_POINT_KINDS = new Set([
   "orchestrator_policy"
 ]);
 export const CHAIN_AUTHORITY_SCHEMES = new Set(["delegation-scope-v1"]);
+export const AIPOU_ISSUER_ASSERTED_FIELDS = new Set([
+  "collectorFingerprint",
+  "collectorPublicKey",
+  "collectorSignature",
+  "walletAuthorization",
+  "taskHash",
+  "outputHash",
+  "trustTier",
+  "workReceiptId"
+]);
 
 const SHA256_DIGEST = /^sha256:[0-9a-f]{64}$/;
 const BYTES32 = /^0x[0-9a-f]{64}$/;
@@ -149,6 +159,11 @@ export function validateAuthorityWorkConformanceLink(link, workReference) {
   if (link.authority.evidenceClass !== "chain_derivable" ||
       !CHAIN_AUTHORITY_SCHEMES.has(link.authority.scheme)) {
     throw new Error("Conformance authority must use a supported chain-derivable scheme");
+  }
+  for (const field of AIPOU_ISSUER_ASSERTED_FIELDS) {
+    if (field in link.authority) {
+      throw new Error("Chain-derivable authority cannot carry AIPOU issuer-asserted fields");
+    }
   }
   if (!link.authority.subject?.kind || !link.authority.subject?.id ||
       !BYTES32.test(link.authority.factId || "")) {

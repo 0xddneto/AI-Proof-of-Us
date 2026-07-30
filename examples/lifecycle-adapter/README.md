@@ -101,7 +101,7 @@ For cross-implementation conformance, `validateAuthorityWorkConformanceLink` app
 - the authority artifact is `chain_derivable + delegation-scope-v1` with its own subject and deterministic `factId`;
 - the post-work artifact remains `issuer_asserted + aipou-receipt-v1`;
 - the work artifact carries `preActionFactId`, which must equal `authority.factId`;
-- a trust-model downgrade, unsupported authority scheme, subject mismatch, or fact-link mismatch fails closed.
+- a trust-model downgrade, unsupported authority scheme, subject mismatch, fact-link mismatch, or AIPOU collector field placed on the chain-derived authority fails closed.
 
 This profile lets an external verifier walk from a delegation or policy fact to the later work receipt while each artifact keeps its own schema and verification authority.
 
