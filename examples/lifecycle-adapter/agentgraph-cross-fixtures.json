@@ -1,0 +1,84 @@
+{
+  "version": "v0.4-canonical",
+  "note": "Synthetic public cross-fixture for AgentGraph and AIPOU interoperability. AgentGraph owns actionRef mismatch on its side; AIPOU owns artifact digest mismatch on its side.",
+  "workReference": {
+    "workReceiptId": "0x34d3be87d9dbe9aeced79bf1ddb299c94be78f5d355f4a9d22afc6dc6e01b08f",
+    "receiptId": "0x34d3be87d9dbe9aeced79bf1ddb299c94be78f5d355f4a9d22afc6dc6e01b08f",
+    "evidenceClass": "issuer_asserted",
+    "scheme": "aipou-receipt-v1",
+    "subject": {
+      "kind": "wallet",
+      "id": "eip155:8453:0xabc"
+    },
+    "factId": "0x02ca0eb27b0c4294ef59d32cf54f4c5ed2bf41c1c30d1b1ed7fe7f963f4c206d",
+    "registryStatus": "active"
+  },
+  "validAuthorityWorkLink": {
+    "scheme": "aipou-authority-work-link-v1",
+    "relation": "authorized_then_work_recorded",
+    "authority": {
+      "receiptId": "0x5656565656565656565656565656565656565656565656565656565656565656",
+      "actionRef": "autogen:canonical-envelope:run-123",
+      "phase": "pre_action"
+    },
+    "work": {
+      "receiptId": "0x34d3be87d9dbe9aeced79bf1ddb299c94be78f5d355f4a9d22afc6dc6e01b08f",
+      "factId": "0x02ca0eb27b0c4294ef59d32cf54f4c5ed2bf41c1c30d1b1ed7fe7f963f4c206d",
+      "phase": "post_work"
+    },
+    "traceLink": "trace:run-123"
+  },
+  "phaseInversionVariant": {
+    "scheme": "aipou-authority-work-link-v1",
+    "relation": "authorized_then_work_recorded",
+    "authority": {
+      "receiptId": "0x5656565656565656565656565656565656565656565656565656565656565656",
+      "actionRef": "autogen:canonical-envelope:run-123",
+      "phase": "post_work"
+    },
+    "work": {
+      "receiptId": "0x34d3be87d9dbe9aeced79bf1ddb299c94be78f5d355f4a9d22afc6dc6e01b08f",
+      "factId": "0x02ca0eb27b0c4294ef59d32cf54f4c5ed2bf41c1c30d1b1ed7fe7f963f4c206d",
+      "phase": "post_work"
+    },
+    "traceLink": "trace:run-123"
+  },
+  "externalEvidenceLink": {
+    "scheme": "external-evidence-link-v1",
+    "relation": "supports",
+    "source": {
+      "kind": "receipt",
+      "scheme": "aipou-receipt-v1",
+      "id": "0x34d3be87d9dbe9aeced79bf1ddb299c94be78f5d355f4a9d22afc6dc6e01b08f",
+      "digest": "sha256:059075bc5de4fef9b7f5f64c9d995f97c03dbd982d77c839f00651d6887bbaab"
+    },
+    "target": {
+      "kind": "bundle",
+      "scheme": "agentgraph-canonical-envelope-v1",
+      "id": "agentgraph:run-123",
+      "digest": "sha256:9360ed313ef5b91dd427f4de02c456da77302dfc0037d48e693471c2cd6db869"
+    },
+    "privacy": "digest_only",
+    "issuedAt": "2026-08-01T00:00:00.000Z",
+    "linkDigest": "sha256:4887b9b3beb73f539505b7efd930512be838a8c844795ceaee80646394cb0209"
+  },
+  "digestMismatchVariant": {
+    "scheme": "external-evidence-link-v1",
+    "relation": "supports",
+    "source": {
+      "kind": "receipt",
+      "scheme": "aipou-receipt-v1",
+      "id": "0x34d3be87d9dbe9aeced79bf1ddb299c94be78f5d355f4a9d22afc6dc6e01b08f",
+      "digest": "sha256:059075bc5de4fef9b7f5f64c9d995f97c03dbd982d77c839f00651d6887bbaab"
+    },
+    "target": {
+      "kind": "bundle",
+      "scheme": "agentgraph-canonical-envelope-v1",
+      "id": "agentgraph:run-123",
+      "digest": "sha256:9e80757c33b961819754a1c43d9a0167ac8c90bed44d8588d7c3da7212c59006"
+    },
+    "privacy": "digest_only",
+    "issuedAt": "2026-08-01T00:00:00.000Z",
+    "linkDigest": "sha256:4a3ab6ac62b731a4dd77115ad9ec9ce558ac4f571df0e47e52047a5c3770af5e"
+  }
+}

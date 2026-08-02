@@ -72,6 +72,12 @@ If the external reference must be integrity-bound, use the scheme-neutral `exter
 
 If a framework owns a deterministic artifact-lineage record, keep an external receipt as provider-neutral `externalAttestations[]` metadata and mirror the same normalized reference into the run audit summary. `lineage-attestation.mjs` makes attachment deterministic and idempotent, fixes the trust model to `issuer_asserted`, and rejects raw content, wallet, reward, and claim fields. It does not insert external receipts into the host audit chain or fetch them during replay. See [External Attestations In Artifact Lineage](../../docs/lineage-attestation-metadata.md).
 
+For a typed foreign envelope, the `foreign-attestation-v1` verifier provides
+three explicit outcomes: `verified_foreign`, `unverifiable`, and `rejected`.
+It takes issuer key material explicitly, rejects envelopes that assert local
+issuance, and keeps the host-chain verification input identical with or
+without foreign metadata. See [Foreign Attestation Verifier](../../docs/foreign-attestation-verifier.md).
+
 ## Pre-Action Authority Link
 
 Frameworks that already seal an authorization before execution can link it to the later AIPOU work receipt without merging the two artifacts:
@@ -104,6 +110,12 @@ For cross-implementation conformance, `validateAuthorityWorkConformanceLink` app
 - a trust-model downgrade, unsupported authority scheme, subject mismatch, fact-link mismatch, or AIPOU collector field placed on the chain-derived authority fails closed.
 
 This profile lets an external verifier walk from a delegation or policy fact to the later work receipt while each artifact keeps its own schema and verification authority.
+
+For the public AgentGraph / AutoGen trust-boundary exchange, AIPOU now publishes a frozen synthetic fixture in `agentgraph-cross-fixtures.json`. It keeps the split explicit:
+
+- AgentGraph can own `actionRef` mismatch on its verifier side;
+- AIPOU can own authority phase and artifact-digest mismatch on its verifier side;
+- neither verifier has to absorb the other's trust model.
 
 ## Enforcement Check
 

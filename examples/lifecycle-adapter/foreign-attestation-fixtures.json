@@ -1,0 +1,48 @@
+{
+  "scheme": "foreign-attestation-v1",
+  "positive": {
+    "scheme": "foreign-attestation-v1",
+    "issuanceScope": "foreign",
+    "evidenceClass": "issuer_asserted",
+    "issuer": {
+      "kind": "bernstein-issuer",
+      "id": "bernstein:fixture-issuer"
+    },
+    "claimedSubject": {
+      "kind": "artifact",
+      "id": "artifact:report:42"
+    },
+    "contentHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "trustClass": "third_party"
+  },
+  "unverifiable": {
+    "scheme": "foreign-attestation-v1",
+    "issuanceScope": "foreign",
+    "evidenceClass": "issuer_asserted",
+    "issuer": {
+      "kind": "bernstein-issuer",
+      "id": "bernstein:fixture-issuer"
+    },
+    "claimedSubject": {
+      "kind": "artifact",
+      "id": "artifact:report:42"
+    },
+    "contentHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "trustClass": "third_party"
+  },
+  "rejectedLocalIssuance": {
+    "scheme": "foreign-attestation-v1",
+    "issuanceScope": "local",
+    "evidenceClass": "issuer_asserted",
+    "issuer": {
+      "kind": "bernstein-issuer",
+      "id": "bernstein:fixture-issuer"
+    },
+    "claimedSubject": {
+      "kind": "artifact",
+      "id": "artifact:report:42"
+    },
+    "contentHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "trustClass": "operator"
+  }
+}

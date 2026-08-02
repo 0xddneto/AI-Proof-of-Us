@@ -41,9 +41,18 @@ Unknown fields fail closed. Raw content, prompts, outputs, wallet fields, reward
 
 This metadata alone is informational. When the relationship between two exact artifacts must be integrity-bound independently of the host record, use [`external-evidence-link-v1`](external-evidence-links.md), which binds artifact digests while keeping both verification authorities separate.
 
+When a host wants a typed foreign envelope rather than an opaque reference,
+use the narrow [`foreign-attestation-v1` verifier](foreign-attestation-verifier.md).
+It returns `verified_foreign`, `unverifiable`, or `rejected`, accepts issuer key
+material explicitly, and never upgrades a foreign claim into local or
+chain-derived evidence. The host's own chain verdict must be reported
+separately.
+
 Implementation and executable tests:
 
 - `examples/lifecycle-adapter/lineage-attestation.mjs`
 - `examples/lifecycle-adapter/lineage-attestation.test.mjs`
+- `examples/lifecycle-adapter/foreign-attestation.mjs`
+- `examples/lifecycle-adapter/foreign-attestation.test.mjs`
 
 This is a framework-neutral reference implementation. It does not modify or claim integration with Bernstein or any other external audit system.
