@@ -35,17 +35,15 @@ test("span projection matches the OpenLLMetry correlation boundary", () => {
   assert.deepEqual(attributes, {
     "aipou.work_receipt_id": receiptId,
     "aipou.evidence_class": "issuer_asserted",
-    "aipou.scheme": "aipou-receipt-v1",
-    "aipou.validation_status": "local"
+    "aipou.scheme": "aipou-receipt-v1"
   });
   assert.deepEqual(AIPOU_SPAN_ATTRIBUTE_NAMES, {
     workReceiptId: "aipou.work_receipt_id",
     evidenceClass: "aipou.evidence_class",
-    scheme: "aipou.scheme",
-    validationStatus: "aipou.validation_status"
+    scheme: "aipou.scheme"
   });
 
-  for (const forbidden of ["wallet", "reward", "prompt", "output", "claimAuthority"]) {
+  for (const forbidden of ["wallet", "reward", "prompt", "output", "claimAuthority", "aipou.validation_status"]) {
     assert.equal(forbidden in attributes, false);
   }
 });

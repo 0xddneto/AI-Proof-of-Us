@@ -7,6 +7,11 @@ discussion:
 - one fail-closed fact-link mismatch;
 - one fail-closed `chain_derivable` authority carrying AIPOU issuer fields.
 
+Kuberna also publishes the reciprocal bundle at pinned commit
+[`fada367`](https://github.com/kawacukennedy/kuberna-labs/blob/fada367f122adf10dcd0b8c63dba98df7d06a2d6/sdk/src/verify/fixtures/elizaos-conformance-fixtures.json),
+with matching positive and negative vectors. That is fixture collaboration,
+not an ElizaOS or Kuberna product integration.
+
 Files:
 
 - `elizaos-conformance-fixtures.json`

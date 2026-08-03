@@ -40,6 +40,39 @@ does not introduce an issuer registry, network fetch, or implicit key trust.
 Raw prompts, outputs, wallets, reward fields, claim fields, and unknown
 extensions fail closed.
 
+## Field Contract
+
+The envelope is a foreign assertion, not AIPOU-native chain material. Each
+field has a narrow role so a host can keep its own verifier authoritative.
+
+| Field | Required | Rule |
+| --- | --- | --- |
+| `scheme` | Yes | Must be the supported versioned foreign-envelope scheme. |
+| `issuanceScope` | Yes | Must be `foreign`; a local assertion is rejected. |
+| `evidenceClass` | Yes | Must be `issuer_asserted`; it cannot claim chain-derived authority. |
+| `issuer.kind`, `issuer.id` | Yes | Identifies the foreign issuer without fetching a key or creating a trust registry. |
+| `claimedSubject.kind`, `claimedSubject.id` | Yes | Names the artifact or subject that the issuer says it attests. |
+| `contentHash` | Yes | Lowercase `sha256:` digest of the claimed foreign material. |
+| `trustClass` | Yes | Preserved as the foreign claim for display; never upgrades the local result. |
+| `signature.algorithm`, `signature.signature` | Required for `verified_foreign` | Only Ed25519 with an explicit issuer key can produce a verified foreign result. |
+
+The canonical payload is the typed envelope without the signature value. The
+caller supplies the issuer public key explicitly. A host may use a different
+wire format, but it should preserve the same separation between foreign issuer
+identity, claimed subject, digest, signature, and host verdict.
+
+## Failure Matrix
+
+| Case | Foreign verdict | Local host-chain effect |
+| --- | --- | --- |
+| Valid typed envelope and matching explicit Ed25519 key | `verified_foreign` | None; the host chain remains independently verified. |
+| Missing key, missing signature, bad signature, malformed fields, unknown scheme, or unsupported evidence class | `unverifiable` | None; no local pass is created. |
+| Envelope asserts local issuance | `rejected` | None; the host must fail the foreign slot closed. |
+
+In every row, the effective trust remains `third_party`; a foreign result is
+reported beside the host verdict and never becomes HMAC-chain evidence,
+provider evidence, claim approval, or a reward decision.
+
 ## Three Outcomes
 
 `verifyForeignAttestation` returns one of three verdicts:

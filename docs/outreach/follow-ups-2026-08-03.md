@@ -1,0 +1,62 @@
+# Follow-Ups - August 3, 2026
+
+## Concrete external results
+
+### Bernstein foreign-attestation contract merged
+
+Bernstein merged the protocol-neutral foreign-attestation contract fixture in
+[PR #3192](https://github.com/sipyourdrink-ltd/bernstein/pull/3192). The
+maintainer independently reproduced the suite and confirmed that the strict
+expected-failure turns red if a future verifier appears without the contract
+being migrated. The merged contribution keeps foreign material outside the
+Bernstein HMAC chain and fixes the negative semantics of `unverifiable` plus
+`third_party` taint.
+
+This is a merged upstream test contribution. It is not a Bernstein-AIPOU
+product integration, token listing, or adoption claim.
+
+### AgentGraph published reciprocal fixture
+
+AgentGraph published a real public cross-fixture using its `run-123` canonical
+envelope digest and AIPOU's frozen receipt digest:
+
+<https://github.com/agentgraph-co/agentgraph/blob/838111b74ec6ee967d59a284e45d5c98265729bb/docs/conformance/agentgraph-aipou-crossfixture-v0/fixture.json>
+
+AIPOU now pins the public link locally. The link validates as a canonical,
+digest-only relation, but AIPOU intentionally does not resolve or verify the
+remote AgentGraph envelope without an explicit AgentGraph resolver and
+protocol verifier. The mismatch vector fails closed before resolution.
+
+This is evidence-linkage collaboration, not runtime integration or confirmed
+usage of AIPOU.
+
+### ElizaOS / Kuberna reciprocal conformance bundle
+
+Kuberna published a reciprocal three-vector bundle at pinned commit
+[`fada367`](https://github.com/kawacukennedy/kuberna-labs/blob/fada367f122adf10dcd0b8c63dba98df7d06a2d6/sdk/src/verify/fixtures/elizaos-conformance-fixtures.json),
+including a positive authority/work link and two fail-closed negatives. AIPOU
+records the immutable pointer alongside its own matching vectors.
+
+This is fixture collaboration only. It does not establish an ElizaOS or
+Kuberna integration, task-quality proof, reward approval, or token utility.
+
+### OpenLLMetry trace-boundary feedback
+
+An OpenLLMetry participant recommended that a trace carry only an opaque
+external evidence reference and content hash. Validation or claim outcomes
+must remain in a separate verification record so telemetry cannot present a
+dashboard-friendly value as a verification verdict. AIPOU adopted this: the
+OpenTelemetry helper now projects only receipt ID, scheme, and evidence class.
+
+### Open SWE usage-fixture offer
+
+An Open SWE participant agreed that raw provider usage and normalized totals
+should remain distinct, then offered a redacted retry/cache provider-event
+fixture. The proposed fixture has not been received or imported yet. It needs
+the contributor's explicit fixture and license before AIPOU can test it.
+
+## No change in adoption status
+
+These are technical collaborations and useful review results. They do not by
+themselves show a new production AIPOU user, a paid service transaction, an
+approved bounty delivery, or a confirmed integration by the named projects.

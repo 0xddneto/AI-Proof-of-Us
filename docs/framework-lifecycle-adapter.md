@@ -100,10 +100,11 @@ Useful attachment points depend on the boundary being verified:
 Avoid making every tool call or every log line carry AIPOU data. The receipt should represent a meaningful task boundary, not noise.
 
 The MCP package includes `buildReceiptSpanAttributes` as the reference
-projection for OpenTelemetry-compatible integrations. It emits exactly the
-four correlation fields proposed for OpenLLMetry, with `local` as the initial
-external status. A tracing system may copy these values, but it must not infer
-validation or claim state from the presence of the attributes.
+projection for OpenTelemetry-compatible integrations. It emits only the
+receipt ID, scheme, and evidence class. A tracing system may copy these
+correlation values, but it must not carry `validated`, `claimed`, or another
+verification verdict as a span attribute. Those outcomes belong to a separate
+verification record, not telemetry that a dashboard could mistake for truth.
 
 For MCP tool results, the signed receipt remains authoritative in the local
 receipt store. `complete_ai_task` also returns a compact projection under the

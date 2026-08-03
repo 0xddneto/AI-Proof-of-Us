@@ -12,11 +12,11 @@ const fixtures = JSON.parse(readFileSync(
 const aipouWorkReceiptBytes = Buffer.from("aipou-work-receipt-fixture-v0.4");
 const agentgraphEnvelopeBytes = Buffer.from("agentgraph-canonical-envelope-run-123");
 
-test("freezes the public actionRef and authority/work link shape", () => {
-  assert.equal(fixtures.version, "v0.4-canonical");
+test("freezes the published AgentGraph actionRef and authority/work link shape", () => {
+  assert.equal(fixtures.version, "v0.5-agentgraph-published");
   assert.equal(
     fixtures.validAuthorityWorkLink.authority.actionRef,
-    "autogen:canonical-envelope:run-123"
+    "sha256:31d477f761ee3f1cf943acba4d78980bd566ab175ee5f92f53c1e1b1aeb26cdd"
   );
   assert.equal(
     validateAuthorityWorkLink(fixtures.validAuthorityWorkLink, fixtures.workReference),
@@ -31,15 +31,36 @@ test("fails closed on phase inversion in the public cross-fixture", () => {
   ));
 });
 
-test("validates the digest-bound AgentGraph to AIPOU evidence link", async () => {
+test("validates the published AgentGraph to AIPOU evidence link without treating it as remote verification", async () => {
   assert.equal(validateExternalEvidenceLink(fixtures.externalEvidenceLink), true);
-  assert.equal(
-    await verifyExternalEvidenceArtifacts(fixtures.externalEvidenceLink, {
+  assert.equal(fixtures.externalEvidenceLink.linkDigest, "sha256:30759a953c665718870d16fd3433f495f038b9c473e1e82d6fbf2945d037cb39");
+  await assert.rejects(
+    verifyExternalEvidenceArtifacts(fixtures.externalEvidenceLink, {
       resolveArtifact: async (reference) => {
-        if (reference.id === fixtures.externalEvidenceLink.source.id) {
+        return null;
+      },
+      verifyArtifact: async () => true
+    }),
+    /Source artifact could not be resolved/
+  );
+});
+
+test("fails closed on the published AIPOU-side digest mismatch", () => {
+  assert.throws(
+    () => validateExternalEvidenceLink(fixtures.digestMismatchVariant),
+    /External evidence link digest mismatch/
+  );
+});
+
+test("verifies the self-contained synthetic resolver fixture separately", async () => {
+  assert.equal(validateExternalEvidenceLink(fixtures.localSyntheticEvidenceLink), true);
+  assert.equal(
+    await verifyExternalEvidenceArtifacts(fixtures.localSyntheticEvidenceLink, {
+      resolveArtifact: async (reference) => {
+        if (reference.id === fixtures.localSyntheticEvidenceLink.source.id) {
           return aipouWorkReceiptBytes;
         }
-        if (reference.id === fixtures.externalEvidenceLink.target.id) {
+        if (reference.id === fixtures.localSyntheticEvidenceLink.target.id) {
           return agentgraphEnvelopeBytes;
         }
         return null;
@@ -47,24 +68,5 @@ test("validates the digest-bound AgentGraph to AIPOU evidence link", async () =>
       verifyArtifact: async () => true
     }),
     true
-  );
-});
-
-test("fails closed on the AIPOU-side artifact digest mismatch", async () => {
-  assert.equal(validateExternalEvidenceLink(fixtures.digestMismatchVariant), true);
-  await assert.rejects(
-    verifyExternalEvidenceArtifacts(fixtures.digestMismatchVariant, {
-      resolveArtifact: async (reference) => {
-        if (reference.id === fixtures.digestMismatchVariant.source.id) {
-          return aipouWorkReceiptBytes;
-        }
-        if (reference.id === fixtures.digestMismatchVariant.target.id) {
-          return agentgraphEnvelopeBytes;
-        }
-        return null;
-      },
-      verifyArtifact: async () => true
-    }),
-    /Artifact content does not match its digest/
   );
 });

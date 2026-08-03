@@ -84,7 +84,9 @@ Clients are not required to retain arbitrary `_meta`, so a client may index the
 reference in run/session metadata while the signed artifact remains in the
 receipt store. An MCP execution `taskId` stays separate because execution
 lifecycle and evidence retention answer different questions. Traces may mirror
-the ID, scheme, evidence class, and validation status for correlation only.
+only the ID, scheme, evidence class, and optionally the content digest for
+correlation. Validation or claim state belongs to a separately fetched
+authoritative verification record, not a trace attribute.
 
 `workReceiptId` and `receiptId` may be the same value. Keep both only when the receiving system needs to distinguish work evidence from other receipt types.
 

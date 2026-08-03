@@ -111,11 +111,17 @@ For cross-implementation conformance, `validateAuthorityWorkConformanceLink` app
 
 This profile lets an external verifier walk from a delegation or policy fact to the later work receipt while each artifact keeps its own schema and verification authority.
 
-For the public AgentGraph / AutoGen trust-boundary exchange, AIPOU now publishes a frozen synthetic fixture in `agentgraph-cross-fixtures.json`. It keeps the split explicit:
+For the public AgentGraph / AutoGen trust-boundary exchange, `agentgraph-cross-fixtures.json` now pins the [AgentGraph-published cross-fixture](https://github.com/agentgraph-co/agentgraph/blob/838111b74ec6ee967d59a284e45d5c98265729bb/docs/conformance/agentgraph-aipou-crossfixture-v0/fixture.json). It keeps the split explicit:
 
 - AgentGraph can own `actionRef` mismatch on its verifier side;
 - AIPOU can own authority phase and artifact-digest mismatch on its verifier side;
 - neither verifier has to absorb the other's trust model.
+
+The pinned public link is structural evidence only. AIPOU validates its
+canonical link digest locally, but deliberately does not claim to resolve or
+verify the AgentGraph canonical envelope without an explicit AgentGraph
+resolver and protocol verifier. The self-contained synthetic resolver fixture
+remains separate for testing AIPOU's resolver contract.
 
 ## Enforcement Check
 

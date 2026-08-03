@@ -5,8 +5,7 @@ export const AIPOU_RECEIPT_META_KEY = "io.github.0xddneto/aipou-receipt";
 export const AIPOU_SPAN_ATTRIBUTE_NAMES = {
   workReceiptId: "aipou.work_receipt_id",
   evidenceClass: "aipou.evidence_class",
-  scheme: "aipou.scheme",
-  validationStatus: "aipou.validation_status"
+  scheme: "aipou.scheme"
 } as const;
 
 export function buildReceiptSpanAttributes(receipt: {
@@ -15,8 +14,7 @@ export function buildReceiptSpanAttributes(receipt: {
   return {
     [AIPOU_SPAN_ATTRIBUTE_NAMES.workReceiptId]: receipt.receiptId,
     [AIPOU_SPAN_ATTRIBUTE_NAMES.evidenceClass]: "issuer_asserted",
-    [AIPOU_SPAN_ATTRIBUTE_NAMES.scheme]: "aipou-receipt-v1",
-    [AIPOU_SPAN_ATTRIBUTE_NAMES.validationStatus]: "local"
+    [AIPOU_SPAN_ATTRIBUTE_NAMES.scheme]: "aipou-receipt-v1"
   };
 }
 
