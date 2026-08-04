@@ -60,3 +60,25 @@ the contributor's explicit fixture and license before AIPOU can test it.
 These are technical collaborations and useful review results. They do not by
 themselves show a new production AIPOU user, a paid service transaction, an
 approved bounty delivery, or a confirmed integration by the named projects.
+
+## Responses posted
+
+- [Bernstein #3133](https://github.com/sipyourdrink-ltd/bernstein/issues/3133):
+  posted the AIPOU field table and verdict matrix as a comparison surface; the
+  Bernstein schema remains theirs to freeze.
+- [AutoGen / AgentGraph #7476](https://github.com/microsoft/autogen/discussions/7476):
+  confirmed the swap to the public `run-123` digest and the intentional
+  resolver/verifier boundary.
+- [ElizaOS #9810](https://github.com/orgs/elizaOS/discussions/9810): mirrored
+  the pinned Kuberna bundle and proposed a small shared manifest only when a
+  real consumer needs it.
+- [OpenLLMetry #3460](https://github.com/traceloop/openllmetry/issues/3460):
+  confirmed that trace attributes no longer carry validation or claim state.
+- [Open SWE #1106](https://github.com/langchain-ai/open-swe/discussions/1106):
+  accepted the offered retry/cache fixture subject to redaction and explicit
+  contribution terms.
+
+Closed or already-answered threads did not receive duplicate follow-ups:
+Agent402 closed without a requested action; the Agent Receipts discussion was
+closed as outdated; the MCP placement thread had already received its direct
+implementation response.
