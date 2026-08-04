@@ -48,12 +48,18 @@ must remain in a separate verification record so telemetry cannot present a
 dashboard-friendly value as a verification verdict. AIPOU adopted this: the
 OpenTelemetry helper now projects only receipt ID, scheme, and evidence class.
 
-### Open SWE usage-fixture offer
+### Open SWE usage-fixture correction
 
 An Open SWE participant agreed that raw provider usage and normalized totals
-should remain distinct, then offered a redacted retry/cache provider-event
-fixture. The proposed fixture has not been received or imported yet. It needs
-the contributor's explicit fixture and license before AIPOU can test it.
+should remain distinct, then initially offered a redacted retry/cache
+provider-event fixture. The next reply narrowed that claim: no validated live
+retry fixture is currently ready to contribute, and the described
+provider-A/provider-B shape should be treated as synthetic design guidance
+rather than measured evidence.
+
+That means AIPOU should keep the lifecycle guidance, but must not log this as
+an offered external fixture until a contributor returns with explicit license
+terms and a redacted artifact that is actually ready to test.
 
 ## No change in adoption status
 
@@ -82,3 +88,8 @@ Closed or already-answered threads did not receive duplicate follow-ups:
 Agent402 closed without a requested action; the Agent Receipts discussion was
 closed as outdated; the MCP placement thread had already received its direct
 implementation response.
+
+The AIPOU bounty pull requests that resurfaced in notifications also remain in
+the same state: the submissions for #8 and #9 were patch/explanation text, not
+the actual delivered PNG assets, so they are still not reviewable as bounty
+deliveries and do not imply payout.
