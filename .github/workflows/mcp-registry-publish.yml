@@ -22,6 +22,20 @@ jobs:
       - name: Login with GitHub OIDC
         run: ./mcp-publisher login github-oidc
 
+      - name: Verify npm package version is published
+        working-directory: mcp-server
+        run: |
+          package_name="$(node -p "require('./package.json').name")"
+          package_version="$(node -p "require('./package.json').version")"
+          registry_version="$(node -p "require('./server.json').packages[0].version")"
+
+          if [ "$package_version" != "$registry_version" ]; then
+            echo "package.json version ($package_version) must match server.json version ($registry_version)." >&2
+            exit 1
+          fi
+
+          npm view "${package_name}@${package_version}" version
+
       - name: Publish server.json
         run: ../mcp-publisher publish
         working-directory: mcp-server
