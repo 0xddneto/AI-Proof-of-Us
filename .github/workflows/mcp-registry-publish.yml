@@ -25,9 +25,9 @@ jobs:
       - name: Verify npm package version is published
         working-directory: mcp-server
         run: |
-          package_name="$(node -p "require('./package.json').name")"
-          package_version="$(node -p "require('./package.json').version")"
-          registry_version="$(node -p "require('./server.json').packages[0].version")"
+          package_name="$(node -p 'require("./package.json").name')"
+          package_version="$(node -p 'require("./package.json").version')"
+          registry_version="$(node -p 'require("./server.json").packages[0].version')"
 
           if [ "$package_version" != "$registry_version" ]; then
             echo "package.json version ($package_version) must match server.json version ($registry_version)." >&2
@@ -36,6 +36,37 @@ jobs:
 
           npm view "${package_name}@${package_version}" version
 
+      - name: Check whether this Registry version already exists
+        id: registry_version
+        working-directory: mcp-server
+        run: |
+          node <<'NODE' >> "$GITHUB_OUTPUT"
+          const fs = require("node:fs");
+
+          const server = JSON.parse(fs.readFileSync("server.json", "utf8"));
+          const url = new URL("https://registry.modelcontextprotocol.io/v0.1/servers");
+          url.searchParams.set("search", server.name);
+
+          fetch(url)
+            .then(async (response) => {
+              if (!response.ok) {
+                throw new Error(`Registry lookup failed with ${response.status}`);
+              }
+
+              const body = await response.json();
+              const published = (body.servers ?? []).some(({ server: candidate }) =>
+                candidate.name === server.name && candidate.version === server.version,
+              );
+
+              console.log(`published=${published}`);
+            })
+            .catch((error) => {
+              console.error(error);
+              process.exit(1);
+            });
+          NODE
+
       - name: Publish server.json
+        if: steps.registry_version.outputs.published != 'true'
         run: ../mcp-publisher publish
         working-directory: mcp-server
