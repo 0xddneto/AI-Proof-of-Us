@@ -173,6 +173,8 @@ Implementations that genuinely need another category can use `custom:<name>`. Ba
 
 `createToolExecutionPolicyGate` is the reference `orchestrator_policy` boundary. It blocks a tool before side effects when the matching pre-action receipt is absent and returns a structured `AIPOU_AUTHORITY_REQUIRED` result with `canRequestAuthority: true`. With the matching receipt, it executes the action and returns `AIPOU_AUTHORITY_ACCEPTED`. This maps to AutoGen's tool-call interception pattern, but remains a framework-neutral JavaScript fixture rather than claiming a shipped AutoGen integration.
 
+For consequential actions, pass `revalidateAtDispatch` to the gate. It runs immediately before the action executor and must return `{ allowed: true }`; expiry, revocation, policy, or context failure can return a structured denial such as `AIPOU_AUTHORITY_REVOKED`. This closes the time gap between an earlier approval and dispatch in the reference boundary. It still does not prove that an external side effect happened: external effect verification needs the authoritative target system or a separate named verifier.
+
 Permanent policy denials return `AIPOU_ACTION_FORBIDDEN` with `canRequestAuthority: false`. `runAgentPolicyLoop` requests authority and retries once only when that flag is `true`; it performs no authority request, retry, or protected mutation for permanently forbidden actions.
 
 ## Real Farming Wallet

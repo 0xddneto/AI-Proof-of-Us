@@ -7,6 +7,7 @@ import {
   ENFORCEMENT_CHECK_SCHEME,
   createToolExecutionPolicyGate,
   createAuthorityWorkLink,
+  canonicalJson,
   deriveDelegationScopeFactId,
   deriveFactId,
   runAgentPolicyLoop,
@@ -139,6 +140,19 @@ test("factId is deterministic for collector and nonce", () => {
   assert.notEqual(deriveFactId(publicKey, nonce), deriveFactId(publicKey, `0x${"13".repeat(32)}`));
 });
 
+test("uses RFC 8785-compatible UTF-16 key ordering and rejects non-JSON values", () => {
+  const smile = String.fromCodePoint(0x1f600);
+  const privateUse = String.fromCharCode(0xe000);
+  assert.equal(
+    canonicalJson({ [privateUse]: "private-use", [smile]: "smile" }),
+    `{"${smile}":"smile","${privateUse}":"private-use"}`
+  );
+  assert.equal(canonicalJson({ negativeZero: -0, tiny: 1e-7 }), '{"negativeZero":0,"tiny":1e-7}');
+  for (const value of [NaN, Infinity, undefined, 1n, () => {}]) {
+    assert.throws(() => canonicalJson({ value }));
+  }
+});
+
 test("rejects unknown schemes and mismatched evidence classes", () => {
   assert.throws(() => validateAipouReference({ ...base, scheme: "aipou-receipt-v2" }));
   assert.throws(() => validateAipouReference({ ...base, evidenceClass: "chain_derivable" }));
@@ -256,6 +270,32 @@ test("returns a structured denial at the tool execution boundary", async () => {
   assert.equal(check.observations.withoutAuthority.outcome, "denied");
   assert.equal(check.observations.withAuthority.outcome, "allowed");
   assert.deepEqual(executedActions, [authorityWorkLink.authority.actionRef]);
+});
+
+test("revalidates matching authority immediately before dispatch", async () => {
+  const executedActions = [];
+  const gate = createToolExecutionPolicyGate({
+    authorityWorkLink,
+    executeAction: async ({ actionRef }) => {
+      executedActions.push(actionRef);
+      return { outcome: "executed" };
+    },
+    revalidateAtDispatch: async () => ({
+      allowed: false,
+      code: "AIPOU_AUTHORITY_REVOKED",
+      message: "Authority was revoked before dispatch.",
+      canRequestAuthority: false
+    })
+  });
+
+  const result = await gate({
+    actionRef: authorityWorkLink.authority.actionRef,
+    authorityReceiptId: authorityWorkLink.authority.receiptId
+  });
+  assert.equal(result.outcome, "denied");
+  assert.equal(result.code, "AIPOU_AUTHORITY_REVOKED");
+  assert.equal(result.canRequestAuthority, false);
+  assert.deepEqual(executedActions, []);
 });
 
 test("does not request authority or retry permanently forbidden actions", async () => {

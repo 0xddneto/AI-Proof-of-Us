@@ -126,6 +126,8 @@ For delegated frameworks with pre-action authorization, keep two artifacts linke
 
 The optional conformance profile makes the fact chain explicit: a `chain_derivable + delegation-scope-v1` authority artifact exposes `authority.factId`, while the `issuer_asserted + aipou-receipt-v1` work artifact exposes the same value as `work.preActionFactId`. `validateAuthorityWorkConformanceLink` rejects trust-model downgrades, unsupported authority schemes, AIPOU collector fields mislabeled as chain-derived authority, work-subject mismatches, and links to a different authority fact. This is intended for fixture exchange with governance or ERC-8004-style adapters; it does not make the AIPOU task payload chain-derived.
 
+For `delegation-scope-v1` fixtures, canonical fact derivation follows the RFC 8785/JCS compatibility boundary: plain JSON values only, ECMAScript number serialization, and UTF-16 property-name ordering. Non-finite numbers, `undefined`, functions, bigint values, and symbol keys fail closed. Cross-language integrations should exchange adversarial Unicode and numeric vectors rather than relying on each SDK's self-generated signatures.
+
 Receipts are evidence, not enforcement. A framework can produce correct receipts while still allowing an agent to bypass the authorized path. When a deployment claims that pre-action authority is mandatory, test the actual control point separately with `aipou-enforcement-check-v1`. The executable example requires an observed denied attempt without the authority receipt and an observed allowed attempt with the matching receipt, both bound to SHA-256 evidence digests.
 
 An enforcement check remains `issuer_asserted` unless an identified external verifier signs or attests to its evidence. Its reliance boundary is the specific orchestrator, sandbox, protected branch, or policy gate tested at that time. It does not prove that every alternate bypass is impossible, and it does not upgrade the trust tier of the work receipt or any reward claim.
@@ -135,6 +137,10 @@ The reference adapter exposes `runEnforcementBenchmark` so a framework can execu
 For comparable results, `enforcementPoint.kind` uses `protected_branch`, `sandbox_boundary`, or `orchestrator_policy`. Extensions must use `custom:<name>`, making non-standard boundaries visible instead of silently fragmenting the vocabulary.
 
 The first recommended application binding is the tool execution boundary: check authority before invoking a side-effecting tool, execute only when allowed, and record post-call evidence afterward. A denial should be structured so the agent can request authority or choose another path. The reference `createToolExecutionPolicyGate` returns `AIPOU_AUTHORITY_REQUIRED` with `canRequestAuthority: true` and performs no protected mutation.
+
+For consequential actions, revalidate the matching authority at dispatch as well. An approval can expire, be revoked, or cease to match policy/context while an agent is still reasoning. The reference gate accepts an integration-supplied `revalidateAtDispatch` callback and fails closed before calling the action executor when it returns anything other than `{ allowed: true }`. This is a local enforcement pattern, not a claim that every credential path is controlled.
+
+An allowed dispatch is still not proof that an external effect occurred. Keep `proposed`, `authorized`, `dispatched`, `host_observed`, and `externally_verified` as distinct outcome classes. Only the system that can authoritatively observe the external effect, or an identified independent verifier, can attest to the last class. AIPOU's later work receipt and optional claim remain separate from each of these execution records.
 
 For AutoGen specifically, the narrowest typed chokepoint is a `Workbench.call_tool(...)`
 wrapper. It sees the invocation right where a workbench is about to execute the

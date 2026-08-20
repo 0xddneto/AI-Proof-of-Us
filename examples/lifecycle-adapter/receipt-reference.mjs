@@ -28,8 +28,22 @@ const BYTES32 = /^0x[0-9a-f]{64}$/;
 const CUSTOM_ENFORCEMENT_POINT_KIND = /^custom:[a-z0-9][a-z0-9._-]{0,63}$/;
 
 export function canonicalJson(value) {
-  if (value === null || typeof value !== "object") return JSON.stringify(value);
+  if (value === null) return "null";
+  if (typeof value === "string" || typeof value === "boolean") return JSON.stringify(value);
+  if (typeof value === "number") {
+    if (!Number.isFinite(value)) {
+      throw new Error("Canonical JSON does not permit non-finite numbers");
+    }
+    return JSON.stringify(value);
+  }
+  if (typeof value !== "object") {
+    throw new Error("Canonical JSON only permits JSON values");
+  }
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
+  const prototype = Object.getPrototypeOf(value);
+  if (prototype !== Object.prototype && prototype !== null || Object.getOwnPropertySymbols(value).length > 0) {
+    throw new Error("Canonical JSON requires plain objects without symbol keys");
+  }
   return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(",")}}`;
 }
 
@@ -285,13 +299,17 @@ export async function runEnforcementBenchmark({
 export function createToolExecutionPolicyGate({
   authorityWorkLink,
   executeAction,
-  isPermanentlyForbidden = async () => false
+  isPermanentlyForbidden = async () => false,
+  revalidateAtDispatch = async () => ({ allowed: true })
 }) {
   if (typeof executeAction !== "function") {
     throw new Error("Tool execution policy gates require an action executor");
   }
   if (typeof isPermanentlyForbidden !== "function") {
     throw new Error("Permanent policy checks must be executable functions");
+  }
+  if (typeof revalidateAtDispatch !== "function") {
+    throw new Error("Dispatch revalidation must be an executable function");
   }
 
   const expectedReceiptId = authorityWorkLink.authority?.receiptId;
@@ -316,6 +334,19 @@ export function createToolExecutionPolicyGate({
         actionRef,
         enforcementPointKind: "orchestrator_policy",
         canRequestAuthority: true
+      };
+    }
+
+    // A decision can become stale between an earlier approval and the side effect.
+    const revalidation = await revalidateAtDispatch({ actionRef, authorityReceiptId });
+    if (revalidation?.allowed !== true) {
+      return {
+        outcome: "denied",
+        code: revalidation?.code || "AIPOU_AUTHORITY_STALE",
+        message: revalidation?.message || "Tool action blocked: authority was not valid at dispatch.",
+        actionRef,
+        enforcementPointKind: "orchestrator_policy",
+        canRequestAuthority: revalidation?.canRequestAuthority ?? true
       };
     }
 
