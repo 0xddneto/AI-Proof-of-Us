@@ -80,6 +80,12 @@ reinterpret, or validate that provider observation.
 Keep these outcomes distinct:
 
 - `not_dispatched`: no host attempt was observed;
+- `transport_snapshot_membership`: an exact event appeared in a supplied or
+  captured transport snapshot, but the transport's native signature or
+  acceptance semantics have not been verified;
+- `signed_transport_verified`: the transport's native verifier checked the
+  signed event bytes and its nonce rules; this proves the bounded transport
+  statement only, not delivery or persistence;
 - `transport_accepted`: the transport accepted an attempt;
 - `provider_reported_delivered`: the provider later reported delivery;
 - `externally_verified`: an authoritative target or named verifier observed
@@ -91,6 +97,22 @@ write-time conclusion must not remain a permanent success claim after later
 transport evidence contradicts it. A counterparty decision such as
 `asked_and_declined` requires an observation from that counterparty; a
 transport receipt alone cannot establish it.
+
+## Imported Transport Artifacts
+
+An artifact exported from a room, queue, trace, or API snapshot should carry
+the narrowest evidence class the receiving verifier actually established. An
+exact `did`, nonce, text, and sequence match inside supplied JSON is
+`transport_snapshot_membership`; it is not a cryptographic verification just
+because the source protocol normally supports signatures.
+
+Before a receiver upgrades such an artifact to `signed_transport_verified`, it
+must retain or integrity-bind the raw snapshot, preserve the signed tuple and
+signature, verify the source protocol's canonical bytes under the source key,
+and reject ambiguous reuse of a nonce in the source protocol's nonce scope.
+Even that result does not prove that the remote system retained the event,
+fulfilled a task, accepted a deliverable, made a payment, or approved an AIPOU
+claim.
 
 ## Boundaries for Public Language
 
