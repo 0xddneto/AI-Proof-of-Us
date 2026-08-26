@@ -52,6 +52,46 @@ AIPOU does not prove:
 - that Sybil farming is impossible
 - that the current validator policy is decentralized
 
+## External Effects Need External Observations
+
+An AIPOU receipt can describe a task boundary or a host-observed action. It
+must not turn a local success path, command exit code, or provider message ID
+into a claim that an external effect happened.
+
+For a message, payment, deployment, notification, or delivery, retain the
+provider's observation as an attributed sibling artifact:
+
+```json
+{
+  "provider": "transport-or-target-system",
+  "receiptId": "provider-issued-opaque-id",
+  "event": "accepted | reported_delivered | bounced | rejected",
+  "observedAt": "2026-08-26T00:00:00.000Z",
+  "rawDigest": "sha256:..."
+}
+```
+
+The host may derive a display status only from events the provider actually
+reports. `accepted` is not `reported_delivered`, and a later `bounced` event
+must downgrade a prior display rather than overwrite the attributed history.
+An AIPOU work receipt can link to the digest-only artifact, but does not issue,
+reinterpret, or validate that provider observation.
+
+Keep these outcomes distinct:
+
+- `not_dispatched`: no host attempt was observed;
+- `transport_accepted`: the transport accepted an attempt;
+- `provider_reported_delivered`: the provider later reported delivery;
+- `externally_verified`: an authoritative target or named verifier observed
+  the intended effect;
+- `undelivered_or_unverified`: no sufficient external observation exists.
+
+Re-evaluate derived status when observations are read or reconciled. A stale
+write-time conclusion must not remain a permanent success claim after later
+transport evidence contradicts it. A counterparty decision such as
+`asked_and_declined` requires an observation from that counterparty; a
+transport receipt alone cannot establish it.
+
 ## Boundaries for Public Language
 
 Use this:

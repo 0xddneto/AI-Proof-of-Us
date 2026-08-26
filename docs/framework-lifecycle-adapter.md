@@ -142,6 +142,14 @@ For consequential actions, revalidate the matching authority at dispatch as well
 
 An allowed dispatch is still not proof that an external effect occurred. Keep `proposed`, `authorized`, `dispatched`, `host_observed`, and `externally_verified` as distinct outcome classes. Only the system that can authoritatively observe the external effect, or an identified independent verifier, can attest to the last class. AIPOU's later work receipt and optional claim remain separate from each of these execution records.
 
+For external systems, attach their own digest-only observation beside the work
+receipt rather than storing a host-authored `delivered` or `paid` flag. A
+provider receipt ID is not self-describing: depending on the provider it may
+mean queued, accepted, deduplicated, delivered, bounced, or rejected. Preserve
+the provider event, receipt ID, observation time, and raw-artifact digest;
+derive a human-facing state from those attributed events and re-evaluate it on
+later reconciliation. See [Evidence Boundaries](./evidence-boundaries.md).
+
 For AutoGen specifically, the narrowest typed chokepoint is a `Workbench.call_tool(...)`
 wrapper. It sees the invocation right where a workbench is about to execute the
 tool and can return a structured denial as a `ToolResult` without intercepting
