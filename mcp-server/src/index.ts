@@ -13,6 +13,7 @@ import { describeExistingIdentity, initializePersistentIdentity } from "./init.j
 import { beginTask, completeTask, exportReceipts } from "./receipts.js";
 import { buildReceiptResultMeta } from "./receipt-metadata.js";
 import { createPayboxWorkLink } from "./paybox-link.js";
+import { createTechnocoreWorkLink } from "./technocore-link.js";
 import { estimateReward } from "./rewards.js";
 import { getAipouStatus } from "./status.js";
 import { getPackageVersion } from "./version.js";
@@ -195,6 +196,30 @@ server.tool(
   },
   async (input) => ({
     content: [{ type: "text", text: JSON.stringify(createPayboxWorkLink(input), null, 2) }]
+  })
+);
+
+server.tool(
+  "create_technocore_work_link",
+  "Create a digest-only external evidence link between an existing AIPOU workReceiptId and a Technocore transport artifact. This tool never calls Technocore, signs a message, reads a key, verifies a transport signature, changes AIPOU claim eligibility, or establishes delivery. Verify the Technocore artifact with its native verifier before relying on the link.",
+  {
+    workReceiptId: z.string().regex(/^0x[a-f0-9]{64}$/)
+      .describe("Existing lowercase AIPOU workReceiptId."),
+    transportArtifactId: z.string().min(1).max(256)
+      .describe("Opaque Technocore transport artifact reference. Never send a DID private key, seed, passphrase, wallet, or secret."),
+    transportArtifactDigest: z.string().regex(/^sha256:[a-f0-9]{64}$/)
+      .describe("Lowercase SHA-256 digest of the canonical Technocore transport artifact bytes."),
+    issuedAt: z.string().datetime()
+      .describe("ISO-8601 time at which this correlation artifact is issued.")
+  },
+  {
+    readOnlyHint: true,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: false
+  },
+  async (input) => ({
+    content: [{ type: "text", text: JSON.stringify(createTechnocoreWorkLink(input), null, 2) }]
   })
 );
 

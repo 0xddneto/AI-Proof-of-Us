@@ -107,6 +107,7 @@ Publication details: [docs/npm-publication.md](https://github.com/0xddneto/AI-Pr
 - [Local Receipt Mode](https://github.com/0xddneto/AI-Proof-of-Us/tree/main/examples/local-receipt-mode)
 - [Lifecycle Adapter Example](https://github.com/0xddneto/AI-Proof-of-Us/tree/main/examples/lifecycle-adapter)
 - [Evidence Boundaries](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/evidence-boundaries.md)
+- [Flop and Technocore Interoperability](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/flop-technocore-interoperability.md)
 - [Claim Validation Policy](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/claim-validation-policy.md)
 - [Tokenomics](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/tokenomics.md)
 - [Security Policy](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/SECURITY.md)

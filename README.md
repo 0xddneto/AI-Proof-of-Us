@@ -34,6 +34,7 @@ Start here if you are building or testing an agent integration:
 - [Work receipt boundaries](docs/work-receipt-boundaries.md)
 - [receiptId and workReceiptId interoperability](docs/receiptid-interoperability.md)
 - [Scheme-neutral external evidence links](docs/external-evidence-links.md)
+- [Flop / Technocore interoperability](docs/flop-technocore-interoperability.md)
 - [ACP work-receipt pilot](docs/acp-pilot.md)
 - [MCP tools](docs/mcp-tools.md)
 - [OpenClaw skill](skills/aipou-farming/SKILL.md)

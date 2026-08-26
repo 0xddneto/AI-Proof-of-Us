@@ -47,6 +47,26 @@ An optional `providerEvidence` contains a trusted provider key ID and Ed25519 si
 
 Exports signed receipts and settlement status, optionally filtered by wallet.
 
+## `create_technocore_work_link`
+
+Creates a digest-only `external-evidence-link-v1` object between an existing
+AIPOU `workReceiptId` and an opaque Technocore transport artifact.
+
+```json
+{
+  "workReceiptId": "0x...32-bytes...",
+  "transportArtifactId": "technocore:lobby:opaque-record-id",
+  "transportArtifactDigest": "sha256:...64-lowercase-hex...",
+  "issuedAt": "2026-08-26T14:30:00.000Z"
+}
+```
+
+This tool is read-only and local: it does not call Technocore, send a message,
+read or use a DID key, verify a transport signature, change rewards, or submit
+a claim. Verify the referenced artifact with Technocore's native verifier
+before relying on the cross-link. See [Flop and Technocore
+interoperability](flop-technocore-interoperability.md).
+
 ## `settle_ai_rewards`
 
 Available only on the protocol validator server. Use this for one limited batch when the user asks for a bounded claim. The flow: validate unsettled receipts, publish their Merkle root, call `claimBatch`, and record both transaction hashes. An optional settlement policy (minimum work floor, per-wallet daily limit — both disabled by default) can skip receipts, which are reported back with reasons. The host client and its user keep the final say on how the two on-chain transactions are confirmed; the server does not instruct clients to skip their own confirmation policy.
