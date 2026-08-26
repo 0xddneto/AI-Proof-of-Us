@@ -218,6 +218,29 @@ links into the sealed artifact after the fact.
 
 The signed receipt payload is `issuer_asserted`: the collector signed it and validators may accept it under published policy. Onchain settlement data is narrower: a Merkle proof and claim transaction can show inclusion and claimed state for a `receiptId`, but they do not make the private task payload itself `chain_derivable`.
 
+## Cross-Protocol Verification Boundary
+
+An authority/work link can bind the shared facts that both sides understand:
+the pre-action `factId`, `actionRef`, subject, evidence class, scheme, and the
+post-work `workReceiptId`. It does not import another protocol's verification
+authority into AIPOU.
+
+For example, a foreign artifact may declare `chain_integrity: "valid"` or
+`link_signatures: "valid"`. Those are not evidence merely because they appear
+in JSON. The foreign protocol's native verifier must validate its chain,
+signatures, and canonicalization; the AIPOU verifier independently validates
+the AIPOU receipt and the authority/work binding. An integration must fail
+closed if either required verifier rejects its own artifact.
+
+Cross-implementation fixtures should execute each verifier against a passing
+control and a minimally mutated negative case. Checking only that a fixture
+file contains an expected label is useful for fixture maintenance, but is not
+proof that a runtime rejected the mutation. Coverage fields from a foreign
+protocol remain descriptive unless a versioned AIPOU validator explicitly
+adopts their semantics. This preserves interoperability without relabeling
+synthetic fixtures as certification, payment approval, claim approval, or
+production enforcement.
+
 They should not claim:
 
 ```text
