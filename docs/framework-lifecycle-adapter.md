@@ -200,6 +200,13 @@ Do not send raw prompts or raw outputs to AIPOU by default. Store hashes and min
 
 The current `client_signed` tier proves authorization, local collector signature, and replay checks. It does not independently prove task quality or provider inference.
 
+The collector is not automatically independent of the agent or user that
+requested the work. Treat all `client_signed` fields as issuer assertions. A
+separate verifier can add an attributed observation only when it has its own
+credentials and directly re-checks the relevant system or provider evidence;
+a model-authored receipt, a copied digest, or a well-formed local record does
+not satisfy that requirement.
+
 The `provider_signed` tier should only be used when configured provider keys sign the canonical usage assertion. An API response ID or a user statement is not enough.
 
 For serious production adoption, AIPOU should publish validator rules, move owner and validator authority to multisig, and make trusted collector admission/removal auditable.

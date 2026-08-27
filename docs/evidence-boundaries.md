@@ -29,6 +29,15 @@ An AIPOU task receipt should be treated as an `issuer_asserted` audit artifact.
 
 The issuer is the local collector that signs the receipt. Verifying the receipt means checking the collector signature, the wallet authorization, the nonce, replay state, trusted collector admission, and any validator policy that accepted it.
 
+`client_signed` does not mean an independent witness re-checked an agent's
+claim. A collector may be operated in the same user or agent environment as
+the claimant, so its signed fields remain `issuer_asserted`. An integration
+that needs independent verification must use a separate verifier with its own
+credential and direct access to the relevant host or provider evidence. That
+verifier must write an attributed observation or signed attestation; it must
+not merely accept an agent-authored JSON field or a digest supplied by the
+claimant.
+
 The receipt payload is not `chain_derivable` by default. A Merkle root or claim transaction can make the receipt hash, inclusion, timestamp, wallet, amount, and `receiptId` externally checkable on Base, but the underlying task metadata remains collector-signed evidence. External systems should keep those two claims separate:
 
 - `issuer_asserted`: the signed receipt payload and local hashes
