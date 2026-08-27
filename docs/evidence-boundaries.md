@@ -98,6 +98,17 @@ transport evidence contradicts it. A counterparty decision such as
 `asked_and_declined` requires an observation from that counterparty; a
 transport receipt alone cannot establish it.
 
+An integration that waits for an external attestation should also name an
+`attestationDeadline` and the component responsible for reconciliation. Until
+then, `dispatched_unverified` is only a local observation, not an open-ended
+success state. If no sufficient provider observation exists when the deadline
+passes, the derived state must become `attestation_timed_out` (or the
+integration's equivalent of `undelivered_or_unverified`) and route to its
+named retry, compensation, or human-review path. Derive that timeout when the
+record is read or reconciled; do not rewrite the immutable local dispatch
+observation. This is integration-owned execution lifecycle data, separate from
+an AIPOU work receipt and from any AIPOU claim eligibility decision.
+
 ## Imported Transport Artifacts
 
 An artifact exported from a room, queue, trace, or API snapshot should carry

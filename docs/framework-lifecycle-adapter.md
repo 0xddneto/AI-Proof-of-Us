@@ -150,6 +150,15 @@ the provider event, receipt ID, observation time, and raw-artifact digest;
 derive a human-facing state from those attributed events and re-evaluate it on
 later reconciliation. See [Evidence Boundaries](./evidence-boundaries.md).
 
+If an integration exposes `dispatched_unverified`, it must also expose an
+`attestationDeadline` and the owner of the reconciliation path (for example,
+the originating workflow, a verifier callback, or a human-review queue). On
+read or reconciliation, a missing sufficient observation after that deadline
+must derive `attestation_timed_out` rather than leave an indefinite pending
+record. The timeout may trigger retry or compensation according to the host's
+policy, but it does not alter the original dispatch observation, certify the
+external effect, or change AIPOU reward eligibility.
+
 For AutoGen specifically, the narrowest typed chokepoint is a `Workbench.call_tool(...)`
 wrapper. It sees the invocation right where a workbench is about to execute the
 tool and can return a structured denial as a `ToolResult` without intercepting
