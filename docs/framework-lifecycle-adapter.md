@@ -126,6 +126,35 @@ For delegated frameworks with pre-action authorization, keep two artifacts linke
 
 The optional conformance profile makes the fact chain explicit: a `chain_derivable + delegation-scope-v1` authority artifact exposes `authority.factId`, while the `issuer_asserted + aipou-receipt-v1` work artifact exposes the same value as `work.preActionFactId`. `validateAuthorityWorkConformanceLink` rejects trust-model downgrades, unsupported authority schemes, AIPOU collector fields mislabeled as chain-derived authority, work-subject mismatches, and links to a different authority fact. This is intended for fixture exchange with governance or ERC-8004-style adapters; it does not make the AIPOU task payload chain-derived.
 
+### Root Authority and Delegation
+
+An agent ID is not necessarily the origin of authority. For delegated actions,
+the integration should preserve four distinct roles:
+
+```text
+issuer / principal -> bounded capability -> holder / delegate -> effect -> work receipt
+```
+
+The issuer or principal is the independent authority source: for example, a
+human operator, enterprise IAM system, wallet, smart contract, or personal
+runtime. The holder or delegate is the agent or runtime allowed to exercise a
+bounded capability. A replacement model, MCP server, or agent runtime must not
+silently inherit a broader capability simply because it shares an `agentId`.
+
+Where a host supports it, the pre-action authority artifact should bind the
+issuer, holder, normalized call, target resource, policy or capability digest,
+expiry, nonce, and any parent delegation reference. Delegation may narrow a
+capability but must not expand it. The enforcement point must consume or
+revalidate that exact binding at dispatch through the credential-owning path;
+otherwise the policy layer is advisory rather than an execution boundary.
+
+The later AIPOU `workReceiptId` records the human/agent work unit after the
+attempt. It may reference the authority artifact by `preActionFactId` or
+`actionRef`, but it does not establish issuer authority, prove that the
+capability was consumed, or certify the external effect. Keep any semantic
+assessment of whether the requested action matched the principal's intended
+purpose in the host's own policy or authorization layer.
+
 For `delegation-scope-v1` fixtures, canonical fact derivation follows the RFC 8785/JCS compatibility boundary: plain JSON values only, ECMAScript number serialization, and UTF-16 property-name ordering. Non-finite numbers, `undefined`, functions, bigint values, and symbol keys fail closed. Cross-language integrations should exchange adversarial Unicode and numeric vectors rather than relying on each SDK's self-generated signatures.
 
 Receipts are evidence, not enforcement. A framework can produce correct receipts while still allowing an agent to bypass the authorized path. When a deployment claims that pre-action authority is mandatory, test the actual control point separately with `aipou-enforcement-check-v1`. The executable example requires an observed denied attempt without the authority receipt and an observed allowed attempt with the matching receipt, both bound to SHA-256 evidence digests.
