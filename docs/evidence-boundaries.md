@@ -45,6 +45,22 @@ The receipt payload is not `chain_derivable` by default. A Merkle root or claim 
 
 This distinction is important for integrations with certification, provenance, audit, and payment systems. AIPOU receipts can be useful external evidence without being presented as trustless proof of useful work.
 
+### Derived Context Does Not Inherit Authority
+
+Integrations may carry a principal's instruction through summaries, adapters,
+or other derived context. That derived context must not silently inherit the
+authority of the original instruction. A host should preserve the source of an
+authorization or evidence item as a typed provenance property, for example
+`operator_asserted`, `adapter_derived`, or `independently_attested`, and apply
+its own policy before a sensitive action can proceed.
+
+In particular, a deterministic adapter can preserve a digest or reference, but
+it cannot promote a claimant-provided instruction into independent authority.
+An action-bound decision still needs a credential-owning enforcement point and
+the later AIPOU work receipt remains `issuer_asserted` post-work evidence.
+The receipt never causes a derived summary, metadata field, or model output to
+inherit a principal's capability.
+
 ## What AIPOU Does Not Prove
 
 AIPOU does not prove:
