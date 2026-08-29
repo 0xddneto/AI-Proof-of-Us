@@ -416,3 +416,13 @@ test("fails closed when post-work evidence points to another authority fact", ()
     work: { ...conformanceLink.work, preActionFactId: `0x${"94".repeat(32)}` }
   }, base));
 });
+
+test("rejects a malformed post-work authority reference before comparing the link", () => {
+  assert.throws(
+    () => validateAuthorityWorkConformanceLink({
+      ...conformanceLink,
+      work: { ...conformanceLink.work, preActionFactId: `0x${"94".repeat(33)}` }
+    }, base),
+    /bytes32 preActionFactId/
+  );
+});

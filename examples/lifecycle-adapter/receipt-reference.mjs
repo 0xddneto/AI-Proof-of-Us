@@ -190,6 +190,9 @@ export function validateAuthorityWorkConformanceLink(link, workReference) {
       link.work.subject?.id !== workReference.subject?.id) {
     throw new Error("Conformance work subject does not match the AIPOU receipt");
   }
+  if (!BYTES32.test(link.work.preActionFactId || "")) {
+    throw new Error("Post-work evidence requires a bytes32 preActionFactId");
+  }
   if (link.work.preActionFactId !== link.authority.factId) {
     throw new Error("Post-work evidence must reference the authority factId");
   }
