@@ -33,3 +33,18 @@ Relevant checks in `receipt-reference.test.mjs`:
 
 This is interoperability evidence only. It does not claim execution quality,
 reward approval, or ElizaOS/Kuberna adoption.
+
+## Blind-evaluation boundary
+
+The published fixture bundle is intentionally readable and is useful for
+reproducible conformance tests. It is **not** a blind-evaluation corpus. A
+prediction over cases whose identifiers, assertions, expected outcomes, or
+byte-equivalent payloads are already public cannot demonstrate independent
+semantic convergence.
+
+For a future blind exchange, follow
+[`docs/blind-conformance-protocol.md`](../../docs/blind-conformance-protocol.md).
+In particular, opaque case IDs alone are insufficient: the blind cases must be
+freshly generated and must not be byte-matchable to a public expected-case
+corpus. Until those conditions hold, describe any result as reproducible
+fixture compatibility, not an independent blind result.
