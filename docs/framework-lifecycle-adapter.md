@@ -180,13 +180,21 @@ derive a human-facing state from those attributed events and re-evaluate it on
 later reconciliation. See [Evidence Boundaries](./evidence-boundaries.md).
 
 If an integration exposes `dispatched_unverified`, it must also expose an
-`attestationDeadline` and the owner of the reconciliation path (for example,
-the originating workflow, a verifier callback, or a human-review queue). On
-read or reconciliation, a missing sufficient observation after that deadline
-must derive `attestation_timed_out` rather than leave an indefinite pending
-record. The timeout may trigger retry or compensation according to the host's
-policy, but it does not alter the original dispatch observation, certify the
-external effect, or change AIPOU reward eligibility.
+`attestationDeadline`, a named reconciliation owner, and the next scheduled
+check. The reconciliation owner must be a standing component or named
+principal that can act after the originating workflow has crashed, completed,
+or been abandoned; the workflow itself may request reconciliation but is not a
+sufficient sole owner. Bind the deadline and owner at mint time in the signed
+pre-action scope or another immutable, authenticated policy envelope. A host
+must not silently extend the deadline or replace its owner to avoid timeout.
+
+Each reconciliation attempt records an append-only attributed observation such
+as `attested`, `absent`, or `provider_error`, then either schedules a bounded
+next check or derives `attestation_timed_out` at the deadline. This separates
+"nobody checked" from "checked and no attestation existed." The timeout may
+trigger retry or compensation according to the host's policy, but it does not
+alter the original dispatch observation, certify the external effect, or
+change AIPOU reward eligibility.
 
 For AutoGen specifically, the narrowest typed chokepoint is a `Workbench.call_tool(...)`
 wrapper. It sees the invocation right where a workbench is about to execute the
