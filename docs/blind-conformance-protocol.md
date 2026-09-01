@@ -30,12 +30,30 @@ worked.
    keeps the mapping outside any repository tree or artifact set that exposes
    public expected payloads. Vary case count and pass/fail distribution across
    runs when practical.
+   Before calling the bundle sealed, the author also measures and publishes
+   how many verdicts are recoverable from public bytes alone. A seal is not a
+   claim about the bundle's difficulty.
 5. Each evaluator records the blind-bundle digest, runs only its own
    implementation, and publishes an ordered opaque-ID-to-verdict table plus a
    SHA-256 digest of that compact canonical table before the mapping opens.
 6. The author releases the mapping and canonicalization rule. Everyone checks
    its prior commitment, compares every prediction, and publishes both
    agreements and disagreements.
+
+## Mutation and detector discipline
+
+Negative cases must use plausible in-domain values. A mutation should differ
+from its valid control in exactly the property under test: for example, a
+well-formed but wrong digest, a valid-length signature over a wrong preimage,
+or an unregistered scheme name that is otherwise ordinary. Do not use sentinel
+strings, conspicuous hexadecimal words, malformed lengths, or version numbers
+that reveal a verdict without running a verifier.
+
+When an evaluator also publishes a marker detector, it must commit the
+detector and marker list by SHA-256 before the blind bundle is released, then
+report its result even when the result is null or unhelpful. A detector written
+after reading the prediction tables can expose a possible leak, but it does
+not independently measure the sealed corpus.
 
 ## Result language
 

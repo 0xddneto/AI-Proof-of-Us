@@ -12,6 +12,7 @@ import {
   deriveFactId,
   runAgentPolicyLoop,
   runEnforcementBenchmark,
+  validateActionBinding,
   validateActiveFactSet,
   validateAipouReference,
   validateDelegationScopeAuthorityReceipt,
@@ -40,6 +41,14 @@ const authorityWorkLink = createAuthorityWorkLink({
   traceLink: "trace:run-123",
   workReference: base
 });
+
+const actionBinding = {
+  intentId: "agent:run-123:tool-approve",
+  generation: 3,
+  tool: "github.create_pull_request",
+  argumentsDigest: `sha256:${"96".repeat(32)}`,
+  ordinal: 2
+};
 
 const enforcementCheck = {
   scheme: ENFORCEMENT_CHECK_SCHEME,
@@ -270,6 +279,58 @@ test("returns a structured denial at the tool execution boundary", async () => {
   assert.equal(check.observations.withoutAuthority.outcome, "denied");
   assert.equal(check.observations.withAuthority.outcome, "allowed");
   assert.deepEqual(executedActions, [authorityWorkLink.authority.actionRef]);
+});
+
+test("binds a stable intent to its materialized tool call and generation", async () => {
+  const boundLink = createAuthorityWorkLink({
+    authorityReceiptId: authorityWorkLink.authority.receiptId,
+    actionRef: authorityWorkLink.authority.actionRef,
+    actionBinding,
+    traceLink: authorityWorkLink.traceLink,
+    workReference: base
+  });
+  const executed = [];
+  const gate = createToolExecutionPolicyGate({
+    authorityWorkLink: boundLink,
+    executeAction: async (input) => {
+      executed.push(input);
+      return { outcome: "executed" };
+    }
+  });
+
+  const changedArguments = await gate({
+    actionRef: boundLink.authority.actionRef,
+    authorityReceiptId: boundLink.authority.receiptId,
+    actionBinding: { ...actionBinding, argumentsDigest: `sha256:${"97".repeat(32)}` }
+  });
+  const staleGeneration = await gate({
+    actionRef: boundLink.authority.actionRef,
+    authorityReceiptId: boundLink.authority.receiptId,
+    actionBinding: { ...actionBinding, generation: 2 }
+  });
+  const missingBinding = await gate({
+    actionRef: boundLink.authority.actionRef,
+    authorityReceiptId: boundLink.authority.receiptId
+  });
+  const allowed = await gate({
+    actionRef: boundLink.authority.actionRef,
+    authorityReceiptId: boundLink.authority.receiptId,
+    actionBinding
+  });
+
+  assert.equal(changedArguments.code, "AIPOU_AUTHORITY_REQUIRED");
+  assert.equal(staleGeneration.code, "AIPOU_AUTHORITY_REQUIRED");
+  assert.equal(missingBinding.code, "AIPOU_AUTHORITY_REQUIRED");
+  assert.equal(allowed.code, "AIPOU_AUTHORITY_ACCEPTED");
+  assert.equal(executed.length, 1);
+  assert.deepEqual(executed[0].actionBinding, actionBinding);
+});
+
+test("rejects incomplete action bindings", () => {
+  assert.equal(validateActionBinding(actionBinding), true);
+  assert.throws(() => validateActionBinding({ ...actionBinding, generation: -1 }));
+  assert.throws(() => validateActionBinding({ ...actionBinding, argumentsDigest: "sha256:upper" }));
+  assert.throws(() => validateActionBinding({ ...actionBinding, tool: "" }));
 });
 
 test("revalidates matching authority immediately before dispatch", async () => {

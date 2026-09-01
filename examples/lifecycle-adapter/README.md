@@ -102,6 +102,15 @@ Frameworks that already seal an authorization before execution can link it to th
 
 `validateAuthorityWorkLink` rejects phase inversions, self-references, mismatched work facts, and claim/reward fields presented as authority. An AIPOU claim remains an optional post-work settlement event and can never authorize an action.
 
+When a host needs replay-resistant pre-action enforcement, it can include an
+optional `authority.actionBinding` with a stable `intentId`, a non-negative
+`generation`, tool name, argument digest, and call `ordinal`. The policy gate
+then accepts the authority only for that exact materialized call. Reusing an
+intent ID with altered arguments or an older generation is denied before the
+tool executor runs. This is an enforcement extension, not a work receipt or
+claim field; the later `workReceiptId` can reference the action but cannot
+become execution authority.
+
 For cross-implementation conformance, `validateAuthorityWorkConformanceLink` applies a stricter profile without changing the base link scheme:
 
 - the authority artifact is `chain_derivable + delegation-scope-v1` with its own subject and deterministic `factId`;

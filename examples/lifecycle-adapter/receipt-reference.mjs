@@ -26,6 +26,7 @@ export const AIPOU_ISSUER_ASSERTED_FIELDS = new Set([
 const SHA256_DIGEST = /^sha256:[0-9a-f]{64}$/;
 const BYTES32 = /^0x[0-9a-f]{64}$/;
 const CUSTOM_ENFORCEMENT_POINT_KIND = /^custom:[a-z0-9][a-z0-9._-]{0,63}$/;
+const INTENT_ID = /^[a-z0-9][a-z0-9._:-]{0,127}$/;
 
 export function canonicalJson(value) {
   if (value === null) return "null";
@@ -122,12 +123,18 @@ export function validateActiveFactSet(references) {
   return true;
 }
 
-export function createAuthorityWorkLink({ authorityReceiptId, actionRef, traceLink, workReference }) {
+export function createAuthorityWorkLink({ authorityReceiptId, actionRef, actionBinding, traceLink, workReference }) {
   validateAipouReference(workReference);
+  if (actionBinding !== undefined) validateActionBinding(actionBinding);
   return {
     scheme: AUTHORITY_WORK_LINK_SCHEME,
     relation: "authorized_then_work_recorded",
-    authority: { receiptId: authorityReceiptId, actionRef, phase: "pre_action" },
+    authority: {
+      receiptId: authorityReceiptId,
+      actionRef,
+      ...(actionBinding === undefined ? {} : { actionBinding }),
+      phase: "pre_action"
+    },
     work: {
       receiptId: workReference.workReceiptId,
       factId: workReference.factId,
@@ -135,6 +142,37 @@ export function createAuthorityWorkLink({ authorityReceiptId, actionRef, traceLi
     },
     traceLink
   };
+}
+
+export function validateActionBinding(binding) {
+  if (!binding || typeof binding !== "object" || Array.isArray(binding)) {
+    throw new Error("Action bindings must be objects");
+  }
+  if (!INTENT_ID.test(binding.intentId || "")) {
+    throw new Error("Action bindings require a stable intentId");
+  }
+  if (!Number.isSafeInteger(binding.generation) || binding.generation < 0) {
+    throw new Error("Action bindings require a non-negative integer generation");
+  }
+  if (typeof binding.tool !== "string" || binding.tool.length === 0 || binding.tool.length > 256) {
+    throw new Error("Action bindings require a tool name");
+  }
+  if (!SHA256_DIGEST.test(binding.argumentsDigest || "")) {
+    throw new Error("Action bindings require a lowercase SHA-256 argumentsDigest");
+  }
+  if (!Number.isSafeInteger(binding.ordinal) || binding.ordinal < 0) {
+    throw new Error("Action bindings require a non-negative integer ordinal");
+  }
+  return true;
+}
+
+function actionBindingsMatch(expected, actual) {
+  if (actual === undefined) return false;
+  try {
+    return canonicalJson(actual) === canonicalJson(expected);
+  } catch {
+    return false;
+  }
 }
 
 export function validateAuthorityWorkLink(link, workReference) {
@@ -150,6 +188,9 @@ export function validateAuthorityWorkLink(link, workReference) {
   }
   if (!link.authority.receiptId || !link.authority.actionRef || !link.traceLink) {
     throw new Error("Authority/work links require receipt, action, and trace references");
+  }
+  if (link.authority.actionBinding !== undefined) {
+    validateActionBinding(link.authority.actionBinding);
   }
   if (!link.work.receiptId || !link.work.factId) {
     throw new Error("Authority/work links require work receipt and fact references");
@@ -263,8 +304,9 @@ export async function runEnforcementBenchmark({
 
   const authorityReceiptId = authorityWorkLink.authority?.receiptId;
   const actionRef = authorityWorkLink.authority?.actionRef;
-  const withoutAuthorityInput = { actionRef, authorityReceiptId: null };
-  const withAuthorityInput = { actionRef, authorityReceiptId };
+  const actionBinding = authorityWorkLink.authority?.actionBinding;
+  const withoutAuthorityInput = { actionRef, actionBinding, authorityReceiptId: null };
+  const withAuthorityInput = { actionRef, actionBinding, authorityReceiptId };
   const withoutAuthorityResult = await attemptAction(withoutAuthorityInput);
   const withAuthorityResult = await attemptAction(withAuthorityInput);
 
@@ -317,8 +359,11 @@ export function createToolExecutionPolicyGate({
 
   const expectedReceiptId = authorityWorkLink.authority?.receiptId;
   const expectedActionRef = authorityWorkLink.authority?.actionRef;
+  const expectedActionBinding = authorityWorkLink.authority?.actionBinding;
 
-  return async function executeAtToolBoundary({ actionRef, authorityReceiptId }) {
+  if (expectedActionBinding !== undefined) validateActionBinding(expectedActionBinding);
+
+  return async function executeAtToolBoundary({ actionRef, actionBinding, authorityReceiptId }) {
     if (await isPermanentlyForbidden({ actionRef, authorityReceiptId })) {
       return {
         outcome: "denied",
@@ -329,7 +374,8 @@ export function createToolExecutionPolicyGate({
         canRequestAuthority: false
       };
     }
-    if (actionRef !== expectedActionRef || authorityReceiptId !== expectedReceiptId) {
+    if (actionRef !== expectedActionRef || authorityReceiptId !== expectedReceiptId ||
+        (expectedActionBinding !== undefined && !actionBindingsMatch(expectedActionBinding, actionBinding))) {
       return {
         outcome: "denied",
         code: "AIPOU_AUTHORITY_REQUIRED",
@@ -341,7 +387,7 @@ export function createToolExecutionPolicyGate({
     }
 
     // A decision can become stale between an earlier approval and the side effect.
-    const revalidation = await revalidateAtDispatch({ actionRef, authorityReceiptId });
+    const revalidation = await revalidateAtDispatch({ actionRef, actionBinding, authorityReceiptId });
     if (revalidation?.allowed !== true) {
       return {
         outcome: "denied",
@@ -353,7 +399,7 @@ export function createToolExecutionPolicyGate({
       };
     }
 
-    const result = await executeAction({ actionRef, authorityReceiptId });
+    const result = await executeAction({ actionRef, actionBinding, authorityReceiptId });
     return {
       outcome: "allowed",
       code: "AIPOU_AUTHORITY_ACCEPTED",
