@@ -17,7 +17,9 @@ worked.
 
 1. The fixture author creates fresh synthetic payloads for every run. Do not
    reuse fact IDs, subjects, addresses, nonces, signatures, timestamps, or
-   other case bodies from a public expected-case corpus.
+   other case bodies from a public expected-case corpus. Every signature,
+   digest, and derived field must be recomputed from its case-specific
+   preimage; never reuse a cryptographic artifact across distinct payloads.
 2. The author creates a blind bundle containing opaque case IDs and only the
    data needed by a verifier. It contains no expected verdicts, assertions,
    mutation labels, or provenance that resolves a case to an earlier public
@@ -29,10 +31,14 @@ worked.
 4. The author publishes the blind-bundle digest and the number of cases, but
    keeps the mapping outside any repository tree or artifact set that exposes
    public expected payloads. Vary case count and pass/fail distribution across
-   runs when practical.
+   runs when practical, but withhold the expected pass/fail marginal until the
+   mapping opens: a published marginal can resolve otherwise ambiguous blind
+   cases by side channel.
    Before calling the bundle sealed, the author also measures and publishes
-   how many verdicts are recoverable from public bytes alone. A seal is not a
-   claim about the bundle's difficulty.
+   how many verdicts are recoverable from public bytes alone, including by
+   structural constraints, repeated artifacts, cardinality, or other side
+   information, not just corpus joins or obvious marker values. A seal is not
+   a claim about the bundle's difficulty.
 5. Each evaluator records the blind-bundle digest, runs only its own
    implementation, and publishes an ordered opaque-ID-to-verdict table plus a
    SHA-256 digest of that compact canonical table before the mapping opens.
@@ -48,6 +54,12 @@ well-formed but wrong digest, a valid-length signature over a wrong preimage,
 or an unregistered scheme name that is otherwise ordinary. Do not use sentinel
 strings, conspicuous hexadecimal words, malformed lengths, or version numbers
 that reveal a verdict without running a verifier.
+
+Do not accidentally turn a mutation pair into a second oracle. A repeated
+signature set across two different preimages, a constant lookup key, or a
+published distribution can let an evaluator infer a verdict without verifying
+the intended invariant. Exercise the corpus against those structural clues and
+report any remaining recovery path before describing the run as independent.
 
 When an evaluator also publishes a marker detector, it must commit the
 detector and marker list by SHA-256 before the blind bundle is released, then
