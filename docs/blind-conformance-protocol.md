@@ -37,8 +37,11 @@ worked.
    Before calling the bundle sealed, the author also measures and publishes
    how many verdicts are recoverable from public bytes alone, including by
    structural constraints, repeated artifacts, cardinality, or other side
-   information, not just corpus joins or obvious marker values. A seal is not
-   a claim about the bundle's difficulty.
+   information, not just corpus joins or obvious marker values. Record an
+   outcome-relevant constraint even when it does not identify a complete
+   verdict by itself: state the affected cases and whether a published
+   marginal or another public fact could turn the constraint into a verdict.
+   A seal is not a claim about the bundle's difficulty.
 5. Each evaluator records the blind-bundle digest, runs only its own
    implementation, and publishes an ordered opaque-ID-to-verdict table plus a
    SHA-256 digest of that compact canonical table before the mapping opens.
@@ -58,8 +61,11 @@ that reveal a verdict without running a verifier.
 Do not accidentally turn a mutation pair into a second oracle. A repeated
 signature set across two different preimages, a constant lookup key, or a
 published distribution can let an evaluator infer a verdict without verifying
-the intended invariant. Exercise the corpus against those structural clues and
-report any remaining recovery path before describing the run as independent.
+the intended invariant. Treat compound cryptographic values, including
+signature arrays, as artifacts that must be fresh per case; a shared list is
+still reuse even when every individual element has the right shape. Exercise
+the corpus against those structural clues and report any remaining recovery
+path before describing the run as independent.
 
 When an evaluator also publishes a marker detector, it must commit the
 detector and marker list by SHA-256 before the blind bundle is released, then
