@@ -169,6 +169,16 @@ The first recommended application binding is the tool execution boundary: check 
 
 For consequential actions, revalidate the matching authority at dispatch as well. An approval can expire, be revoked, or cease to match policy/context while an agent is still reasoning. The reference gate accepts an integration-supplied `revalidateAtDispatch` callback and fails closed before calling the action executor when it returns anything other than `{ allowed: true }`. This is a local enforcement pattern, not a claim that every credential path is controlled.
 
+When an authority is bound to a tool call, calculate `argumentsDigest` from the
+canonical JSON of the concrete arguments supplied to the executor, then
+recompute it at the execution boundary. A digest supplied alongside client
+history is not enough on its own. An issuance signature also does not make an
+approval single-use: the credential-owning host must atomically record a
+durable consumed marker for consequential actions and return the original
+outcome or a typed already-consumed result on a retry. AIPOU's reference gate
+demonstrates the materialized-arguments check; it does not supply a production
+pause store or claim to consume a framework's authorization.
+
 An allowed dispatch is still not proof that an external effect occurred. Keep `proposed`, `authorized`, `dispatched`, `host_observed`, and `externally_verified` as distinct outcome classes. Only the system that can authoritatively observe the external effect, or an identified independent verifier, can attest to the last class. AIPOU's later work receipt and optional claim remain separate from each of these execution records.
 
 For external systems, attach their own digest-only observation beside the work

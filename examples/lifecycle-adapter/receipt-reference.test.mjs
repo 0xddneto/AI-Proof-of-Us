@@ -5,11 +5,13 @@ import {
   AIPOU_EVIDENCE_CLASS,
   AIPOU_RECEIPT_SCHEME,
   ENFORCEMENT_CHECK_SCHEME,
+  createActionBinding,
   createToolExecutionPolicyGate,
   createAuthorityWorkLink,
   canonicalJson,
   deriveDelegationScopeFactId,
   deriveFactId,
+  deriveActionArgumentsDigest,
   runAgentPolicyLoop,
   runEnforcementBenchmark,
   validateActionBinding,
@@ -42,13 +44,19 @@ const authorityWorkLink = createAuthorityWorkLink({
   workReference: base
 });
 
-const actionBinding = {
+const actionArguments = {
+  base: "main",
+  body: "Add receipt validation.",
+  head: "receipt-validation",
+  title: "Add receipt validation"
+};
+const actionBinding = createActionBinding({
   intentId: "agent:run-123:tool-approve",
   generation: 3,
   tool: "github.create_pull_request",
-  argumentsDigest: `sha256:${"96".repeat(32)}`,
+  arguments: actionArguments,
   ordinal: 2
-};
+});
 
 const enforcementCheck = {
   scheme: ENFORCEMENT_CHECK_SCHEME,
@@ -301,21 +309,25 @@ test("binds a stable intent to its materialized tool call and generation", async
   const changedArguments = await gate({
     actionRef: boundLink.authority.actionRef,
     authorityReceiptId: boundLink.authority.receiptId,
-    actionBinding: { ...actionBinding, argumentsDigest: `sha256:${"97".repeat(32)}` }
+    actionBinding: { ...actionBinding, argumentsDigest: `sha256:${"97".repeat(32)}` },
+    actionArguments
   });
   const staleGeneration = await gate({
     actionRef: boundLink.authority.actionRef,
     authorityReceiptId: boundLink.authority.receiptId,
-    actionBinding: { ...actionBinding, generation: 2 }
+    actionBinding: { ...actionBinding, generation: 2 },
+    actionArguments
   });
   const missingBinding = await gate({
     actionRef: boundLink.authority.actionRef,
-    authorityReceiptId: boundLink.authority.receiptId
+    authorityReceiptId: boundLink.authority.receiptId,
+    actionArguments
   });
   const allowed = await gate({
     actionRef: boundLink.authority.actionRef,
     authorityReceiptId: boundLink.authority.receiptId,
-    actionBinding
+    actionBinding,
+    actionArguments
   });
 
   assert.equal(changedArguments.code, "AIPOU_AUTHORITY_REQUIRED");
@@ -324,13 +336,52 @@ test("binds a stable intent to its materialized tool call and generation", async
   assert.equal(allowed.code, "AIPOU_AUTHORITY_ACCEPTED");
   assert.equal(executed.length, 1);
   assert.deepEqual(executed[0].actionBinding, actionBinding);
+  assert.deepEqual(executed[0].actionArguments, actionArguments);
 });
 
 test("rejects incomplete action bindings", () => {
   assert.equal(validateActionBinding(actionBinding), true);
+  assert.equal(
+    deriveActionArgumentsDigest({ title: "Add receipt validation", body: "Add receipt validation.", head: "receipt-validation", base: "main" }),
+    actionBinding.argumentsDigest
+  );
+  assert.equal(
+    createActionBinding({
+      intentId: actionBinding.intentId,
+      generation: actionBinding.generation,
+      tool: actionBinding.tool,
+      arguments: actionArguments,
+      ordinal: actionBinding.ordinal
+    }).argumentsDigest,
+    actionBinding.argumentsDigest
+  );
   assert.throws(() => validateActionBinding({ ...actionBinding, generation: -1 }));
   assert.throws(() => validateActionBinding({ ...actionBinding, argumentsDigest: "sha256:upper" }));
   assert.throws(() => validateActionBinding({ ...actionBinding, tool: "" }));
+});
+
+test("rejects a materialized tool call whose arguments differ from its authority binding", async () => {
+  const boundLink = createAuthorityWorkLink({
+    authorityReceiptId: authorityWorkLink.authority.receiptId,
+    actionRef: authorityWorkLink.authority.actionRef,
+    actionBinding,
+    traceLink: authorityWorkLink.traceLink,
+    workReference: base
+  });
+  const gate = createToolExecutionPolicyGate({
+    authorityWorkLink: boundLink,
+    executeAction: async () => assert.fail("changed arguments must not execute")
+  });
+
+  const result = await gate({
+    actionRef: boundLink.authority.actionRef,
+    authorityReceiptId: boundLink.authority.receiptId,
+    actionBinding,
+    actionArguments: { ...actionArguments, base: "release" }
+  });
+
+  assert.equal(result.outcome, "denied");
+  assert.equal(result.code, "AIPOU_AUTHORITY_REQUIRED");
 });
 
 test("revalidates matching authority immediately before dispatch", async () => {

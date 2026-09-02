@@ -49,7 +49,23 @@ export function canonicalJson(value) {
 }
 
 function digestEvidence(value) {
-  return `sha256:${createHash("sha256").update(JSON.stringify(value)).digest("hex")}`;
+  return `sha256:${createHash("sha256").update(canonicalJson(value)).digest("hex")}`;
+}
+
+export function deriveActionArgumentsDigest(argumentsValue) {
+  return digestEvidence(argumentsValue);
+}
+
+export function createActionBinding({ intentId, generation, tool, arguments: argumentsValue, ordinal }) {
+  const binding = {
+    intentId,
+    generation,
+    tool,
+    argumentsDigest: deriveActionArgumentsDigest(argumentsValue),
+    ordinal
+  };
+  validateActionBinding(binding);
+  return binding;
 }
 
 export function collectorFingerprint(publicKey) {
@@ -170,6 +186,14 @@ function actionBindingsMatch(expected, actual) {
   if (actual === undefined) return false;
   try {
     return canonicalJson(actual) === canonicalJson(expected);
+  } catch {
+    return false;
+  }
+}
+
+function actionArgumentsMatch(binding, argumentsValue) {
+  try {
+    return deriveActionArgumentsDigest(argumentsValue) === binding.argumentsDigest;
   } catch {
     return false;
   }
@@ -296,6 +320,7 @@ export async function runEnforcementBenchmark({
   authorityWorkLink,
   enforcementPoint,
   policyDigest,
+  actionArguments,
   attemptAction
 }) {
   if (typeof attemptAction !== "function") {
@@ -305,8 +330,13 @@ export async function runEnforcementBenchmark({
   const authorityReceiptId = authorityWorkLink.authority?.receiptId;
   const actionRef = authorityWorkLink.authority?.actionRef;
   const actionBinding = authorityWorkLink.authority?.actionBinding;
-  const withoutAuthorityInput = { actionRef, actionBinding, authorityReceiptId: null };
-  const withAuthorityInput = { actionRef, actionBinding, authorityReceiptId };
+  const actionInput = {
+    actionRef,
+    ...(actionBinding === undefined ? {} : { actionBinding }),
+    ...(actionArguments === undefined ? {} : { actionArguments })
+  };
+  const withoutAuthorityInput = { ...actionInput, authorityReceiptId: null };
+  const withAuthorityInput = { ...actionInput, authorityReceiptId };
   const withoutAuthorityResult = await attemptAction(withoutAuthorityInput);
   const withAuthorityResult = await attemptAction(withAuthorityInput);
 
@@ -363,7 +393,7 @@ export function createToolExecutionPolicyGate({
 
   if (expectedActionBinding !== undefined) validateActionBinding(expectedActionBinding);
 
-  return async function executeAtToolBoundary({ actionRef, actionBinding, authorityReceiptId }) {
+  return async function executeAtToolBoundary({ actionRef, actionBinding, actionArguments, authorityReceiptId }) {
     if (await isPermanentlyForbidden({ actionRef, authorityReceiptId })) {
       return {
         outcome: "denied",
@@ -375,7 +405,8 @@ export function createToolExecutionPolicyGate({
       };
     }
     if (actionRef !== expectedActionRef || authorityReceiptId !== expectedReceiptId ||
-        (expectedActionBinding !== undefined && !actionBindingsMatch(expectedActionBinding, actionBinding))) {
+        (expectedActionBinding !== undefined && (!actionBindingsMatch(expectedActionBinding, actionBinding) ||
+          !actionArgumentsMatch(expectedActionBinding, actionArguments)))) {
       return {
         outcome: "denied",
         code: "AIPOU_AUTHORITY_REQUIRED",
@@ -387,7 +418,7 @@ export function createToolExecutionPolicyGate({
     }
 
     // A decision can become stale between an earlier approval and the side effect.
-    const revalidation = await revalidateAtDispatch({ actionRef, actionBinding, authorityReceiptId });
+    const revalidation = await revalidateAtDispatch({ actionRef, actionBinding, actionArguments, authorityReceiptId });
     if (revalidation?.allowed !== true) {
       return {
         outcome: "denied",
@@ -399,7 +430,7 @@ export function createToolExecutionPolicyGate({
       };
     }
 
-    const result = await executeAction({ actionRef, actionBinding, authorityReceiptId });
+    const result = await executeAction({ actionRef, actionBinding, actionArguments, authorityReceiptId });
     return {
       outcome: "allowed",
       code: "AIPOU_AUTHORITY_ACCEPTED",
