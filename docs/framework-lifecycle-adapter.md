@@ -169,6 +169,8 @@ The first recommended application binding is the tool execution boundary: check 
 
 For consequential actions, revalidate the matching authority at dispatch as well. An approval can expire, be revoked, or cease to match policy/context while an agent is still reasoning. The reference gate accepts an integration-supplied `revalidateAtDispatch` callback and fails closed before calling the action executor when it returns anything other than `{ allowed: true }`. This is a local enforcement pattern, not a claim that every credential path is controlled.
 
+For high-risk human approvals, a label in a tool request is not proof of who approved it. An authority binding may optionally carry an `approverPrincipal`, but the reference gate accepts that identity only through an integration-supplied, host-owned `resolveAuthenticatedPrincipal` callback immediately before dispatch. It never reads an approver identity from the action invocation. A missing resolver or a principal mismatch fails closed with `AIPOU_APPROVER_MISMATCH`. Whether a proposer may approve their own action is deployment policy: integrations that require independent approval should enforce that rule in the same authenticated resolver or revalidation callback rather than assuming it is universal.
+
 When an authority is bound to a tool call, calculate `argumentsDigest` from the
 canonical JSON of the concrete arguments supplied to the executor, then
 recompute it at the execution boundary. A digest supplied alongside client

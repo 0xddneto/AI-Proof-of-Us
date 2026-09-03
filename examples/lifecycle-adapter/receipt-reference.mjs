@@ -56,13 +56,21 @@ export function deriveActionArgumentsDigest(argumentsValue) {
   return digestEvidence(argumentsValue);
 }
 
-export function createActionBinding({ intentId, generation, tool, arguments: argumentsValue, ordinal }) {
+export function createActionBinding({
+  intentId,
+  generation,
+  tool,
+  arguments: argumentsValue,
+  ordinal,
+  approverPrincipal
+}) {
   const binding = {
     intentId,
     generation,
     tool,
     argumentsDigest: deriveActionArgumentsDigest(argumentsValue),
-    ordinal
+    ordinal,
+    ...(approverPrincipal === undefined ? {} : { approverPrincipal })
   };
   validateActionBinding(binding);
   return binding;
@@ -178,6 +186,11 @@ export function validateActionBinding(binding) {
   }
   if (!Number.isSafeInteger(binding.ordinal) || binding.ordinal < 0) {
     throw new Error("Action bindings require a non-negative integer ordinal");
+  }
+  if (binding.approverPrincipal !== undefined &&
+      (typeof binding.approverPrincipal !== "string" || binding.approverPrincipal.length === 0 ||
+       binding.approverPrincipal.length > 256 || binding.approverPrincipal.trim() !== binding.approverPrincipal)) {
+    throw new Error("Action binding approverPrincipal must be a trimmed non-empty string up to 256 characters");
   }
   return true;
 }
@@ -375,7 +388,8 @@ export function createToolExecutionPolicyGate({
   authorityWorkLink,
   executeAction,
   isPermanentlyForbidden = async () => false,
-  revalidateAtDispatch = async () => ({ allowed: true })
+  revalidateAtDispatch = async () => ({ allowed: true }),
+  resolveAuthenticatedPrincipal = undefined
 }) {
   if (typeof executeAction !== "function") {
     throw new Error("Tool execution policy gates require an action executor");
@@ -386,12 +400,19 @@ export function createToolExecutionPolicyGate({
   if (typeof revalidateAtDispatch !== "function") {
     throw new Error("Dispatch revalidation must be an executable function");
   }
+  if (resolveAuthenticatedPrincipal !== undefined && typeof resolveAuthenticatedPrincipal !== "function") {
+    throw new Error("Authenticated-principal resolution must be an executable function");
+  }
 
   const expectedReceiptId = authorityWorkLink.authority?.receiptId;
   const expectedActionRef = authorityWorkLink.authority?.actionRef;
   const expectedActionBinding = authorityWorkLink.authority?.actionBinding;
 
   if (expectedActionBinding !== undefined) validateActionBinding(expectedActionBinding);
+  const expectedApproverPrincipal = expectedActionBinding?.approverPrincipal;
+  if (expectedApproverPrincipal !== undefined && typeof resolveAuthenticatedPrincipal !== "function") {
+    throw new Error("Approver-bound authority requires a host-owned authenticated-principal resolver");
+  }
 
   return async function executeAtToolBoundary({ actionRef, actionBinding, actionArguments, authorityReceiptId }) {
     if (await isPermanentlyForbidden({ actionRef, authorityReceiptId })) {
@@ -417,8 +438,34 @@ export function createToolExecutionPolicyGate({
       };
     }
 
+    let authenticatedApproverPrincipal;
+    if (expectedApproverPrincipal !== undefined) {
+      const resolvedPrincipal = await resolveAuthenticatedPrincipal({ actionRef, authorityReceiptId });
+      authenticatedApproverPrincipal = typeof resolvedPrincipal === "string"
+        ? resolvedPrincipal
+        : resolvedPrincipal?.principal;
+      if (authenticatedApproverPrincipal !== expectedApproverPrincipal) {
+        return {
+          outcome: "denied",
+          code: "AIPOU_APPROVER_MISMATCH",
+          message: "Tool action blocked: the server-authenticated approver does not match the authority binding.",
+          actionRef,
+          enforcementPointKind: "orchestrator_policy",
+          canRequestAuthority: false
+        };
+      }
+    }
+
+    const dispatchInput = {
+      actionRef,
+      actionBinding,
+      actionArguments,
+      authorityReceiptId,
+      ...(authenticatedApproverPrincipal === undefined ? {} : { authenticatedApproverPrincipal })
+    };
+
     // A decision can become stale between an earlier approval and the side effect.
-    const revalidation = await revalidateAtDispatch({ actionRef, actionBinding, actionArguments, authorityReceiptId });
+    const revalidation = await revalidateAtDispatch(dispatchInput);
     if (revalidation?.allowed !== true) {
       return {
         outcome: "denied",
@@ -430,7 +477,7 @@ export function createToolExecutionPolicyGate({
       };
     }
 
-    const result = await executeAction({ actionRef, actionBinding, actionArguments, authorityReceiptId });
+    const result = await executeAction(dispatchInput);
     return {
       outcome: "allowed",
       code: "AIPOU_AUTHORITY_ACCEPTED",

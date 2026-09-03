@@ -112,6 +112,15 @@ denied before the tool executor runs. This is an enforcement extension, not a
 work receipt or claim field; the later `workReceiptId` can reference the action
 but cannot become execution authority.
 
+For high-risk human approvals, the binding can also carry an optional
+`approverPrincipal`. A UI label or client-supplied name is not proof of that
+principal. When this field is present, `createToolExecutionPolicyGate` requires
+the integration's host-owned `resolveAuthenticatedPrincipal` callback and
+compares its result immediately before dispatch. A mismatch returns
+`AIPOU_APPROVER_MISMATCH` and does not run the executor. Rules such as requiring
+a different proposer and approver belong to the host's explicit policy, since
+single-operator deployments may legitimately use one principal in both roles.
+
 For cross-implementation conformance, `validateAuthorityWorkConformanceLink` applies a stricter profile without changing the base link scheme:
 
 - the authority artifact is `chain_derivable + delegation-scope-v1` with its own subject and deterministic `factId`;
@@ -184,6 +193,8 @@ Implementations that genuinely need another category can use `custom:<name>`. Ba
 `createToolExecutionPolicyGate` is the reference `orchestrator_policy` boundary. It blocks a tool before side effects when the matching pre-action receipt is absent and returns a structured `AIPOU_AUTHORITY_REQUIRED` result with `canRequestAuthority: true`. With the matching receipt, it executes the action and returns `AIPOU_AUTHORITY_ACCEPTED`. This maps to AutoGen's tool-call interception pattern, but remains a framework-neutral JavaScript fixture rather than claiming a shipped AutoGen integration.
 
 For consequential actions, pass `revalidateAtDispatch` to the gate. It runs immediately before the action executor and must return `{ allowed: true }`; expiry, revocation, policy, or context failure can return a structured denial such as `AIPOU_AUTHORITY_REVOKED`. This closes the time gap between an earlier approval and dispatch in the reference boundary. It still does not prove that an external side effect happened: external effect verification needs the authoritative target system or a separate named verifier.
+
+When an authority binding carries `approverPrincipal`, also pass a host-owned `resolveAuthenticatedPrincipal` callback. The gate obtains the actual authenticated principal from that callback immediately before dispatch and returns `AIPOU_APPROVER_MISMATCH` without executing the tool when it differs from the bound principal. Request-body display names and agent-supplied labels are never authority inputs. Independent-approval requirements remain an explicit integration policy, not an implicit global ban on a principal approving their own action.
 
 Permanent policy denials return `AIPOU_ACTION_FORBIDDEN` with `canRequestAuthority: false`. `runAgentPolicyLoop` requests authority and retries once only when that flag is `true`; it performs no authority request, retry, or protected mutation for permanently forbidden actions.
 

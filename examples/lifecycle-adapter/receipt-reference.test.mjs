@@ -358,6 +358,61 @@ test("rejects incomplete action bindings", () => {
   assert.throws(() => validateActionBinding({ ...actionBinding, generation: -1 }));
   assert.throws(() => validateActionBinding({ ...actionBinding, argumentsDigest: "sha256:upper" }));
   assert.throws(() => validateActionBinding({ ...actionBinding, tool: "" }));
+  assert.throws(() => validateActionBinding({ ...actionBinding, approverPrincipal: "" }));
+  assert.throws(() => validateActionBinding({ ...actionBinding, approverPrincipal: " user:operator-42" }));
+});
+
+test("uses a host-authenticated principal for approver-bound authority", async () => {
+  const approverBinding = createActionBinding({
+    intentId: actionBinding.intentId,
+    generation: actionBinding.generation,
+    tool: actionBinding.tool,
+    arguments: actionArguments,
+    ordinal: actionBinding.ordinal,
+    approverPrincipal: "user:operator-42"
+  });
+  const boundLink = createAuthorityWorkLink({
+    authorityReceiptId: authorityWorkLink.authority.receiptId,
+    actionRef: authorityWorkLink.authority.actionRef,
+    actionBinding: approverBinding,
+    traceLink: authorityWorkLink.traceLink,
+    workReference: base
+  });
+  const executed = [];
+
+  assert.throws(() => createToolExecutionPolicyGate({
+    authorityWorkLink: boundLink,
+    executeAction: async () => assert.fail("missing authenticated-principal resolver must fail closed")
+  }), /host-owned authenticated-principal resolver/);
+
+  const mismatchGate = createToolExecutionPolicyGate({
+    authorityWorkLink: boundLink,
+    resolveAuthenticatedPrincipal: async () => "agent:caller",
+    executeAction: async (input) => executed.push(input)
+  });
+  const denied = await mismatchGate({
+    actionRef: boundLink.authority.actionRef,
+    authorityReceiptId: boundLink.authority.receiptId,
+    actionBinding: approverBinding,
+    actionArguments
+  });
+  assert.equal(denied.code, "AIPOU_APPROVER_MISMATCH");
+  assert.equal(denied.canRequestAuthority, false);
+  assert.deepEqual(executed, []);
+
+  const allowedGate = createToolExecutionPolicyGate({
+    authorityWorkLink: boundLink,
+    resolveAuthenticatedPrincipal: async () => ({ principal: "user:operator-42" }),
+    executeAction: async (input) => executed.push(input)
+  });
+  const allowed = await allowedGate({
+    actionRef: boundLink.authority.actionRef,
+    authorityReceiptId: boundLink.authority.receiptId,
+    actionBinding: approverBinding,
+    actionArguments
+  });
+  assert.equal(allowed.code, "AIPOU_AUTHORITY_ACCEPTED");
+  assert.equal(executed[0].authenticatedApproverPrincipal, "user:operator-42");
 });
 
 test("rejects a materialized tool call whose arguments differ from its authority binding", async () => {
