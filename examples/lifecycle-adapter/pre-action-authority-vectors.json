@@ -1,0 +1,58 @@
+{
+  "$schema_note": "Protocol-neutral synthetic vectors for the pre-action-authority <-> work-receipt temporal boundary. Data only: no runtime, no product dependency. See docs/pre-action-authority-boundary.md. Origin: modelcontextprotocol/modelcontextprotocol#2498.",
+  "version": "0.1.0",
+  "invariant": "Authority flows forward only. A Phase-2 work receipt may reference a Phase-1 pre-action fact; it may never become one, create root authority, certify the effect, or upgrade a tier.",
+  "vectors": [
+    {
+      "id": "valid-composition",
+      "expect": "accept",
+      "phase1_pre_action_fact": {
+        "preActionFactId": "paf_01H...aaa",
+        "normalizedCallDigest": "sha256:2ae328fc...",
+        "holder": "agent:acct-77",
+        "delegate": null,
+        "boundedCapability": "payment.send",
+        "expiry": "2026-09-01T00:00:00Z",
+        "replayState": "unspent",
+        "decisionReceiptRef": "dr_01H...zzz"
+      },
+      "phase2_work_receipt": {
+        "workReceiptId": "wr_01H...bbb",
+        "references": { "preActionFactId": "paf_01H...aaa", "decisionReceiptRef": "dr_01H...zzz" },
+        "asserts_root_authority": false,
+        "asserts_effect_proof": false,
+        "asserts_tier_upgrade": false
+      },
+      "why": "Phase-1 fact bound to the exact normalized call and consumed at dispatch; the Phase-2 work receipt only references it as post-work evidence."
+    },
+    {
+      "id": "neg-phase-inversion",
+      "expect": "reject",
+      "reason": "time_runs_backward",
+      "detail": "A workReceiptId (minted after completion) is presented as the pre-action authorization input. A post-work artifact cannot authorize an earlier dispatch.",
+      "offending": { "usedAsPreActionInput": "wr_01H...bbb" }
+    },
+    {
+      "id": "neg-call-digest-mismatch",
+      "expect": "reject",
+      "reason": "toctou_call_mutated",
+      "detail": "The executed call's normalizedCallDigest does not match the digest the pre-action authority was bound to; the prior authorization no longer applies to the mutated call.",
+      "authorized_digest": "sha256:2ae328fc...",
+      "executed_digest": "sha256:eaa8f699..."
+    },
+    {
+      "id": "neg-replay",
+      "expect": "reject",
+      "reason": "replay_of_spent_grant",
+      "detail": "A pre-action fact whose replayState is already 'spent' (or past expiry) is reused for a second dispatch.",
+      "offending": { "preActionFactId": "paf_01H...aaa", "replayState": "spent" }
+    },
+    {
+      "id": "neg-postwork-to-preaction-tier-upgrade",
+      "expect": "reject",
+      "reason": "work_receipt_upgrades_authority",
+      "detail": "A workReceiptId is used to raise the trust tier of the authority it descends from. Post-work evidence cannot promote the pre-action authority that preceded it.",
+      "offending": { "workReceiptId": "wr_01H...bbb", "attemptedTierUpgrade": "unverified -> verified" }
+    }
+  ]
+}
