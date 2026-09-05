@@ -8,8 +8,8 @@
 > product integration and no adoption claim — it states an invariant AIPOU
 > already depends on, so a reviewer can check the direction explicitly.
 
-AIPOU signs a **post-work** unit: `human asks for work → agent performs work →
-AIPOU creates `workReceiptId``. Many agent stacks *also* want a **pre-action**
+AIPOU signs a **post-work** unit: `human asks for work -> agent performs work ->
+AIPOU creates `workReceiptId`. Many agent stacks *also* want a **pre-action**
 decision at dispatch ("is this call authorized, under whose authority, bound to
 what exact call?"). These are two different receipts at two different times.
 The only way they compose safely is with an explicit arrow of time.

@@ -12,7 +12,7 @@
         "holder": "agent:acct-77",
         "delegate": null,
         "boundedCapability": "payment.send",
-        "expiry": "2026-09-01T00:00:00Z",
+        "expiry": "2099-01-01T00:00:00Z",
         "replayState": "unspent",
         "decisionReceiptRef": "dr_01H...zzz"
       },
