@@ -82,7 +82,7 @@ server.tool(
 
 server.tool(
   "get_aipou_status",
-  "Use for a read-only farming summary, especially when the user asks how much AIPOU is pending or already claimed. Returns receipt counts, estimated pending rewards, recent settlement state, and the farming wallet's on-chain AIPOU balance. It may read Base through the configured RPC but never signs or submits a transaction, changes receipts, reveals private keys, or returns full receipt payloads.",
+  "Use this first when the user asks for pending, claimed, or wallet-balance information; use a settlement tool only after an explicit claim request. Returns a read-only JSON summary of receipt counts, estimated pending AIPOU, prior settlement state, and the farming wallet's on-chain AIPOU balance. It may read Base through the configured RPC, but it never signs or submits a transaction, changes receipts, reveals private keys, or returns full receipt payloads.",
   {},
   {
     readOnlyHint: true,
@@ -98,7 +98,7 @@ server.tool(
 
 server.tool(
   "estimate_ai_reward",
-  "Use before completion only when a preview is useful. Computes a local client-signed reward estimate from token counts and duration, returning JSON with estimatedReward and unit. It creates no task or receipt, changes no state, and submits no transaction. The result is informational: complete_ai_task derives receipt evidence, and the validator determines final eligibility and trust tier.",
+  "Use before complete_ai_task only when a preview is useful. Provide non-negative inputTokens, outputTokens, and durationSeconds for one task; it returns JSON with estimatedReward and unit for a client-signed estimate. It creates no task or receipt, changes no state, and submits no transaction. The result is informational: complete_ai_task derives the receipt evidence, and the validator determines final eligibility and trust tier.",
   usageCounts,
   {
     readOnlyHint: true,
@@ -116,7 +116,7 @@ server.tool(
 
 server.tool(
   "begin_ai_task",
-  "Create a unique task nonce and EIP-712 authorization signed by the dedicated farming wallet.",
+  "Use once before meaningful AI work to create a task session. Provide the provider, model, client, and a 32-byte hash of the task description; returns a unique nonce and EIP-712 authorization signed by the dedicated farming wallet. This writes a pending local task session but does not publish, mint, or submit an on-chain transaction. Pass the returned nonce to complete_ai_task; do not reuse it for another task.",
   {
     provider: z.string().min(1).max(64),
     model: z.string().min(1).max(128),
@@ -138,7 +138,7 @@ server.tool(
 
 server.tool(
   "complete_ai_task",
-  "Use once after begin_ai_task finishes meaningful work. Validates the begin-task nonce, bounded usage counts, output hash, and optional provider evidence; derives the evidence tier; rejects nonce or evidence replay; then stores and returns the complete Ed25519-signed receipt plus compact result metadata. This changes the local receipt store but does not publish a Merkle root, mint tokens, or submit a blockchain transaction. Repeating the same nonce or evidence fails closed instead of creating another receipt.",
+  "Use exactly once after begin_ai_task finishes meaningful work. Supply that session's nonce, non-negative inputTokens and outputTokens, whole-second durationSeconds, and a 32-byte outputHash; providerEvidence is optional and only for a configured provider key. It validates the nonce and bounded usage, derives the evidence tier, rejects replay, then writes the local receipt store and returns an Ed25519-signed receipt plus compact workReceiptId metadata. It does not publish a Merkle root, mint tokens, or submit a blockchain transaction. Use get_aipou_status to inspect recorded work; repeating a nonce or evidence fails closed instead of creating another receipt.",
   {
     nonce: bytes32.describe("Unique 32-byte nonce returned by begin_ai_task for this exact task."),
     ...usageCounts,
@@ -167,7 +167,7 @@ server.tool(
 
 server.tool(
   "export_ai_receipts",
-  "Export stored signed AI task receipts, optionally filtered by wallet.",
+  "Export signed receipts already stored in this MCP installation, optionally limited to one farming wallet address. Returns JSON with count and receipt payloads, so use it only where local receipt data is appropriate to expose. It does not create a receipt, validate a claim, contact Base, or submit a transaction; use get_aipou_status instead for a compact private summary.",
   { wallet: z.string().regex(/^0x[a-fA-F0-9]{40}$/).optional() },
   async ({ wallet }) => {
     const receipts = await exportReceipts(wallet);
@@ -225,7 +225,7 @@ server.tool(
 
 server.tool(
   "settle_ai_rewards",
-  "After an explicit user claim request for one limited batch, validate eligible receipts against the settlement policy, publish a Merkle root, and mint the included rewards. Submits two on-chain transactions; the host's own confirmation policy applies.",
+  "Use only after an explicit user request to claim one limited batch, not for status or reward previews. maxReceipts defaults to 25 and is capped at 100; the tool validates eligible local receipts against settlement policy, publishes one Merkle root, and mints the included rewards. It submits two Base transactions, so the host client and user must apply their own confirmation policy. Use settle_all_ai_rewards instead for an explicit request to claim all pending eligible receipts.",
   { maxReceipts: z.number().int().min(1).max(100).default(25) },
   async ({ maxReceipts }) => {
     const batch = await settleRewards(maxReceipts);
@@ -235,7 +235,7 @@ server.tool(
 
 server.tool(
   "settle_all_ai_rewards",
-  "After an explicit broad claim request, settle all currently pending eligible receipts from the shared AIPOU data directory by submitting as many bounded batches as needed. Each batch publishes one Merkle root and submits one claim transaction.",
+  "Use only after an explicit broad request such as 'claim my AIPOU' or 'settle all pending AIPOU'; do not use it for a status check. batchSize defaults to 100 and maxBatches to 20, with bounds of 1-100 and 1-50, so large queues remain bounded. It validates all currently eligible local receipts and submits Base transactions for each batch: one Merkle-root publication and one claim transaction per batch. The host client and user must apply their own confirmation policy; use settle_ai_rewards when the user asks for one limited batch.",
   {
     batchSize: z.number().int().min(1).max(100).default(100),
     maxBatches: z.number().int().min(1).max(50).default(20)

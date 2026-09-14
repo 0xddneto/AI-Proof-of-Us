@@ -21,8 +21,10 @@ test("tool metadata explains parameters, side effects, and safe alternatives", a
 
     assert.ok(complete);
     assert.match(complete.description ?? "", /once after begin_ai_task/i);
-    assert.match(complete.description ?? "", /changes the local receipt store/i);
+    assert.match(complete.description ?? "", /writes the local receipt store/i);
     assert.match(complete.description ?? "", /does not .*submit a blockchain transaction/i);
+    assert.match(complete.description ?? "", /workReceiptId/i);
+    assert.match(complete.description ?? "", /get_aipou_status/i);
     assert.deepEqual(complete.annotations, {
       readOnlyHint: false,
       destructiveHint: false,
@@ -43,12 +45,14 @@ test("tool metadata explains parameters, side effects, and safe alternatives", a
 
     assert.ok(estimate);
     assert.match(estimate.description ?? "", /informational/i);
+    assert.match(estimate.description ?? "", /inputTokens, outputTokens, and durationSeconds/i);
     assert.equal(estimate.annotations?.readOnlyHint, true);
     assert.equal(estimate.annotations?.idempotentHint, true);
 
     assert.ok(status);
-    assert.match(status.description ?? "", /read-only farming summary/i);
+    assert.match(status.description ?? "", /read-only JSON summary/i);
     assert.match(status.description ?? "", /never signs or submits a transaction/i);
+    assert.match(status.description ?? "", /explicit claim request/i);
     assert.equal(status.annotations?.readOnlyHint, true);
     assert.equal(status.annotations?.openWorldHint, true);
   } finally {
