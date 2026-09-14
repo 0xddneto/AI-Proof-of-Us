@@ -415,6 +415,62 @@ test("uses a host-authenticated principal for approver-bound authority", async (
   assert.equal(executed[0].authenticatedApproverPrincipal, "user:operator-42");
 });
 
+test("consumes an attempt once and never retries an unverified dispatch", async () => {
+  const attemptBinding = createActionBinding({
+    intentId: actionBinding.intentId,
+    generation: actionBinding.generation,
+    tool: actionBinding.tool,
+    arguments: actionArguments,
+    ordinal: actionBinding.ordinal,
+    attemptId: "attempt:run-123:0"
+  });
+  const boundLink = createAuthorityWorkLink({
+    authorityReceiptId: authorityWorkLink.authority.receiptId,
+    actionRef: authorityWorkLink.authority.actionRef,
+    actionBinding: attemptBinding,
+    traceLink: authorityWorkLink.traceLink,
+    workReference: base
+  });
+  const executed = [];
+  const claimedGate = createToolExecutionPolicyGate({
+    authorityWorkLink: boundLink,
+    consumeAttempt: async () => ({ status: "claimed" }),
+    executeAction: async (input) => {
+      executed.push(input.attemptId);
+      return { externalResult: "created" };
+    }
+  });
+  const input = {
+    actionRef: boundLink.authority.actionRef,
+    authorityReceiptId: boundLink.authority.receiptId,
+    actionBinding: attemptBinding,
+    actionArguments
+  };
+  const first = await claimedGate(input);
+  assert.equal(first.code, "AIPOU_AUTHORITY_ACCEPTED");
+  assert.deepEqual(executed, ["attempt:run-123:0"]);
+
+  const unknownGate = createToolExecutionPolicyGate({
+    authorityWorkLink: boundLink,
+    consumeAttempt: async () => ({ status: "unverified" }),
+    executeAction: async () => assert.fail("an unverified attempt must not execute again")
+  });
+  const unknown = await unknownGate(input);
+  assert.equal(unknown.outcome, "unverified");
+  assert.equal(unknown.code, "AIPOU_ATTEMPT_UNVERIFIED");
+  assert.equal(unknown.canRequestAuthority, false);
+
+  const cachedGate = createToolExecutionPolicyGate({
+    authorityWorkLink: boundLink,
+    consumeAttempt: async () => ({ status: "already_completed", result: { externalResult: "created" } }),
+    executeAction: async () => assert.fail("a completed attempt must return its cached host result")
+  });
+  const cached = await cachedGate(input);
+  assert.equal(cached.code, "AIPOU_ATTEMPT_ALREADY_COMPLETED");
+  assert.equal(cached.replayed, true);
+  assert.deepEqual(cached.result, { externalResult: "created" });
+});
+
 test("rejects a materialized tool call whose arguments differ from its authority binding", async () => {
   const boundLink = createAuthorityWorkLink({
     authorityReceiptId: authorityWorkLink.authority.receiptId,

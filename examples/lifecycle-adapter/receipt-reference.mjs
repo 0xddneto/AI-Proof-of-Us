@@ -27,6 +27,7 @@ const SHA256_DIGEST = /^sha256:[0-9a-f]{64}$/;
 const BYTES32 = /^0x[0-9a-f]{64}$/;
 const CUSTOM_ENFORCEMENT_POINT_KIND = /^custom:[a-z0-9][a-z0-9._-]{0,63}$/;
 const INTENT_ID = /^[a-z0-9][a-z0-9._:-]{0,127}$/;
+const ATTEMPT_ID = /^[a-z0-9][a-z0-9._:-]{0,127}$/;
 
 export function canonicalJson(value) {
   if (value === null) return "null";
@@ -62,7 +63,8 @@ export function createActionBinding({
   tool,
   arguments: argumentsValue,
   ordinal,
-  approverPrincipal
+  approverPrincipal,
+  attemptId
 }) {
   const binding = {
     intentId,
@@ -70,7 +72,8 @@ export function createActionBinding({
     tool,
     argumentsDigest: deriveActionArgumentsDigest(argumentsValue),
     ordinal,
-    ...(approverPrincipal === undefined ? {} : { approverPrincipal })
+    ...(approverPrincipal === undefined ? {} : { approverPrincipal }),
+    ...(attemptId === undefined ? {} : { attemptId })
   };
   validateActionBinding(binding);
   return binding;
@@ -191,6 +194,9 @@ export function validateActionBinding(binding) {
       (typeof binding.approverPrincipal !== "string" || binding.approverPrincipal.length === 0 ||
        binding.approverPrincipal.length > 256 || binding.approverPrincipal.trim() !== binding.approverPrincipal)) {
     throw new Error("Action binding approverPrincipal must be a trimmed non-empty string up to 256 characters");
+  }
+  if (binding.attemptId !== undefined && !ATTEMPT_ID.test(binding.attemptId)) {
+    throw new Error("Action binding attemptId must be a stable lowercase identifier up to 128 characters");
   }
   return true;
 }
@@ -389,7 +395,8 @@ export function createToolExecutionPolicyGate({
   executeAction,
   isPermanentlyForbidden = async () => false,
   revalidateAtDispatch = async () => ({ allowed: true }),
-  resolveAuthenticatedPrincipal = undefined
+  resolveAuthenticatedPrincipal = undefined,
+  consumeAttempt = undefined
 }) {
   if (typeof executeAction !== "function") {
     throw new Error("Tool execution policy gates require an action executor");
@@ -403,6 +410,9 @@ export function createToolExecutionPolicyGate({
   if (resolveAuthenticatedPrincipal !== undefined && typeof resolveAuthenticatedPrincipal !== "function") {
     throw new Error("Authenticated-principal resolution must be an executable function");
   }
+  if (consumeAttempt !== undefined && typeof consumeAttempt !== "function") {
+    throw new Error("Attempt consumption must be an executable function");
+  }
 
   const expectedReceiptId = authorityWorkLink.authority?.receiptId;
   const expectedActionRef = authorityWorkLink.authority?.actionRef;
@@ -410,8 +420,12 @@ export function createToolExecutionPolicyGate({
 
   if (expectedActionBinding !== undefined) validateActionBinding(expectedActionBinding);
   const expectedApproverPrincipal = expectedActionBinding?.approverPrincipal;
+  const expectedAttemptId = expectedActionBinding?.attemptId;
   if (expectedApproverPrincipal !== undefined && typeof resolveAuthenticatedPrincipal !== "function") {
     throw new Error("Approver-bound authority requires a host-owned authenticated-principal resolver");
+  }
+  if (expectedAttemptId !== undefined && typeof consumeAttempt !== "function") {
+    throw new Error("Attempt-bound authority requires a host-owned atomic attempt consumer");
   }
 
   return async function executeAtToolBoundary({ actionRef, actionBinding, actionArguments, authorityReceiptId }) {
@@ -461,6 +475,7 @@ export function createToolExecutionPolicyGate({
       actionBinding,
       actionArguments,
       authorityReceiptId,
+      ...(expectedAttemptId === undefined ? {} : { attemptId: expectedAttemptId }),
       ...(authenticatedApproverPrincipal === undefined ? {} : { authenticatedApproverPrincipal })
     };
 
@@ -475,6 +490,40 @@ export function createToolExecutionPolicyGate({
         enforcementPointKind: "orchestrator_policy",
         canRequestAuthority: revalidation?.canRequestAuthority ?? true
       };
+    }
+
+    if (expectedAttemptId !== undefined) {
+      const consumption = await consumeAttempt(dispatchInput);
+      if (consumption?.status === "already_completed") {
+        return {
+          outcome: "allowed",
+          code: "AIPOU_ATTEMPT_ALREADY_COMPLETED",
+          actionRef,
+          enforcementPointKind: "orchestrator_policy",
+          replayed: true,
+          result: consumption.result
+        };
+      }
+      if (consumption?.status === "unverified") {
+        return {
+          outcome: "unverified",
+          code: "AIPOU_ATTEMPT_UNVERIFIED",
+          message: "The action may have dispatched, but its outcome is not yet verified. Do not retry this attempt.",
+          actionRef,
+          enforcementPointKind: "orchestrator_policy",
+          canRequestAuthority: false
+        };
+      }
+      if (consumption?.status !== "claimed") {
+        return {
+          outcome: "denied",
+          code: "AIPOU_ATTEMPT_ALREADY_CONSUMED",
+          message: "This action attempt was already consumed and has no replayable completed result.",
+          actionRef,
+          enforcementPointKind: "orchestrator_policy",
+          canRequestAuthority: false
+        };
+      }
     }
 
     const result = await executeAction(dispatchInput);

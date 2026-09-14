@@ -181,6 +181,14 @@ outcome or a typed already-consumed result on a retry. AIPOU's reference gate
 demonstrates the materialized-arguments check; it does not supply a production
 pause store or claim to consume a framework's authorization.
 
+For a consequential integration, put a stable `attemptId` in the optional
+`actionBinding` and supply an atomic host-owned `consumeAttempt` callback to
+the reference gate. The callback must return `claimed` exactly once before the
+side effect. A later `already_completed` result returns the host's original
+result without another execution; `unverified` stops the retry because the
+effect may already have happened. This is an execution-control record, not a
+claim that the AIPOU work receipt proves the effect.
+
 An allowed dispatch is still not proof that an external effect occurred. Keep `proposed`, `authorized`, `dispatched`, `host_observed`, and `externally_verified` as distinct outcome classes. Only the system that can authoritatively observe the external effect, or an identified independent verifier, can attest to the last class. AIPOU's later work receipt and optional claim remain separate from each of these execution records.
 
 For external systems, attach their own digest-only observation beside the work
