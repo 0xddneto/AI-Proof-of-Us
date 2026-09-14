@@ -118,10 +118,19 @@ server.tool(
   "begin_ai_task",
   "Use once before meaningful AI work to create a task session. Provide the provider, model, client, and a 32-byte hash of the task description; returns a unique nonce and EIP-712 authorization signed by the dedicated farming wallet. This writes a pending local task session but does not publish, mint, or submit an on-chain transaction. Pass the returned nonce to complete_ai_task; do not reuse it for another task.",
   {
-    provider: z.string().min(1).max(64),
-    model: z.string().min(1).max(128),
-    taskHash: bytes32,
+    provider: z.string().min(1).max(64)
+      .describe("AI provider name for this task session, from 1 through 64 characters."),
+    model: z.string().min(1).max(128)
+      .describe("Provider model identifier used for this task, from 1 through 128 characters."),
+    taskHash: bytes32.describe("32-byte hash of the task description; never send the raw prompt or task text."),
     client: z.string().min(1).max(64)
+      .describe("Host client or agent identifier that starts this task session, from 1 through 64 characters.")
+  },
+  {
+    readOnlyHint: false,
+    destructiveHint: false,
+    idempotentHint: false,
+    openWorldHint: false
   },
   async (input) => {
     const contract = await getTokenContractConfig();
@@ -168,7 +177,17 @@ server.tool(
 server.tool(
   "export_ai_receipts",
   "Export signed receipts already stored in this MCP installation, optionally limited to one farming wallet address. Returns JSON with count and receipt payloads, so use it only where local receipt data is appropriate to expose. It does not create a receipt, validate a claim, contact Base, or submit a transaction; use get_aipou_status instead for a compact private summary.",
-  { wallet: z.string().regex(/^0x[a-fA-F0-9]{40}$/).optional() },
+  {
+    wallet: z.string().regex(/^0x[a-fA-F0-9]{40}$/)
+      .describe("Optional 20-byte farming wallet address filter. Omit it to export every locally stored receipt.")
+      .optional()
+  },
+  {
+    readOnlyHint: true,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: false
+  },
   async ({ wallet }) => {
     const receipts = await exportReceipts(wallet);
     return { content: [{ type: "text", text: JSON.stringify({ count: receipts.length, receipts }, null, 2) }] };
@@ -177,7 +196,7 @@ server.tool(
 
 server.tool(
   "create_paybox_work_link",
-  "Create a digest-only external evidence link between an existing AIPOU workReceiptId and an opaque Paybox operation artifact. This tool never calls Paybox, unlocks a wallet, creates a payment, signs a transaction, or changes AIPOU claim eligibility. Verify both artifacts with their native systems before relying on the link.",
+  "Derive and return a digest-only external evidence link between an existing AIPOU workReceiptId and an opaque Paybox operation artifact. It is a pure local calculation: it does not persist the link, call Paybox, unlock a wallet, create a payment, sign a transaction, or change AIPOU claim eligibility. Use it for portable correlation only, and verify both artifacts with their native systems before relying on the returned link.",
   {
     workReceiptId: z.string().regex(/^0x[a-f0-9]{64}$/)
       .describe("Existing lowercase AIPOU workReceiptId."),
@@ -201,7 +220,7 @@ server.tool(
 
 server.tool(
   "create_technocore_work_link",
-  "Create a digest-only external evidence link between an existing AIPOU workReceiptId and a Technocore transport artifact. This tool never calls Technocore, signs a message, reads a key, verifies a transport signature, changes AIPOU claim eligibility, or establishes delivery. Verify the Technocore artifact with its native verifier before relying on the link.",
+  "Derive and return a digest-only external evidence link between an existing AIPOU workReceiptId and a Technocore transport artifact. It is a pure local calculation: it does not persist the link, call Technocore, sign a message, read a key, verify a transport signature, change AIPOU claim eligibility, or establish delivery. Use it for portable correlation only, and verify the Technocore artifact with its native verifier before relying on the returned link.",
   {
     workReceiptId: z.string().regex(/^0x[a-f0-9]{64}$/)
       .describe("Existing lowercase AIPOU workReceiptId."),
@@ -226,7 +245,16 @@ server.tool(
 server.tool(
   "settle_ai_rewards",
   "Use only after an explicit user request to claim one limited batch, not for status or reward previews. maxReceipts defaults to 25 and is capped at 100; the tool validates eligible local receipts against settlement policy, publishes one Merkle root, and mints the included rewards. It submits two Base transactions, so the host client and user must apply their own confirmation policy. Use settle_all_ai_rewards instead for an explicit request to claim all pending eligible receipts.",
-  { maxReceipts: z.number().int().min(1).max(100).default(25) },
+  {
+    maxReceipts: z.number().int().min(1).max(100).default(25)
+      .describe("Maximum eligible receipts to include in this one settlement batch, from 1 through 100; defaults to 25.")
+  },
+  {
+    readOnlyHint: false,
+    destructiveHint: false,
+    idempotentHint: false,
+    openWorldHint: true
+  },
   async ({ maxReceipts }) => {
     const batch = await settleRewards(maxReceipts);
     return { content: [{ type: "text", text: JSON.stringify(batch, null, 2) }] };
@@ -237,8 +265,16 @@ server.tool(
   "settle_all_ai_rewards",
   "Use only after an explicit broad request such as 'claim my AIPOU' or 'settle all pending AIPOU'; do not use it for a status check. batchSize defaults to 100 and maxBatches to 20, with bounds of 1-100 and 1-50, so large queues remain bounded. It validates all currently eligible local receipts and submits Base transactions for each batch: one Merkle-root publication and one claim transaction per batch. The host client and user must apply their own confirmation policy; use settle_ai_rewards when the user asks for one limited batch.",
   {
-    batchSize: z.number().int().min(1).max(100).default(100),
+    batchSize: z.number().int().min(1).max(100).default(100)
+      .describe("Eligible receipts per settlement batch, from 1 through 100; defaults to 100."),
     maxBatches: z.number().int().min(1).max(50).default(20)
+      .describe("Maximum settlement batches to submit in this call, from 1 through 50; defaults to 20.")
+  },
+  {
+    readOnlyHint: false,
+    destructiveHint: false,
+    idempotentHint: false,
+    openWorldHint: true
   },
   async ({ batchSize, maxBatches }) => {
     const result = await settleAllRewards(batchSize, maxBatches);

@@ -18,6 +18,10 @@ test("tool metadata explains parameters, side effects, and safe alternatives", a
     const complete = tools.find((tool) => tool.name === "complete_ai_task");
     const estimate = tools.find((tool) => tool.name === "estimate_ai_reward");
     const status = tools.find((tool) => tool.name === "get_aipou_status");
+    const begin = tools.find((tool) => tool.name === "begin_ai_task");
+    const paybox = tools.find((tool) => tool.name === "create_paybox_work_link");
+    const technocore = tools.find((tool) => tool.name === "create_technocore_work_link");
+    const settleAll = tools.find((tool) => tool.name === "settle_all_ai_rewards");
 
     assert.ok(complete);
     assert.match(complete.description ?? "", /once after begin_ai_task/i);
@@ -55,6 +59,32 @@ test("tool metadata explains parameters, side effects, and safe alternatives", a
     assert.match(status.description ?? "", /explicit claim request/i);
     assert.equal(status.annotations?.readOnlyHint, true);
     assert.equal(status.annotations?.openWorldHint, true);
+
+    assert.ok(begin);
+    assert.match(begin.description ?? "", /writes a pending local task session/i);
+    assert.match(begin.description ?? "", /does not publish, mint, or submit an on-chain transaction/i);
+    assert.equal(begin.annotations?.readOnlyHint, false);
+    assert.equal(begin.annotations?.idempotentHint, false);
+    const beginProperties = begin.inputSchema.properties as Record<string, { description?: string }>;
+    for (const field of ["provider", "model", "taskHash", "client"]) {
+      assert.ok(beginProperties[field]?.description, `${field} must have a description`);
+    }
+
+    for (const tool of [paybox, technocore]) {
+      assert.ok(tool);
+      assert.match(tool.description ?? "", /pure local calculation/i);
+      assert.match(tool.description ?? "", /does not persist/i);
+      assert.equal(tool.annotations?.readOnlyHint, true);
+      assert.equal(tool.annotations?.idempotentHint, true);
+    }
+
+    assert.ok(settleAll);
+    assert.match(settleAll.description ?? "", /explicit broad request/i);
+    assert.equal(settleAll.annotations?.readOnlyHint, false);
+    assert.equal(settleAll.annotations?.openWorldHint, true);
+    const settleAllProperties = settleAll.inputSchema.properties as Record<string, { description?: string }>;
+    assert.ok(settleAllProperties.batchSize?.description);
+    assert.ok(settleAllProperties.maxBatches?.description);
   } finally {
     await transport.close();
   }
