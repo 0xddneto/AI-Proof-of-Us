@@ -28,6 +28,7 @@ const BYTES32 = /^0x[0-9a-f]{64}$/;
 const CUSTOM_ENFORCEMENT_POINT_KIND = /^custom:[a-z0-9][a-z0-9._-]{0,63}$/;
 const INTENT_ID = /^[a-z0-9][a-z0-9._:-]{0,127}$/;
 const ATTEMPT_ID = /^[a-z0-9][a-z0-9._:-]{0,127}$/;
+const NON_EMPTY_TEXT = /\S/;
 
 export function canonicalJson(value) {
   if (value === null) return "null";
@@ -216,6 +217,133 @@ function actionArgumentsMatch(binding, argumentsValue) {
   } catch {
     return false;
   }
+}
+
+function requireNonEmptyText(value, field) {
+  if (typeof value !== "string" || !NON_EMPTY_TEXT.test(value) || value.trim() !== value) {
+    throw new Error(`${field} must be a trimmed non-empty string`);
+  }
+}
+
+function parseFutureTimestamp(value, field, nowMs) {
+  if (typeof value !== "string" || !value.endsWith("Z")) {
+    throw new Error(`${field} must be a UTC timestamp`);
+  }
+  const timestamp = Date.parse(value);
+  if (!Number.isFinite(timestamp) || timestamp <= nowMs) {
+    throw new Error(`${field} must be in the future`);
+  }
+  return timestamp;
+}
+
+function validateDelegationAuthorityNode(node, { index, previous, nowMs, seenReceiptIds, seenFactIds, seenNonces }) {
+  if (!node || typeof node !== "object" || Array.isArray(node)) {
+    throw new Error("Delegation authority nodes must be objects");
+  }
+  requireNonEmptyText(node.receiptId, "Delegation authority receiptId");
+  if (!BYTES32.test(node.factId || "")) {
+    throw new Error("Delegation authority nodes require bytes32 factId values");
+  }
+  requireNonEmptyText(node.principal, "Delegation authority principal");
+  requireNonEmptyText(node.delegate, "Delegation authority delegate");
+  if (!node.scope || typeof node.scope !== "object" || Array.isArray(node.scope)) {
+    throw new Error("Delegation authority nodes require an object scope");
+  }
+  if (!SHA256_DIGEST.test(node.policyDigest || "")) {
+    throw new Error("Delegation authority nodes require a lowercase SHA-256 policyDigest");
+  }
+  if (!INTENT_ID.test(node.nonce || "")) {
+    throw new Error("Delegation authority nodes require a stable nonce");
+  }
+  validateActionBinding(node.actionBinding);
+  parseFutureTimestamp(node.expiresAt, "Delegation authority expiresAt", nowMs);
+
+  if (seenReceiptIds.has(node.receiptId) || seenFactIds.has(node.factId) || seenNonces.has(node.nonce)) {
+    throw new Error("Delegation authority chains cannot reuse receipt IDs, fact IDs, or nonces");
+  }
+  seenReceiptIds.add(node.receiptId);
+  seenFactIds.add(node.factId);
+  seenNonces.add(node.nonce);
+
+  if (index === 0) {
+    if (node.parentFactId !== undefined) {
+      throw new Error("Root delegation authority cannot declare a parentFactId");
+    }
+  } else {
+    if (node.parentFactId !== previous.factId) {
+      throw new Error("Delegation authority parentFactId must reference the previous authority factId");
+    }
+    if (node.principal !== previous.delegate) {
+      throw new Error("Delegation authority principal must match the previous delegate");
+    }
+  }
+}
+
+/**
+ * Validates a bounded delegation chain before a host dispatches a side effect.
+ *
+ * The caller owns both callbacks. `resolveAuthority` must resolve the source
+ * authority (for example from a registry and revocation store), while
+ * `isScopeNarrowerOrEqual` must apply the host's semantic capability model.
+ * This fixture deliberately does not invent either trust source.
+ */
+export async function validateDelegationAuthorityChain({
+  authorityChain,
+  actionBinding,
+  resolveAuthority,
+  isScopeNarrowerOrEqual,
+  now = new Date().toISOString()
+}) {
+  if (!Array.isArray(authorityChain) || authorityChain.length === 0) {
+    throw new Error("Delegation authority chains require at least one authority");
+  }
+  if (typeof resolveAuthority !== "function") {
+    throw new Error("Delegation authority chains require a host-owned authority resolver");
+  }
+  if (authorityChain.length > 1 && typeof isScopeNarrowerOrEqual !== "function") {
+    throw new Error("Multi-hop delegation chains require a host-owned scope narrowing check");
+  }
+  validateActionBinding(actionBinding);
+  const nowMs = Date.parse(now);
+  if (!Number.isFinite(nowMs)) {
+    throw new Error("Delegation authority chain now must be a valid timestamp");
+  }
+
+  const seenReceiptIds = new Set();
+  const seenFactIds = new Set();
+  const seenNonces = new Set();
+  let previous;
+  for (const [index, authority] of authorityChain.entries()) {
+    validateDelegationAuthorityNode(authority, {
+      index,
+      previous,
+      nowMs,
+      seenReceiptIds,
+      seenFactIds,
+      seenNonces
+    });
+    const resolved = await resolveAuthority({ authority, index });
+    if (resolved?.status !== "active") {
+      throw new Error("Delegation authority must resolve as active at dispatch");
+    }
+    if (previous) {
+      const narrowed = await isScopeNarrowerOrEqual({ parent: previous, child: authority });
+      if (narrowed !== true) {
+        throw new Error("Delegation authority scope must be equal to or narrower than its parent");
+      }
+    }
+    previous = authority;
+  }
+
+  if (!actionBindingsMatch(previous.actionBinding, actionBinding)) {
+    throw new Error("Terminal delegation authority must bind the exact dispatched action");
+  }
+  return {
+    terminalReceiptId: previous.receiptId,
+    terminalFactId: previous.factId,
+    terminalDelegate: previous.delegate,
+    depth: authorityChain.length
+  };
 }
 
 export function validateAuthorityWorkLink(link, workReference) {

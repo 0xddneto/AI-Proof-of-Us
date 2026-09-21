@@ -18,6 +18,7 @@ import {
   validateActiveFactSet,
   validateAipouReference,
   validateDelegationScopeAuthorityReceipt,
+  validateDelegationAuthorityChain,
   validateAuthorityWorkLink,
   validateAuthorityWorkConformanceLink,
   validateEnforcementCheck
@@ -151,6 +152,40 @@ const kubernaDriftedAuthorityReceipt = {
     bytes32: kubernaPreviousDriftFactId
   }
 };
+
+const multiHopActionBinding = createActionBinding({
+  intentId: "transfer:invoice-42",
+  generation: 2,
+  tool: "payments.transfer",
+  arguments: { amount: "100", currency: "USDC", destination: "merchant:42" },
+  ordinal: 0
+});
+
+const multiHopAuthorities = [
+  {
+    receiptId: "authority:root-42",
+    factId: `0x${"a1".repeat(32)}`,
+    principal: "user:operator-42",
+    delegate: "agent:planner",
+    scope: { destinations: ["merchant:42", "merchant:43"], maxAmount: "100" },
+    policyDigest: `sha256:${"a1".repeat(32)}`,
+    nonce: "nonce:root-42",
+    actionBinding: multiHopActionBinding,
+    expiresAt: "2030-01-01T00:00:00.000Z"
+  },
+  {
+    receiptId: "authority:child-42",
+    factId: `0x${"b2".repeat(32)}`,
+    parentFactId: `0x${"a1".repeat(32)}`,
+    principal: "agent:planner",
+    delegate: "agent:executor",
+    scope: { destinations: ["merchant:42"], maxAmount: "100" },
+    policyDigest: `sha256:${"b2".repeat(32)}`,
+    nonce: "nonce:child-42",
+    actionBinding: multiHopActionBinding,
+    expiresAt: "2030-01-01T00:00:00.000Z"
+  }
+];
 
 test("factId is deterministic for collector and nonce", () => {
   assert.equal(deriveFactId(publicKey, nonce), deriveFactId(publicKey, nonce.toUpperCase()));
@@ -610,6 +645,64 @@ test("accepts the pinned Kuberna ERC-8004 authority receipt as a positive vector
 
 test("fails closed on the previous Kuberna authority receipt fact_id drift", () => {
   assert.throws(() => validateDelegationScopeAuthorityReceipt(kubernaDriftedAuthorityReceipt));
+});
+
+test("validates a resolved, scope-narrowed multi-hop delegation chain", async () => {
+  const result = await validateDelegationAuthorityChain({
+    authorityChain: multiHopAuthorities,
+    actionBinding: multiHopActionBinding,
+    now: "2029-01-01T00:00:00.000Z",
+    resolveAuthority: async () => ({ status: "active" }),
+    isScopeNarrowerOrEqual: async ({ parent, child }) =>
+      child.scope.maxAmount === parent.scope.maxAmount &&
+      child.scope.destinations.every((destination) => parent.scope.destinations.includes(destination))
+  });
+  assert.deepEqual(result, {
+    terminalReceiptId: "authority:child-42",
+    terminalFactId: `0x${"b2".repeat(32)}`,
+    terminalDelegate: "agent:executor",
+    depth: 2
+  });
+});
+
+test("fails closed on broken parents, widened scope, inactive authority, expired authority, and terminal action drift", async () => {
+  const baseInput = {
+    authorityChain: multiHopAuthorities,
+    actionBinding: multiHopActionBinding,
+    now: "2029-01-01T00:00:00.000Z",
+    resolveAuthority: async () => ({ status: "active" }),
+    isScopeNarrowerOrEqual: async () => true
+  };
+
+  await assert.rejects(
+    () => validateDelegationAuthorityChain({
+      ...baseInput,
+      authorityChain: [multiHopAuthorities[0], { ...multiHopAuthorities[1], parentFactId: `0x${"c3".repeat(32)}` }]
+    }),
+    /parentFactId/
+  );
+  await assert.rejects(
+    () => validateDelegationAuthorityChain({ ...baseInput, isScopeNarrowerOrEqual: async () => false }),
+    /equal to or narrower/
+  );
+  await assert.rejects(
+    () => validateDelegationAuthorityChain({ ...baseInput, resolveAuthority: async () => ({ status: "revoked" }) }),
+    /resolve as active/
+  );
+  await assert.rejects(
+    () => validateDelegationAuthorityChain({ ...baseInput, now: "2031-01-01T00:00:00.000Z" }),
+    /must be in the future/
+  );
+  await assert.rejects(
+    () => validateDelegationAuthorityChain({
+      ...baseInput,
+      actionBinding: createActionBinding({
+        ...multiHopActionBinding,
+        arguments: { amount: "101", currency: "USDC", destination: "merchant:42" }
+      })
+    }),
+    /exact dispatched action/
+  );
 });
 
 test("fails closed on conformance trust-model downgrade", () => {

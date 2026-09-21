@@ -148,6 +148,23 @@ capability but must not expand it. The enforcement point must consume or
 revalidate that exact binding at dispatch through the credential-owning path;
 otherwise the policy layer is advisory rather than an execution boundary.
 
+The reference lifecycle fixture now includes
+`validateDelegationAuthorityChain` for a bounded multi-hop **conformance**
+check. It requires every node to have a unique receipt ID, fact ID, and nonce;
+the child to name the immediately preceding fact and principal; a live,
+host-resolved authority at dispatch; a host-supplied equal-or-narrower scope
+decision; unexpired UTC authority records; and an exact match between the
+terminal authority binding and the proposed call. Its tests cover a valid
+two-hop chain plus broken-parent, widened-scope, revoked, expired, and
+final-call-mutation failures.
+
+This is intentionally not a registry, a signature verifier, or a universal
+capability-subset algorithm. Those semantics belong to the integrating host,
+which supplies `resolveAuthority` and `isScopeNarrowerOrEqual`; omitting either
+required check fails closed. The fixture demonstrates the validation boundary
+only and does not establish a production multi-hop integration, credential-path
+control, or an externally verified effect.
+
 The later AIPOU `workReceiptId` records the human/agent work unit after the
 attempt. It may reference the authority artifact by `preActionFactId` or
 `actionRef`, but it does not establish issuer authority, prove that the
