@@ -1,6 +1,6 @@
 import { canonicalJson, sha256Hex } from "./canonical.js";
 import { getCollectorPublicKey, signCollectorPayload } from "./collector.js";
-import { createTaskSession, verifyTaskAuthorization } from "./identity.js";
+import { createTaskSession, isTaskSessionExpired, verifyTaskAuthorization } from "./identity.js";
 import { deriveTrustTier } from "./providers.js";
 import { estimateReward } from "./rewards.js";
 import { exportStoredReceipts, getSession, saveCompletedReceipt, saveSession } from "./store.js";
@@ -23,6 +23,7 @@ export async function completeTask(input: CompleteTaskInput): Promise<UsageRecei
   const session = await getSession(input.nonce);
   if (!session) throw new Error("Unknown task nonce");
   if (session.completedAt) throw new Error("Task nonce has already been completed");
+  if (isTaskSessionExpired(session)) throw new Error("Task session has expired; begin a new task instead of completing stale authority");
   if (!verifyTaskAuthorization(session)) throw new Error("Invalid EIP-712 wallet authorization");
 
   const trustTier = await deriveTrustTier(session, input, input.providerEvidence);

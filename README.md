@@ -39,6 +39,7 @@ Start here if you are building or testing an agent integration:
 - [MCP tools](docs/mcp-tools.md)
 - [OpenClaw skill](skills/aipou-farming/SKILL.md)
 - [Local Receipt Mode demo](examples/local-receipt-mode/README.md)
+- [Observed-outcome pilot](docs/observed-outcome-pilot.md)
 - [Lifecycle adapter example](examples/lifecycle-adapter/README.md)
 - [AutoGen intervention example](examples/autogen-intervention/README.md)
 - [npm publication checklist](docs/npm-publication.md)

@@ -8,6 +8,7 @@ import { Wallet, keccak256, toUtf8Bytes } from "ethers";
 import { canonicalJson } from "./canonical.js";
 import { verifyCollectorPayload } from "./collector.js";
 import { verifyTaskAuthorization } from "./identity.js";
+import { isTaskSessionExpired, taskSessionExpiry } from "./identity.js";
 import { filterEligibleReceipts } from "./policy.js";
 import { providerAssertion } from "./providers.js";
 import { beginTask, completeTask } from "./receipts.js";
@@ -74,6 +75,28 @@ test("creates verifiable receipts and rejects nonce/evidence replay", async () =
     }),
     /Duplicate task\/output evidence/
   );
+});
+
+test("expires abandoned task sessions instead of treating stale authority as completable", async () => {
+  const dataDir = await mkdtemp(path.join(tmpdir(), "aipou-expiry-"));
+  process.env.AIPOU_DATA_DIR = dataDir;
+  process.env.AIPOU_AGENT_PRIVATE_KEY = Wallet.createRandom().privateKey;
+  process.env.AIPOU_TASK_SESSION_TTL_SECONDS = "60";
+  try {
+    const session = await beginTask({
+      provider: "local",
+      model: "expiry-test",
+      taskHash: keccak256(toUtf8Bytes("expired task")),
+      client: "test-client",
+      chainId: 8453,
+      verifyingContract: Wallet.createRandom().address
+    });
+    assert.equal(taskSessionExpiry(session), session.issuedAt + 60);
+    assert.equal(isTaskSessionExpired(session, session.issuedAt + 59), false);
+    assert.equal(isTaskSessionExpired(session, session.issuedAt + 60), true);
+  } finally {
+    delete process.env.AIPOU_TASK_SESSION_TTL_SECONDS;
+  }
 });
 
 test("derives provider_signed only from a configured valid signature", async () => {

@@ -56,6 +56,8 @@ export async function getAipouStatus(): Promise<Record<string, unknown>> {
       claimed: claimedReceipts.length,
       pending: walletPendingReceipts.length,
       incompleteSessions: counts.incompleteSessions,
+      activeSessions: counts.activeSessions,
+      expiredSessions: counts.expiredSessions,
       batches: counts.batches
     },
     rewards: {

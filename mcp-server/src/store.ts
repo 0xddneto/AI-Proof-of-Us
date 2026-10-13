@@ -1,6 +1,7 @@
 import { mkdir, readFile, readdir, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { withFileLock } from "./lock.js";
+import { isTaskSessionExpired } from "./identity.js";
 import type { ClaimBatch, ProtocolState, TaskSession, UsageReceipt } from "./types.js";
 
 const emptyState = (): ProtocolState => ({ sessions: {}, receipts: [], completedEvidence: {}, batches: [] });
@@ -116,6 +117,8 @@ export async function protocolStateCounts(): Promise<{
   sessions: number;
   completedSessions: number;
   incompleteSessions: number;
+  activeSessions: number;
+  expiredSessions: number;
   batches: number;
 }> {
   const state = await readState();
@@ -124,6 +127,8 @@ export async function protocolStateCounts(): Promise<{
     sessions: sessions.length,
     completedSessions: sessions.filter((session) => session.completedAt).length,
     incompleteSessions: sessions.filter((session) => !session.completedAt).length,
+    activeSessions: sessions.filter((session) => !session.completedAt && !isTaskSessionExpired(session)).length,
+    expiredSessions: sessions.filter((session) => !session.completedAt && isTaskSessionExpired(session)).length,
     batches: state.batches.length
   };
 }

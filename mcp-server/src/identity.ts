@@ -15,6 +15,29 @@ export const authorizationTypes = {
   ]
 };
 
+export const DEFAULT_TASK_SESSION_TTL_SECONDS = 24 * 60 * 60;
+
+function taskSessionTtlSeconds(): number {
+  const configured = process.env.AIPOU_TASK_SESSION_TTL_SECONDS;
+  if (!configured) return DEFAULT_TASK_SESSION_TTL_SECONDS;
+  const value = Number.parseInt(configured, 10);
+  if (!Number.isInteger(value) || value < 60 || value > 7 * DEFAULT_TASK_SESSION_TTL_SECONDS) {
+    throw new Error("AIPOU_TASK_SESSION_TTL_SECONDS must be an integer from 60 through 604800");
+  }
+  return value;
+}
+
+export function taskSessionExpiry(session: Pick<TaskSession, "issuedAt" | "expiresAt">): number {
+  return session.expiresAt ?? session.issuedAt + taskSessionTtlSeconds();
+}
+
+export function isTaskSessionExpired(
+  session: Pick<TaskSession, "issuedAt" | "expiresAt">,
+  nowSeconds = Math.floor(Date.now() / 1000)
+): boolean {
+  return nowSeconds >= taskSessionExpiry(session);
+}
+
 function readKeyFile(keyFile: string): string {
   try {
     return readFileSync(path.resolve(keyFile), "utf8").trim();
@@ -67,7 +90,14 @@ export async function createTaskSession(input: {
   };
   const walletAuthorization = await wallet.signTypedData(domain, authorizationTypes, value);
 
-  return { ...input, wallet: wallet.address, nonce, issuedAt, walletAuthorization };
+  return {
+    ...input,
+    wallet: wallet.address,
+    nonce,
+    issuedAt,
+    expiresAt: issuedAt + taskSessionTtlSeconds(),
+    walletAuthorization
+  };
 }
 
 export function verifyTaskAuthorization(session: TaskSession): boolean {

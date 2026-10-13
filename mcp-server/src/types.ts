@@ -8,6 +8,8 @@ export interface TaskSession {
   taskHash: string;
   client: string;
   issuedAt: number;
+  /** Unix seconds. A pending session is not authority to complete after this point. */
+  expiresAt?: number;
   chainId: number;
   verifyingContract: string;
   walletAuthorization: string;

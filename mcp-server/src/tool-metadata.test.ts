@@ -21,6 +21,7 @@ test("tool metadata explains parameters, side effects, and safe alternatives", a
     const begin = tools.find((tool) => tool.name === "begin_ai_task");
     const paybox = tools.find((tool) => tool.name === "create_paybox_work_link");
     const technocore = tools.find((tool) => tool.name === "create_technocore_work_link");
+    const verifyReceipt = tools.find((tool) => tool.name === "verify_aipou_receipt");
     const settleAll = tools.find((tool) => tool.name === "settle_all_ai_rewards");
 
     assert.ok(complete);
@@ -77,6 +78,12 @@ test("tool metadata explains parameters, side effects, and safe alternatives", a
       assert.equal(tool.annotations?.readOnlyHint, true);
       assert.equal(tool.annotations?.idempotentHint, true);
     }
+
+    assert.ok(verifyReceipt);
+    assert.match(verifyReceipt.description ?? "", /self-contained integrity/i);
+    assert.match(verifyReceipt.description ?? "", /does not .*prove delivery/i);
+    assert.equal(verifyReceipt.annotations?.readOnlyHint, true);
+    assert.equal(verifyReceipt.annotations?.idempotentHint, true);
 
     assert.ok(settleAll);
     assert.match(settleAll.description ?? "", /explicit broad request/i);

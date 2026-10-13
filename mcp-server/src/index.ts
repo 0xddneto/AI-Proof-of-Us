@@ -7,6 +7,7 @@ import { settleAllRewards, settleRewards } from "./claims.js";
 import { collectorFingerprint, getCollectorPublicKey } from "./collector.js";
 import { aipouClaimsAbi, aipouTokenAbi, getTokenContractConfig } from "./contract.js";
 import { runLocalReceiptDemo } from "./demo.js";
+import { runObservedOutcomePilot } from "./observed-outcome-pilot.js";
 import { runInstallationDoctor } from "./doctor.js";
 import { agentWallet } from "./identity.js";
 import { describeExistingIdentity, initializePersistentIdentity } from "./init.js";
@@ -16,6 +17,7 @@ import { createPayboxWorkLink } from "./paybox-link.js";
 import { createTechnocoreWorkLink } from "./technocore-link.js";
 import { estimateReward } from "./rewards.js";
 import { getAipouStatus } from "./status.js";
+import { verifyAipouReceipt } from "./receipt-verifier.js";
 import { getPackageVersion } from "./version.js";
 
 const bytes32 = z.string().regex(/^0x[a-fA-F0-9]{64}$/);
@@ -195,6 +197,24 @@ server.tool(
 );
 
 server.tool(
+  "verify_aipou_receipt",
+  "Verify the self-contained integrity, wallet authorization, and collector signature of one supplied AIPOU receipt. Returns separately typed evidence states; it does not trust a collector, query a registry, submit a claim, prove delivery, business acceptance, settlement, or external effect.",
+  {
+    receipt: z.record(z.unknown())
+      .describe("A receipt object containing hashes and signatures only. Do not include raw prompts, outputs, private keys, or customer data.")
+  },
+  {
+    readOnlyHint: true,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: false
+  },
+  async ({ receipt }) => ({
+    content: [{ type: "text", text: JSON.stringify(verifyAipouReceipt(receipt), null, 2) }]
+  })
+);
+
+server.tool(
   "create_paybox_work_link",
   "Derive and return a digest-only external evidence link between an existing AIPOU workReceiptId and an opaque Paybox operation artifact. It is a pure local calculation: it does not persist the link, call Paybox, unlock a wallet, create a payment, sign a transaction, or change AIPOU claim eligibility. Use it for portable correlation only, and verify both artifacts with their native systems before relying on the returned link.",
   {
@@ -296,6 +316,8 @@ function cliValue(name: string): string | undefined {
 
 if (cliArguments.has("--demo")) {
   console.log(JSON.stringify(await runLocalReceiptDemo(), null, 2));
+} else if (cliArguments.has("--pilot")) {
+  console.log(JSON.stringify(await runObservedOutcomePilot(), null, 2));
 } else if (cliArguments.has("--doctor")) {
   const result = await runInstallationDoctor(cliValue("--data-dir"));
   console.log(JSON.stringify(result, null, 2));
@@ -318,6 +340,7 @@ if (cliArguments.has("--demo")) {
 Usage:
   aipou-mcp                 Start the MCP stdio server
   aipou-mcp --demo          Create and verify one disposable local receipt
+  aipou-mcp --pilot         Rehearse a bounded lifecycle and report typed evidence states
   aipou-mcp --init          Create a protected persistent farming identity
   aipou-mcp --init --data-dir <path>
                             Initialize in a specific directory
@@ -331,7 +354,9 @@ wallet, collector key, and receipt state are removed before the command exits.
 Init writes a new dedicated-wallet key with restricted access and never prints
 the secret. Re-running init reports the existing identity instead of
 overwriting it. Doctor reads configuration without writing files, making
-network requests, moving funds, or submitting claims.`);
+network requests, moving funds, or submitting claims. The pilot is also
+offline and disposable: it does not claim delivery, acceptance, settlement,
+or external effect.`);
 } else {
   const transport = new StdioServerTransport();
   await server.connect(transport);
