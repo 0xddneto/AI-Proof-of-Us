@@ -5,9 +5,9 @@
 Use Node 22 or 24. Installation needs npm access; generating and checking receipts does not require a network connection, funds or validator credentials.
 
 ```sh
-npx -y aipou-mcp-server@0.6.0 --demo
-npx -y aipou-mcp-server@0.6.0 --init
-npx -y aipou-mcp-server@0.6.0 --doctor
+npx -y aipou-mcp-server@0.6.1 --demo
+npx -y aipou-mcp-server@0.6.1 --init
+npx -y aipou-mcp-server@0.6.1 --doctor
 ```
 
 Copy the returned MCP configuration into your client. From a source checkout, `--init` instead prints the current Node executable and absolute checkout entrypoint, so it tests the build you selected.
@@ -17,7 +17,7 @@ If a new npm version is still processing or you prefer a pinned source build:
 ```sh
 git clone https://github.com/0xddneto/AI-Proof-of-Us.git
 cd AI-Proof-of-Us
-git checkout --detach v0.6.0
+git checkout --detach v0.6.1
 npm ci --workspace mcp-server --ignore-scripts --no-audit --no-fund
 npm run build --workspace mcp-server
 node mcp-server/dist/index.js --init

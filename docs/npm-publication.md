@@ -5,9 +5,9 @@ The `aipou-mcp-server` package is published on npm and registered in the officia
 ## Current Package
 
 - Package: `aipou-mcp-server`
-- published npm version: `0.6.0`
+- published npm version: `0.6.1`
 - MCP name: `io.github.0xddneto/ai-proof-of-us`
-- MCP Registry version: `0.6.0`
+- MCP Registry version: `0.6.1`
 - Binary: `aipou-mcp`
 - Runtime: Node.js 20+
 - Transport: MCP stdio
@@ -26,13 +26,13 @@ C:\tmp\mcp-publisher.exe validate
 ## npm
 
 ```bash
-npx -y aipou-mcp-server@0.6.0
+npx -y aipou-mcp-server@0.6.1
 ```
 
 Published package:
 
 - https://www.npmjs.com/package/aipou-mcp-server
-- https://github.com/0xddneto/AI-Proof-of-Us/releases/tag/v0.6.0
+- https://github.com/0xddneto/AI-Proof-of-Us/releases/tag/v0.6.1
 
 ## Provenance Publication
 
@@ -44,7 +44,14 @@ npm publish --workspace mcp-server --provenance --access public
 
 The npm trusted publisher is configured with GitHub owner `0xddneto`, repository `AI-Proof-of-Us`, workflow filename `npm-publish.yml`, and the `npm publish` permission. Future releases use the manual workflow in `.github/workflows/npm-publish.yml`.
 
-Version 0.6.0 publication evidence:
+Version 0.6.1 publication evidence:
+
+- npm provenance workflow: https://github.com/0xddneto/AI-Proof-of-Us/actions/runs/43285283715
+- npm attestation: https://registry.npmjs.org/-/npm/v1/attestations/aipou-mcp-server@0.6.1
+- source gitHead: `9cb4222cfdfbf1ff964484bb6d9dd4a51a963005`
+- MCP Registry workflow: https://github.com/0xddneto/AI-Proof-of-Us/actions/runs/43286018804
+
+Historical 0.6.0 publication evidence:
 
 - npm provenance workflow: https://github.com/0xddneto/AI-Proof-of-Us/actions/runs/43266517865
 - npm attestation: https://registry.npmjs.org/-/npm/v1/attestations/aipou-mcp-server@0.6.0
@@ -77,7 +84,7 @@ The shortest public smoke test needs no checkout, wallet, funds, RPC, or
 persistent receipt state:
 
 ```bash
-npx -y aipou-mcp-server@0.6.0 --demo
+npx -y aipou-mcp-server@0.6.1 --demo
 ```
 
 For the complete lifecycle adapter output:
@@ -112,7 +119,7 @@ Do not paste npm passwords, npm tokens, GitHub device codes, or private keys int
 Published Registry entry:
 
 ```text
-io.github.0xddneto/ai-proof-of-us@0.6.0
+io.github.0xddneto/ai-proof-of-us@0.6.1
 ```
 
 Historical 0.5.0 Registry publication workflow:

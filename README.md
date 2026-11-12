@@ -266,7 +266,7 @@ MCP clients can launch the published server with:
 npx -y aipou-mcp-server
 ```
 
-Release `aipou-mcp-server@0.6.0` includes the independent pilot fixes, receipt verifier, optional token-measurement flag and durable claim recovery. See [release notes](CHANGELOG.md), [installation and publication](docs/npm-publication.md), [independent pilot](docs/independent-pilot.md) and [settlement recovery](docs/settlement-recovery.md). Verify npm/Registry publication separately from source availability.
+Release `aipou-mcp-server@0.6.1` adds explicit observation-source guidance and conservative execution evidence to the independent pilot fixes, receipt verifier and durable claim recovery. See [release notes](CHANGELOG.md), [installation and publication](docs/npm-publication.md), [independent pilot](docs/independent-pilot.md) and [settlement recovery](docs/settlement-recovery.md).
 
 ## Local MCP config example
 
