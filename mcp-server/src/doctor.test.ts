@@ -27,6 +27,7 @@ test("installation doctor validates init output without exposing or changing the
     assert.equal(result.ready, true);
     assert.equal(result.wallet, initialized.wallet);
     assert.equal(result.keySource, "key_file");
+    if (process.platform === "win32") assert.equal(result.checks.keyPermissions.status, "not_checked");
     assert.equal(result.version.length > 0, true);
     assert.equal(Object.values(result.checks).every((check) => check.status !== "fail"), true);
     assert.equal(privateKeyAfter, privateKeyBefore);

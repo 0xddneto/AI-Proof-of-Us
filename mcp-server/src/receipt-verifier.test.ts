@@ -28,6 +28,8 @@ test("independent receipt verifier separates cryptographic receipt facts from ou
 
   const verified = verifyAipouReceipt(receipt);
   assert.equal(verified.valid, true);
+  assert.equal(verified.workReceiptId, receipt.receiptId);
+  assert.equal(verified.claimedWorkReceiptId, null);
   assert.deepEqual(verified.evidence, {
     receiptIntegrity: "VERIFIED",
     walletAuthorization: "VERIFIED",
@@ -41,6 +43,16 @@ test("independent receipt verifier separates cryptographic receipt facts from ou
 
   const tampered = verifyAipouReceipt({ ...receipt, outputHash: `0x${"ef".repeat(32)}` });
   assert.equal(tampered.valid, false);
+  assert.equal(tampered.workReceiptId, null);
+  assert.equal(tampered.claimedWorkReceiptId, receipt.receiptId);
   assert.ok(tampered.errors.some((error) => /receiptId/.test(error)));
   assert.ok(tampered.errors.some((error) => /collector signature/.test(error)));
+});
+
+test("malformed, deeply nested and oversized receipts fail closed without crypto work", () => {
+  for (const candidate of [null, [], { receiptId: `0x${"ab".repeat(32)}`, rawPrompt: "private" }, { collectorPublicKey: "x".repeat(9000) }, { providerEvidence: { keyId: "x", signature: {} } }]) {
+    const result = verifyAipouReceipt(candidate);
+    assert.equal(result.valid, false);
+    assert.equal(result.workReceiptId, null);
+  }
 });

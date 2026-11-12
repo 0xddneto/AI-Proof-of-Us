@@ -6,7 +6,7 @@ import { Wallet, isAddress } from "ethers";
 import { AIPOU_CLAIMS_ADDRESS, AIPOU_TOKEN_ADDRESS } from "./init.js";
 import { getPackageVersion } from "./version.js";
 
-type CheckStatus = "pass" | "fail" | "warning";
+type CheckStatus = "pass" | "fail" | "warning" | "not_checked";
 
 export interface DoctorCheck {
   status: CheckStatus;
@@ -95,7 +95,7 @@ export async function runInstallationDoctor(dataDirInput?: string): Promise<Inst
     try {
       const keyStat = await stat(keyFile);
       if (process.platform === "win32") {
-        keyPermissions = warning("Key file exists; Windows ACLs were not changed or re-applied by this read-only diagnostic.");
+        keyPermissions = { status: "not_checked", detail: "Windows ACLs are not inspected by this read-only doctor. This is not a detected permission failure; init reports whether it successfully applied access restrictions." };
       } else if ((keyStat.mode & 0o077) === 0) {
         keyPermissions = pass("Key file has no group or other permission bits.");
       } else {

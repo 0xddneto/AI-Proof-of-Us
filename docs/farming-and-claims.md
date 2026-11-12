@@ -1,5 +1,7 @@
 # From AI Work to Onchain Rewards
 
+For 0.6.0 gas preflight, saved-transaction reconciliation, fee caps, private journal handling and governance limits, read [settlement recovery](settlement-recovery.md). Do not delete an active lock or pending journal to bypass a failed transaction. A recipient's AIPOU balance does not pay the validator's Base ETH gas.
+
 AI Proof of Us (AIPOU) began with a simple question: if people use many AI agents across many conversations and projects, how can useful AI-assisted work become a portable, verifiable reward?
 
 The answer is a global MCP-based receipt and claim system. A user keeps one dedicated farming wallet and one local collector identity. Every supported AI conversation can produce signed task receipts, regardless of which project directory the user is working in. Valid receipts are later grouped into a Merkle batch and settled on Base, where the AIPOU token is minted to the farming wallet.

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { mkdtemp, mkdir, readFile, writeFile, rm } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
@@ -9,9 +9,19 @@ import { promisify } from "node:util";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { agentWallet } from "./identity.js";
-import { describeExistingIdentity, initializePersistentIdentity } from "./init.js";
+import { describeExistingIdentity, initializePersistentIdentity, installationCommand } from "./init.js";
 
 const execFileAsync = promisify(execFile);
+
+test("installed package config pins its actual version instead of silently switching latest", async () => {
+  const dir = await mkdtemp(path.join(os.tmpdir(), "aipou-installed-config-"));
+  try {
+    await mkdir(path.join(dir,"dist"));
+    await writeFile(path.join(dir,"package.json"),JSON.stringify({version:"0.6.0"}));
+    const { pathToFileURL } = await import("node:url");
+    assert.deepEqual(await installationCommand(pathToFileURL(path.join(dir,"dist","index.js")).href), {command:"npx",args:["-y","aipou-mcp-server@0.6.0"]});
+  } finally { await rm(dir,{recursive:true,force:true}); }
+});
 
 function parseTextResult(result: unknown): Record<string, unknown> {
   const content = (result as { content?: Array<{ type: string; text?: string }> }).content;
@@ -108,9 +118,11 @@ test("CLI init output starts an MCP server with the generated key file", async (
     assert.equal(stdout.includes(privateKey), false);
 
     const config = result.mcpConfig.mcpServers.aipou;
+    assert.equal(config.command, process.execPath);
+    assert.deepEqual(config.args, [indexPath]);
     transport = new StdioClientTransport({
-      command: process.execPath,
-      args: [indexPath],
+      command: config.command,
+      args: config.args,
       stderr: "pipe",
       env: { ...process.env, ...config.env }
     });

@@ -5,9 +5,9 @@ The `aipou-mcp-server` package is published on npm and registered in the officia
 ## Current Package
 
 - Package: `aipou-mcp-server`
-- published npm version: `0.5.0`
+- release version: `0.6.0` (check npm for publication)
 - MCP name: `io.github.0xddneto/ai-proof-of-us`
-- MCP Registry version: `0.5.0`
+- MCP Registry metadata version: `0.6.0` (published separately after npm)
 - Binary: `aipou-mcp`
 - Runtime: Node.js 20+
 - Transport: MCP stdio
@@ -17,19 +17,21 @@ The `aipou-mcp-server` package is published on npm and registered in the officia
 
 ```bash
 npm run pack:check -w mcp-server
+npm run smoke:package
+npm audit --omit=dev -w mcp-server
 C:\tmp\mcp-publisher.exe validate
 ```
 
 ## npm
 
 ```bash
-npx -y aipou-mcp-server
+npx -y aipou-mcp-server@0.6.0
 ```
 
 Published package:
 
 - https://www.npmjs.com/package/aipou-mcp-server
-- https://github.com/0xddneto/AI-Proof-of-Us/releases/tag/v0.5.0
+- https://github.com/0xddneto/AI-Proof-of-Us/releases/tag/v0.6.0
 
 ## Provenance Publication
 
@@ -41,15 +43,16 @@ npm publish --workspace mcp-server --provenance --access public
 
 The npm trusted publisher is configured with GitHub owner `0xddneto`, repository `AI-Proof-of-Us`, workflow filename `npm-publish.yml`, and the `npm publish` permission. Future releases use the manual workflow in `.github/workflows/npm-publish.yml`.
 
-Published evidence:
+Historical 0.5.0 publication evidence (not evidence for 0.6.0):
 
 - GitHub Actions workflow: https://github.com/0xddneto/AI-Proof-of-Us/actions/runs/29922407539
 - npm provenance attestation: https://registry.npmjs.org/-/npm/v1/attestations/aipou-mcp-server@0.5.0
 
-The `0.5.0` package bundles only the MCP stdio runtime reachable by AIPOU. The
+The package bundles only the MCP stdio runtime reachable by AIPOU. The
 SDK and its unused HTTP transports remain development dependencies, so a clean
-production installation does not install `@hono/node-server` and
-`npm audit --omit=dev` reports zero known vulnerabilities.
+production installation does not install `@hono/node-server`. The November 12,
+2026 production audit of the 0.6.0 dependency tree reported zero known
+vulnerabilities. Audit results are time-sensitive; run the command above again.
 
 Registry trust checklist:
 
@@ -61,7 +64,7 @@ The shortest public smoke test needs no checkout, wallet, funds, RPC, or
 persistent receipt state:
 
 ```bash
-npx -y aipou-mcp-server --demo
+npx -y aipou-mcp-server@0.6.0 --demo
 ```
 
 For the complete lifecycle adapter output:
@@ -96,9 +99,9 @@ Do not paste npm passwords, npm tokens, GitHub device codes, or private keys int
 Published Registry entry:
 
 ```text
-io.github.0xddneto/ai-proof-of-us@0.5.0
+io.github.0xddneto/ai-proof-of-us@0.6.0
 ```
 
-Registry publication workflow:
+Historical 0.5.0 Registry publication workflow:
 
 - https://github.com/0xddneto/AI-Proof-of-Us/actions/runs/29922561722

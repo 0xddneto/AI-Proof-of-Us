@@ -22,14 +22,21 @@ export async function beginTask(input: {
 export async function completeTask(input: CompleteTaskInput): Promise<UsageReceipt> {
   const session = await getSession(input.nonce);
   if (!session) throw new Error("Unknown task nonce");
-  if (session.completedAt) throw new Error("Task nonce has already been completed");
+  if (session.completedAt) throw new Error("Task nonce has already been completed; use export_ai_receipts and find this nonce to recover its stored receipt. Do not rerun the work or begin a new task to recover a lost response.");
   if (isTaskSessionExpired(session)) throw new Error("Task session has expired; begin a new task instead of completing stale authority");
   if (!verifyTaskAuthorization(session)) throw new Error("Invalid EIP-712 wallet authorization");
+  if (input.tokenUsageMeasurement !== undefined && !["measured", "unmeasured", "unspecified"].includes(input.tokenUsageMeasurement)) {
+    throw new Error("Unsupported tokenUsageMeasurement");
+  }
+  if (input.tokenUsageMeasurement === "unmeasured" && (input.inputTokens !== 0 || input.outputTokens !== 0)) {
+    throw new Error("Unmeasured token usage must use zero counts");
+  }
 
   const trustTier = await deriveTrustTier(session, input, input.providerEvidence);
   const recordedAt = new Date().toISOString();
   const collectorPublicKey = await getCollectorPublicKey();
   const unsigned = {
+    tokenUsageMeasurement: input.tokenUsageMeasurement ?? "unspecified",
     nonce: session.nonce,
     wallet: session.wallet,
     provider: session.provider,

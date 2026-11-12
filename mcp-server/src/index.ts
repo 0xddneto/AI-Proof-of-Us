@@ -3,6 +3,8 @@ import "dotenv/config";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import { BoundedStdioInput } from "./bounded-input.js";
+import { localFeedbackSummary } from "./feedback.js";
 import { settleAllRewards, settleRewards } from "./claims.js";
 import { collectorFingerprint, getCollectorPublicKey } from "./collector.js";
 import { aipouClaimsAbi, aipouTokenAbi, getTokenContractConfig } from "./contract.js";
@@ -153,6 +155,9 @@ server.tool(
   {
     nonce: bytes32.describe("Unique 32-byte nonce returned by begin_ai_task for this exact task."),
     ...usageCounts,
+    tokenUsageMeasurement: z.enum(["measured", "unmeasured", "unspecified"])
+      .describe("Whether token counts were measured. Use unmeasured with zero counts when usage is unavailable; omitted means unspecified, including legacy clients.")
+      .optional(),
     outputHash: bytes32.describe("SHA-256-style 32-byte hash of the task output; never send the raw output."),
     providerEvidence: z.object({
       keyId: z.string().min(1).max(128)
@@ -200,7 +205,7 @@ server.tool(
   "verify_aipou_receipt",
   "Verify the self-contained integrity, wallet authorization, and collector signature of one supplied AIPOU receipt. Returns separately typed evidence states; it does not trust a collector, query a registry, submit a claim, prove delivery, business acceptance, settlement, or external effect.",
   {
-    receipt: z.record(z.unknown())
+    receipt: z.record(z.string(), z.unknown())
       .describe("A receipt object containing hashes and signatures only. Do not include raw prompts, outputs, private keys, or customer data.")
   },
   {
@@ -318,6 +323,8 @@ if (cliArguments.has("--demo")) {
   console.log(JSON.stringify(await runLocalReceiptDemo(), null, 2));
 } else if (cliArguments.has("--pilot")) {
   console.log(JSON.stringify(await runObservedOutcomePilot(), null, 2));
+} else if (cliArguments.has("--feedback")) {
+  console.log(JSON.stringify(await localFeedbackSummary(), null, 2));
 } else if (cliArguments.has("--doctor")) {
   const result = await runInstallationDoctor(cliValue("--data-dir"));
   console.log(JSON.stringify(result, null, 2));
@@ -345,6 +352,7 @@ Usage:
   aipou-mcp --init --data-dir <path>
                             Initialize in a specific directory
   aipou-mcp --doctor        Validate a persistent installation without changes
+  aipou-mcp --feedback      Print local usage counts without identifiers or uploads
   aipou-mcp --doctor --data-dir <path>
                             Diagnose a specific identity directory
   aipou-mcp --help          Show this help
@@ -358,6 +366,9 @@ network requests, moving funds, or submitting claims. The pilot is also
 offline and disposable: it does not claim delivery, acceptance, settlement,
 or external effect.`);
 } else {
-  const transport = new StdioServerTransport();
+  const input = new BoundedStdioInput();
+  input.on("error", () => { console.error("AIPOU_INPUT_TOO_LARGE: input connection closed; limit each JSON-RPC message to 1 MiB."); process.exitCode = 1; void server.close(); process.stdin.destroy(); });
+  process.stdin.pipe(input);
+  const transport = new StdioServerTransport(input, process.stdout);
   await server.connect(transport);
 }

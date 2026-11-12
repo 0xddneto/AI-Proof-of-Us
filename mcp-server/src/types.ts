@@ -1,4 +1,5 @@
 export type TrustTier = "client_signed" | "provider_signed";
+export type TokenUsageMeasurement = "measured" | "unmeasured" | "unspecified";
 
 export interface TaskSession {
   nonce: string;
@@ -22,6 +23,7 @@ export interface ProviderEvidence {
 }
 
 export interface CompleteTaskInput {
+  tokenUsageMeasurement?: TokenUsageMeasurement;
   nonce: string;
   inputTokens: number;
   outputTokens: number;
@@ -31,6 +33,8 @@ export interface CompleteTaskInput {
 }
 
 export interface UsageReceipt {
+  /** Absent on legacy signed receipts; absence never implies measured usage. */
+  tokenUsageMeasurement?: TokenUsageMeasurement;
   receiptId: string;
   nonce: string;
   wallet: string;

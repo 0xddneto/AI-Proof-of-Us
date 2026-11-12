@@ -1,0 +1,27 @@
+name: MCP quality
+on:
+  push:
+    paths: ['mcp-server/**', 'package*.json', 'scripts/check-packed-mcp.mjs', '.github/workflows/mcp-quality.yml']
+  pull_request:
+    paths: ['mcp-server/**', 'package*.json', 'scripts/check-packed-mcp.mjs', '.github/workflows/mcp-quality.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [22, 24]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm test -w mcp-server
+      - run: npm audit --omit=dev --audit-level=low -w mcp-server
+      - run: npm run smoke:package

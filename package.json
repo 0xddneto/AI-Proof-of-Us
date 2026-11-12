@@ -10,6 +10,7 @@
     "mcp-server"
   ],
   "scripts": {
+    "smoke:package": "npm run build -w mcp-server && node scripts/check-packed-mcp.mjs",
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",

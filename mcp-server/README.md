@@ -1,5 +1,11 @@
 # AIPOU MCP Server
 
+Version 0.6.0: see the [release notes](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/CHANGELOG.md) and [independent pilot guide](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/independent-pilot.md).
+
+`--init` uses the current absolute entrypoint from a source checkout and pins this package version when installed from npm. Windows `--doctor` marks uninspected ACLs as `not_checked`. `complete_ai_task` accepts optional `tokenUsageMeasurement` (`measured`, `unmeasured`, `unspecified`); unmeasured counts must be zero. Legacy receipts remain verifiable. Invalid verification results expose only an unverified `claimedWorkReceiptId`, with `workReceiptId: null`.
+
+After a lost completion response, recover the persisted receipt with `export_ai_receipts` by nonce. `--feedback` prints optional local aggregate counts without sending anything. See [claim recovery and operating limits](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/settlement-recovery.md) before validator operation.
+
 `aipou-mcp-server` records private, signed receipts for authorized AI tasks. It supports local receipt collection, reward status checks, and optional claims for validated work on Base.
 
 It does not detect hidden AI use, prove task quality, replace payment rails, or require raw prompts and outputs to leave the user's machine.

@@ -1,5 +1,13 @@
 # MCP Tools
 
+## Version 0.6.0 compatibility
+
+`complete_ai_task` accepts optional `tokenUsageMeasurement`: `measured`, `unmeasured` (zero counts only), or `unspecified` (the default). The receipt signature covers this field. It records the caller's measurement statement; it does not independently attest provider metering. Legacy receipts without the field remain valid.
+
+Check `verify_aipou_receipt.valid` first. Invalid results have `workReceiptId: null`; `claimedWorkReceiptId` is an unverified identifier for diagnostics. After a lost completion response, use `export_ai_receipts` to recover by the original nonce. Replaying completion remains refused.
+
+Incoming stdio JSON-RPC lines are limited to 1 MiB before parsing. Oversized input closes the connection.
+
 ## `get_aipou_contract`
 
 Returns the AIPOU and AIPOUClaims addresses, Base network details, explorer URLs, and minimal ABIs.

@@ -15,13 +15,13 @@ trading volume.
 - AIPOU token and claims contracts on Base mainnet, with verified source;
 - EIP-712 task authorization, unique nonces, Ed25519-signed receipts, Merkle
   settlement, and onchain replay protection;
-- `aipou-mcp-server@0.5.0` on npm with SLSA provenance, zero known production vulnerabilities, a disposable one-command demo, protected persistent identity setup, and a read-only installation doctor;
-- `io.github.0xddneto/ai-proof-of-us@0.5.0` marked latest in the official MCP Registry;
+- npm distribution with SLSA provenance; version 0.6.0 adds the independent pilot corrections, a patched dependency tree, durable settlement recovery and an optional local feedback summary (see [publication status](npm-publication.md));
+- official MCP Registry distribution, with version metadata published separately after npm;
 - an installable and verified OpenClaw skill;
 - local receipt, lifecycle adapter, AutoGen intervention, and interoperability
   fixtures with fail-closed tests;
-- one independently reproduced integration and one accepted external code
-  contribution;
+- an independently reproduced AutoGen fixture, an accepted external code
+  contribution and one independent real-task receipt pilot;
 - an AIPOU/WETH Aerodrome pool whose protocol-held LP position is locked until
   July 8, 2027.
 
@@ -48,10 +48,12 @@ token logic to use the receipt layer.
 
 ## Evidence and Current Stage
 
-The protocol is public, shipped, and testable. Current distribution includes
-197 npm downloads during July 8-14, 2026, two GitHub stars, one fork, an
-independent AutoGen fixture reproduction, and the first accepted external pull
-request.
+The protocol is public, shipped, and testable. The November 12, 2026 snapshot
+recorded 419 npm downloads for October 13–November 11, four GitHub stars and
+five forks. See the [independent pilot report](independent-pilot.md) for a
+successful real-task trial with runtime networking blocked, including the
+tester’s five suggestions addressed by 0.6.0. The tester explicitly reported
+no current recurring need; this is not evidence of continued usage.
 
 These are early distribution and collaboration signals. npm downloads are not
 unique users, local owner receipts are not external adoption, and no external
@@ -69,8 +71,10 @@ trust model; validator policy determines claim eligibility.
 
 ### Base Builder Grant
 
-AIPOU is seeking a retroactive `3 ETH` Base Builder Grant for shipped public
-infrastructure. The requested support would fund:
+AIPOU has submitted funding applications for shipped public infrastructure.
+Application receipts do not establish approval or disbursement. The historical
+3 ETH proposal is not a current program entitlement or confirmed award; any
+award must follow the program's current terms. Proposed uses of support are:
 
 1. independent contract and protocol security review;
 2. multisig ownership and separation of validator/operator authority;
@@ -96,7 +100,7 @@ separation between equity/protocol funding and token market activity.
 AIPOU is seeking a Base-native liquidity partner for strategy and scoping, not
 market making designed to simulate adoption. The existing AIPOU/WETH pool is
 transparent but shallow. Approximately `99.23M AIPOU + 0.02957 WETH` was in the
-pool at the latest published snapshot, and `99.9999%` of the LP supply is held
+pool at the November 12, 2026 snapshot, and `99.9999%` of the LP supply is held
 by an immutable lock until July 8, 2027.
 
 A responsible second phase should define:

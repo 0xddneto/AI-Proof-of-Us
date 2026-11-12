@@ -1,6 +1,7 @@
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { Wallet } from "ethers";
 import { restrictToCurrentUser } from "./secure-file.js";
 
@@ -16,8 +17,8 @@ export interface InitializationResult {
   mcpConfig: {
     mcpServers: {
       aipou: {
-        command: "npx";
-        args: ["-y", "aipou-mcp-server"];
+        command: string;
+        args: string[];
         env: {
           AIPOU_AGENT_KEY_FILE: string;
           AIPOU_DATA_DIR: string;
@@ -41,12 +42,25 @@ function identityPaths(dataDirInput?: string): { dataDir: string; keyFile: strin
   return { dataDir, keyFile: path.join(dataDir, "agent-wallet.key") };
 }
 
-function buildResult(
+export async function installationCommand(moduleUrl = import.meta.url): Promise<{ command: string; args: string[] }> {
+  const directory = path.dirname(fileURLToPath(moduleUrl));
+  try {
+    const workspace = JSON.parse(await readFile(path.resolve(directory, "../../package.json"), "utf8"));
+    if (workspace.name === "ai-proof-of-us" && workspace.workspaces?.includes("mcp-server")) {
+      return { command: process.execPath, args: [path.join(directory, "index.js")] };
+    }
+  } catch { /* An npm installation has no source workspace. */ }
+  const pkg = JSON.parse(await readFile(path.resolve(directory, "../package.json"), "utf8"));
+  return { command: "npx", args: ["-y", `aipou-mcp-server@${pkg.version}`] };
+}
+
+async function buildResult(
   mode: InitializationResult["mode"],
   walletAddress: string,
   dataDir: string,
   keyFile: string
-): InitializationResult {
+): Promise<InitializationResult> {
+  const launch = await installationCommand();
   return {
     mode,
     wallet: walletAddress,
@@ -56,8 +70,7 @@ function buildResult(
     mcpConfig: {
       mcpServers: {
         aipou: {
-          command: "npx",
-          args: ["-y", "aipou-mcp-server"],
+          ...launch,
           env: {
             AIPOU_AGENT_KEY_FILE: keyFile,
             AIPOU_DATA_DIR: dataDir,

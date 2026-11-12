@@ -1,7 +1,9 @@
-import { mkdir, readFile, readdir, rename, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { withFileLock } from "./lock.js";
 import { isTaskSessionExpired } from "./identity.js";
+import { canonicalJson } from "./canonical.js";
+import { writePrivateJson } from "./private-json.js";
 import type { ClaimBatch, ProtocolState, TaskSession, UsageReceipt } from "./types.js";
 
 const emptyState = (): ProtocolState => ({ sessions: {}, receipts: [], completedEvidence: {}, batches: [] });
@@ -33,9 +35,7 @@ async function readState(): Promise<ProtocolState> {
 }
 
 async function writeState(state: ProtocolState): Promise<void> {
-  const temporary = `${statePath()}.${process.pid}.tmp`;
-  await writeFile(temporary, `${JSON.stringify(state, null, 2)}\n`, { encoding: "utf8", mode: 0o600 });
-  await rename(temporary, statePath());
+  await writePrivateJson(statePath(), state);
 }
 
 // The in-process queue orders local callers; the file lock orders the multiple
@@ -71,7 +71,7 @@ export async function saveCompletedReceipt(evidenceKey: string, receipt: UsageRe
   await mutate((state) => {
     const session = state.sessions[receipt.nonce];
     if (!session) throw new Error("Unknown task nonce");
-    if (session.completedAt) throw new Error("Task nonce has already been completed");
+    if (session.completedAt) throw new Error("Task nonce has already been completed; recover its stored receipt with export_ai_receipts and match the nonce.");
     if (state.completedEvidence[evidenceKey]) {
       throw new Error(`Duplicate task/output evidence already recorded as ${state.completedEvidence[evidenceKey]}`);
     }
@@ -104,7 +104,12 @@ async function readArchivedReceipts(): Promise<UsageReceipt[]> {
 }
 
 export async function exportStoredReceipts(wallet?: string): Promise<UsageReceipt[]> {
-  const receipts = [...(await readArchivedReceipts()), ...(await readState()).receipts];
+  const unique = new Map<string, UsageReceipt>();
+  for (const receipt of [...(await readState()).receipts, ...(await readArchivedReceipts())]) {
+    const prior = unique.get(receipt.receiptId);
+    if (!prior?.claimTransaction) unique.set(receipt.receiptId, receipt);
+  }
+  const receipts = [...unique.values()];
   if (!wallet) return receipts;
   return receipts.filter((receipt) => receipt.wallet.toLowerCase() === wallet.toLowerCase());
 }
@@ -134,7 +139,7 @@ export async function protocolStateCounts(): Promise<{
 }
 
 export async function settledReceiptsSince(sinceMs: number): Promise<UsageReceipt[]> {
-  const receipts = [...(await readArchivedReceipts()), ...(await readState()).receipts];
+  const receipts = await exportStoredReceipts();
   return receipts.filter(
     (receipt) => receipt.claimTransaction && Date.parse(receipt.recordedAt) >= sinceMs
   );
@@ -142,6 +147,11 @@ export async function settledReceiptsSince(sinceMs: number): Promise<UsageReceip
 
 export async function markBatchSettled(batch: ClaimBatch): Promise<void> {
   await mutate(async (state) => {
+    const existing = state.batches.find(item => item.root === batch.root);
+    if (existing) {
+      if (existing.claimTransaction !== batch.claimTransaction) throw new Error("Settlement archive transaction mismatch");
+      return;
+    }
     const included = new Set(batch.receiptIds);
     const settled: UsageReceipt[] = [];
     for (const receipt of state.receipts) {
@@ -156,8 +166,14 @@ export async function markBatchSettled(batch: ClaimBatch): Promise<void> {
     // Settled receipts move to per-batch archive files so state.json stays
     // small; their ids stay in state to keep the replay check O(state).
     await mkdir(archiveDir(), { recursive: true });
-    const archivePath = path.join(archiveDir(), `batch-${batch.root.slice(2, 18)}.json`);
-    await writeFile(archivePath, `${JSON.stringify(settled, null, 2)}\n`, { encoding: "utf8", flag: "wx" });
+    const archivePath = path.join(archiveDir(), `batch-${batch.root.slice(2)}.json`);
+    try {
+      const prior = JSON.parse(await readFile(archivePath, "utf8"));
+      if (canonicalJson(prior) !== canonicalJson(settled)) throw new Error("Settlement archive does not match saved batch");
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+      await writePrivateJson(archivePath, settled);
+    }
     state.receipts = state.receipts.filter((receipt) => !included.has(receipt.receiptId));
     state.settledReceiptIds = [...(state.settledReceiptIds ?? []), ...batch.receiptIds];
     state.batches.push(batch);
