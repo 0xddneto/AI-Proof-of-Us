@@ -1,9 +1,9 @@
 name: MCP quality
 on:
   push:
-    paths: ['mcp-server/**', 'package*.json', 'scripts/check-packed-mcp.mjs', '.github/workflows/mcp-quality.yml']
+    paths: ['mcp-server/**', 'examples/lifecycle-adapter/**', 'package*.json', 'scripts/check-packed-mcp.mjs', '.github/workflows/mcp-quality.yml']
   pull_request:
-    paths: ['mcp-server/**', 'package*.json', 'scripts/check-packed-mcp.mjs', '.github/workflows/mcp-quality.yml']
+    paths: ['mcp-server/**', 'examples/lifecycle-adapter/**', 'package*.json', 'scripts/check-packed-mcp.mjs', '.github/workflows/mcp-quality.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -23,5 +23,8 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       - run: npm test -w mcp-server
-      - run: npm audit --omit=dev --audit-level=low -w mcp-server
+      - run: npm audit --audit-level=low -w mcp-server
       - run: npm run smoke:package
+      - run: npm ci --ignore-scripts --prefix examples/lifecycle-adapter
+      - run: npm test --prefix examples/lifecycle-adapter
+      - run: npm audit --audit-level=low --prefix examples/lifecycle-adapter

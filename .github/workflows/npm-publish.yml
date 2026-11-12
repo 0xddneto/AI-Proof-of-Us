@@ -31,4 +31,4 @@ jobs:
         run: npm run test -w mcp-server
 
       - name: Publish with npm provenance
-        run: npm run smoke:package && npm audit --omit=dev --audit-level=low -w mcp-server && npm publish --workspace mcp-server --provenance --access public
+        run: npm run smoke:package && npm audit --audit-level=low -w mcp-server && npm publish --workspace mcp-server --provenance --access public
