@@ -37,11 +37,11 @@ jobs:
           fi
 
           # npm publication can be accepted before public metadata propagates.
-          for attempt in $(seq 1 30); do
+          for attempt in $(seq 1 90); do
             if npm view "${package_name}@${package_version}" version --prefer-online; then
               exit 0
             fi
-            echo "Waiting for public npm metadata (attempt ${attempt}/30)."
+            echo "Waiting for public npm metadata (attempt ${attempt}/90)."
             sleep 10
           done
           echo "Version is not publicly resolvable; Registry publication stopped." >&2

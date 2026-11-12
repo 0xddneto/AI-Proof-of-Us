@@ -12,6 +12,18 @@ npx -y aipou-mcp-server@0.6.0 --doctor
 
 Copy the returned MCP configuration into your client. From a source checkout, `--init` instead prints the current Node executable and absolute checkout entrypoint, so it tests the build you selected.
 
+If a new npm version is still processing or you prefer a pinned source build:
+
+```sh
+git clone https://github.com/0xddneto/AI-Proof-of-Us.git
+cd AI-Proof-of-Us
+git checkout --detach v0.6.0
+npm ci --workspace mcp-server --ignore-scripts --no-audit --no-fund
+npm run build --workspace mcp-server
+node mcp-server/dist/index.js --init
+node mcp-server/dist/index.js --doctor
+```
+
 1. Run `begin_ai_task` with the SHA-256 of a task you actually need to perform. Keep prompts and outputs local.
 2. Perform the task, save its output, and call `complete_ai_task` once with the SHA-256 of that file. If token usage is unavailable use zero counts plus `tokenUsageMeasurement: "unmeasured"`; measured zero is `"measured"`. Omission means `"unspecified"`.
 3. Pass the receipt to `verify_aipou_receipt`. Compare `outputHash` with a fresh SHA-256 of your file. An altered copy must return `valid: false`, `workReceiptId: null` and an unverified `claimedWorkReceiptId`.
