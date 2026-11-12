@@ -5,9 +5,9 @@ The `aipou-mcp-server` package is published on npm and registered in the officia
 ## Current Package
 
 - Package: `aipou-mcp-server`
-- release version: `0.6.0` (check npm for publication)
+- published npm version: `0.6.0`
 - MCP name: `io.github.0xddneto/ai-proof-of-us`
-- MCP Registry metadata version: `0.6.0` (published separately after npm)
+- MCP Registry version: `0.6.0`
 - Binary: `aipou-mcp`
 - Runtime: Node.js 20+
 - Transport: MCP stdio
@@ -18,6 +18,7 @@ The `aipou-mcp-server` package is published on npm and registered in the officia
 ```bash
 npm run pack:check -w mcp-server
 npm run smoke:package
+npm run smoke:package -- --published
 npm audit --omit=dev -w mcp-server
 C:\tmp\mcp-publisher.exe validate
 ```
@@ -43,7 +44,19 @@ npm publish --workspace mcp-server --provenance --access public
 
 The npm trusted publisher is configured with GitHub owner `0xddneto`, repository `AI-Proof-of-Us`, workflow filename `npm-publish.yml`, and the `npm publish` permission. Future releases use the manual workflow in `.github/workflows/npm-publish.yml`.
 
-Historical 0.5.0 publication evidence (not evidence for 0.6.0):
+Version 0.6.0 publication evidence:
+
+- npm provenance workflow: https://github.com/0xddneto/AI-Proof-of-Us/actions/runs/43266517865
+- npm attestation: https://registry.npmjs.org/-/npm/v1/attestations/aipou-mcp-server@0.6.0
+- source gitHead: `2ba7a1bad594751a5d100054c591249021a6dc1d`
+- MCP Registry workflow: https://github.com/0xddneto/AI-Proof-of-Us/actions/runs/43267017118
+
+Publication can be accepted before npm makes a version installable. The
+[npm publish-time scan](https://github.blog/changelog/2026-07-28-npm-publish-time-malware-scanning-and-dual-use-metadata/)
+can delay availability. Registry publication retries metadata lookup; use the
+published-package smoke test above to verify the installation itself.
+
+Historical 0.5.0 publication evidence:
 
 - GitHub Actions workflow: https://github.com/0xddneto/AI-Proof-of-Us/actions/runs/29922407539
 - npm provenance attestation: https://registry.npmjs.org/-/npm/v1/attestations/aipou-mcp-server@0.5.0

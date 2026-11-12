@@ -41,7 +41,10 @@ try {
     "--ignore-scripts",
     "--no-audit",
     "--no-fund",
-    path.join(temp, filename),
+    "--prefer-online",
+    process.argv.includes("--published")
+      ? "aipou-mcp-server@0.6.0"
+      : path.join(temp, filename),
   );
   const entry = path.join(
     temp,
