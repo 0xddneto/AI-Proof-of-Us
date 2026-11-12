@@ -34,7 +34,7 @@ test("independent receipt verifier separates cryptographic receipt facts from ou
     receiptIntegrity: "VERIFIED",
     walletAuthorization: "VERIFIED",
     collectorSignature: "VERIFIED",
-    hostExecution: "OBSERVED",
+    hostExecution: "UNKNOWN",
     delivery: "UNKNOWN",
     businessAcceptance: "ABSENT",
     settlement: "ABSENT",

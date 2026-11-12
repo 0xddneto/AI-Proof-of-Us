@@ -116,8 +116,7 @@ export function verifyAipouReceipt(candidate: unknown): ReceiptVerificationResul
     evidence: receiptEvidenceReport({
       receiptIntegrity,
       walletAuthorization,
-      collectorSignature: collectorSignatureValid,
-      hostExecution: receiptIntegrity && collectorSignatureValid ? "OBSERVED" : "UNKNOWN"
+      collectorSignature: collectorSignatureValid
     })
   };
 }

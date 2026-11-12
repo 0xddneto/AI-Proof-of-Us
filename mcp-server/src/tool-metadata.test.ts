@@ -81,7 +81,7 @@ test("tool metadata explains parameters, side effects, and safe alternatives", a
 
     assert.ok(verifyReceipt);
     assert.match(verifyReceipt.description ?? "", /self-contained integrity/i);
-    assert.match(verifyReceipt.description ?? "", /does not .*prove delivery/i);
+    assert.match(verifyReceipt.description ?? "", /Host execution, delivery, and external effect remain UNKNOWN/i);
     assert.equal(verifyReceipt.annotations?.readOnlyHint, true);
     assert.equal(verifyReceipt.annotations?.idempotentHint, true);
 

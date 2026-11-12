@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, rmSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -9,6 +9,8 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
+const { version } = JSON.parse(readFileSync(path.join(root, "mcp-server", "package.json"), "utf8"));
+const packageSpec = `aipou-mcp-server@${version}`;
 const temp = mkdtempSync(path.join(tmpdir(), "aipou-packed-"));
 const env = Object.fromEntries(
   Object.entries(process.env).filter(([key]) => !key.startsWith("AIPOU_")),
@@ -43,7 +45,7 @@ try {
     "--no-fund",
     "--prefer-online",
     process.argv.includes("--published")
-      ? "aipou-mcp-server@0.6.0"
+      ? packageSpec
       : path.join(temp, filename),
   );
   const entry = path.join(
@@ -62,12 +64,15 @@ try {
       }),
     );
   assert.equal(cli("--demo").safety.claimSubmitted, false);
-  assert.equal(cli("--pilot").evidence.receiptIntegrity, "VERIFIED");
+  const pilot = cli("--pilot");
+  assert.equal(pilot.evidence.receiptIntegrity, "VERIFIED");
+  assert.equal(pilot.evidence.hostExecution, "OBSERVED");
+  assert.equal(pilot.hostObservation.source, "local_file_readback");
   const data = path.join(temp, "identity");
   const init = cli("--init", "--data-dir", data);
   assert.deepEqual(init.mcpConfig.mcpServers.aipou.args, [
     "-y",
-    "aipou-mcp-server@0.6.0",
+    packageSpec,
   ]);
   assert.equal(cli("--doctor", "--data-dir", data).ready, true);
   const childEnv = { ...env, ...init.mcpConfig.mcpServers.aipou.env };
@@ -105,6 +110,8 @@ try {
   assert.equal(receipt.tokenUsageMeasurement, "unmeasured");
   const valid = await call("verify_aipou_receipt", { receipt });
   assert.equal(valid.valid, true);
+  assert.equal(valid.evidence.hostExecution, "UNKNOWN");
+  assert.equal(valid.evidence.externalEffect, "UNKNOWN");
   const invalid = await call("verify_aipou_receipt", {
     receipt: { ...receipt, outputHash: hash("altered") },
   });

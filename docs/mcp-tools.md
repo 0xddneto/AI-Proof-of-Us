@@ -8,6 +8,11 @@ Check `verify_aipou_receipt.valid` first. Invalid results have `workReceiptId: n
 
 Incoming stdio JSON-RPC lines are limited to 1 MiB before parsing. Oversized input closes the connection.
 
+Receipt-only verification checks the digest and signatures. The
+`evidence.hostExecution`, `evidence.delivery` and `evidence.externalEffect`
+fields remain `UNKNOWN`. To report an observed outcome, the host records the
+fact and its source separately. See [the observed-outcome pilot](observed-outcome-pilot.md).
+
 ## `get_aipou_contract`
 
 Returns the AIPOU and AIPOUClaims addresses, Base network details, explorer URLs, and minimal ABIs.

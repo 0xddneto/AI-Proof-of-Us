@@ -203,7 +203,7 @@ server.tool(
 
 server.tool(
   "verify_aipou_receipt",
-  "Verify the self-contained integrity, wallet authorization, and collector signature of one supplied AIPOU receipt. Returns separately typed evidence states; it does not trust a collector, query a registry, submit a claim, prove delivery, business acceptance, settlement, or external effect.",
+  "Verify the self-contained integrity, wallet authorization, and collector signature of one supplied AIPOU receipt. Host execution, delivery, and external effect remain UNKNOWN in this receipt-only check. The tool does not establish collector trust, business acceptance, or settlement, query a registry, or submit a claim.",
   {
     receipt: z.record(z.string(), z.unknown())
       .describe("A receipt object containing hashes and signatures only. Do not include raw prompts, outputs, private keys, or customer data.")

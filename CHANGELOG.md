@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.1 — 2026-11-12
+
+- Receipt-only verification keeps host execution `UNKNOWN`. Digest and signature verification establish the recorded assertions and their integrity.
+- The offline pilot writes and reads back a local output file, matches its hash with the signed receipt, and attributes that observation to `local_file_readback`.
+- Document how integrations identify agent assertions, tool responses and downstream checks. Each outcome remains `UNKNOWN` until supported by evidence for that fact.
+- Retain the signed receipt format and verification of existing receipts.
+
 ## 0.6.0 — 2026-11-12
 
 - Address all five points in the independent Call4Agents pilot: checkout-specific init config, explicit Windows ACL `not_checked`, separate unverified receipt identifiers, optional signed token-measurement state, and receipt-export guidance after a lost completion response.

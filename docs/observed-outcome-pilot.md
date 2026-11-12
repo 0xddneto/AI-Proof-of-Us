@@ -1,8 +1,9 @@
 # Observed-Outcome Pilot
 
 This executable pilot is the smallest useful AIPOU integration rehearsal. It
-creates a disposable task session, completes a local receipt, and verifies the
-receipt from its own bytes and public keys.
+creates a disposable task session and a local output file. It verifies the
+receipt from its own bytes and public keys, then reads the file back and
+compares its hash with the signed output hash.
 
 ```bash
 npx -y aipou-mcp-server --pilot
@@ -20,14 +21,14 @@ The result reports these states independently:
 | Receipt digest | `VERIFIED` | The receipt id is recomputed from canonical bytes. |
 | Wallet authorization | `VERIFIED` | The EIP-712 task authorization is recovered. |
 | Collector signature | `VERIFIED` | The Ed25519 signature is checked against the included public key. |
-| Host execution | `OBSERVED` | The local collector completed the bounded task lifecycle. |
+| Host execution | `OBSERVED` | The pilot read the local file back and matched its hash. `hostObservation.source` identifies the check as `local_file_readback`. |
 | Delivery / external effect | `UNKNOWN` | No remote recipient or system of record is queried. |
 | Business acceptance / settlement | `ABSENT` | No issuer acceptance or payment evidence is supplied. |
 
-The pilot deliberately does **not** produce a global `completed` or
-`work_completed` verdict. A deployment that needs delivery, acceptance, or an
-external effect must add an application-owned artifact and native verifier for
-that particular fact.
+Report the status of each fact. Delivery, acceptance, and external effects
+require evidence from the corresponding system. Calling `verify_aipou_receipt`
+with only the receipt leaves host execution `UNKNOWN` because the tool has
+only the signed payload and its keys.
 
 ## Moving from rehearsal to an application pilot
 
@@ -40,9 +41,14 @@ For one real application action:
 3. Complete the AIPOU receipt after the host observes its own outcome.
 4. Attach the `workReceiptId` as a sibling audit artifact. Do not use it as the
    authority to execute or as evidence of delivery.
-5. If a recipient accepts the result, record that as a separate typed
-   acceptance artifact. Keep settlement and any external postcondition in their
-   own evidence lanes as well.
+5. Record the source and the precise fact observed. For example, an agent
+   saying “sent” is an agent assertion, an API returning “queued” is a tool
+   response, and a check of the destination can establish delivery. Report
+   delivery as `UNKNOWN` until the evidence supports it. Record recipient
+   acceptance and settlement as separate facts.
+
+The source guidance incorporates
+[renezander030's feedback in the LangGraph discussion](https://github.com/langchain-ai/langgraph/issues/7844#issuecomment-6829596881).
 
 The [framework lifecycle adapter](framework-lifecycle-adapter.md) provides the
 authority/attempt fixture; the [work-receipt boundaries](work-receipt-boundaries.md)
