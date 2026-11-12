@@ -1,6 +1,8 @@
 # AIPOU MCP Server
 
-Version 0.6.0: see the [release notes](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/CHANGELOG.md) and [independent pilot guide](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/independent-pilot.md).
+Version 0.6.1: see the [release notes](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/CHANGELOG.md) and [independent pilot guide](https://github.com/0xddneto/AI-Proof-of-Us/blob/main/docs/independent-pilot.md).
+
+Receipt-only verification reports host execution as `UNKNOWN`. The `--pilot` command reports its file readback observation in `hostObservation`.
 
 `--init` uses the current absolute entrypoint from a source checkout and pins this package version when installed from npm. Windows `--doctor` marks uninspected ACLs as `not_checked`. `complete_ai_task` accepts optional `tokenUsageMeasurement` (`measured`, `unmeasured`, `unspecified`); unmeasured counts must be zero. Legacy receipts remain verifiable. Invalid verification results expose only an unverified `claimedWorkReceiptId`, with `workReceiptId: null`.
 
